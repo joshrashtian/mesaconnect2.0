@@ -1,0 +1,1 @@
+export const coverMajors = ['Biology', 'Chemistry', 'Computer Science', 'Mechinal Engineering', 'Physics', 'Mathematics', 'Computer Engineering']

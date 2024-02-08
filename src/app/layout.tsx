@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Navigation from '@/_components/navigation'
+import Dock from '@/_components/navigation'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -13,9 +13,9 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div>
-      <Navigation />
-      <body>{children}</body>
-    </div>
+    <html >
+      <head><Dock /></head>
+      <body className='bg-zinc-100'>{children}</body>
+    </html>
   )
 }
