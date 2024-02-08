@@ -1,12 +1,31 @@
-"use client"
+'use client'
 import Header from '@/_components/home/header'
 import MajorsText from '@/_components/home/majorsText'
 
+import { motion, useScroll } from 'framer-motion'
+import { Inter } from 'next/font/google'
+import { useRef } from 'react'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap'
+})
+
 export default function Home() {
+  const firstRef = useRef(null)
+
+  const { scrollYProgress } = useScroll({
+    target: firstRef,
+    offset: ['0 1.3', '0.5 0.67']
+  })
+
   return (
     <main className="flex min-h-screen flex-col items-center gap-y-24 p-12">
       <Header />
-      <section className="max-w-6xl w-full h-[70vh] items-center justify-center flex flex-col gap-4 text-sm ">
+
+      <section
+        className={`${inter.className} border-b-2 border-slate-300 max-w-6xl w-full h-[70vh] items-center justify-center flex flex-col gap-4 text-sm`}
+      >
         <h1 className="text-xl cursor-default text-center font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-zinc-700 dark:text-white duration-300 ease-in-out">
           Welcome to the next generation of{' '}
           <span className=" bg-gradient-to-br from-red-700 to-orange-500 bg-clip-text text-transparent">
@@ -19,9 +38,26 @@ export default function Home() {
         </h1>
         <h2 className="text-lg text-slate-500">A community for the students, by the students.</h2>
       </section>
-      <section className="max-w-[80%] w-full h-screen border-t-2 border-slate-300 items-center justify-center flex flex-col gap-4 text-sm ">
+      <motion.section
+        style={{ scale: scrollYProgress, opacity: scrollYProgress }}
+        className={`max-w-[90%] mt-16 text-slate-400  rounded-2xl w-full h-screen items-center p-10 flex flex-col gap-12 text-sm`}
+        ref={firstRef}
+      >
         <MajorsText />
-      </section>
+        <section className="flex flex-row justify-between">
+          <ul className="w-2/3 flex flex-col font-semibold gap-5  text-lg lg:text-2xl 2xl:text-3xl">
+            <h1 className="  ">
+              As a community, MESA is here to push and motivate our best selves. Leveraging modern
+              technologies, we can help you exprience your major and see your ideas come to life.
+            </h1>
+            <h1 className="text-transparent bg-clip-text bg-gradient-to-br from-slate-400 to-orange-500">
+              - MESA is here to allow students to experiment, socialize, and inspire. Connect takes
+              it to the next level by bringing MESA a new dimesion of community.
+            </h1>
+          </ul>
+          <h2>ok</h2>
+        </section>
+      </motion.section>
     </main>
   )
 }

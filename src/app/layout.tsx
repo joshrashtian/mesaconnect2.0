@@ -13,9 +13,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html >
-      <head><Dock /></head>
-      <body className='bg-zinc-100'>{children}</body>
+    <html>
+      <body className="bg-zinc-100 scroll-smooth">
+        <Dock />
+        {children}
+      </body>
     </html>
   )
 }
