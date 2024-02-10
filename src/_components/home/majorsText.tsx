@@ -26,23 +26,34 @@ const variants = {
 const MajorsText = () => {
   const [index, setIndex] = useState(0)
   const [isChanging, setIsChanging] = useState(false)
+  const [color, setColor] = useState('')
+
+  const colors = ['teal', 'orange', 'green', 'blue', 'indigo', 'purple', 'pink']
+  const samples = ['text-teal-500', 'text-orange-500', 'text-green-500', 'text-blue-500', 'text-indigo-500', 'text-purple-500', 'text-pink-500']
 
   useEffect(() => {
     setInterval(() => {
       setIsChanging(true)
+      
       setTimeout(() => {
+
+        while(true) {
         let newValue = Math.floor(Math.random() * coverMajors.length)
+        
+        if(newValue !== index) {
+          setIndex(Math.floor(Math.random() * coverMajors.length))
+          break
+        } 
+        }
 
-        if (newValue != index) setIndex(newValue)
-        else setIndex(Math.floor(Math.random() * coverMajors.length))
-
+        setColor(colors[Math.floor(Math.random() * colors.length)])
         setIsChanging(false)
       }, 600)
     }, 4000)
   }, [])
 
   return (
-    <motion.h1 className={`${inter.className} text-5xl font-bold flex flex-col 2xl:flex-row gap-3 text-slate-500`}>
+    <motion.h1 className={`${inter.className} text-3xl md:text-4xl lg:text-5xl font-bold flex text-center lg:text-left flex-col 2xl:flex-row gap-3 text-slate-500`}>
       A home for the majors studying{' '}
       <motion.p
         variants={variants}
@@ -52,7 +63,7 @@ const MajorsText = () => {
           stiffness: 100,
           duration: 2
         }}
-        className={`text-teal-600`}
+        className={`text-${color}-500 transition-colors`}
       >
         {coverMajors[index]}.
       </motion.p>
