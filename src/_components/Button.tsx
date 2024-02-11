@@ -1,12 +1,23 @@
-import React from 'react'
+import React from "react";
 
-const Button = ({ children, size, color } : { children: React.ReactNode, size: string | number, color: string   }) => {
-  
+const Button = ({
+  children,
+  style,
+  pressed,
+}: {
+  children: React.ReactNode;
+  style: string;
+  pressed: () => void;
+}) => {
+
   return (
-    <div className={` ${typeof size === 'number' ? `p-${size}` : size}${color ? color : 'bg-gradient-to-tr from-amber-500 to-orange-600 ' } `}>
-        {children}
+    <div
+      className={`${style} cursor-pointer hover:scale-105 duration-300 justify-center flex items-center`}
+      onClick={pressed}
+    >
+      {children}
     </div>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
