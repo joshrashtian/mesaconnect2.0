@@ -12,7 +12,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     if (event === 'INITIAL_SESSION') {
       // handle initial session
     } else if (event === 'SIGNED_IN') {
-      // handle sign in event
+      console.log('signed in as' + session?.user.email)
     } else if (event === 'SIGNED_OUT') {
       // handle sign out event
     } else if (event === 'PASSWORD_RECOVERY') {

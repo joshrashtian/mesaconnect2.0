@@ -15,18 +15,21 @@ const SignUp = () => {
   const [errorMsg, setErrorMsg] = useState<string | undefined>()
 
   const signUpUser = async () => {
-    if (!email || !password || !realname || !username) { setErrorMsg('All fields are required!'); return } 
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: {
-            real_name: realname,
-            username: username
-          }
-        }
-      })
+    if (!email || !password || !realname || !username) {
+      setErrorMsg('All fields are required!')
+      return
     }
+
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          real_name: realname,
+          username: username
+        }
+      }
+    })
   }
 
   return (
@@ -48,7 +51,7 @@ const SignUp = () => {
               exit={{ y: 10 }}
               className="w-1/3 bg-slate-200 rounded-3xl p-4"
             >
-              <code>Invalid Email.</code>
+              <code>{errorMsg}</code>
             </motion.ul>
           </AnimatePresence>
         ) : (
@@ -64,21 +67,26 @@ const SignUp = () => {
           placeholder="password"
           type="password"
           className="bg-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-105 duration-300  md:w-3/4 xl:1/2 2xl:w-1/3 rounded-full px-5 p-3"
+          onChange={(e) => setPassword(e.target.value)}
         />
         <input
           placeholder="username"
           type="text"
           className="bg-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-105 duration-300  md:w-3/4 xl:1/2 2xl:w-1/3 rounded-full px-5 p-3"
+          onChange={(e) => setUsername(e.target.value)}
         />
         <input
           placeholder="display name"
           type="text"
           className="bg-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-105 duration-300  md:w-3/4 xl:1/2 2xl:w-1/3 rounded-full px-5 p-3"
+          onChange={(e) => setRealname(e.target.value)}
         />
         <ul className="md:w-3/4 xl:1/2 2xl:w-1/4 justify-center flex-row flex">
           <Button
             style="p-3 bg-slate-600 hover:bg-orange-700 rounded-full dark:bg-orange-400 w-full"
-            pressed={() => {}}
+            pressed={() => {
+              signUpUser()
+            }}
           >
             <h1 className="text-white">Sign Up</h1>
           </Button>
