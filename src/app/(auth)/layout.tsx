@@ -15,7 +15,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const user = useContext(userContext)
 
   if (user?.user) {
-    console.log(user)
     return (
       <div className="">
         <h1>You are successfully signed in as {user?.user.email}</h1>
