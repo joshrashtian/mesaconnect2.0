@@ -9,6 +9,7 @@ import { motion, useScroll } from 'framer-motion'
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
 import { useRef } from 'react'
+import { supabase } from '../../config/mesa-config'
 
 const inter = Inter({
   subsets: ['latin'],

@@ -24,13 +24,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html>
-      <body className="bg-zinc-100 scroll-smooth">
-        <AuthContext>
+    <AuthContext>
+      <html>
+        <body className="bg-zinc-100 scroll-smooth">
           <Dock />
           {children}
-        </AuthContext>
-      </body>
-    </html>
+        </body>
+      </html>
+    </AuthContext>
   )
 }
