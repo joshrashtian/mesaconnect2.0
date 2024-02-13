@@ -3,6 +3,12 @@ import './globals.css'
 import Dock from '@/_components/navigation'
 import { config } from '../../config/mesa-config'
 import AuthContext from './AuthContext'
+import { Inter } from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap'
+})
 
 export const metadata: Metadata = {
   title: {
@@ -26,10 +32,7 @@ export default function RootLayout({
   return (
     <AuthContext>
       <html>
-        <body className="bg-zinc-100 scroll-smooth">
-          <Dock />
-          {children}
-        </body>
+        <body className={`${inter.className}  bg-zinc-100 scroll-smooth`}>{children}</body>
       </html>
     </AuthContext>
   )
