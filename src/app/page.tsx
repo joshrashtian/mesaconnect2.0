@@ -8,8 +8,9 @@ import MajorsText from '@/_components/home/majorsText'
 import { motion, useScroll } from 'framer-motion'
 import { Inter } from 'next/font/google'
 import Link from 'next/link'
-import { useRef } from 'react'
+import { useContext, useRef } from 'react'
 import { supabase } from '../../config/mesa-config'
+import { userContext } from './AuthContext'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -23,6 +24,8 @@ export default function Home() {
     target: firstRef,
     offset: ['0 1.3', '0.5 0.67']
   })
+
+  const user = useContext(userContext)
 
   return (
     <main className={`${inter.className} flex min-h-screen flex-col items-center gap-y-24 p-12`}>
@@ -50,7 +53,7 @@ export default function Home() {
             <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">Sign In</h2>
           </Link>
           <Link
-            href="/sign-up"
+            href={user?.user ? '/connect' : '/sign-up'}
             className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-400 to-slate-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
           >
             <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
