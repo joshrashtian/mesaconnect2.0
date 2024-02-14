@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import Button from '@/components/Button'
+import Button from '@/_components/Button'
 import { checkEmail } from '../../../../config/functions'
 import { supabase } from '../../../../config/mesa-config'
 

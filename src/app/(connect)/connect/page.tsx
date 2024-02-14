@@ -1,9 +1,9 @@
 import React from 'react'
 import TitleComponent from './TitleComponent'
-import CurrentEventSegment from '@/components/socialhub/CurrentEventSegment'
+import CurrentEventSegment from '@/_components/socialhub/CurrentEventSegment'
 
 const page = () => {
-  const time = new Date()
+  const time = new Date(Date.now())
 
   return (
     <div className="flex flex-col items-center gap-y-5">
