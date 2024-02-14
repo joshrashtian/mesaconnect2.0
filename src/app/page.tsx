@@ -1,9 +1,9 @@
 'use client'
 
-import Button from '@/_components/Button'
-import Benefits from '@/_components/home/benefits'
-import Header from '@/_components/home/header'
-import MajorsText from '@/_components/home/majorsText'
+import Button from '@/components/Button'
+import Benefits from '@/components/home/benefits'
+import Header from '@/components/home/header'
+import MajorsText from '@/components/home/majorsText'
 
 import { motion, useScroll } from 'framer-motion'
 import { Inter } from 'next/font/google'

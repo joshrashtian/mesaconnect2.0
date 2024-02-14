@@ -1,8 +1,10 @@
 'use client'
 import React, { FC, useEffect, useState } from 'react'
 import { supabase } from '../../../config/mesa-config'
+import { Event } from './Event'
+import { motion } from 'framer-motion'
 
-interface Event {
+export type EventType = {
   id: string
   created_at: any
   name: string
@@ -14,7 +16,7 @@ interface Event {
 }
 
 const CurrentEventSegment: FC = (props): JSX.Element => {
-  const [data, setData] = useState<Event[]>([])
+  const [data, setData] = useState<EventType[]>()
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase.from('events').select()
@@ -29,17 +31,18 @@ const CurrentEventSegment: FC = (props): JSX.Element => {
 
     fetchData()
   }, [])
+
   return (
-    <div className="w-full h-full rounded-3xl shadow-sm bg-slate-100 flex flex-col items-center p-3">
+    <motion.div
+      initial={{ y: 20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      className="w-full h-full rounded-3xl shadow-sm bg-slate-100 flex flex-col items-center p-3"
+    >
       <h1 className="font-bold">Current Events This Week</h1>
-      {data.map((event, index) => {
-        return (
-          <div key={index} className="flex flex-row justify-between">
-            <h1 className="text-xl text-slate-600 font-semibold">{event.name}</h1>
-          </div>
-        )
+      {data?.map((event, index) => {
+        return <Event key={index} event={event} />
       })}
-    </div>
+    </motion.div>
   )
 }
 

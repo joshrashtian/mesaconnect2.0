@@ -1,6 +1,6 @@
 import React from 'react'
 import TitleComponent from './TitleComponent'
-import CurrentEventSegment from '@/_components/socialhub/CurrentEventSegment'
+import CurrentEventSegment from '@/components/socialhub/CurrentEventSegment'
 
 const page = () => {
   const time = new Date()
@@ -8,7 +8,7 @@ const page = () => {
   return (
     <div className="flex flex-col items-center gap-y-5">
       <TitleComponent date={time} />
-      <h1 className="text-2xl text-slate-600 font-semibold">
+      <h1 className="text-2xl text-slate-600 font-semibold duration-500">
         Today is{' '}
         <code className="bg-clip-text text-transparent bg-gradient-to-br from-slate-600 to-teal-800">
           {time.getMonth() + 1}/{time.getDate()}/{time.getFullYear()}

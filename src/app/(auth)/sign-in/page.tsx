@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { supabase } from '../../../../config/mesa-config'
-import Button from '@/_components/Button'
+import Button from '@/components/Button'
 
 const Page = () => {
   const [email, setEmail] = useState('')
