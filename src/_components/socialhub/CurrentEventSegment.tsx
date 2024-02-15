@@ -16,7 +16,7 @@ export type EventType = {
   tags: string[]
 }
 
-const CurrentEventSegment: FC = (props): JSX.Element => {
+const CurrentEventSegment: FC = (): JSX.Element => {
   const [data, setData] = useState<EventType[]>()
 
   useEffect(() => {

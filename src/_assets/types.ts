@@ -13,7 +13,7 @@ export type UserData = {
     major?: string;
 }
 
-export type Post = {
+export type PostType = {
     id: number;
     userId: number;
     created_at: Date;
