@@ -15,6 +15,10 @@ const tabs = [
   {
     name: 'Social',
     link: '/social'
+  },
+  {
+    name: 'Learning Lab',
+    link: '/learning'
   }
 ]
 
@@ -30,13 +34,13 @@ const Dock = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               onHoverStart={() => setSelected(tab.name)}
-              className=" opacity-0 group-hover:opacity-100 rounded-lg duration-300 ease-in-out"
+              className=" opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out"
             >
               <Link
                 href={`/connect${tab.link}`}
                 className="flex group-[1] flex-row p-3 justify-center items-center"
               >
-                <h1 className="text-xl font-semibold group-[1]:text-amber-700 duration-500">
+                <h1 className="text-sm font-semibold group-hover:text-xl hover:text-orange-800 duration-200">
                   {tab.name}
                 </h1>
               </Link>

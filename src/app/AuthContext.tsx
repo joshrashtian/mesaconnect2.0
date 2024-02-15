@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, createContext, useMemo, useState, use } from 'react'
+import React, { useEffect, createContext, useMemo, useState } from 'react'
 import { supabase } from '../../config/mesa-config'
 import { User } from '@supabase/supabase-js'
 

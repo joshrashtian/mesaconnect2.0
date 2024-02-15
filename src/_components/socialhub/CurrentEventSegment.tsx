@@ -18,6 +18,7 @@ export type EventType = {
 
 const CurrentEventSegment: FC = (props): JSX.Element => {
   const [data, setData] = useState<EventType[]>()
+
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase.from('events').select()

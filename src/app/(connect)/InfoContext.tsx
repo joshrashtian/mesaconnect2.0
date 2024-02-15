@@ -10,7 +10,7 @@ const InfoContext = createContext({})
 
 const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
   const authen = useContext(userContext)
-  const [user, setUser] = useState()
+  const [user, setUser] = useState<any[] | null>()
 
   const value = useMemo(() => {
     return {
@@ -21,7 +21,7 @@ const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const { data, error } = await supabase.from('users').select().eq('id', authen.user?.id)
-      console.log(data)
+      setUser(data)
     }
 
     fetchUserData()

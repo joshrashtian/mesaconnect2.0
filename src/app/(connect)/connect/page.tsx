@@ -14,9 +14,7 @@ const page = () => {
           {time.getMonth() + 1}/{time.getDate()}/{time.getFullYear()}
         </code>
       </h1>
-      <section className="w-full h-[50%] gap-x-4 flex flex-row justify-between">
-        <CurrentEventSegment />
-        <CurrentEventSegment />
+      <section className="w-1/3 h-[50%] gap-x-4 flex flex-row justify-between">
         <CurrentEventSegment />
       </section>
     </div>

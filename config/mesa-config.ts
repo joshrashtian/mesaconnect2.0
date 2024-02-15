@@ -3,7 +3,8 @@ import { createClient } from "@supabase/supabase-js"
 
 export const config = {
     title: 'MESA Connect',
-    description: 'STEM, but united.'
+    description: 'STEM, but united.',
+    versionNumber: '0.0.1 alpha'
    }
 
 //Supabase
