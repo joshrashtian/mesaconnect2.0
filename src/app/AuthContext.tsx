@@ -4,7 +4,12 @@ import React, { useEffect, createContext, useMemo, useState } from 'react'
 import { supabase } from '../../config/mesa-config'
 import { User } from '@supabase/supabase-js'
 
-export const userContext = createContext<ContextProps>({})
+export const userContext = createContext<ContextProps>({
+  user: undefined,
+  signOut: () => {
+    supabase.auth.signOut()
+  }
+})
 export interface ContextProps {
   user: User | undefined
   signOut: () => void

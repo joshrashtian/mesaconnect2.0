@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import Button from '@/_components/Button'
 import { checkEmail } from '../../../../config/functions'
 import { supabase } from '../../../../config/mesa-config'
+import { User } from '@supabase/supabase-js'
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>('')
@@ -30,6 +31,19 @@ const SignUp = () => {
         }
       }
     })
+
+    if (data !== null) await createDatabaseSlot(data.user)
+  }
+
+  const createDatabaseSlot = async (data: User | null) => {
+    console.log('Creating User In Database using' + data)
+    if (data === null) return
+    const { error } = await supabase.from('users').insert({
+      id: data.id,
+      realname: realname,
+      username: username
+    })
+    console.warn(error)
   }
 
   return (

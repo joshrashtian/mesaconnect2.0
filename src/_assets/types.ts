@@ -3,6 +3,16 @@ export type Person = {
     major: string
 }
 
+export type UserData = {
+    id: number;
+    created_at: Date;
+    username: string;
+    role: string;
+    real_name: string;
+    classes?: JSON;
+    major?: string;
+}
+
 export type Post = {
     id: number;
     userId: number;

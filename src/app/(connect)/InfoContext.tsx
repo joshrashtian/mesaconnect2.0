@@ -6,7 +6,7 @@ import React from 'react'
 import { supabase } from '../../../config/mesa-config'
 import { userContext } from '../AuthContext'
 
-const InfoContext = createContext({})
+export const InfoContext = createContext({})
 
 const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
   const authen = useContext(userContext)

@@ -28,7 +28,11 @@ export const Event = ({ event }: { event: EventType }) => {
       <ul className="w-full flex-row flex justify-between">
         <h2 className="text-md text-slate-500">{`${months[date.getMonth()]} ${date.getDate()}`}</h2>
         {event.tags &&
-          event.tags.map((tag) => <code className="px-2 p-0.5 bg-slate-100 ">{tag}</code>)}
+          event.tags.map((tag) => (
+            <code className="px-2 p-0.5 bg-slate-100 " key={tag}>
+              {tag}
+            </code>
+          ))}
       </ul>
     </div>
   )
