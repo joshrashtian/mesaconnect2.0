@@ -32,7 +32,7 @@ const Dock = () => {
             <motion.li
               key={index}
               whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.95 }}
+              whileTap={{ scale: 0.9 }}
               onHoverStart={() => setSelected(tab.name)}
               className=" opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out"
             >

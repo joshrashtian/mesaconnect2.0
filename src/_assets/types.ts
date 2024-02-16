@@ -22,3 +22,10 @@ export type PostType = {
     type?: string;
     tags?: string[];
 }
+
+export type PostItem = {
+    text?: string,
+    link?: string,
+    image?: string,
+    type: string,
+  }
