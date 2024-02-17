@@ -14,6 +14,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         .from("posts")
         .select()
         .eq('id', params.id)
+        .single();
 
       if (error) {
         console.error(error);
