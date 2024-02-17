@@ -18,7 +18,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <Dock />
 
         {children}
-        <h1 className="absolute bottom-2 right-2">{config.versionNumber}</h1>
+        <h1 className="absolute bottom-2 right-2 font-mono">{config.versionNumber}</h1>
       </main>
     </InfoContextContainer>
   )

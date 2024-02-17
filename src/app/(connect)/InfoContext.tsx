@@ -20,7 +20,9 @@ const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const { data, error } = await supabase.from('users').select().eq('id', authen.user?.id)
+      const user = await supabase.auth.getUser();
+
+      const { data, error } = await supabase.from('profiles').select().eq('id', user.data.user?.id)
 
       if (error) {
         console.log(error)

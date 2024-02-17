@@ -38,7 +38,7 @@ const CurrentEventSegment: FC = (): JSX.Element => {
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="w-full h-full rounded-3xl shadow-sm bg-slate-100 gap-5 flex flex-col items-center p-3"
+      className="w-full h-full rounded-3xl border-2 gap-5 flex flex-col items-center p-3"
     >
       <h1 className="font-bold">Current Events This Week</h1>
       {data?.map((event, index) => {

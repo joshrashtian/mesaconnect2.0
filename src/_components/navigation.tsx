@@ -5,29 +5,13 @@ import Link from "next/link";
 import { supabase } from "../../config/mesa-config";
 import Image from "next/image";
 
-const tabs = [
-  {
-    name: "Home",
-    link: "/",
-  },
-  {
-    name: "Profile",
-    link: "/profile",
-  },
-  {
-    name: "Social",
-    link: "/social",
-  },
-  {
-    name: "Learning Lab",
-    link: "/learning",
-  },
-];
+
 
 const Dock = () => {
   const [selected, setSelected] = useState("");
   const [profURL, setProfURL] = useState<string | undefined>();
   const [isHovered, setIsHovered] = useState(false);
+  const [profID, setProfID] = useState<string | undefined>();
 
   useEffect(() => {
     const fetchURL = async () => {
@@ -45,13 +29,31 @@ const Dock = () => {
         return;
       }
 
-      console.log(data);
-
+      setProfID(data.id)
       setProfURL(data.avatar_url);
     };
 
     fetchURL();
   }, []);
+
+  const tabs = [
+    {
+      name: "Home",
+      link: "/",
+    },
+    {
+      name: "Profile",
+      link: `/profile/${profID}`,
+    },
+    {
+      name: "Social",
+      link: "/social",
+    },
+    {
+      name: "Learning Lab",
+      link: "/learning",
+    },
+  ];
 
   return (
     <div className="w-full bottom-8 h-16 fixed justify-center items-center flex">

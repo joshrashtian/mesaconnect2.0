@@ -9,8 +9,11 @@ export type UserData = {
     username: string;
     role: string;
     real_name: string;
+    avatar_url: string;
     classes?: JSON;
     major?: string;
+    boxlist: any;
+    bio?: string;
 }
 
 export type PostType = {
@@ -21,6 +24,7 @@ export type PostType = {
     data: JSON;
     type?: string;
     tags?: string[];
+    
 }
 
 export type PostItem = {

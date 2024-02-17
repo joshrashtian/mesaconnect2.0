@@ -22,7 +22,7 @@ export const Event = ({ event }: { event: EventType }) => {
   ]
 
   return (
-    <div className="flex flex-col w-full p-5 bg-white rounded-2xl hover:scale-105 duration-300 shadow-md hover:shadow-lg justify-between">
+    <div className="flex flex-col w-full p-5 bg-white rounded-2xl hover:scale-[1.02] duration-300 shadow-md hover:shadow-lg justify-between">
       <h1 className="text-xl text-slate-600 font-semibold">{event.name}</h1>
       <h2 className="text-lg text-slate-400">{event.desc}</h2>
       <ul className="w-full flex-row flex justify-between">
