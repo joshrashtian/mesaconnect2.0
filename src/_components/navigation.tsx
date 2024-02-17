@@ -26,7 +26,7 @@ const tabs = [
 
 const Dock = () => {
   const [selected, setSelected] = useState("");
-  const [profURL, setProfURL] = useState();
+  const [profURL, setProfURL] = useState<string | undefined>();
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
@@ -41,6 +41,7 @@ const Dock = () => {
 
       if (error) {
         console.log(error);
+        setProfURL(undefined);
         return;
       }
 
@@ -54,42 +55,62 @@ const Dock = () => {
 
   return (
     <div className="w-full bottom-8 h-16 fixed justify-center items-center flex">
-      <section onMouseEnter={() => {setIsHovered(true)}} onMouseLeave={() => {setIsHovered(false)}} className="group peer bg-white shadow-md rounded-full h-full w-16 hover:w-[35%] justify-center items-center duration-500 hover:scale-110 ease-in-out  ">
-        {profURL && !isHovered  && (
-          <ul className="flex justify-center items-center w-full h-full">
-          <AnimatePresence>
-          <motion.img
-            src={profURL}
-            alt="profile"
-            initial={{scale: 0}}
-            animate={{scale: 1}}
-            exit={{scale: 0}}
-            transition={{ delay: 0.2}}
-            className="w-12 h-12 duration-500 rounded-full"
-          />
-          </AnimatePresence>
-          </ul>
-        )}
-        <ul className="w-full flex-row scale-0 group-hover:scale-100 flex justify-center gap-5 items-center">
-          {tabs.map((tab, index) => (
-            <motion.li
-              key={index}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onHoverStart={() => setSelected(tab.name)}
-              className=" opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out"
+      <section
+        onMouseEnter={() => {
+          setIsHovered(true);
+        }}
+        onMouseLeave={() => {
+          setIsHovered(false);
+        }}
+        className="group peer bg-white shadow-md rounded-full h-full w-16 hover:w-[35%] justify-center items-center duration-500 hover:scale-110 ease-in-out  "
+      >
+        <AnimatePresence>
+          {profURL && !isHovered && (
+            <motion.ul
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0, opacity: 0 }}
+              transition={{ delay: 0.2, duration: 0.3 }}
+              className="flex justify-center items-center w-full h-full"
             >
-              <Link
-                href={`/connect${tab.link}`}
-                className="flex group-[1] flex-row p-3 justify-center items-center"
-              >
-                <h1 className="text-sm font-semibold group-hover:text-xl hover:text-orange-800 duration-200">
-                  {tab.name}
-                </h1>
-              </Link>
-            </motion.li>
-          ))}
-        </ul>
+              <img
+                src={profURL}
+                alt="profile"
+                className="w-12 h-12 cursor-pointer duration-500 rounded-full"
+              />
+            </motion.ul>
+          )}
+        </AnimatePresence>
+        {isHovered && (
+          <AnimatePresence>
+            <motion.ul
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ delay: 0.6, duration: 0.2 }}
+              className="w-full flex-row delay-500 flex justify-center gap-5 items-center duration-200"
+            >
+              {tabs.map((tab, index) => (
+                <motion.li
+                  key={index}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onHoverStart={() => setSelected(tab.name)}
+                  className=" opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out"
+                >
+                  <Link
+                    href={`/connect${tab.link}`}
+                    className="flex group-[1] flex-row p-3 justify-center items-center"
+                  >
+                    <h1 className="text-sm font-semibold group-hover:text-xl hover:text-orange-800 duration-200">
+                      {tab.name}
+                    </h1>
+                  </Link>
+                </motion.li>
+              ))}
+            </motion.ul>
+          </AnimatePresence>
+        )}
       </section>
 
       <section className=" absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white ">
