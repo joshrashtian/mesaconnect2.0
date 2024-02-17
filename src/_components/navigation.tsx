@@ -1,33 +1,76 @@
-'use client'
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
+"use client";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
+import { supabase } from "../../config/mesa-config";
+import Image from "next/image";
 
 const tabs = [
   {
-    name: 'Home',
-    link: '/'
+    name: "Home",
+    link: "/",
   },
   {
-    name: 'Profile',
-    link: '/profile'
+    name: "Profile",
+    link: "/profile",
   },
   {
-    name: 'Social',
-    link: '/social'
+    name: "Social",
+    link: "/social",
   },
   {
-    name: 'Learning Lab',
-    link: '/learning'
-  }
-]
+    name: "Learning Lab",
+    link: "/learning",
+  },
+];
 
 const Dock = () => {
-  const [selected, setSelected] = useState('')
+  const [selected, setSelected] = useState("");
+  const [profURL, setProfURL] = useState();
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    const fetchURL = async () => {
+      const user = await supabase.auth.getUser();
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select()
+        .eq("id", user.data.user?.id)
+        .single();
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      console.log(data);
+
+      setProfURL(data.avatar_url);
+    };
+
+    fetchURL();
+  }, []);
+
   return (
     <div className="w-full bottom-8 h-16 fixed justify-center items-center flex">
-      <section className="group peer bg-white shadow-md rounded-full h-full w-16 hover:w-[35%] flex flex-row justify-center items-center duration-500 hover:scale-110 ease-in-out  ">
-        <ul className="w-full flex-row flex justify-center gap-5 items-center">
+      <section onMouseEnter={() => {setIsHovered(true)}} onMouseLeave={() => {setIsHovered(false)}} className="group peer bg-white shadow-md rounded-full h-full w-16 hover:w-[35%] justify-center items-center duration-500 hover:scale-110 ease-in-out  ">
+        {profURL && !isHovered  && (
+          <ul className="flex justify-center items-center w-full h-full">
+          <AnimatePresence>
+          <motion.img
+            src={profURL}
+            alt="profile"
+            initial={{scale: 0}}
+            animate={{scale: 1}}
+            exit={{scale: 0}}
+            transition={{ delay: 0.2}}
+            className="w-12 h-12 duration-500 rounded-full"
+          />
+          </AnimatePresence>
+          </ul>
+        )}
+        <ul className="w-full flex-row scale-0 group-hover:scale-100 flex justify-center gap-5 items-center">
           {tabs.map((tab, index) => (
             <motion.li
               key={index}
@@ -53,7 +96,7 @@ const Dock = () => {
         <h1 className="font-bold">{selected}</h1>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Dock
+export default Dock;

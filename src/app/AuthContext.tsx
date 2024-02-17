@@ -51,7 +51,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     if (event === "INITIAL_SESSION") {
       // handle initial session
     } else if (event === "SIGNED_IN") {
-      console.log("signed in as" + session?.user.email + ' user Data: ', userdata);
+      console.log("signed in as" + session?.user.email)
       setUser(session?.user);
     } else if (event === "SIGNED_OUT") {
       console.warn("signed out");
