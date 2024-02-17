@@ -7,7 +7,7 @@ const Social = () => {
       <h1 className="text-transparent bg-clip-text font-bold text-5xl bg-gradient-to-tr from-slate-600 to-orange-900 ">
         Social
       </h1>
-      <section className="w-full flex flex-col gap-10 xl:flex-row justify-normal lg:justify-between">
+      <section className="w-1/3 flex flex-col gap-10 xl:flex-row justify-normal lg:justify-between">
         <RecentPostsHome />
       </section>
     </main>
