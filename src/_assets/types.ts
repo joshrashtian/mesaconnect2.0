@@ -21,9 +21,13 @@ export type PostType = {
     userId: number;
     created_at: Date;
     title: string; 
-    data: JSON;
+    data: any;
     type?: string;
     tags?: string[];
+    creator: {
+        name: string;
+        id: string;
+    }
     
 }
 

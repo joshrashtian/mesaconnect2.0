@@ -36,12 +36,29 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
       } = await supabase.auth.getUser();
       if (user) {
         setUser(user);
-        console.log(user)
+        getUserData();
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getUserData = async () => {
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+
+    const { data, error } = await supabase
+        .from("profiles")
+        .select()
+        .eq("id", userId)
+        .single();
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+      
+    setData(data)
+  } 
 
   useEffect(() => {
     getUser();

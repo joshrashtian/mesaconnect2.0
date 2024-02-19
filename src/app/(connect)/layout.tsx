@@ -14,7 +14,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <InfoContextContainer>
-      <main className="p-16 min-h-screen">
+      <main className="p-16 h-screen">
         <Dock />
 
         {children}
