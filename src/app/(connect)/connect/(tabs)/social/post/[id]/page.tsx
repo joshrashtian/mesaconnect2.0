@@ -33,6 +33,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
   }
 
   const data = JSON.parse(JSON.stringify(post.data)).data;
+  console.log(post)
 
   return (
     <motion.main
@@ -55,7 +56,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
           {post?.title}
         </h1>
         <h2 className="text-semibold text-zinc-600 text-2xl">
-          by {post?.userId} - {post.type ? post.type : "Post"}
+          by @{post?.creator?.username} - {post.type ? post.type : "Post"}
         </h2>
       </ul>
 

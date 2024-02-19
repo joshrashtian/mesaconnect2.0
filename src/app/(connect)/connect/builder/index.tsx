@@ -1,11 +1,11 @@
+import BuildPost from "./(buildercomponents)/BuildPost";
+
 export const BuilderIndex = [
   {
     postType: "Post",
     onSelect: () => {
       return (
-        <div>
-          <h1 className="font-bold text-2xl ">Post</h1>
-        </div>
+        <BuildPost />
       );
     },
   },

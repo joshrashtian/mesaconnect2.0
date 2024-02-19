@@ -6,12 +6,28 @@ import { User } from "@supabase/supabase-js";
 
 export const userContext = createContext<ContextProps>({
   user: undefined,
+  userData: undefined,
   signOut: () => {
     supabase.auth.signOut();
   },
 });
 export interface ContextProps {
   user: User | undefined;
+  userData: {
+    avatar_url: string
+    boxlist: {
+
+    }
+    classes?: {
+
+    }
+    id: string
+    real_name: string
+    role: string
+    updated_at: Date
+    username: string
+    website: string
+  } | undefined;
   signOut: () => void;
 }
 
@@ -27,6 +43,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
         supabase.auth.signOut();
       },
     };
+    
   }, [u, userdata]);
 
   const getUser = async () => {
@@ -56,7 +73,9 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
         console.log(error);
         return;
       }
-      
+
+      console.log('successfully grabbed data', data)
+
     setData(data)
   } 
 
