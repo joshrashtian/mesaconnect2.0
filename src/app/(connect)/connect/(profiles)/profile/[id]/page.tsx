@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "../../../../../../../config/mesa-config";
 import Image from "next/image";
 import { Index } from "../boxTypes";
+import UserPosts from "./UserPosts";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
@@ -86,6 +87,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
       <section>
         <h2 className="font-bold text-3xl ">Posts</h2>
+        <UserPosts id={user.id} />
       </section>
     </main>
   );

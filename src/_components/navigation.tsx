@@ -53,6 +53,10 @@ const Dock = () => {
       name: "Learning Lab",
       link: "/learning",
     },
+    {
+      name: "Studio",
+      link: "/builder",
+    }
   ];
 
   return (

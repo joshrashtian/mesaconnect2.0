@@ -3,18 +3,28 @@ import React, { useEffect, useState } from "react";
 import { BuilderIndex } from ".";
 import { useSearchParams } from "next/navigation";
 import { AnimatePresence } from "framer-motion";
+import Studio from "./Studio";
 
 const Page = () => {
   const [selected, setSelected] = useState<any>();
   const searchParams = useSearchParams()!;
   const id = searchParams.get("type");
 
+  const Home = {
+    postType: "Hub",
+    onSelect: () => {
+      return (
+        <Studio setSelect={(e: any) => {setSelected(e)}} />
+      );
+    },
+  }
+
   useEffect(() => {
     const useParams = () => {
       const found = BuilderIndex.find((e) => e.postType.toLowerCase() === id);
 
       if (!found) {
-        setSelected(BuilderIndex[0]);
+        setSelected(Home);
         return;
       }
 
@@ -32,6 +42,16 @@ const Page = () => {
       </h1>
       <section className="flex flex-row gap-3 w-full h-full">
         <div className="w-1/6 flex gap-2 flex-col">
+          <ul
+            onClick={() => {
+              setSelected(Home);
+            }}
+            className={`w-full p-3 flex justify-center ${
+              selected === "Home" ? "bg-slate-600 text-white" : ""
+            } duration-300 hover:bg-slate-500 hover:text-white cursor-pointer rounded-2xl `}
+          >
+            <h1 className="font-semibold text-xl">Home</h1>
+          </ul>
           <h1 className="font-black text-xl">Posts</h1>
           {BuilderIndex.map((e, index) => (
             <ul
@@ -50,11 +70,9 @@ const Page = () => {
           ))}
         </div>
         <AnimatePresence>
-        <div className="bg-white rounded-3xl p-10  w-full">
-          
+          <div className="bg-white rounded-3xl p-10  w-full">
             <selected.onSelect />
-          
-        </div>
+          </div>
         </AnimatePresence>
       </section>
     </div>

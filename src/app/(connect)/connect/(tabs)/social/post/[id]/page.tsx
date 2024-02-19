@@ -33,7 +33,8 @@ const PostPage = ({ params }: { params: { id: string } }) => {
   }
 
   const data = JSON.parse(JSON.stringify(post.data)).data;
-  console.log(post)
+  
+  const date = new Date(post.created_at)
 
   return (
     <motion.main
@@ -56,7 +57,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
           {post?.title}
         </h1>
         <h2 className="text-semibold text-zinc-600 text-2xl">
-          by @{post?.creator?.username} - {post.type ? post.type : "Post"}
+          by @{post?.creator?.username} - {date?.toDateString()}
         </h2>
       </ul>
 

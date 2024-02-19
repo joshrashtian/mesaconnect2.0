@@ -4,7 +4,7 @@ export type Person = {
 }
 
 export type UserData = {
-    id: number;
+    id: string;
     created_at: Date;
     username: string;
     role: string;
@@ -27,6 +27,8 @@ export type PostType = {
     creator: {
         name: string;
         id: string;
+        username: string;
+        realname: string;
     }
     
 }
@@ -36,4 +38,17 @@ export type PostItem = {
     link?: string,
     image?: string,
     type: string,
+  }
+
+  
+export type EventType = {
+    id: string
+    created_at: any
+    name: string
+    desc: string
+    people_attended: JSON
+    start: Date
+    end: Date
+    location: string
+    tags: string[]
   }

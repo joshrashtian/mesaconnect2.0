@@ -3,18 +3,8 @@ import React, { FC, useEffect, useState } from 'react'
 import { supabase } from '../../../config/mesa-config'
 import { Event } from './Event'
 import { motion } from 'framer-motion'
+import { EventType } from '@/_assets/types'
 
-export type EventType = {
-  id: string
-  created_at: any
-  name: string
-  desc: string
-  people_attended: JSON
-  start: Date
-  end: Date
-  location: string
-  tags: string[]
-}
 
 const CurrentEventSegment: FC = (): JSX.Element => {
   const [data, setData] = useState<EventType[]>()

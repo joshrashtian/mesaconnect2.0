@@ -18,7 +18,7 @@ export const RecentPostsHome = () => {
         .from("posts")
         .select()
         .order("created_at", { ascending: false })
-        .limit(4);
+        .limit(6);
 
       if (error) {
         console.log(error);
@@ -41,17 +41,17 @@ export const RecentPostsHome = () => {
       <h1 className="text-lg font-bold">Recent Posts</h1>
 
       <section className="flex flex-row justify-center items-center gap-2">
-        <Link href='/connect/builder' className="h-1/6 p-5 shadow-md cursor-pointer hover:scale-[1.01] flex justify-center items-center duration-500 rounded-3xl w-full bg-gradient-to-br from-orange-600 to-amber-400">
+        <Link href='/connect/builder' className="h-12 p-5 shadow-md cursor-pointer hover:scale-[1.01] flex justify-center items-center duration-500 rounded-3xl w-full bg-gradient-to-br from-orange-600 to-amber-400">
           <h1 className="text-white font-bold">Post Builder</h1>
         </Link>
-        <ul onClick={() => { setModal(true); }} className="h-1/6 p-5 shadow-md cursor-pointer hover:scale-[1.01] flex justify-center items-center duration-500 rounded-3xl w-full bg-gradient-to-br from-slate-600 to-blue-400">
+        <ul onClick={() => { setModal(true); }} className="h-12 p-5 shadow-md cursor-pointer hover:scale-[1.01] flex justify-center items-center duration-500 rounded-3xl w-full bg-gradient-to-br from-slate-600 to-blue-400">
           <h1 className="text-white font-bold">Create Wim</h1>
         </ul>
       </section>
       {posts?.map((post, index) => {
         switch (post.type){
         case "wim":
-          return <Wim post={post} />;
+          return <Wim key={index} post={post} />;
         case null:
           return <Post key={index} post={post} />;
         default:
