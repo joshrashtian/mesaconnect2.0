@@ -8,7 +8,7 @@ const SkillsSection = () => {
   const [skills, setSkills] = useState<string | undefined>()
   const [preview, setPreview] = useState<string[]>()
 
-  const user = useContext(userContext)
+  const user = useContext<any>(userContext)
 
   useEffect(() => {
     const getSkillsIntital = async () => {

@@ -1,74 +1,72 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import Link from "next/link";
-import { supabase } from "../../config/mesa-config";
-import Image from "next/image";
-
-
+'use client'
+import React, { useEffect, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import Link from 'next/link'
+import { supabase } from '../../config/mesa-config'
+import Image from 'next/image'
 
 const Dock = () => {
-  const [selected, setSelected] = useState("");
-  const [profURL, setProfURL] = useState<string | undefined>();
-  const [isHovered, setIsHovered] = useState(false);
-  const [profID, setProfID] = useState<string | undefined>();
+  const [selected, setSelected] = useState('')
+  const [profURL, setProfURL] = useState<string | undefined>()
+  const [isHovered, setIsHovered] = useState(false)
+  const [profID, setProfID] = useState<string | undefined>()
 
   useEffect(() => {
     const fetchURL = async () => {
-      const user = await supabase.auth.getUser();
+      const user = await supabase.auth.getUser()
 
       const { data, error } = await supabase
-        .from("profiles")
+        .from('profiles')
         .select()
-        .eq("id", user.data.user?.id)
-        .single();
+        .eq('id', user.data.user?.id)
+        .single()
 
       if (error) {
-        console.log(error);
-        setProfURL(undefined);
-        return;
+        console.log(error)
+        setProfURL(undefined)
+        return
       }
 
       setProfID(data.id)
-      setProfURL(data.avatar_url);
-    };
+      setProfURL(data.avatar_url)
+    }
 
-    fetchURL();
-  }, []);
+    fetchURL()
+  }, [])
 
   const tabs = [
     {
-      name: "Home",
-      link: "/",
+      name: 'Home',
+      link: '/'
     },
     {
-      name: "Profile",
-      link: `/profile/${profID}`,
+      name: 'Profile',
+      link: `/profile/${profID}`
     },
     {
-      name: "Social",
-      link: "/social",
+      name: 'Social',
+      link: '/social'
     },
     {
-      name: "Learning Lab",
-      link: "/learning",
+      name: 'Learning Lab',
+      link: '/learning'
     },
     {
-      name: "Studio",
-      link: "/builder",
+      name: 'Studio',
+      link: '/builder'
     }
-  ];
+  ]
 
   return (
     <div className="w-full bottom-8 h-16 fixed justify-center items-center flex">
       <section
         onMouseEnter={() => {
-          setIsHovered(true);
+          setIsHovered(true)
         }}
         onMouseLeave={() => {
-          setIsHovered(false);
+          setIsHovered(false)
         }}
-        className="group peer bg-white shadow-md rounded-full h-full w-16 hover:w-[35%] justify-center items-center duration-500 hover:scale-110 ease-in-out  "
+        className="group peer bg-white shadow-md rounded-full h-full w-16 hover:2xl:w-[35%] hover:w-[75%]  justify-center items-center duration-500 hover:scale-110 ease-in-out  "
       >
         <AnimatePresence>
           {profURL && !isHovered && (
@@ -123,7 +121,7 @@ const Dock = () => {
         <h1 className="font-bold">{selected}</h1>
       </section>
     </div>
-  );
-};
+  )
+}
 
-export default Dock;
+export default Dock
