@@ -1,6 +1,5 @@
 'use client'
 
-import Button from '@/_components/Button'
 import Benefits from '@/_components/home/benefits'
 import Header from '@/_components/home/header'
 import MajorsText from '@/_components/home/majorsText'
@@ -45,30 +44,31 @@ export default function Home() {
           </span>
         </h1>
         <h2 className="text-lg text-slate-500">A community for the students, by the students.</h2>
-        {
-          !user.user ? (
-        <motion.section className="w-full flex flex-row mt-6 justify-center gap-4">
-          <Link
-            href="/sign-in"
-            className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-amber-400 to-orange-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
-          >
-            <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">Sign In</h2>
-          </Link>
-          <Link
-            href={'/sign-up'}
-            className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-400 to-slate-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
-          >
-            <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
-              Jump In For Free
-            </h2>
-          </Link>
-        </motion.section>
+        {!user.user ? (
+          <motion.section className="w-full flex flex-row mt-6 justify-center gap-4">
+            <Link
+              href="/sign-in"
+              className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-amber-400 to-orange-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+            >
+              <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">Sign In</h2>
+            </Link>
+            <Link
+              href={'/sign-up'}
+              className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-400 to-slate-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+            >
+              <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
+                Jump In For Free
+              </h2>
+            </Link>
+          </motion.section>
         ) : (
           <Link
             href="/connect"
             className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-purple-400 to-blue-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
           >
-            <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">Enter Connect</h2>
+            <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
+              Enter Connect
+            </h2>
           </Link>
         )}
       </section>

@@ -50,3 +50,53 @@ export const ChangeAboutSection = async (user: any, about: object) => {
     }
   
 };
+
+export const ChangeSections = async (user: UserData, section: any, change: object) => {
+  if (!user.boxlist) {
+    console.log("none", user);
+    return;
+  }
+
+  let exists;
+
+  user.boxlist.map((e: any) => {
+    if (e.type === section) {
+      exists = true;
+      return;
+    }
+  });
+
+  if (exists === true) {
+    let copy = user.boxlist;
+    copy.map((e: any, i: number) => {
+      if (e.type === section) {
+        copy[i] = change;
+      }
+    });
+
+    console.log("reached");
+    const { error } = await supabase
+      .from("profiles")
+      .update({ boxlist: copy })
+      .eq("id", user.id);
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    console.log("Success!");
+  } else {
+    const { error } = await supabase
+      .from("profiles")
+      .update({ boxlist: [...user.boxlist, change] })
+      .eq("id", user.id);
+      if (error) {
+        console.log(error);
+        return;
+      }
+    
+      console.log("Success!");
+    }
+  
+};
