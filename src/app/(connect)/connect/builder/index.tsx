@@ -1,4 +1,5 @@
 import BuildPost from "./(buildercomponents)/BuildPost";
+import AboutSection from "./(profbuildercomponents)/AboutSection";
 
 export const BuilderIndex = [
   {
@@ -8,6 +9,7 @@ export const BuilderIndex = [
         <BuildPost />
       );
     },
+    class: 0,
   },
   {
     postType: "Wim",
@@ -18,5 +20,15 @@ export const BuilderIndex = [
         </div>
       );
     },
+    class: 0,
   },
+  {
+    postType: "Basic Information",
+    onSelect: () => {
+      return (
+        <AboutSection />
+      );
+    },
+    class: 1,
+  }
 ];

@@ -10,6 +10,7 @@ export const SearchPosts = async (search: string) => {
         type: 'websearch',
         config: 'english'
     })
+    .order('created_at', {ascending: false})
     //.or(`tags.cs.{${search}},title.like.${search}`)
   
   if (error) {

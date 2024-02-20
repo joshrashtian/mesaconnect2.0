@@ -1,14 +1,17 @@
 "use client";
 
 import { UserData } from "@/_assets/types";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { supabase } from "../../../../../../../config/mesa-config";
 import Image from "next/image";
 import { Index } from "../boxTypes";
 import UserPosts from "./UserPosts";
+import { userContext } from "@/app/AuthContext";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
+  
+  const ActiveUser = useContext(userContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +25,6 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         console.error(error);
         return;
       }
-      console.log(data.boxlist);
       setUser(data);
     };
 
@@ -36,6 +38,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
   return (
     <main className="min-h-screen p-3 gap-5 flex flex-col ">
       <ul className="flex flex-row items-center gap-5 ">
+        { user?.avatar_url && 
         <Image
           src={user?.avatar_url}
           alt="profile picture"
@@ -43,6 +46,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
           height={64}
           style={{ borderRadius: "100%" }}
         />
+        }
         <h1 className="font-bold text-6xl">{user?.real_name}</h1>
         <h2 className="font-light text-xl text-slate-400">@{user?.username}</h2>
       </ul>
@@ -70,11 +74,11 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
               {user.boxlist.map((e: any) => {
                 return (
                   <section
-                    key={e.title}
+                    key={e.contents}
                     className="w-[49%] min-h-full p-5 rounded-3xl shadow-sm bg-white"
                   >
                     {Index.map((d: any, i: number) => {
-                      if (d.title === e.type) {
+                      if ((d.title).toLowerCase() === (e.type).toLowerCase()) {
                         return <d.component key={i} data={e} />;
                       }
                     })}

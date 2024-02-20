@@ -3,7 +3,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { supabase } from '../../../../config/mesa-config'
-import Button from '@/_components/Button'
 
 const Page = () => {
   const [email, setEmail] = useState('')
@@ -52,24 +51,24 @@ const Page = () => {
           }}
         />
         <ul className="md:w-3/4 xl:1/2 2xl:w-1/4 justify-center flex-row flex">
-          <Button
-            style="p-3 bg-slate-600 hover:bg-orange-700 rounded-full dark:bg-orange-400 w-1/2"
-            pressed={() => {
+          <ul
+            className="p-3 bg-slate-600 hover:bg-orange-700 rounded-full dark:bg-orange-400 w-1/2"
+            onClick={() => {
               signInUser()
             }}
           >
             <h1 className="text-white">Sign In</h1>
-          </Button>
+          </ul>
         </ul>
         <h1 className="text-slate-400 text-xl font-black">- or -</h1>
-        <Button
-          style="bg-blue-500 group p-3 w-1/3 rounded-full"
-          pressed={() => {
+        <ul
+          className="bg-blue-500 group p-3 w-1/3 rounded-full"
+          onClick={() => {
             loginUser('google')
           }}
         >
           <h1 className="text-white font-semibold">Sign In With Google</h1>
-        </Button>
+        </ul>
       </motion.section>
     </main>
   )

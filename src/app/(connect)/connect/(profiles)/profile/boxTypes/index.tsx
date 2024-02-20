@@ -5,6 +5,7 @@ export const Index = [
     title: "About",
     component: (data: any) => {
       const e = data.data
+      console.log('data', e)
       return (
         <div>
           <h1 className="font-bold">About Me</h1>

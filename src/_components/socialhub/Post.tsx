@@ -37,7 +37,7 @@ const Post = ({ post }: { post: PostType }) => {
         }
 
         console.log("Post deleted successfully");
-        router.refresh()
+        router.refresh();
       },
     },
   ];

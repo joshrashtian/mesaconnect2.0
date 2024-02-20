@@ -19,7 +19,6 @@ const PostContext = ({
   contextMenuRef: any;
 }) => {
 
-  const router = useRouter()
   if(!isToggled) return null
 
   return (
