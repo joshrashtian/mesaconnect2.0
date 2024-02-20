@@ -8,11 +8,9 @@ const AboutSection = () => {
   const [about, setAbout] = useState<string>();
   const [profileColor, setProfileColor] = useState<string>("#000");
 
-  const [json, setJSON] = useState<object>();
+  const [json, setJSON] = useState<any>();
 
   const user = useContext(userContext)
-
-  console.log(user.userData?.boxlist)
 
   useMemo(() => {
     const newJSON = {
@@ -21,9 +19,13 @@ const AboutSection = () => {
       textColor: profileColor,
     }
     setJSON(newJSON)
-  }, [about]);
+  }, [about, profileColor]);
 
   const changeAbout = async () => {
+    if(!json || !json.contents ) {
+     console.log('Missing something...')
+      return;
+    }
     ChangeAboutSection(user, json);
   }
 

@@ -9,7 +9,7 @@ export const Index = [
       return (
         <div>
           <h1 className="font-bold">About Me</h1>
-          <p>{e.contents}</p>
+          <p style={{color: e.textColor}}>{e.contents}</p>
         </div>
       );
     },

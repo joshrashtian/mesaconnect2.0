@@ -1,7 +1,7 @@
 import { UserData } from "@/_assets/types";
 import { supabase } from "../../../../../../config/mesa-config";
 
-export const ChangeAboutSection = async (user: UserData, about: object) => {
+export const ChangeAboutSection = async (user: any, about: object) => {
   if (!user.userData.boxlist) {
     console.log("none", user);
     return;
@@ -22,22 +22,31 @@ export const ChangeAboutSection = async (user: UserData, about: object) => {
       if (e.type === "about") {
         copy[i] = about;
       }
-    })
+    });
 
-    console.log('reached')
+    console.log("reached");
     const { error } = await supabase
-        .from("profiles")
-        .update({ boxlist: copy })
-        .eq('id', user.userData.id);
+      .from("profiles")
+      .update({ boxlist: copy })
+      .eq("id", user.userData.id);
 
     if (error) {
       console.log(error);
       return;
     }
 
-    console.log('Success!')    
-    } else {
-        console.log('Oops!')
-  } 
+    console.log("Success!");
+  } else {
+    const { error } = await supabase
+      .from("profiles")
+      .update({ boxlist: [...user.userData.boxlist, about] })
+      .eq("id", user.userData.id);
+      if (error) {
+        console.log(error);
+        return;
+      }
     
-}
+      console.log("Success!");
+    }
+  
+};

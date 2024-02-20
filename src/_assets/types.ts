@@ -12,7 +12,7 @@ export type UserData = {
     avatar_url: string;
     classes?: JSON;
     major?: string;
-    boxlist: any;
+    boxlist: object[];
     bio?: string;
 }
 
