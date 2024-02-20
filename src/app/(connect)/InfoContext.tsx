@@ -1,41 +1,92 @@
-'use client'
+"use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
-import React from 'react'
-import { supabase } from '../../../config/mesa-config'
-import { userContext } from '../AuthContext'
+import React from "react";
+import { supabase } from "../../../config/mesa-config";
+import { userContext } from "../AuthContext";
+import PostContext from "@/_components/socialhub/PostContext";
 
-export const InfoContext = createContext({})
+export const MenuContext = createContext({});
 
-const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
-  const authen = useContext(userContext)
-  const [user, setUser] = useState<any[] | null>()
+const ContextMenuContainer = ({ children }: { children: React.ReactNode }) => {
+  const contextRef = useRef<any>(null);
+  const [contentPos, setContextPos] = useState({
+    x: 0,
+    y: 0,
+    toggled: false,
+    buttons: {}
+  });
 
-  const value = useMemo(() => {
-    return {
-      user
-    }
-  }, [user])
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const user = await supabase.auth.getUser();
-
-      const { data, error } = await supabase.from('profiles').select().eq('id', user.data.user?.id)
-
-      if (error) {
-        console.log(error)
-        return
+    const handler = (e: any) => {
+      if(contextRef.current) {
+        if(!contextRef.current.contains(e.target)) {
+          setContextPos({
+            x: 0,
+            y: 0,
+            toggled: false,
+            buttons: {}
+          })
+        }
       }
-
-      setUser(data)
     }
 
-    fetchUserData()
-  }, [authen])
+    document.addEventListener('click', handler)
 
-  return <InfoContext.Provider value={value}>{children}</InfoContext.Provider>
-}
+    return () => {
+      document.removeEventListener('click', handler)
+    }
+  })
 
-export default InfoContextContainer
+  const onContextMenu = async (e: any, right: any) => {
+    e.preventDefault();
+
+    const att: any = contextRef?.current?.getBoundingClientRect()
+   
+    const isLeft: boolean = e.clientX < window?.innerWidth / 2 
+    let x
+    let y = e.clientY
+
+    if(isLeft) {
+      x = e.clientX
+    } else {
+      x = e.clientX - att?.width
+    } 
+
+    setContextPos({
+      x, y, toggled: true, buttons: right
+    })
+  }
+
+  const value = {
+    valueAt: '10',
+    rightClick: (e: any, right: any) => {onContextMenu(e, right)}
+  }
+
+  return (
+    <MenuContext.Provider value={value}>
+      {children}
+      <section ref={contextRef}>
+      <PostContext
+        contextMenuRef={contextRef}
+        positionX={contentPos.x}
+        positionY={contentPos.y}
+        isToggled={contentPos.toggled}
+        rightClick={'ok'}
+        buttons={contentPos.buttons}
+      />
+      </section>
+    </MenuContext.Provider>
+  );
+};
+
+export default ContextMenuContainer;

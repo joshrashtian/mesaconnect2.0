@@ -11,10 +11,10 @@ const UserPosts = (id: {id: string}) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase
+      const { data, error } : { data: any, error: any} = await supabase
         .from("posts")
         .select()
-        .eq("userId", id.id);
+        .eq("userid", id.id);
       setData(data);
     };
     fetchData()

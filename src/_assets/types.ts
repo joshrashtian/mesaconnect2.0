@@ -17,8 +17,8 @@ export type UserData = {
 }
 
 export type PostType = {
-    id: number;
-    userId: number;
+    id: string;
+    userid: string;
     created_at: Date;
     title: string; 
     data: any;

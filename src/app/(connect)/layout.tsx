@@ -1,12 +1,14 @@
 'use client'
 import Dock from '@/_components/navigation'
-import React, { useContext } from 'react'
+import React, { useContext, useRef, useState } from 'react'
 import { userContext } from '../AuthContext'
 import InfoContextContainer from './InfoContext'
 import { config } from '../../../config/mesa-config'
+import PostContext from '@/_components/socialhub/PostContext'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const user = useContext(userContext)
+
 
   if (!user) {
     console.log('user not logged in')

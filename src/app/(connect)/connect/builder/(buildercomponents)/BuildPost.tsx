@@ -54,7 +54,7 @@ const BuildPost = () => {
     }
 
     const { error } = await supabase.from("posts").insert({
-      userId: userInfo.id,
+      userid: userInfo.id,
       title: title,
       data: json,
       type: "post",

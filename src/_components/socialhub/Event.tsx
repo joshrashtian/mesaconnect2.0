@@ -1,5 +1,5 @@
 import React from 'react'
-import { EventType } from './CurrentEventSegment'
+import { EventType } from '@/_assets/types'
 import { Person } from '@/_assets/types'
 
 export const Event = ({ event }: { event: EventType }) => {
@@ -28,7 +28,7 @@ export const Event = ({ event }: { event: EventType }) => {
       <ul className="w-full flex-row flex justify-between">
         <h2 className="text-md text-slate-500">{`${months[date.getMonth()]} ${date.getDate()}`}</h2>
         {event.tags &&
-          event.tags.map((tag) => (
+          event.tags.map((tag: any) => (
             <code className="px-2 p-0.5 bg-slate-100 " key={tag}>
               {tag}
             </code>

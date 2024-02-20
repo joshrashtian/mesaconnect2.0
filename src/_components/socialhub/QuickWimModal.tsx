@@ -28,7 +28,7 @@ const QuickWimModal = ({ disengageModal }: { disengageModal: any }) => {
     }
 
     const { error } = await supabase.from('posts').insert({
-      userId: currentUserId,
+      userid: currentUserId,
       data: {
         data: {
             type: 'wim',
@@ -37,7 +37,7 @@ const QuickWimModal = ({ disengageModal }: { disengageModal: any }) => {
       },
       creator: {
         id: currentUserId,
-        name: userdata.userData.real_name,
+        name: userdata?.userData?.real_name,
       },
       type: 'wim',
     })

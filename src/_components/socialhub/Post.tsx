@@ -1,10 +1,46 @@
 "use client";
-import { PostItem, PostType } from "@/_assets/types";
+import { PostItem, PostType, UserData } from "@/_assets/types";
 import Link from "next/link";
-import React from "react";
+import React, { useContext, useRef } from "react";
 import { motion } from "framer-motion";
+import { MenuContext } from "@/app/(connect)/InfoContext";
+import { useRouter } from "next/navigation";
+import { supabase } from "../../../config/mesa-config";
+import { userContext } from "@/app/AuthContext";
+
 const Post = ({ post }: { post: PostType }) => {
   const data = JSON.parse(JSON.stringify(post.data)).data;
+  const router = useRouter();
+
+  const contextMenu = useContext<any>(MenuContext);
+  const user: any = useContext(userContext);
+
+  const contextButtons = [
+    {
+      name: "View Post",
+      visible: true,
+      function: () => {
+        router.push(`/connect/social/post/${post.id}`);
+      },
+    },
+    {
+      name: "Delete Post",
+      visible: user?.userData?.id === post.userid,
+      function: async () => {
+        const { error } = await supabase
+          .from("posts")
+          .delete()
+          .eq("id", post.id);
+
+        if (error) {
+          console.error(error);
+        }
+
+        console.log("Post deleted successfully");
+        router.refresh()
+      },
+    },
+  ];
 
   return (
     <motion.ul
@@ -13,8 +49,14 @@ const Post = ({ post }: { post: PostType }) => {
       transition={{ ease: "backInOut", duration: 0.2 }}
       whileHover={{ scale: 1.02 }}
       className="h-1/5 p-5 shadow-sm hover:scale-[1.01] duration-500 rounded-3xl w-full bg-gradient-to-br from-[#FFFBF6] to-[#F7F7F7]"
+      onContextMenu={() => {}}
     >
-      <Link href={`/connect/social/post/${post.id}`}>
+      <Link
+        onContextMenu={(e) => {
+          contextMenu.rightClick(e, contextButtons);
+        }}
+        href={`/connect/social/post/${post.id}`}
+      >
         <h1 className="font-bold text-slate-700">{post.title}</h1>
         {data.map((item: PostItem, index: number) => {
           switch (item.type) {
