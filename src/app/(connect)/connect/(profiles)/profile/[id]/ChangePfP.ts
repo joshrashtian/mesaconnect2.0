@@ -21,7 +21,7 @@ const ChangePfP = async (e: any, user: any) => {
   }
 
   const urlPath = data.path
-  const url = `https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/sign/avatars/${data.path}`
+  const url = `https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/avatars/${data.path}`
 
   const updateUserProfile = async () => {
     await supabase.from('profiles').update({ avatar_url: url }).eq('id', data.path)

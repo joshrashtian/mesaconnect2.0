@@ -1,15 +1,18 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { supabase } from '../../config/mesa-config'
 import Image from 'next/image'
+import { userContext } from '@/app/AuthContext'
 
 const Dock = () => {
   const [selected, setSelected] = useState('')
   const [profURL, setProfURL] = useState<string | undefined>()
   const [isHovered, setIsHovered] = useState(false)
   const [profID, setProfID] = useState<string | undefined>()
+
+  const userData = useContext<any>(userContext)
 
   useEffect(() => {
     const fetchURL = async () => {
@@ -54,6 +57,11 @@ const Dock = () => {
     {
       name: 'Studio',
       link: '/builder'
+    },
+    {
+      name: 'Admin',
+      link: '/admin',
+      permissions: ['admin']
     }
   ]
 
@@ -66,7 +74,7 @@ const Dock = () => {
         onMouseLeave={() => {
           setIsHovered(false)
         }}
-        className="group peer bg-white shadow-md rounded-full h-full w-16 hover:2xl:w-[35%] hover:w-[75%]  justify-center items-center duration-500 hover:scale-110 ease-in-out  "
+        className="group peer bg-white shadow-md rounded-full h-full w-16 hover:2xl:w-[40%] hover:w-[75%]  justify-center items-center duration-500 hover:scale-110 ease-in-out  "
       >
         <AnimatePresence>
           {profURL && !isHovered && (
@@ -94,24 +102,32 @@ const Dock = () => {
               transition={{ delay: 0.6, duration: 0.2 }}
               className="w-full flex-row delay-500 flex justify-center gap-5 items-center duration-200"
             >
-              {tabs.map((tab, index) => (
-                <motion.li
-                  key={index}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  onHoverStart={() => setSelected(tab.name)}
-                  className=" opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out"
-                >
-                  <Link
-                    href={`/connect${tab.link}`}
-                    className="flex group-[1] flex-row p-3 justify-center items-center"
+              {tabs.map((tab, index) => {
+                if (tab.permissions) {
+                  if (!tab.permissions.includes(userData.userData?.role) || !userData) {
+                    return null
+                  }
+                }
+
+                return (
+                  <motion.li
+                    key={index}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                    onHoverStart={() => setSelected(tab.name)}
+                    className=" opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out"
                   >
-                    <h1 className="text-sm font-semibold group-hover:text-xl hover:text-orange-800 duration-200">
-                      {tab.name}
-                    </h1>
-                  </Link>
-                </motion.li>
-              ))}
+                    <Link
+                      href={`/connect${tab.link}`}
+                      className="flex group-[1] flex-row p-3 justify-center items-center"
+                    >
+                      <h1 className="text-sm font-semibold group-hover:text-lg hover:text-orange-800 duration-200">
+                        {tab.name}
+                      </h1>
+                    </Link>
+                  </motion.li>
+                )
+              })}
             </motion.ul>
           </AnimatePresence>
         )}
