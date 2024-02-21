@@ -4,7 +4,6 @@ import { Person } from '@/_assets/types'
 
 export const Event = ({ event }: { event: EventType }) => {
   const date = new Date(event.start)
-  const peopleAttending = JSON.parse(JSON.stringify(event.people_attended))
 
   const months = [
     'Jan',
