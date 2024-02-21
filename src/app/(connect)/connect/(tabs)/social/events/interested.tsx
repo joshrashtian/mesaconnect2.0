@@ -1,29 +1,48 @@
 'use client'
-import React, { FC, useEffect, useState } from 'react'
-
+import React, { FC, useContext, useEffect, useState } from 'react'
+import { Box } from '@/_assets/types'
 import { motion } from 'framer-motion'
 import { Event } from '@/_components/socialhub/Event'
 import { EventType } from '@/_assets/types'
-import { supabase } from '../../../../../config/mesa-config'
-import Link from 'next/link'
 
-const UpcomingEvents: FC = (): JSX.Element => {
+import Link from 'next/link'
+import { supabase } from '../../../../../../../config/mesa-config'
+import { userContext } from '@/app/AuthContext'
+
+const InterestedEvents: FC = (): JSX.Element => {
   const [data, setData] = useState<EventType[]>()
+  const activeUser: any = useContext(userContext)
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase.from('events').select()
+      if (!activeUser.userData) return
+
+      let query: any = []
+
+      activeUser.userData.boxlist.map((e: Box) => {
+        if (e.type === 'skills') {
+          query.push(e.skills)
+        }
+      })
+
+      const finalQuery = query[0]
+        .map((e: string) => {
+          e.toString().trim()
+          return `' ${e} '`
+        })
+        .join(' | ')
+
+      const { data, error } = await supabase.from('events').select().textSearch('name', finalQuery)
 
       if (error) {
         console.log(error)
         return
       }
-
       setData(data)
     }
 
     fetchData()
-  }, [])
+  }, [activeUser])
 
   return (
     <motion.div
@@ -45,4 +64,4 @@ const UpcomingEvents: FC = (): JSX.Element => {
   )
 }
 
-export default UpcomingEvents
+export default InterestedEvents
