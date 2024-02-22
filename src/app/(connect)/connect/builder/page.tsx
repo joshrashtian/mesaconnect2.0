@@ -1,16 +1,14 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { BuilderIndex } from '.'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { AnimatePresence } from 'framer-motion'
+import { useSearchParams } from 'next/navigation'
+import { motion, useScroll } from 'framer-motion'
 import Studio from './Studio'
 
 const Page = () => {
   const [selected, setSelected] = useState<any>()
   const searchParams = useSearchParams()!
   const id = searchParams.get('type')
-
-  const router = useRouter()
 
   const Home = {
     postType: 'Hub',
@@ -94,10 +92,10 @@ const Page = () => {
           })}
         </div>
 
-        <div className="bg-white rounded-3xl p-10 pb-20  w-full">
-          <AnimatePresence>
+        <div className="bg-white rounded-3xl p-10 overflow-y-scroll w-full">
+           
             <selected.onSelect />
-          </AnimatePresence>
+          
         </div>
       </section>
     </div>

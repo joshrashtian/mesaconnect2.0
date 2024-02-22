@@ -25,7 +25,7 @@ export const BuilderIndex = [
     postType: 'Basic Information',
     onSelect: () => {
       return (
-        <main className="flex flex-col w-full gap-14 overflow-scroll p-5">
+        <main className="flex flex-col w-full gap-14 p-5">
           <h1 className="text-slate-500 text-4xl ">Basic Information</h1>
           <AboutSection />
           <SkillsSection />

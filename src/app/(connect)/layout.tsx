@@ -4,7 +4,6 @@ import React, { useContext, useRef, useState } from 'react'
 import { userContext } from '../AuthContext'
 import InfoContextContainer from './InfoContext'
 import { config } from '../../../config/mesa-config'
-import PostContext from '@/_components/socialhub/PostContext'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const user = useContext(userContext)

@@ -1,23 +1,32 @@
-'use client'
+"use client";
 
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  createContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
-import React from 'react'
-import { supabase } from '../../../config/mesa-config'
-import { userContext } from '../AuthContext'
-import PostContext from '@/_components/socialhub/PostContext'
-import { AnimatePresence, motion } from 'framer-motion'
+import React from "react";
+import PostContext from "@/_components/socialhub/PostContext";
+import { AnimatePresence, motion } from "framer-motion";
+import Toast from "./connect/Toast";
 
-export const MenuContext = createContext({})
+export const MenuContext = createContext({});
 
-const ContextMenuContainer = ({ children }: { children: React.ReactNode }) => {
-  const contextRef = useRef<any>(null)
+const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
+  const contextRef = useRef<any>(null);
   const [contentPos, setContextPos] = useState({
     x: 0,
     y: 0,
     toggled: false,
-    buttons: {}
-  })
+    buttons: {},
+  });
+  const [toastState, setToastState] = useState({
+    open: true,
+    message: "woop woop",
+    type: "success",
+  });
 
   useEffect(() => {
     const handler = (e: any) => {
@@ -27,48 +36,55 @@ const ContextMenuContainer = ({ children }: { children: React.ReactNode }) => {
             x: 0,
             y: 0,
             toggled: false,
-            buttons: {}
-          })
+            buttons: {},
+          });
         }
       }
-    }
+    };
 
-    document.addEventListener('click', handler)
+    document.addEventListener("click", handler);
 
     return () => {
-      document.removeEventListener('click', handler)
-    }
-  })
+      document.removeEventListener("click", handler);
+    };
+  });
 
   const onContextMenu = async (e: any, right: any) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const att: any = contextRef?.current?.getBoundingClientRect()
+    const att: any = contextRef?.current?.getBoundingClientRect();
 
-    const isLeft: boolean = e.clientX < window?.innerWidth / 2
-    let x
-    let y = e.clientY
+    const isLeft: boolean = e.clientX < window?.innerWidth / 2;
+    let x;
+    let y = e.clientY;
 
     if (isLeft) {
-      x = e.clientX
+      x = e.clientX;
     } else {
-      x = e.clientX - att?.width
+      x = e.clientX - att?.width;
     }
 
     setContextPos({
       x,
       y,
       toggled: true,
-      buttons: right
-    })
-  }
+      buttons: right,
+    });
+  };
 
   const value = {
-    valueAt: '10',
+    valueAt: "10",
     rightClick: (e: any, right: any) => {
-      onContextMenu(e, right)
-    }
-  }
+      onContextMenu(e, right);
+    },
+    toast: (msg: string, type: string) => {
+      setToastState({
+        open: true,
+        message: msg,
+        type: type ? type : 'Informative',
+      });
+    },
+  };
 
   return (
     <MenuContext.Provider value={value}>
@@ -81,13 +97,24 @@ const ContextMenuContainer = ({ children }: { children: React.ReactNode }) => {
             positionX={contentPos.x}
             positionY={contentPos.y}
             isToggled={contentPos.toggled}
-            rightClick={'ok'}
+            rightClick={"ok"}
             buttons={contentPos.buttons}
           />
         </AnimatePresence>
       </motion.section>
-    </MenuContext.Provider>
-  )
-}
 
-export default ContextMenuContainer
+      <AnimatePresence>
+        <Toast
+          trigger={toastState.open}
+          type={toastState.type}
+          message={toastState.message}
+          turnOff={() => {
+            setToastState({ open: false, message: "", type: "success" });
+          }}
+        />
+      </AnimatePresence>
+    </MenuContext.Provider>
+  );
+};
+
+export default InfoContextContainer;

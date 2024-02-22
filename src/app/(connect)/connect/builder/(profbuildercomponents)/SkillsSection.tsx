@@ -3,12 +3,14 @@
 import { userContext } from '@/app/AuthContext'
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { ChangeSections } from './ChangeIndex'
+import { MenuContext } from '@/app/(connect)/InfoContext'
 
 const SkillsSection = () => {
   const [skills, setSkills] = useState<string | undefined>()
   const [preview, setPreview] = useState<string[]>()
 
   const user = useContext<any>(userContext)
+  const toast = useContext<any>(MenuContext)
 
   useEffect(() => {
     const getSkillsIntital = async () => {
@@ -69,6 +71,7 @@ const SkillsSection = () => {
       </ul>
       <button
         onClick={() => {
+          toast.toast('Skills Has Been Updated!', "success")
           changeSkills()
         }}
         className={`p-3 w-full rounded-full ${
