@@ -41,17 +41,20 @@ export const ChangeAboutSection = async (user: any, about: object) => {
       .from("profiles")
       .update({ boxlist: [...user.userData.boxlist, about] })
       .eq("id", user.userData.id);
-      if (error) {
-        console.log(error);
-        return;
-      }
-    
-      console.log("Success!");
+    if (error) {
+      console.log(error);
+      return;
     }
-  
+
+    console.log("Success!");
+  }
 };
 
-export const ChangeSections = async (user: UserData, section: any, change: object) => {
+export const ChangeSections = async (
+  user: UserData,
+  section: any,
+  change: object
+) => {
   if (!user.boxlist) {
     console.log("none", user);
     return;
@@ -91,12 +94,11 @@ export const ChangeSections = async (user: UserData, section: any, change: objec
       .from("profiles")
       .update({ boxlist: [...user.boxlist, change] })
       .eq("id", user.id);
-      if (error) {
-        console.log(error);
-        return;
-      }
-    
-      console.log("Success!");
+    if (error) {
+      console.log(error);
+      return;
     }
-  
+
+    console.log("Success!");
+  }
 };

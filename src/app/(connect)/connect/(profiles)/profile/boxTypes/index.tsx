@@ -4,27 +4,22 @@ export const Index = [
   {
     title: "About",
     component: (data: any) => {
-      const e = data.data
-      console.log('data', e)
+      const e = data.data;
+      console.log("data", e);
       return (
         <div>
-          <h1 className="font-bold">About Me</h1>
-          <p style={{color: e.textColor}}>{e.contents}</p>
+          <p style={{ color: e.textColor }}>{e.contents}</p>
         </div>
       );
     },
-    create: (data: any) => {
-    }
+    create: (data: any) => {},
   },
   {
     title: "Skills",
     component: (data: any) => {
-      const e = data.data
-      return (
-        <Skills e={e} />
-      );
+      const e = data.data;
+      return <Skills e={e} />;
     },
-    create: (data: any) => {
-    }
-  }
+    create: (data: any) => {},
+  },
 ];

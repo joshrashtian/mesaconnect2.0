@@ -7,9 +7,9 @@ import {
   useState,
 } from "react";
 
-import React from "react";
 import PostContext from "@/_components/socialhub/PostContext";
 import { AnimatePresence, motion } from "framer-motion";
+import React from "react";
 import Toast from "./connect/Toast";
 
 export const MenuContext = createContext({});
@@ -23,7 +23,7 @@ const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
     buttons: {},
   });
   const [toastState, setToastState] = useState({
-    open: true,
+    open: false,
     message: "woop woop",
     type: "success",
   });

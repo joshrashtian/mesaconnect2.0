@@ -1,28 +1,29 @@
-import BuildPost from './(buildercomponents)/BuildPost'
-import AboutSection from './(profbuildercomponents)/AboutSection'
-import SkillsSection from './(profbuildercomponents)/SkillsSection'
+import BuildPost from "./(buildercomponents)/BuildPost";
+import AboutSection from "./(profbuildercomponents)/AboutSection";
+import Projects from "./(profbuildercomponents)/Projects";
+import SkillsSection from "./(profbuildercomponents)/SkillsSection";
 
 export const BuilderIndex = [
   {
-    postType: 'Post',
+    postType: "Post",
     onSelect: () => {
-      return <BuildPost />
+      return <BuildPost />;
     },
-    class: 0
+    class: 0,
   },
   {
-    postType: 'Wim',
+    postType: "Wim",
     onSelect: () => {
       return (
         <div>
           <h1>Wim</h1>
         </div>
-      )
+      );
     },
-    class: 0
+    class: 0,
   },
   {
-    postType: 'Basic Information',
+    postType: "Basic Information",
     onSelect: () => {
       return (
         <main className="flex flex-col w-full gap-14 p-5">
@@ -30,8 +31,20 @@ export const BuilderIndex = [
           <AboutSection />
           <SkillsSection />
         </main>
-      )
+      );
     },
-    class: 1
-  }
-]
+    class: 1,
+  },
+  {
+    postType: "Projects",
+    onSelect: () => {
+      return (
+        <main className="flex flex-col w-full gap-14 p-5">
+          <h1 className="text-slate-500 text-4xl ">Links</h1>
+          <Projects />
+        </main>
+      );
+    },
+    class: 1,
+  },
+];
