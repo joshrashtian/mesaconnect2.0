@@ -109,9 +109,9 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
                   {Index.map((d: any, i: number) => {
                     if (d.title.toLowerCase() === e.type.toLowerCase()) {
                       return (
-                        <div>
+                        <div key={i}>
                           <h1 className="font-bold">{d.title}</h1>
-                          <d.component key={i} data={e} />
+                          <d.component data={e} />
                         </div>
                       );
                     }

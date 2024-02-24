@@ -1,7 +1,7 @@
 "use client";
 
 import { MenuContext } from "@/app/(connect)/InfoContext";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { ChangeSections } from "./ChangeIndex";
 import { userContext } from "@/app/AuthContext";
 
@@ -44,6 +44,20 @@ const Projects = () => {
     console.log(json);
   }, [links]);
 
+  useEffect(() => {
+    const getProjectsIntital = async () => {
+      if (!user) return;
+      const boxlist = user.userData?.boxlist;
+      boxlist?.map((e: any) => {
+        if (e.type === "links") {
+          setLinks(e.contents);
+        }
+      });
+    };
+
+    getProjectsIntital();
+  }, [user]);
+
   const upload = () => {
     if (!json || json.contents.length === 0) {
       toast.toast("No Skills Exist!", "Error");
@@ -61,7 +75,7 @@ const Projects = () => {
 
     if (error) return;
 
-    ChangeSections(user.userData, "projects", json);
+    ChangeSections(user.userData, "links", json);
     console.log("Reached");
   };
 
@@ -71,8 +85,8 @@ const Projects = () => {
         <section className="bg-zinc-100 shadow-md flex flex-col p-4 justify-center rounded-2xl gap-2">
           <h1 className="font-bold text-2xl">Link #{i}</h1>
           <ul className="flex flex-row justify-between">
-            <h1>
-              {link.name} | {link.link} | {link.website?.name}
+            <h1 className="font-mono">
+              {link.name} / {link.link} / {link.website?.name}
             </h1>
             <button
               onClick={() => {
@@ -86,6 +100,8 @@ const Projects = () => {
             type="text"
             className="p-2 px-5  rounded-full"
             placeholder="Name"
+            contentEditable
+            value={links[i].name}
             onChange={(e) => {
               setLinks(
                 links.map((link, index) => {
@@ -104,6 +120,7 @@ const Projects = () => {
             type="text"
             className="p-2 px-5 rounded-full"
             placeholder="Link"
+            value={links[i].link}
             onChange={(e) => {
               setLinks(
                 links.map((link, index) => {
