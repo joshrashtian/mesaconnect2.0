@@ -40,8 +40,8 @@ const Projects = () => {
         link: link.link,
         website: link.website,
       })),
+      visible: true,
     });
-    console.log(json);
   }, [links]);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const Projects = () => {
     if (error) return;
 
     ChangeSections(user.userData, "links", json);
-    console.log("Reached");
+    toast.toast("Your profile links have been updated!", "success");
   };
 
   return (
@@ -168,7 +168,9 @@ const Projects = () => {
         }}
         className="w-full border-2 border-opacity-40 border-dashed rounded-full p-3"
       >
-        <h1 className="font-mono text-zinc-500 text-xl">Create New Link</h1>
+        <h1 className="font-mono text-zinc-500 text-xl">
+          <span className="text-2xl">+</span> Create New Link
+        </h1>
       </button>
 
       <button
