@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useContext, useRef } from "react";
 import { supabase } from "../../config/mesa-config";
 import { userContext } from "./AuthContext";
+import SocialPreview from "@/_components/home/SocialPreview";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -109,7 +110,7 @@ export default function Home() {
           <Benefits />
         </section>
       </motion.section>
-      <div className="h-screen" />
+      <SocialPreview />
     </main>
   );
 }

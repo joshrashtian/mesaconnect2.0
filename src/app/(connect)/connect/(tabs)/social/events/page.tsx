@@ -1,22 +1,21 @@
-import CurrentEventSegment from '@/_components/socialhub/CurrentEventSegment'
-import React from 'react'
-import InterestedEvents from './interested'
+import React, { useState } from "react";
+import InterestedEvents from "./interested";
+import CurrentEventSegment from "@/_components/socialhub/CurrentEventSegment";
+import ComingUpEvents from "./UpcomingEvents(events)";
 
 const EventPage = () => {
   return (
     <main className="flex flex-col gap-3">
-      <h1 className="text-5xl font-bold">Event Page</h1>
+      <header>
+        <h1 className="text-5xl font-bold">Event Page</h1>
+      </header>
 
-      <div className="flex flex-row">
-        <section className="w-1/3">
-          <CurrentEventSegment />
-        </section>
-        <section className="w-1/3">
-          <InterestedEvents />
-        </section>
-      </div>
+      <section className="flex flex-row gap-3">
+        <ComingUpEvents />
+        <InterestedEvents />
+      </section>
     </main>
-  )
-}
+  );
+};
 
-export default EventPage
+export default EventPage;

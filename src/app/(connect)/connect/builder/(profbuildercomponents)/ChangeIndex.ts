@@ -2,19 +2,21 @@ import { UserData } from "@/_assets/types";
 import { supabase } from "../../../../../../config/mesa-config";
 
 export const ChangeAboutSection = async (user: any, about: object) => {
-  if (!user.userData.boxlist) {
+  if (!user.userData) {
     console.log("none", user);
     return;
   }
 
   let exists;
 
-  user.userData.boxlist.map((e: any) => {
-    if (e.type === "about") {
-      exists = true;
-      return;
-    }
-  });
+  if (user.userData.boxlist) {
+    user.userData.boxlist.map((e: any) => {
+      if (e.type === "about") {
+        exists = true;
+        return;
+      }
+    });
+  }
 
   if (exists === true) {
     let copy = user.userData.boxlist;
@@ -39,7 +41,11 @@ export const ChangeAboutSection = async (user: any, about: object) => {
   } else {
     const { error } = await supabase
       .from("profiles")
-      .update({ boxlist: [...user.userData.boxlist, about] })
+      .update({
+        boxlist: user.userData.boxlist
+          ? [...user.userData.boxlist, about]
+          : [about],
+      })
       .eq("id", user.userData.id);
     if (error) {
       console.log(error);
@@ -55,19 +61,21 @@ export const ChangeSections = async (
   section: any,
   change: object
 ) => {
-  if (!user.boxlist) {
+  if (!user) {
     console.log("none", user);
     return;
   }
 
   let exists;
 
-  user.boxlist.map((e: any) => {
-    if (e.type === section) {
-      exists = true;
-      return;
-    }
-  });
+  if (user.boxlist) {
+    user.boxlist.map((e: any) => {
+      if (e.type === section) {
+        exists = true;
+        return;
+      }
+    });
+  }
 
   if (exists === true) {
     let copy = user.boxlist;
@@ -92,7 +100,9 @@ export const ChangeSections = async (
   } else {
     const { error } = await supabase
       .from("profiles")
-      .update({ boxlist: [...user.boxlist, change] })
+      .update({
+        boxlist: user.boxlist ? [...user.boxlist, change] : [change],
+      })
       .eq("id", user.id);
     if (error) {
       console.log(error);
