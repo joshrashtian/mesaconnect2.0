@@ -25,6 +25,7 @@ const InterestedEvents: FC = (): JSX.Element => {
         }
       });
 
+      if (!query[0]) return;
       const finalQuery = query[0]
         .map((e: string) => {
           e.toString().trim();

@@ -99,7 +99,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       {user.boxlist && (
         <section className="flex-col flex gap-3">
           <h2 className="font-bold text-3xl ">Inside {user.real_name}</h2>
-          <ul className="flex flex-row w-full h-full flex-wrap justify-center gap-2">
+          <ul className="flex flex-row w-full h-full flex-wrap gap-2">
             {user.boxlist.map((e: any) => {
               return (
                 <section

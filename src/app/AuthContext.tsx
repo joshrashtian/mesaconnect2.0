@@ -13,21 +13,20 @@ export const userContext = createContext<ContextProps>({
 });
 export interface ContextProps {
   user: User | undefined;
-  userData: {
-    avatar_url: string
-    boxlist: {
-
-    }
-    classes?: {
-
-    }
-    id: string
-    real_name: string
-    role: string
-    updated_at: Date
-    username: string
-    website: string
-  } | undefined;
+  userData:
+    | {
+        avatar_url: string;
+        boxlist: {};
+        classes?: {};
+        id: string;
+        real_name: string;
+        role: string;
+        updated_at: Date;
+        username: string;
+        website: string;
+        major?: string;
+      }
+    | undefined;
   signOut: () => void;
 }
 
@@ -43,7 +42,6 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
         supabase.auth.signOut();
       },
     };
-    
   }, [u, userdata]);
 
   const getUser = async () => {
@@ -64,20 +62,20 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     const userId = (await supabase.auth.getUser()).data.user?.id;
 
     const { data, error } = await supabase
-        .from("profiles")
-        .select()
-        .eq("id", userId)
-        .single();
+      .from("profiles")
+      .select()
+      .eq("id", userId)
+      .single();
 
-      if (error) {
-        console.log(error);
-        return;
-      }
+    if (error) {
+      console.log(error);
+      return;
+    }
 
-      console.log('successfully grabbed data', data)
+    console.log("successfully grabbed data", data);
 
-    setData(data)
-  } 
+    setData(data);
+  };
 
   useEffect(() => {
     getUser();
@@ -87,7 +85,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     if (event === "INITIAL_SESSION") {
       // handle initial session
     } else if (event === "SIGNED_IN") {
-      console.log("signed in as" + session?.user.email)
+      console.log("signed in as" + session?.user.email);
       setUser(session?.user);
     } else if (event === "SIGNED_OUT") {
       console.warn("signed out");

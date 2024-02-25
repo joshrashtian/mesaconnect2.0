@@ -36,7 +36,12 @@ export default function Home() {
       <section
         className={` border-b-2 border-slate-300 max-w-6xl w-full h-[70vh] items-center justify-center flex flex-col gap-10 text-sm`}
       >
-        <h1 className="text-xl cursor-default text-center font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-zinc-700 dark:text-white duration-300 ease-in-out">
+        <motion.h1
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, type: "just" }}
+          className="text-xl cursor-default text-center font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-zinc-700 dark:text-white duration-300 ease-in-out"
+        >
           Welcome to the next generation of{" "}
           <span className=" bg-gradient-to-br from-red-700 to-orange-500 bg-clip-text text-transparent">
             MESA
@@ -46,39 +51,51 @@ export default function Home() {
           <span className=" bg-gradient-to-r hover:text-green-700 from-indigo-700 to-blue-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
             next generation.
           </span>
-        </h1>
-        <h2 className="text-lg text-slate-500">
+        </motion.h1>
+        <motion.h2
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.7, type: "just" }}
+          className="text-lg text-slate-500"
+        >
           A community for the students, by the students.
-        </h2>
-        {!user.user ? (
-          <motion.section className="w-full flex flex-row mt-6 justify-center gap-4">
+        </motion.h2>
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.3 }}
+          className="w-full flex flex-row mt-6 justify-center gap-4"
+        >
+          {!user.user ? (
+            <>
+              <Link
+                href="/sign-in"
+                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-amber-400 to-orange-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+              >
+                <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
+                  Sign In
+                </h2>
+              </Link>
+              <Link
+                href={"/sign-up"}
+                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-400 to-slate-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+              >
+                <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
+                  Jump In For Free
+                </h2>
+              </Link>
+            </>
+          ) : (
             <Link
-              href="/sign-in"
-              className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-amber-400 to-orange-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+              href="/connect"
+              className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-purple-400 to-blue-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
             >
               <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
-                Sign In
+                Enter Connect
               </h2>
             </Link>
-            <Link
-              href={"/sign-up"}
-              className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-400 to-slate-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
-            >
-              <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
-                Jump In For Free
-              </h2>
-            </Link>
-          </motion.section>
-        ) : (
-          <Link
-            href="/connect"
-            className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-purple-400 to-blue-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
-          >
-            <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
-              Enter Connect
-            </h2>
-          </Link>
-        )}
+          )}
+        </motion.section>
       </section>
       <motion.section
         style={{ scale: scrollYProgress, opacity: scrollYProgress }}
