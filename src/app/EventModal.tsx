@@ -2,7 +2,7 @@
 
 import { EventType } from "@/_assets/types";
 import { createContext, useState, useEffect, useContext } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { MenuContext } from "./(connect)/InfoContext";
 import { supabase } from "../../config/mesa-config";
 import { userContext } from "./AuthContext";
@@ -24,7 +24,7 @@ const EventModal = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <EventModalContext.Provider value={value}>
-      {event && <Modal event={event} />}
+      <AnimatePresence>{event && <Modal event={event} />}</AnimatePresence>
       {children}
     </EventModalContext.Provider>
   );
@@ -48,7 +48,6 @@ const Modal = ({ event }: { event: EventType }) => {
         return;
       }
 
-      console.log(data);
       if (data.length !== 0) setState(2);
       else setState(0);
     };
@@ -108,7 +107,7 @@ const Modal = ({ event }: { event: EventType }) => {
     toast.toast("Added to your List!", "success");
     setTimeout(() => {
       setState(2);
-    }, 4000);
+    }, 3400);
   };
 
   const onInterestLost = async () => {
@@ -143,82 +142,100 @@ const Modal = ({ event }: { event: EventType }) => {
   if (state === 3) return;
   return (
     <motion.main
-      initial={{ y: 10, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       className="fixed inset-0 z-10 flex justify-center items-center overflow-y-auto"
     >
-      <section className="bg-white flex flex-col justify-between w-1/2 h-1/2 p-5 px-10 z-50 rounded-3xl">
-        <header>
-          <ul className=" justify-between flex flex-row items-center ">
-            <h1 className="font-bold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-slate-500 to-blue-400">
-              {event.name}
-            </h1>
-            <p
-              onClick={() => {
-                disarm.disarmModal();
-              }}
-              className="font-medium cursor-pointer hover:text-red-600 duration-300 p-4 font-mono text-4xl"
-            >
-              x
-            </p>
-          </ul>
-          <h2 className="text-xl font-light text-slate-600">
-            {event.desc
-              ? event.desc
-              : "This event does not have a description."}
-          </h2>
-          <ul className=" justify-between flex flex-row items-center ">
-            <h2>{dates.startDate.toDateString()}</h2>
-
-            <ul className="p-2 px-4 bg-zinc-100 rounded-full">
-              <h2 className="text-teal-700 font-medium">
-                {dateMessage?.toUpperCase()}
-              </h2>
+      <AnimatePresence>
+        <motion.section
+          initial={{ y: 10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 20, opacity: 0 }}
+          transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
+          className="bg-white shadow-lg flex flex-col justify-between w-1/2 h-1/2 p-5 px-10 z-50 rounded-3xl"
+        >
+          <header>
+            <ul className=" justify-between flex flex-row items-center ">
+              <h1 className="font-bold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-slate-500 to-blue-400">
+                {event.name}
+              </h1>
+              <p
+                onClick={() => {
+                  disarm.disarmModal();
+                }}
+                className="font-medium cursor-pointer hover:text-red-600 duration-300 p-4 font-mono text-4xl"
+              >
+                x
+              </p>
             </ul>
-          </ul>
-          <h2>{`${
-            dates.startDate.getHours() > 12
-              ? dates.startDate.getHours() - 12
-              : dates.startDate.getHours()
-          }:${
-            dates.startDate.getMinutes() < 10
-              ? `0${dates.startDate.getMinutes()}`
-              : dates.startDate.getMinutes()
-          } ${
-            dates.endDate
-              ? ` - ${
-                  dates.endDate.getHours() > 12
-                    ? dates.endDate.getHours() - 12
-                    : dates.endDate.getHours()
-                }:${
-                  dates.endDate.getMinutes() < 10
-                    ? `0${dates.endDate.getMinutes()}`
-                    : dates.endDate.getMinutes()
-                }`
-              : ""
-          }`}</h2>
-        </header>
-        <motion.footer className="pb-6 gap-3">
-          <button
-            onClick={() => {
-              state === 0 ? onInterest() : onInterestLost();
-            }}
-            className={`p-3 ${
-              state === 0
-                ? "from-blue-600 to-indigo-700 animate-none"
-                : state === 1
-                ? "from-green-600 to-emerald-800  scale-110 animate-bounce"
-                : "from-red-600 animate-none to-amber-700 "
-            } bg-gradient-to-br w-1/4  rounded-full transition-all duration-500`}
-          >
-            <p className=" font-semibold text-xl text-white">
-              <span>{InterestedContext[state].precursor}</span>{" "}
-              {InterestedContext[state].text.toUpperCase()}
-            </p>
-          </button>
-        </motion.footer>
-      </section>
+            <h2 className="text-xl font-light text-slate-600">
+              {event.desc
+                ? event.desc
+                : "This event does not have a description."}
+            </h2>
+            <ul className=" justify-between flex flex-row items-center ">
+              <h2>{dates.startDate.toDateString()}</h2>
 
+              <div className="flex flex-row gap-2">
+                <ul className="p-2 px-4 bg-zinc-100 rounded-full">
+                  <h2 className="text-teal-700 font-medium">
+                    {dateMessage?.toUpperCase()}
+                  </h2>
+                </ul>
+                <ul className="p-2 px-4 bg-zinc-100 rounded-full">
+                  <h2 className="text-orange-700 font-medium">
+                    {event.type.toUpperCase()}
+                  </h2>
+                </ul>
+              </div>
+            </ul>
+            <h2>{`${
+              dates.startDate.getHours() > 12
+                ? dates.startDate.getHours() - 12
+                : dates.startDate.getHours()
+            }:${
+              dates.startDate.getMinutes() < 10
+                ? `0${dates.startDate.getMinutes()}`
+                : dates.startDate.getMinutes()
+            } ${
+              dates.endDate
+                ? ` - ${
+                    dates.endDate.getHours() > 12
+                      ? dates.endDate.getHours() - 12
+                      : dates.endDate.getHours()
+                  }:${
+                    dates.endDate.getMinutes() < 10
+                      ? `0${dates.endDate.getMinutes()}`
+                      : dates.endDate.getMinutes()
+                  }`
+                : ""
+            }`}</h2>
+          </header>
+          <motion.footer className="pb-6 gap-3">
+            <button
+              onClick={() => {
+                state === 0 ? onInterest() : onInterestLost();
+              }}
+              className={`p-3 ${
+                state === 0
+                  ? "from-blue-600 to-indigo-700 animate-none"
+                  : state === 1
+                  ? "from-green-600 to-emerald-800  scale-110 animate-bounce"
+                  : "from-red-600 animate-none to-amber-700 "
+              } bg-gradient-to-br w-1/4 hover:scale-105 focus:scale-95 shadow-md hover:shadow-lg rounded-full transition-all duration-500`}
+            >
+              <p className=" font-semibold text-xl flex flex-row items-center justify-center gap-3 text-white">
+                <span className="text-2xl font-medium w-8 h-8 border-[2px] items-center flex justify-center rounded-full">
+                  {InterestedContext[state].precursor}
+                </span>
+
+                {InterestedContext[state].text.toUpperCase()}
+              </p>
+            </button>
+          </motion.footer>
+        </motion.section>
+      </AnimatePresence>
       <ul className="absolute inset-0 bg-gray-500 opacity-50 " />
     </motion.main>
   );
