@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import InterestedEvents from "./interested";
-import CurrentEventSegment from "@/_components/socialhub/CurrentEventSegment";
-import ComingUpEvents from "./UpcomingEvents(events)";
+import React, { useState } from 'react'
+import InterestedEvents from './interested'
+import CurrentEventSegment from '@/_components/socialhub/CurrentEventSegment'
+import ComingUpEvents from './UpcomingEvents(events)'
+import EventCarousel from './EventCarousel'
 
 const EventPage = () => {
   return (
@@ -11,11 +12,10 @@ const EventPage = () => {
       </header>
 
       <section className="flex flex-row gap-3">
-        <ComingUpEvents />
-        <InterestedEvents />
+        <EventCarousel />
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default EventPage;
+export default EventPage

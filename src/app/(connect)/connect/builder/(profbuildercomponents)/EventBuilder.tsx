@@ -28,9 +28,9 @@ const EventBuilder = () => {
   const [event, setEvent] = useState<EventType>({
     type: 'User Created'
   })
-  const [timeType, setTimeType] = useState()
+  const [timeType, setTimeType] = useState<string | undefined>()
   const [submitting, setSubmitting] = useState(false)
-  const user = useContext(userContext)
+  const user = useContext<any>(userContext)
   const toast = useContext<any>(MenuContext)
   const router = useRouter()
 
@@ -151,7 +151,7 @@ const EventBuilder = () => {
                   }}
                   value={event.location ? event.location : ''}
                   contentEditable
-                  placeholder="Name Your New Event"
+                  placeholder="Location..."
                   maxLength={65}
                   className="w-full z-10 text-2xl p-3 my-2 rounded-xl shadow-md focus:text-black focus:scale-[1.03] focus:shadow-lg focus:outline-zinc-200 focus:outline-dotted duration-300 text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-emerald-600 to-slate-700 inline-block "
                 />

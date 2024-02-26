@@ -1,68 +1,68 @@
-"use client";
-import React, { FC, useContext, useEffect, useState } from "react";
-import { supabase } from "../../../config/mesa-config";
-import { Event } from "./Event";
-import { motion } from "framer-motion";
-import { EventType } from "@/_assets/types";
-import { userContext } from "@/app/AuthContext";
+'use client'
+import React, { FC, useContext, useEffect, useState } from 'react'
+import { supabase } from '../../../config/mesa-config'
+import { Event } from './Event'
+import { motion } from 'framer-motion'
+import { EventType } from '@/_assets/types'
+import { userContext } from '@/app/AuthContext'
 
 const CurrentEventSegment: FC = (): JSX.Element | undefined => {
-  const [data, setData] = useState<EventType[]>();
+  const [data, setData] = useState<EventType[]>()
 
-  const user = useContext(userContext);
+  const user = useContext(userContext)
 
   useEffect(() => {
     const fetchData = async (newData: any[]) => {
-      const fetchInfo = newData.map((e) => `${e.event_id}`);
+      const fetchInfo = newData.map((e) => `${e.event_id}`)
 
       const { data, error } = await supabase
-        .from("events")
+        .from('events')
         .select()
-        .in("id", fetchInfo)
+        .in('id', fetchInfo)
         .range(0, 4)
-        .order("start");
+        .order('start')
 
       if (error) {
-        console.log(error);
-        return;
+        console.log(error)
+        return
       }
 
-      setData(data);
-    };
+      setData(data)
+    }
 
     const fetchInterests = async () => {
-      if (!user.user) return;
+      if (!user.user) return
       const { data, error } = await supabase
-        .from("eventinterest")
-        .select("event_id")
-        .eq("user_id", user.user?.id);
+        .from('eventinterest')
+        .select('event_id')
+        .eq('user_id', user.user?.id)
 
       if (error) {
-        console.log(error);
-        return;
+        console.log(error)
+        return
       }
 
-      fetchData(data);
+      fetchData(data)
 
       //setData(data);
-    };
+    }
 
-    fetchInterests();
-  }, [user.user]);
+    fetchInterests()
+  }, [user.user])
 
-  if (!data) return;
+  if (!data) return
   return (
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="w-full h-full rounded-3xl border-2 gap-5 flex flex-col items-center p-3"
+      className="w-full h-full rounded-3xl gap-5 flex flex-col p-3"
     >
       <h1 className="font-bold">Your Events</h1>
       {data?.map((event, index) => {
-        return <Event key={index} event={event} />;
+        return <Event key={index} event={event} />
       })}
     </motion.div>
-  );
-};
+  )
+}
 
-export default CurrentEventSegment;
+export default CurrentEventSegment
