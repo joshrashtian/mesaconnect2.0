@@ -56,4 +56,5 @@ export type EventType = {
   end: Date;
   location: string;
   tags: string[];
+  type: string;
 };

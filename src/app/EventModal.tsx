@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MenuContext } from "./(connect)/InfoContext";
 import { supabase } from "../../config/mesa-config";
 import { userContext } from "./AuthContext";
+import { calendar, months } from "../../config/calendar";
 
 export const EventModalContext: any = createContext({});
 
@@ -81,6 +82,8 @@ const Modal = ({ event }: { event: EventType }) => {
     startDate: new Date(event.start),
     endDate: event.end ? new Date(event.end) : undefined,
   };
+
+  const timeDif = dates.endDate && new calendar(dates.startDate, dates.endDate);
 
   const onInterest = async () => {
     setState(1);
@@ -175,7 +178,12 @@ const Modal = ({ event }: { event: EventType }) => {
                 : "This event does not have a description."}
             </h2>
             <ul className=" justify-between flex flex-row items-center ">
-              <h2>{dates.startDate.toDateString()}</h2>
+              <h2>
+                📅
+                {` ${
+                  months[dates.startDate.getMonth()]
+                } ${dates.startDate.getDate()}, ${dates.startDate.getFullYear()}`}
+              </h2>
 
               <div className="flex flex-row gap-2">
                 <ul className="p-2 px-4 bg-zinc-100 rounded-full">
@@ -190,27 +198,43 @@ const Modal = ({ event }: { event: EventType }) => {
                 </ul>
               </div>
             </ul>
-            <h2>{`${
-              dates.startDate.getHours() > 12
-                ? dates.startDate.getHours() - 12
-                : dates.startDate.getHours()
-            }:${
-              dates.startDate.getMinutes() < 10
-                ? `0${dates.startDate.getMinutes()}`
-                : dates.startDate.getMinutes()
-            } ${
-              dates.endDate
-                ? ` - ${
-                    dates.endDate.getHours() > 12
-                      ? dates.endDate.getHours() - 12
-                      : dates.endDate.getHours()
-                  }:${
-                    dates.endDate.getMinutes() < 10
-                      ? `0${dates.endDate.getMinutes()}`
-                      : dates.endDate.getMinutes()
-                  }`
-                : ""
-            }`}</h2>
+            <h2 className="font-semibold flex flex-row gap-1 items-center">
+              <span className="">Time:</span>
+              <span className=" text-slate-600 font-normal">
+                {` ${
+                  dates.startDate.getHours() > 12
+                    ? dates.startDate.getHours() - 12
+                    : dates.startDate.getHours()
+                }:${
+                  dates.startDate.getMinutes() < 10
+                    ? `0${dates.startDate.getMinutes()}`
+                    : dates.startDate.getMinutes()
+                } ${
+                  dates.endDate
+                    ? ` - ${
+                        dates.endDate.getHours() > 12
+                          ? dates.endDate.getHours() - 12
+                          : dates.endDate.getHours()
+                      }:${
+                        dates.endDate.getMinutes() < 10
+                          ? `0${dates.endDate.getMinutes()}`
+                          : dates.endDate.getMinutes()
+                      }`
+                    : ""
+                } ${dates.startDate.getHours() > 12 ? "PM" : "AM"}`}
+              </span>
+            </h2>
+            <ul className="w-full flex flex-row items-center font-geist gap-1">
+              <h1 className="px-2 p-1 bg-gradient-to-tr from-slate-500 to-zinc-700 rounded-md text-white">
+                Tags
+              </h1>
+              {event.tags &&
+                event.tags.map((e) => (
+                  <div className="px-2 p-1">
+                    <h1>{e}</h1>
+                  </div>
+                ))}
+            </ul>
           </header>
           <motion.footer className="pb-6 gap-3">
             <button
@@ -223,7 +247,7 @@ const Modal = ({ event }: { event: EventType }) => {
                   : state === 1
                   ? "from-green-600 to-emerald-800  scale-110 animate-bounce"
                   : "from-red-600 animate-none to-amber-700 "
-              } bg-gradient-to-br w-1/4 hover:scale-105 focus:scale-95 shadow-md hover:shadow-lg rounded-full transition-all duration-500`}
+              } bg-gradient-to-br w-full xl:w-1/2 3xl:w-1/4 hover:scale-105 focus:scale-95 shadow-md hover:shadow-lg rounded-full transition-all duration-500`}
             >
               <p className=" font-semibold text-xl flex flex-row items-center justify-center gap-3 text-white">
                 <span className="text-2xl font-medium w-8 h-8 border-[2px] items-center flex justify-center rounded-full">

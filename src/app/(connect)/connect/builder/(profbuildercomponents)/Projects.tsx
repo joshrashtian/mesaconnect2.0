@@ -168,7 +168,7 @@ const Projects = () => {
         }}
         className="w-full border-2 border-opacity-40 border-dashed rounded-full p-3"
       >
-        <h1 className="font-mono text-zinc-500 text-xl">
+        <h1 className=" font-geist text-zinc-500 text-xl">
           <span className="text-2xl">+</span> Create New Link
         </h1>
       </button>
@@ -177,8 +177,9 @@ const Projects = () => {
         onClick={() => {
           upload();
         }}
+        className="p-3 w-full rounded-full bg-gradient-to-tr from-orange-600 to-amber-400 text-white duration-300"
       >
-        <h1>Save</h1>
+        <h1 className="font-bold">Save</h1>
       </button>
     </main>
   );

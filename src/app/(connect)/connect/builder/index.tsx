@@ -1,5 +1,6 @@
 import BuildPost from "./(buildercomponents)/BuildPost";
 import AboutSection from "./(profbuildercomponents)/AboutSection";
+import EventBuilder from "./(profbuildercomponents)/EventBuilder";
 import Projects from "./(profbuildercomponents)/Projects";
 import SkillsSection from "./(profbuildercomponents)/SkillsSection";
 
@@ -18,6 +19,18 @@ export const BuilderIndex = [
         <div>
           <h1>Wim</h1>
         </div>
+      );
+    },
+    class: 0,
+  },
+  {
+    postType: "Events",
+    onSelect: () => {
+      return (
+        <main className="flex flex-col w-full gap-14 p-5">
+          <h1 className="text-slate-500 text-4xl ">Event Builder</h1>
+          <EventBuilder />
+        </main>
       );
     },
     class: 0,
