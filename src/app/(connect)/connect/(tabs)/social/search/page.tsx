@@ -2,7 +2,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { SearchPosts } from "./searchData";
-import { PostType } from "@/_assets/types";
+import { EventType, PostType } from "@/_assets/types";
 import SearchInfo from "./SearchInfo";
 
 const Search = () => {
@@ -34,7 +34,7 @@ const Search = () => {
 
     setLoading(true);
     const data = await SearchPosts(searchValue);
-    setSearchResult(data);
+    await setSearchResult(data);
     setLoading(false);
   };
 
@@ -83,7 +83,12 @@ const Search = () => {
       ) : (
         searchResult && <SearchInfo data={searchResult} />
       )}
-      <button onClick={() => {router.back()}} className="absolute cursor-pointer right-6 top-6 bg-white w-16 h-16 flex justify-center items-center hover:scale-105 duration-300 rounded-full">
+      <button
+        onClick={() => {
+          router.back();
+        }}
+        className="absolute cursor-pointer right-6 top-6 bg-white w-16 h-16 flex justify-center items-center hover:scale-105 duration-300 rounded-full"
+      >
         <h1 className="font-mono text-2xl">X</h1>
       </button>
     </main>

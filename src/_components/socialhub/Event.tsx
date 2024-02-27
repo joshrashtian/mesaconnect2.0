@@ -28,8 +28,24 @@ export const Event = ({ event }: { event: EventType }) => {
       }}
       className="flex flex-col cursor-pointer w-full p-5 bg-white rounded-2xl hover:scale-[1.02] duration-300 shadow-md hover:shadow-lg justify-between"
     >
-      <h1 className="text-xl text-slate-600 font-semibold">{event.name}</h1>
-      <h2 className="text-lg text-slate-400">{event.desc}</h2>
+      <section className="flex flex-row justify-between">
+        <h1 className="text-xl text-slate-600 font-semibold">{event.name}</h1>
+
+        <ul className="px-2 p-1 bg-slate-100 rounded-full">
+          <h1 className="text-md text-slate-600 font-normal">{event.type}</h1>
+        </ul>
+      </section>
+
+      <h2 className="text-lg text-slate-400">
+        {event.desc?.length > 65
+          ? `${event.desc?.substring(0, 65)}  .. `
+          : event.desc}
+        <span className="text-slate-600">
+          {event.desc?.length > 65 && "read more"}
+        </span>
+      </h2>
+
+      <h2 className="text-lg text-slate-400">{event.location}</h2>
       <ul className="w-full flex-row flex justify-between">
         <h2 className="text-md text-slate-500">{`${
           months[date.getMonth()]

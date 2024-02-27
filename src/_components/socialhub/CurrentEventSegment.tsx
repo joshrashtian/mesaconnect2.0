@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { EventType } from "@/_assets/types";
 import { userContext } from "@/app/AuthContext";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const CurrentEventSegment: FC = (): JSX.Element | undefined => {
   const [events, setData] = useState<EventType[]>([]);
@@ -90,9 +91,21 @@ const CurrentEventSegment: FC = (): JSX.Element | undefined => {
       className="w-full h-full rounded-3xl gap-5 flex flex-col p-3"
     >
       <h1 className="font-bold">Your Events</h1>
-      {events.map((event, index) => {
-        return <Event key={index} event={event} />;
-      })}
+      {events.length > 0 ? (
+        events.map((event, index) => {
+          return <Event key={index} event={event} />;
+        })
+      ) : (
+        <h1 className="text-center font-normal text-xl">
+          Currently, you do not have any events lined up... so{" "}
+          <Link
+            href="/connect/social/events"
+            className="text-blue-500 hover:text-slate-600 duration-300 font-semibold"
+          >
+            let's see what's going on.
+          </Link>
+        </h1>
+      )}
     </motion.div>
   );
 };
