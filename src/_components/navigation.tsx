@@ -66,7 +66,7 @@ const Dock = () => {
   ]
 
   return (
-    <div className="w-full bottom-8 h-16 fixed justify-center items-center flex">
+    <div className="w-full bottom-8 h-16 fixed justify-center items-center z-50 flex">
       <section
         onMouseEnter={() => {
           setIsHovered(true)

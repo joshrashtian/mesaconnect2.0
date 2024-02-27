@@ -33,8 +33,7 @@ const Post = ({ post }: { post: PostType }) => {
           console.error(error)
         }
 
-        console.log('Post deleted successfully')
-        router.refresh()
+        contextMenu.toast('Deleted Post!', 'success')
       }
     }
   ]
