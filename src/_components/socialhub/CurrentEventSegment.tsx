@@ -64,6 +64,7 @@ const CurrentEventSegment: FC = (): JSX.Element | undefined => {
           event: "DELETE",
           schema: "public",
           table: "eventinterest",
+          filter: `user_id=eq.${user.user?.id}`,
         },
         (payload) => {
           location.reload();
