@@ -1,22 +1,26 @@
 'use client'
 import React, { FC, useContext, useEffect, useState } from 'react'
+import { Box } from '@/_assets/types'
 import { motion } from 'framer-motion'
 import { Event } from '@/_components/socialhub/Event'
 import { EventType } from '@/_assets/types'
 
+import Link from 'next/link'
 import { supabase } from '../../../../../../../config/mesa-config'
 import { userContext } from '@/app/AuthContext'
 
-const ComingUpEvents: FC = (): JSX.Element => {
+const CreatedEvents: FC = (): JSX.Element => {
   const [data, setData] = useState<EventType[]>()
   const activeUser: any = useContext(userContext)
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!activeUser.userData) return
+
       const { data, error } = await supabase
         .from('events')
         .select()
-        .gte('start', new Date(Date.now()).toISOString())
+        .eq('creator', activeUser.user.id)
         .order('start')
 
       if (error) {
@@ -27,16 +31,15 @@ const ComingUpEvents: FC = (): JSX.Element => {
     }
 
     fetchData()
-  }, [])
+  }, [activeUser])
 
   return (
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      exit={{ y: 20, opacity: 0 }}
       className="w-full h-full rounded-3xl gap-2 flex flex-col"
     >
-      <h1 className="text-lg font-bold">Events Coming Up Soon</h1>
+      <h1 className="text-lg font-bold">Your Created Events</h1>
       {data?.map((event, index) => {
         return (
           <motion.section
@@ -52,4 +55,4 @@ const ComingUpEvents: FC = (): JSX.Element => {
   )
 }
 
-export default ComingUpEvents
+export default CreatedEvents

@@ -1,42 +1,45 @@
-"use client";
-import { EventType } from "@/_assets/types";
-import { userContext } from "@/app/AuthContext";
-import React, { useContext, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import Recommendations from "./EventBuilder/Recommendations";
-import { supabase } from "../../../../../../config/mesa-config";
-import { MenuContext } from "@/app/(connect)/InfoContext";
-import { useRouter } from "next/navigation";
+'use client'
+import { EventType } from '@/_assets/types'
+import { userContext } from '@/app/AuthContext'
+import React, { useContext, useMemo, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import Recommendations from './EventBuilder/Recommendations'
+import { supabase } from '../../../../../../config/mesa-config'
+import { MenuContext } from '@/app/(connect)/InfoContext'
+import { useRouter } from 'next/navigation'
 
 const types = [
   {
-    type: "User Created",
+    type: 'User Created'
   },
   {
-    type: "Official MESA",
-    permissions: ["admin"],
+    type: 'Workshop'
   },
   {
-    type: "Tutoring",
-    permissions: ["admin", "tutor", "moderator"],
+    type: 'Official MESA',
+    permissions: ['admin']
   },
-];
+  {
+    type: 'Tutoring',
+    permissions: ['admin', 'tutor', 'moderator']
+  }
+]
 
-const timeTypes = ["In-Person", "Zoom"];
+const timeTypes = ['In-Person', 'Zoom']
 
 const EventBuilder = () => {
   const [event, setEvent] = useState<EventType>({
-    type: "User Created",
-  });
-  const [timeType, setTimeType] = useState<string | undefined>();
-  const [submitting, setSubmitting] = useState(false);
-  const user = useContext<any>(userContext);
-  const toast = useContext<any>(MenuContext);
-  const router = useRouter();
+    type: 'User Created'
+  })
+  const [timeType, setTimeType] = useState<string | undefined>()
+  const [submitting, setSubmitting] = useState(false)
+  const user = useContext<any>(userContext)
+  const toast = useContext<any>(MenuContext)
+  const router = useRouter()
 
   const eventSubmit = async () => {
-    setSubmitting(true);
-    const { error } = await supabase.from("events").insert({
+    setSubmitting(true)
+    const { error } = await supabase.from('events').insert({
       name: event.name,
       desc: event.desc,
       type: event.type,
@@ -44,31 +47,30 @@ const EventBuilder = () => {
       end: event.end,
       location: event.location,
       tags: event.tags,
-      creator: user.user?.id,
-    });
+      creator: user.user?.id
+    })
 
     if (error) {
-      toast.toast(error.message, "Error");
-      return;
+      toast.toast(error.message, 'Error')
+      return
     }
 
-    toast.toast("Successfully Posted!", "Success");
-    router.push("/connect/social/events");
-  };
+    toast.toast('Successfully Posted!', 'Success')
+    router.push('/connect/social/events')
+  }
 
-  if (!user.userData) return <h1>Loading...</h1>;
+  if (!user.userData) return <h1>Loading...</h1>
 
   return (
     <motion.main className="flex flex-col gap-10">
       <motion.header>
         <ul className="flex flex-col gap-2">
           <h1 className="font-bold text-2xl">
-            Let's start with some basics of{" "}
-            <span className=" text-indigo-800">your</span> event.
+            Let's start with some basics of <span className=" text-indigo-800">your</span> event.
           </h1>
           <input
             onChange={(e) => {
-              setEvent({ ...event, name: e.target.value });
+              setEvent({ ...event, name: e.target.value })
             }}
             placeholder="Name Your New Event"
             maxLength={65}
@@ -76,7 +78,7 @@ const EventBuilder = () => {
           />
           <textarea
             onChange={(e) => {
-              setEvent({ ...event, desc: e.target.value });
+              setEvent({ ...event, desc: e.target.value })
             }}
             placeholder="Give Your Event A Fitting Description"
             maxLength={240}
@@ -90,33 +92,27 @@ const EventBuilder = () => {
                 exit={{ opacity: 0, y: -40 }}
                 className=" text-slate-400 text-center "
               >
-                {event.desc.length} Characters / {event.desc.split(" ").length}{" "}
-                Words
+                {event.desc.length} Characters / {event.desc.split(' ').length} Words
               </motion.h2>
             )}
           </AnimatePresence>
           <section className="flex flex-row gap-2 justify-center flex-wrap">
-            {user.userData.role !== "guest" &&
-              types.map((e) => {
-                if (
-                  e.permissions &&
-                  !e.permissions.includes(user.userData?.role)
-                )
-                  return null;
-                return (
-                  <button
-                    key={e.type}
-                    className={` ${
-                      event.type === e.type ? "bg-indigo-500" : "bg-slate-600"
-                    } hover:scale-105 duration-300 text-white p-2 w-[30%] rounded-full `}
-                    onClick={() => {
-                      setEvent({ ...event, type: e.type });
-                    }}
-                  >
-                    {e.type}
-                  </button>
-                );
-              })}
+            {types.map((e) => {
+              if (e.permissions && !e.permissions.includes(user.userData?.role)) return null
+              return (
+                <button
+                  key={e.type}
+                  className={` ${
+                    event.type === e.type ? 'bg-indigo-500' : 'bg-slate-600'
+                  } hover:scale-105 duration-300 text-white p-2 w-[30%] rounded-full `}
+                  onClick={() => {
+                    setEvent({ ...event, type: e.type })
+                  }}
+                >
+                  {e.type}
+                </button>
+              )
+            })}
           </section>
         </ul>
       </motion.header>
@@ -129,8 +125,8 @@ const EventBuilder = () => {
             className="flex flex-col gap-4"
           >
             <h1 className="font-bold text-2xl">
-              <span className="text-green-600">Perfect!</span> Let's learn a
-              little more about your new event... starting with timing.
+              <span className="text-green-600">Perfect!</span> Let's learn a little more about your
+              new event... starting with timing.
             </h1>
 
             <section className="w-full flex gap-3">
@@ -138,10 +134,10 @@ const EventBuilder = () => {
                 <button
                   key={e}
                   onClick={() => {
-                    setTimeType(e);
+                    setTimeType(e)
                   }}
                   className={` ${
-                    timeType === e ? "bg-green-700" : "bg-slate-400"
+                    timeType === e ? 'bg-green-700' : 'bg-slate-400'
                   } w-full ease-in-out font-semibold hover:bg-slate-500 p-3 flex text-white justify-center rounded-full duration-300`}
                 >
                   {e}
@@ -149,13 +145,13 @@ const EventBuilder = () => {
               ))}
             </section>
 
-            {timeType === "In-Person" ? (
+            {timeType === 'In-Person' ? (
               <section className="flex flex-col gap-0">
                 <input
                   onChange={(e) => {
-                    setEvent({ ...event, location: e.target.value });
+                    setEvent({ ...event, location: e.target.value })
                   }}
-                  value={event.location ? event.location : ""}
+                  value={event.location ? event.location : ''}
                   contentEditable
                   placeholder="Location..."
                   maxLength={65}
@@ -164,7 +160,7 @@ const EventBuilder = () => {
                 <Recommendations
                   input={event.location}
                   onChange={(e: any) => {
-                    setEvent({ ...event, location: e });
+                    setEvent({ ...event, location: e })
                   }}
                 />
               </section>
@@ -181,14 +177,14 @@ const EventBuilder = () => {
                   <input
                     type="datetime-local"
                     onChange={(e) => {
-                      setEvent({ ...event, start: new Date(e.target.value) });
+                      setEvent({ ...event, start: new Date(e.target.value) })
                     }}
                     className=" shadow-md p-3 rounded-full "
                   />
                   {event.start?.getTime() < Date.now() && (
                     <h1 className="bg-zinc-100 p-3 font-geist rounded-xl">
-                      <span className="text-orange-700 font-bold ">WARN</span>{" "}
-                      The time / date stated has already passed
+                      <span className="text-orange-700 font-bold ">WARN</span> The time / date
+                      stated has already passed
                     </h1>
                   )}
                   {event.start && (
@@ -196,31 +192,27 @@ const EventBuilder = () => {
                       <motion.section
                         initial={{ x: -20, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
-                        transition={{ type: "spring " }}
+                        transition={{ type: 'spring ' }}
                         className="gap-3 flex flex-col"
                       >
                         <ul className="flex flex-row justify-center items-center gap-5">
-                          <h1 className="font-bold text-2xl">
-                            ...and goes until (optional)
-                          </h1>
+                          <h1 className="font-bold text-2xl">...and goes until (optional)</h1>
 
                           <input
                             type="datetime-local"
                             onChange={(e) => {
                               setEvent({
                                 ...event,
-                                end: new Date(e.target.value),
-                              });
+                                end: new Date(e.target.value)
+                              })
                             }}
                             className=" shadow-md p-3 rounded-full "
                           />
                         </ul>
                         {event.end?.getTime() < Date.now() && (
                           <h1 className="bg-zinc-100 p-3 font-geist rounded-xl">
-                            <span className="text-orange-700 font-bold ">
-                              WARN
-                            </span>{" "}
-                            The time / date stated has already passed
+                            <span className="text-orange-700 font-bold ">WARN</span> The time / date
+                            stated has already passed
                           </h1>
                         )}
                         <section>
@@ -229,11 +221,11 @@ const EventBuilder = () => {
                               setEvent({
                                 ...event,
                                 tags: e.target.value
-                                  .split(",")
+                                  .split(',')
 
                                   .map((e) => e.trim())
-                                  .filter((e) => e.length > 0),
-                              });
+                                  .filter((e) => e.length > 0)
+                              })
                             }}
                             placeholder="Some Tags..."
                             maxLength={65}
@@ -275,7 +267,7 @@ const EventBuilder = () => {
           >
             <button
               onClick={() => {
-                eventSubmit();
+                eventSubmit()
               }}
               className={`w-2/3 h-12  bg-orange-500 shadow-lg z-40 text-white font-bold rounded-2xl`}
             >
@@ -285,7 +277,7 @@ const EventBuilder = () => {
         )}
       </AnimatePresence>
     </motion.main>
-  );
-};
+  )
+}
 
-export default EventBuilder;
+export default EventBuilder

@@ -1,18 +1,36 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import ComingUpEvents from './UpcomingEvents(events)'
 import InterestedEvents from './interested'
 import CurrentEventSegment from '@/_components/socialhub/CurrentEventSegment'
+import CreatedEvents from './CreatedEvents'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 const EventCarousel = () => {
+  const params = useSearchParams()
+  const pathname = usePathname()
+  const initial = params.get('carousel')
+  const router = useRouter()
+
+  const createQueryString = useCallback(
+    (name: string, value: string) => {
+      const URL = new URLSearchParams(params.toString())
+      URL.set(name, value)
+
+      return URL.toString()
+    },
+    [params]
+  )
+
   const Carousel = [
     { name: 'Up and Coming', component: () => <ComingUpEvents /> },
     { name: 'For You', component: () => <InterestedEvents /> },
-    { name: 'Eventlist', component: () => <CurrentEventSegment /> }
+    { name: 'Eventlist', component: () => <CurrentEventSegment /> },
+    { name: 'Your Events', component: () => <CreatedEvents /> }
   ]
 
-  const [Current, setState] = useState(() => Carousel[0])
+  const [Current, setState] = useState(() => (initial ? Carousel[Number(initial)] : Carousel[0]))
 
   return (
     <motion.section className="w-1/2">
@@ -29,6 +47,7 @@ const EventCarousel = () => {
                 key={index}
                 onClick={() => {
                   setState(item)
+                  router.push(`${pathname}?${createQueryString('carousel', index.toString())}`)
                 }}
               >
                 <h1 className="duration-100">{item.name}</h1>

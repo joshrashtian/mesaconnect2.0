@@ -51,7 +51,7 @@ const Dock = () => {
       link: '/social'
     },
     {
-      name: 'Learning Lab',
+      name: 'Learning',
       link: '/learning'
     },
     {
