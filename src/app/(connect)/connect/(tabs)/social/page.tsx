@@ -1,7 +1,7 @@
-import { RecentPostsHome } from "@/_components/socialhub/RecentPostsHome.1";
-import Link from "next/link";
-import React from "react";
-import UpcomingEvents from "../UpcomingEvents";
+import { RecentPostsHome } from '@/_components/socialhub/RecentPostsHome.1'
+import Link from 'next/link'
+import React from 'react'
+import UpcomingEvents from '../UpcomingEvents'
 
 const Social = () => {
   return (
@@ -10,7 +10,7 @@ const Social = () => {
         <h1 className="text-transparent bg-clip-text font-bold text-5xl bg-gradient-to-tr from-slate-600 to-orange-900 ">
           Social
         </h1>
-        <Link href='/connect/social/search'>
+        <Link href="/connect/social/search">
           <h1>Search</h1>
         </Link>
       </header>
@@ -19,7 +19,7 @@ const Social = () => {
         <UpcomingEvents />
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default Social;
+export default Social
