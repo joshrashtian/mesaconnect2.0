@@ -199,8 +199,10 @@ const Modal = ({ event }: { event: EventType }) => {
               </div>
             </ul>
             <h2 className="font-semibold flex flex-row gap-1 items-center">
-              <span className="">Time:</span>
-              <span className=" text-slate-600 font-normal">
+              <span className="px-2 p-1 bg-gradient-to-tr mr-2 from-slate-500 to-zinc-700 rounded-md text-white">
+                Time
+              </span>
+              <span className=" font-geist font-normal">
                 {` ${
                   dates.startDate.getHours() > 12
                     ? dates.startDate.getHours() - 12
@@ -224,7 +226,7 @@ const Modal = ({ event }: { event: EventType }) => {
                 } ${dates.startDate.getHours() > 12 ? "PM" : "AM"}`}
               </span>
             </h2>
-            <ul className="w-full flex flex-row items-center font-geist gap-1">
+            <ul className="w-full flex flex-row mt-2 items-center font-geist gap-1">
               <h1 className="px-2 p-1 bg-gradient-to-tr from-slate-500 to-zinc-700 rounded-md text-white">
                 Tags
               </h1>

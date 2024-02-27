@@ -33,7 +33,11 @@ export const Event = ({ event }: { event: EventType }) => {
       <ul className="w-full flex-row flex justify-between">
         <h2 className="text-md text-slate-500">{`${
           months[date.getMonth()]
-        } ${date.getDate()}`}</h2>
+        } ${date.getDate()} / ${
+          date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
+        }:${
+          date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+        } ${date.getHours() >= 12 ? "PM" : "AM"}`}</h2>
         <ul className="flex flex-row gap-x-0.5">
           {event.tags &&
             event.tags.map((tag: any) => (

@@ -1,29 +1,34 @@
-'use client'
-import React, { FC, useEffect, useState } from 'react'
+"use client";
+import React, { FC, useEffect, useState } from "react";
 
-import { motion } from 'framer-motion'
-import { Event } from '@/_components/socialhub/Event'
-import { EventType } from '@/_assets/types'
-import { supabase } from '../../../../../config/mesa-config'
-import Link from 'next/link'
+import { motion } from "framer-motion";
+import { Event } from "@/_components/socialhub/Event";
+import { EventType } from "@/_assets/types";
+import { supabase } from "../../../../../config/mesa-config";
+import Link from "next/link";
 
 const UpcomingEvents: FC = (): JSX.Element => {
-  const [data, setData] = useState<EventType[]>()
+  const [data, setData] = useState<EventType[]>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase.from('events').select()
+      const { data, error } = await supabase
+        .from("events")
+        .select()
+        .gte("start", new Date(Date.now()).toISOString())
+        .limit(5)
+        .order("start");
 
       if (error) {
-        console.log(error)
-        return
+        console.log(error);
+        return;
       }
 
-      setData(data)
-    }
+      setData(data);
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   return (
     <motion.div
@@ -33,16 +38,16 @@ const UpcomingEvents: FC = (): JSX.Element => {
     >
       <h1 className="text-lg font-bold">Current Events This Week</h1>
       {data?.map((event, index) => {
-        return <Event key={index} event={event} />
+        return <Event key={index} event={event} />;
       })}
       <Link
         href={`/connect/social/events`}
         className="flex flex-col w-full p-5 bg-zinc-100 rounded-2xl hover:scale-[1.02] duration-300 shadow-md hover:shadow-lg justify-between items-center"
       >
-        <h1 className="font-mono">View All Events</h1>
+        <h1 className="font-geist">View All Events</h1>
       </Link>
     </motion.div>
-  )
-}
+  );
+};
 
-export default UpcomingEvents
+export default UpcomingEvents;
