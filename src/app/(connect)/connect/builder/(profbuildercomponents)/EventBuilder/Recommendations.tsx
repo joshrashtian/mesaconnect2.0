@@ -1,16 +1,22 @@
-'use client'
+"use client";
 
-import React, { useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useMemo, useState } from "react";
+import { motion } from "framer-motion";
 
-const temp = ['TLC', 'Valencia Campus', 'Canyon Country Campus', 'Aliso Hall']
+const temp = ["TLC", "Valencia Campus", "Canyon Country Campus", "Aliso Hall"];
 
-const Recommendations = ({ input, onChange }: { input: string; onChange: any }) => {
+const Recommendations = ({
+  input,
+  onChange,
+}: {
+  input: string;
+  onChange: any;
+}) => {
   const results = useMemo(() => {
     return temp
-      .filter((x) => x.toLowerCase().includes(input ? input.toLowerCase() : ''))
-      .splice(0, 3)
-  }, [input])
+      .filter((x) => x.toLowerCase().includes(input ? input.toLowerCase() : ""))
+      .splice(0, 3);
+  }, [input]);
 
   return (
     <section className="bg-white shadow-md rounded-b-xl -translate-y-3 z-0 flex flex-col items-center justify-center">
@@ -20,7 +26,7 @@ const Recommendations = ({ input, onChange }: { input: string; onChange: any }) 
           results.map((value: string) => (
             <ul
               onClick={() => {
-                onChange(value)
+                onChange(value);
               }}
               className="p-3 cursor-pointer text-center group hover:scale-105 duration-300 w-full"
             >
@@ -32,7 +38,7 @@ const Recommendations = ({ input, onChange }: { input: string; onChange: any }) 
         )}
       </ul>
     </section>
-  )
-}
+  );
+};
 
-export default Recommendations
+export default Recommendations;
