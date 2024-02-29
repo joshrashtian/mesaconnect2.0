@@ -52,7 +52,7 @@ export const RecentPostsHome = () => {
             setPosts((posts) => posts.filter((e) => e.id !== payload.old.id))
           }
           if (payload.eventType === 'INSERT') {
-            setPosts((posts) => [payload.new, ...posts])
+            setPosts((posts: any) => [payload.new, ...posts])
           }
         }
       )

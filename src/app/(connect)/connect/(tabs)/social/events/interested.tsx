@@ -1,52 +1,53 @@
-"use client";
-import React, { FC, useContext, useEffect, useState } from "react";
-import { Box } from "@/_assets/types";
-import { motion } from "framer-motion";
-import { Event } from "@/_components/socialhub/Event";
-import { EventType } from "@/_assets/types";
+'use client'
+import React, { FC, useContext, useEffect, useState } from 'react'
+import { Box } from '@/_assets/types'
+import { motion } from 'framer-motion'
+import { Event } from '@/_components/socialhub/Event'
+import { EventType } from '@/_assets/types'
 
-import Link from "next/link";
-import { supabase } from "../../../../../../../config/mesa-config";
-import { userContext } from "@/app/AuthContext";
+import Link from 'next/link'
+import { supabase } from '../../../../../../../config/mesa-config'
+import { userContext } from '@/app/AuthContext'
 
 const InterestedEvents: FC = (): JSX.Element => {
-  const [data, setData] = useState<EventType[]>();
-  const activeUser: any = useContext(userContext);
+  const [data, setData] = useState<EventType[]>()
+  const activeUser: any = useContext(userContext)
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!activeUser.userData) return;
+      if (!activeUser.userData) return
 
-      let query: any = [];
+      let query: any = []
 
       activeUser.userData.boxlist.map((e: Box) => {
-        if (e.type === "skills") {
-          query.push(e.skills);
+        if (e.type === 'skills') {
+          query.push(e.skills)
         }
-      });
+      })
 
-      if (!query[0]) return;
+      if (!query[0]) return
       const finalQuery = query[0]
         .map((e: string) => {
-          e.toString().trim();
-          return `' ${e} '`;
+          e.toString().trim()
+          return `' ${e} '`
         })
-        .join(" | ");
+        .join(' | ')
 
       const { data, error } = await supabase
-        .from("events")
+        .from('events')
         .select()
-        .textSearch("name", finalQuery);
+        .textSearch('name', finalQuery)
+        .gte('start', new Date(Date.now()).toISOString())
 
       if (error) {
-        console.log(error);
-        return;
+        console.log(error)
+        return
       }
-      setData(data);
-    };
+      setData(data)
+    }
 
-    fetchData();
-  }, [activeUser]);
+    fetchData()
+  }, [activeUser])
 
   return (
     <motion.div
@@ -60,14 +61,14 @@ const InterestedEvents: FC = (): JSX.Element => {
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ type: "spring", duration: 0.3, delay: 0.2 * index }}
+            transition={{ type: 'spring', duration: 0.3, delay: 0.2 * index }}
           >
             <Event key={index} event={event} />
           </motion.section>
-        );
+        )
       })}
     </motion.div>
-  );
-};
+  )
+}
 
-export default InterestedEvents;
+export default InterestedEvents

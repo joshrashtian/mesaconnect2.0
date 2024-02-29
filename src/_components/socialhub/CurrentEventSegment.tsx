@@ -1,88 +1,84 @@
-"use client";
-import React, { FC, useContext, useEffect, useState } from "react";
-import { supabase } from "../../../config/mesa-config";
-import { Event } from "./Event";
-import { motion } from "framer-motion";
-import { EventType } from "@/_assets/types";
-import { userContext } from "@/app/AuthContext";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+'use client'
+import React, { FC, useContext, useEffect, useState } from 'react'
+import { supabase } from '../../../config/mesa-config'
+import { Event } from './Event'
+import { motion } from 'framer-motion'
+import { EventType } from '@/_assets/types'
+import { userContext } from '@/app/AuthContext'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const CurrentEventSegment: FC = (): JSX.Element | undefined => {
-  const [events, setData] = useState<EventType[]>([]);
-  const [eventMeta, setEventMeta] = useState<any>();
-  const user = useContext(userContext);
+  const [events, setData] = useState<EventType[]>([])
+  const [eventMeta, setEventMeta] = useState<any>()
+  const user = useContext(userContext)
 
-  const router = useRouter();
+  const router = useRouter()
 
   useEffect(() => {
     const fetchData = async (newData: any[]) => {
-      const fetchInfo = newData.map((e) => `${e.event_id}`);
+      const fetchInfo = newData.map((e) => `${e.event_id}`)
 
       const { data, error } = await supabase
-        .from("events")
+        .from('events')
         .select()
-        .in("id", fetchInfo)
+        .in('id', fetchInfo)
         .range(0, 4)
-        .gte("start", new Date(Date.now()).toISOString())
-        .order("start");
+        .gte('start', new Date(Date.now()).toISOString())
+        .order('start')
 
       if (error) {
-        console.log(error);
-        return;
+        console.log(error)
+        return
       }
 
-      setData(data);
-    };
+      setData(data)
+    }
 
     const fetchInterests = async () => {
-      if (!user.user) return;
+      if (!user.user) return
       const { data, error } = await supabase
-        .from("eventinterest")
-        .select("event_id, id")
-        .eq("user_id", user.user?.id);
+        .from('eventinterest')
+        .select('event_id, id')
+        .eq('user_id', user.user?.id)
 
       if (error) {
-        console.log(error);
-        return;
+        console.log(error)
+        return
       }
 
-      setEventMeta(data);
-      fetchData(data);
+      setEventMeta(data)
+      fetchData(data)
 
       //setData(data);
-    };
+    }
 
-    fetchInterests();
-  }, [user.user]);
+    fetchInterests()
+  }, [user.user])
 
   useEffect(() => {
     const channel = supabase
-      .channel("events channel")
+      .channel('events channel')
       .on(
-        "postgres_changes",
+        'postgres_changes',
         {
-          event: "DELETE",
-          schema: "public",
-          table: "eventinterest",
-          filter: `user_id=eq.${user.user?.id}`,
+          event: 'DELETE',
+          schema: 'public',
+          table: 'eventinterest',
+          filter: `user_id=eq.${user.user?.id}`
         },
         (payload) => {
-          location.reload();
+          location.reload()
         }
       )
-      .subscribe();
+      .subscribe()
 
     return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [supabase]);
+      supabase.removeChannel(channel)
+    }
+  }, [supabase])
 
-  if (!events) return;
-
-  const fetchEvents = () => {
-    return events;
-  };
+  if (!events) return
 
   return (
     <motion.div
@@ -93,11 +89,11 @@ const CurrentEventSegment: FC = (): JSX.Element | undefined => {
       <h1 className="font-bold">Your Events</h1>
       {events.length > 0 ? (
         events.map((event, index) => {
-          return <Event key={index} event={event} />;
+          return <Event key={index} event={event} />
         })
       ) : (
         <h1 className="text-center font-normal text-xl">
-          Currently, you do not have any events lined up... so{" "}
+          Currently, you do not have any events lined up... so{' '}
           <Link
             href="/connect/social/events"
             className="text-blue-500 hover:text-slate-600 duration-300 font-semibold"
@@ -107,7 +103,7 @@ const CurrentEventSegment: FC = (): JSX.Element | undefined => {
         </h1>
       )}
     </motion.div>
-  );
-};
+  )
+}
 
-export default CurrentEventSegment;
+export default CurrentEventSegment

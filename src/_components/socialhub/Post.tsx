@@ -25,7 +25,7 @@ const Post = ({ post }: { post: PostType }) => {
     },
     {
       name: 'Delete Post',
-      visible: user?.userData?.id === post.userid,
+      visible: user?.userData?.id === post.userid || user?.userData?.role === 'admin',
       function: async () => {
         const { error } = await supabase.from('posts').delete().eq('id', post.id)
 

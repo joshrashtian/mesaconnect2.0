@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Viewposts from './viewposts'
+import ViewUsers from './ViewUsers'
 
 export interface AdminPanel {
   name: string
@@ -23,6 +24,12 @@ const AdminIndex: AdminPanel[] = [
     displayname: 'View Posts',
     permissions: ['admin'],
     component: () => <Viewposts />
+  },
+  {
+    name: 'users',
+    displayname: 'View Users',
+    permissions: ['admin'],
+    component: () => <ViewUsers />
   }
 ]
 

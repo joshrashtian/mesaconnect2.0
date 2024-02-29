@@ -29,6 +29,7 @@ const PostContext = ({
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.4, type: 'spring' }}
       drag
+      dragMomentum={false}
       style={{ top: `${positionY + 2}px`, left: `${positionX + 2}px` }}
       className={`absolute bg-white w-32 rounded-xl p-2 shadow-md flex flex-col items-center`}
     >
