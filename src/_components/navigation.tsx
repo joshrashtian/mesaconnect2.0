@@ -1,78 +1,79 @@
-'use client'
-import React, { useContext, useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import Link from 'next/link'
-import { supabase } from '../../config/mesa-config'
-import Image from 'next/image'
-import { userContext } from '@/app/AuthContext'
+"use client";
+import React, { useContext, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
+import { supabase } from "../../config/mesa-config";
+import { userContext } from "@/app/AuthContext";
 
 const Dock = () => {
-  const [selected, setSelected] = useState('')
-  const [profURL, setProfURL] = useState<string | undefined>()
-  const [isHovered, setIsHovered] = useState(false)
-  const [profID, setProfID] = useState<string | undefined>()
+  const [selected, setSelected] = useState("");
+  const [profURL, setProfURL] = useState<string | undefined>();
+  const [isHovered, setIsHovered] = useState(false);
+  const [profID, setProfID] = useState<string | undefined>();
 
-  const userData = useContext<any>(userContext)
+  const userData = useContext<any>(userContext);
+
+  const SamplePhoto = require("../../src/_assets/photos/UserIcon.png");
 
   useEffect(() => {
     const fetchURL = async () => {
-      const user = await supabase.auth.getUser()
+      const user = await supabase.auth.getUser();
 
       const { data, error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .select()
-        .eq('id', user.data.user?.id)
-        .single()
+        .eq("id", user.data.user?.id)
+        .single();
 
       if (error) {
-        console.log(error)
-        setProfURL(undefined)
-        return
+        console.log(error);
+        setProfURL(undefined);
+        return;
       }
 
-      setProfID(data.id)
-      setProfURL(data.avatar_url)
-    }
+      setProfID(data.id);
+      setProfURL(data.avatar_url);
+    };
 
-    fetchURL()
-  }, [])
+    fetchURL();
+  }, []);
 
   const tabs = [
     {
-      name: 'Home',
-      link: '/'
+      name: "Home",
+      link: "/",
     },
     {
-      name: 'Profile',
-      link: `/profile/${profID}`
+      name: "Profile",
+      link: `/profile/${profID}`,
     },
     {
-      name: 'Social',
-      link: '/social'
+      name: "Social",
+      link: "/social",
     },
     {
-      name: 'Learning',
-      link: '/learning'
+      name: "Learning",
+      link: "/learning",
     },
     {
-      name: 'Studio',
-      link: '/builder'
+      name: "Studio",
+      link: "/builder",
     },
     {
-      name: 'Admin',
-      link: '/admin',
-      permissions: ['admin']
-    }
-  ]
+      name: "Admin",
+      link: "/admin",
+      permissions: ["admin"],
+    },
+  ];
 
   return (
     <div className="w-full bottom-8 h-16 fixed justify-center items-center z-50 flex">
       <section
         onMouseEnter={() => {
-          setIsHovered(true)
+          setIsHovered(true);
         }}
         onMouseLeave={() => {
-          setIsHovered(false)
+          setIsHovered(false);
         }}
         className="group peer bg-white shadow-md rounded-full h-full w-16 hover:2xl:w-[40%] hover:w-[75%]  justify-center items-center duration-500 hover:scale-110 ease-in-out  "
       >
@@ -86,7 +87,7 @@ const Dock = () => {
               className="flex justify-center items-center w-full h-full"
             >
               <img
-                src={profURL}
+                src={profURL ? profURL : SamplePhoto}
                 alt="profile"
                 className="w-12 h-12 cursor-pointer duration-500 rounded-full"
               />
@@ -104,8 +105,11 @@ const Dock = () => {
             >
               {tabs.map((tab, index) => {
                 if (tab.permissions) {
-                  if (!tab.permissions.includes(userData.userData?.role) || !userData) {
-                    return null
+                  if (
+                    !tab.permissions.includes(userData.userData?.role) ||
+                    !userData
+                  ) {
+                    return null;
                   }
                 }
 
@@ -126,7 +130,7 @@ const Dock = () => {
                       </h1>
                     </Link>
                   </motion.li>
-                )
+                );
               })}
             </motion.ul>
           </AnimatePresence>
@@ -137,7 +141,7 @@ const Dock = () => {
         <h1 className="font-bold">{selected}</h1>
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Dock
+export default Dock;
