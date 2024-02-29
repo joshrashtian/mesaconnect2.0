@@ -3,7 +3,16 @@
 import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
-const temp = ["TLC", "Valencia Campus", "Canyon Country Campus", "Aliso Hall"];
+const temp = [
+  "TLC",
+  "Valencia Campus",
+  "Canyon Country Campus",
+  "Aliso Hall",
+  "Intercultural Center",
+  "Valencia Campus Study Room A",
+  "Valencia Campus Study Room B",
+  "Valencia Campus Study Room C",
+];
 
 const Recommendations = ({
   input,
