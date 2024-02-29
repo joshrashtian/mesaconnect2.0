@@ -15,16 +15,21 @@ export interface ContextProps {
   user: User | undefined;
   userData:
     | {
-        avatar_url: string;
-        boxlist: {};
-        classes?: {};
         id: string;
-        real_name: string;
-        role: string;
-        updated_at: Date;
+        created_at: Date;
         username: string;
-        website: string;
+        role: string;
+        real_name: string;
+        avatar_url: string;
+        classes?: JSON;
         major?: string;
+        boxlist: object[];
+        bio?: string;
+        widgets?: [
+          {
+            name: string;
+          }
+        ];
       }
     | undefined;
   signOut: () => void;
