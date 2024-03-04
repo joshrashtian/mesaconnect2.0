@@ -41,7 +41,7 @@ const EditWidgets = ({ current }: { current: any }) => {
         dragConstraints={{ bottom: 40 }}
         dragMomentum={false}
         transition={{ duration: 0.4 }}
-        className="absolute bottom-10 left-[10%] w-[80%] h-1/4 resize rounded-3xl flex flex-col justify-center gap-2 p-10 px-10 overflow-x-scroll no-scrollbar shadow-2xl opacity-80 bg-zinc-100"
+        className="absolute bottom-10 left-[10%] w-[80%] h-1/4 resize min-h-1/4 rounded-3xl flex flex-col justify-center gap-2 p-10 px-10 overflow-x-scroll no-scrollbar shadow-2xl opacity-80 bg-zinc-100"
       >
         <h1 className="font-bold text-xl">Add Widgets</h1>
 

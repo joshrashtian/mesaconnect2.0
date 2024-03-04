@@ -104,7 +104,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
               return (
                 <section
                   key={e.contents}
-                  className="w-[49%] min-h-full p-5 rounded-3xl shadow-sm bg-white"
+                  className="w-[49%] min-h-full p-5 rounded-3xl shadow-md bg-white"
                 >
                   {Index.map((d: any, i: number) => {
                     if (d.title.toLowerCase() === e.type.toLowerCase()) {

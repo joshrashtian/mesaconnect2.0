@@ -8,6 +8,11 @@
   src: url("../_assets/GeistMono-Regular.otf")
 }
 
+@font-face {
+  font-family: "JetBrains";
+  src: url("../_assets/JetBrainsMonoNL-Bold.ttf")
+}
+
 @layer utilities {
 
   /* Hide scrollbar for Chrome, Safari and Opera */

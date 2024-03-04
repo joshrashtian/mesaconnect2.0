@@ -9,6 +9,7 @@ const config: Config = {
   theme: {
     fontFamily: {
       geist: ["Geist"],
+      mono: ["JetBrains", "monospace"],
     },
     extend: {
       backgroundImage: {
