@@ -1,6 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
-import React from 'react'
+import React, { useContext } from 'react'
+import { LearningContext } from '../LearningContext'
 
 export type PollType = {
   question: string
@@ -15,19 +16,21 @@ export type PollType = {
     realname: string
     username: string
   }
+  correct: number
 }
 
 const PollCard = ({ data, index }: { data: PollType; index?: number }) => {
+  const modal = useContext(LearningContext)
   return (
-    <motion.ul
-      initial={{ y: 10, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ delay: 0.2 * (index ? index : 1) }}
+    <button
+      onClick={() => {
+        modal.PollModal(data)
+      }}
       className="p-4 w-1/6 h-24 hover:scale-105 scale-100 cursor-pointer flex shadow-md flex-col justify-center bg-white rounded-xl"
     >
       <h2 className="font-mono">{data.question}</h2>
       <h2>by {data.creator.realname}</h2>
-    </motion.ul>
+    </button>
   )
 }
 

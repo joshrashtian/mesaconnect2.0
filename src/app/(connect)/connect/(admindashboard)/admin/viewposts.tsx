@@ -7,7 +7,7 @@ import { AdminModal, CreateModalPost } from '../AdminModal'
 const Viewposts = () => {
   const [data, setData] = useState<PostType[]>()
 
-  const Modal = useContext(AdminModal)
+  const Modal: any = useContext(AdminModal)
 
   useEffect(() => {
     const fetchData = async () => {

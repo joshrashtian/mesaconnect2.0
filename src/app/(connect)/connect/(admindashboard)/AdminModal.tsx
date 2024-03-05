@@ -53,7 +53,6 @@ const CreateModalUsers = ({ user }: { user: UserData }) => {
 
 const CreateModalPost = ({ post }: { post: PostType }) => {
   const modal: any = useContext(AdminModal)
-  console.log(post)
   return (
     <motion.main
       initial={{ opacity: 0 }}
@@ -82,7 +81,7 @@ const CreateModalPost = ({ post }: { post: PostType }) => {
               <h1 className="font-bold text-2xl">{post.title}</h1>
             </ul>
             <ul className="bg-zinc-800 text-white rounded-xl p-3">
-              <code>{JSON.stringify(post.data)}</code>
+              <pre>{JSON.stringify(post.data)}</pre>
             </ul>
             <ul className="p-5 bg-slate-100 rounded-2xl">
               <h2>Posted by:</h2>
@@ -91,7 +90,7 @@ const CreateModalPost = ({ post }: { post: PostType }) => {
               </h3>
               <h3>{post.creator.id}</h3>
             </ul>
-            <h3>{JSON.stringify(post.tags)}</h3>
+            <pre>{JSON.stringify(post.tags)}</pre>
             <ul className="h-full">
               <h1 className="font-semibold">Preview</h1>
               {post.type === 'post' ? (

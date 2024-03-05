@@ -1,8 +1,9 @@
 'use client'
-import React from 'react'
-import FeaturedLessons from './(components)/FeaturedLessons'
-import PollCard from './(components)/PollCard'
-import FeaturedPolls from './(components)/FeaturedPolls'
+import React, { useContext } from 'react'
+import FeaturedLessons from './_components/FeaturedLessons'
+import PollCard from './_components/PollCard'
+import FeaturedPolls from './_components/FeaturedPolls'
+import { userContext } from '@/app/AuthContext'
 
 const Learning = () => {
   return (
