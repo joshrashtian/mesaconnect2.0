@@ -1,6 +1,8 @@
-"use client";
-import React from "react";
-import FeaturedLessons from "./(components)/FeaturedLessons";
+'use client'
+import React from 'react'
+import FeaturedLessons from './(components)/FeaturedLessons'
+import PollCard from './(components)/PollCard'
+import FeaturedPolls from './(components)/FeaturedPolls'
 
 const Learning = () => {
   return (
@@ -11,15 +13,12 @@ const Learning = () => {
       <section className="flex flex-col gap-3 h-1/2">
         <FeaturedLessons />
       </section>
-      <section className="flex flex-row gap-3">
-        <ul className="p-4 w-1/6 h-16 flex shadow-md flex-col justify-center bg-white rounded-xl">
-          <h2 className="font-mono">Poll</h2>
-          <h1>Hello</h1>
-        </ul>
+      <section className="w-full">
+        <FeaturedPolls />
       </section>
       <footer></footer>
     </main>
-  );
-};
+  )
+}
 
-export default Learning;
+export default Learning
