@@ -6,7 +6,7 @@ import { MenuContext } from '@/app/(connect)/InfoContext'
 import { userContext } from '@/app/AuthContext'
 
 const PollBuilder = () => {
-  const [poll, setPoll] = useState()
+  const [poll, setPoll] = useState<string>()
   const [options, setOptions] = useState<any[]>([])
   const [context, setContext] = useState<File>()
   const [correct, setCorrect] = useState<number | undefined>()
@@ -168,14 +168,16 @@ const PollBuilder = () => {
               </ul>
             )
           })}
-        <button
-          onClick={() => {
-            setOptions((options) => [...options, ''])
-          }}
-          className="w-[49%] h-32 p-4 flex justify-center items-center border-2 rounded-xl border-slate-500 border-dashed "
-        >
-          <h1 className="font-mono">Create New Option</h1>
-        </button>
+        {options.length < 6 && (
+          <button
+            onClick={() => {
+              setOptions((options) => [...options, ''])
+            }}
+            className="w-[49%] h-32 p-4 flex justify-center items-center border-2 rounded-xl border-slate-500 border-dashed "
+          >
+            <h1 className="font-mono">Create New Option</h1>
+          </button>
+        )}
       </section>
       <section className="w-full mb-32 flex justify-center">
         <button

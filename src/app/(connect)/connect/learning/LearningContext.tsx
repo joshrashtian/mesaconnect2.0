@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { PollType } from './_components/PollCard'
 
 export type LearningContextType = {
-  PollModal: (e: PollType) => {}
+  PollModal: (e: PollType) => void
 }
 
 export const LearningContext = createContext<LearningContextType>({
@@ -59,7 +59,7 @@ const LearningContextProvider = ({ children }: { children: React.ReactNode }) =>
 
 export default LearningContextProvider
 
-const PollModal = ({ data, disarm }: { data: PollType; disarm: void }) => {
+const PollModal = ({ data, disarm }: { data: PollType; disarm: () => void }) => {
   const [loaded, setLoaded] = useState(false)
   const [context, setContext] = useState<string>()
   const [selected, setSelected] = useState<number>()

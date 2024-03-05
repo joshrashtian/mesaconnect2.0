@@ -1,25 +1,22 @@
-"use client";
-import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import PollBuilder from "./PollBuilder";
+'use client'
+import React, { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import PollBuilder from './PollBuilder'
 
 const options = [
-  { name: "Lesson", comp: () => {} },
-  { name: "Poll", comp: () => <PollBuilder /> },
-  { name: "Question", comp: () => {} },
-];
+  { name: 'Lesson', comp: () => {} },
+  { name: 'Poll', comp: () => <PollBuilder /> },
+  { name: 'Question', comp: () => {} }
+]
 
 const page = () => {
-  const [selected, setSelected] = useState();
+  const [selected, setSelected] = useState<any>()
   return (
     <main className="flex flex-col gap-10">
       <h1 className="text-4xl font-bold">Lesson Builder</h1>
       <AnimatePresence>
         {!selected && (
-          <motion.section
-            exit={{ y: -10, opacity: 0 }}
-            className="flex flex-row gap-3"
-          >
+          <motion.section exit={{ y: -10, opacity: 0 }} className="flex flex-row gap-3">
             {options.map((option, index) => {
               return (
                 <button
@@ -29,7 +26,7 @@ const page = () => {
                 >
                   <h2 className="font-mono text-2xl">{option.name}</h2>
                 </button>
-              );
+              )
             })}
           </motion.section>
         )}
@@ -38,7 +35,7 @@ const page = () => {
         <motion.section
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ type: "spring", delay: 0.5 }}
+          transition={{ type: 'spring', delay: 0.5 }}
           exit={{ y: -10, opacity: 0 }}
           className="flex flex-row gap-3"
         >
@@ -46,7 +43,7 @@ const page = () => {
         </motion.section>
       )}
     </main>
-  );
-};
+  )
+}
 
-export default page;
+export default page
