@@ -1,23 +1,23 @@
-'use client'
-import React, { useContext, useEffect, useState } from 'react'
-import PollCard, { PollType } from './PollCard'
-import { supabase } from '../../../../../../config/mesa-config'
-import { userContext } from '@/app/AuthContext'
-import Link from 'next/link'
+"use client";
+import React, { useContext, useEffect, useState } from "react";
+import PollCard, { PollType } from "./PollCard";
+import { supabase } from "../../../../../../config/mesa-config";
+import { userContext } from "@/app/AuthContext";
+import Link from "next/link";
 
 const FeaturedPolls = () => {
-  const [data, setData] = useState<any>([])
+  const [data, setData] = useState<any>([]);
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase.from('questions').select()
+      const { data, error } = await supabase.from("questions").select();
       if (error) {
-        console.error(error)
-        return
+        console.error(error);
+        return;
       }
-      setData(data)
-    }
-    fetchData()
-  }, [])
+      setData(data);
+    };
+    fetchData();
+  }, []);
 
   return (
     <section className="flex flex-col gap-2">
@@ -36,7 +36,7 @@ const FeaturedPolls = () => {
         ))}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default FeaturedPolls
+export default FeaturedPolls;
