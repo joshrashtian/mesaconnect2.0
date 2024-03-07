@@ -78,29 +78,33 @@ const PollDashboard = () => {
     <main className="w-full min-h-full ">
       <h1 className="font-bold text-3xl text-slate-700">Your Polls</h1>
       <section className="w-full flex flex-col gap-3 mt-5">
-        {data.map((item, index) => {
-          return (
-            <button
-              onClick={() => {
-                setFocus(item)
-              }}
-              className="w-full bg-white group flex flex-row hover:scale-[1.01] items-center justify-between hover:bg-zinc-50 border-2 cursor-pointer hover:border-amber-500 duration-300 p-6 rounded-md"
-            >
-              <h1 className="font-semibold text-xl">{item.question}</h1>
-              <nav className="scale-0 group-hover:scale-100 duration-300">
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    deletePoll(item)
-                  }}
-                  className="p-1 px-4 duration-300 ease-in-out rounded-lg bg-red-200 hover:bg-red-500 hover:text-white"
-                >
-                  <h2>{confirm ? 'Are You Sure?' : 'Delete'}</h2>
-                </button>
-              </nav>
-            </button>
-          )
-        })}
+        {data.length === 0 ? (
+          <h1>Currently, you haven't created any polls.</h1>
+        ) : (
+          data.map((item, index) => {
+            return (
+              <button
+                onClick={() => {
+                  setFocus(item)
+                }}
+                className="w-full bg-white group flex flex-row hover:scale-[1.01] items-center justify-between hover:bg-zinc-50 border-2 cursor-pointer hover:border-amber-500 duration-300 p-6 rounded-md"
+              >
+                <h1 className="font-semibold text-xl">{item.question}</h1>
+                <nav className="scale-0 group-hover:scale-100 duration-300">
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      deletePoll(item)
+                    }}
+                    className="p-1 px-4 duration-300 ease-in-out rounded-lg bg-red-200 hover:bg-red-500 hover:text-white"
+                  >
+                    <h2>{confirm ? 'Are You Sure?' : 'Delete'}</h2>
+                  </button>
+                </nav>
+              </button>
+            )
+          })
+        )}
       </section>
       <AnimatePresence>
         {focus && (

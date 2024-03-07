@@ -10,7 +10,6 @@ import { SearchParamProps } from '@/_assets/types'
 const options = [
   { name: 'Lesson', type: 0, comp: () => {} },
   { name: 'Poll', type: 0, comp: () => <PollBuilder /> },
-  { name: 'Question', type: 0, comp: () => {} },
   { name: 'Edit Polls', type: 1, comp: () => <PollDashboard /> }
 ]
 
@@ -58,6 +57,8 @@ const page = () => {
       <AnimatePresence>
         {!selected && (
           <motion.section
+            initial={{ y: -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
             className="flex flex-row flex-wrap justify-center gap-3"
           >
