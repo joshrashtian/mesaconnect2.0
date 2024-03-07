@@ -86,19 +86,26 @@ const PollModal = ({
   }, []);
 
   return (
-    <main className="p-12  flex flex-col justify-between h-full">
+    <main
+      className={`p-12  flex flex-col ${
+        context ? "justify-between" : "justify-center"
+      } h-full`}
+    >
       <section
         onClick={(e) => {
           e.preventDefault();
         }}
-        className="h-1/2 flex flex-col gap-2"
+        className={`${context ? "h-1/2" : "h-24"} flex flex-col gap-2`}
       >
+        <h2 className="font-semibold text-3xl text-slate-700">
+          {data.correct ? "QUESTION" : "POLL"}
+        </h2>
         <h1 className="font-bold text-5xl">{data.question}</h1>
         {context && (
           <img
             src={context}
             onClick={() => {}}
-            className="w-full h-full object-contain"
+            className="w-full h-full mt-4 object-contain"
           />
         )}
       </section>
@@ -119,7 +126,7 @@ const PollModal = ({
               setSelected(index);
             }}
           >
-            {option}
+            <h1 className="font-mono">{option}</h1>
           </button>
         ))}
       </section>

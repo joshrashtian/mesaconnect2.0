@@ -54,12 +54,12 @@ export type EventType = {
   created_at: any;
   name: string;
   desc: string;
-  people_attended: JSON;
   start: Date;
   end: Date;
   location: string;
   tags: string[];
   type: string;
+  creator: string;
 };
 
 export type Lesson = {

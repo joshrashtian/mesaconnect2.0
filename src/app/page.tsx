@@ -34,7 +34,7 @@ export default function Home() {
       <Header />
 
       <section
-        className={` border-b-2 border-slate-300 max-w-6xl w-full h-[70vh] items-center justify-center flex flex-col gap-10 text-sm`}
+        className={` border-b-2 border-slate-300 max-w-6xl w-full h-screen items-center justify-center flex flex-col gap-10 text-sm`}
       >
         <motion.h1
           initial={{ y: 30, opacity: 0 }}

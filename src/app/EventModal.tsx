@@ -142,6 +142,8 @@ const Modal = ({ event }: { event: EventType }) => {
     }
   }, []);
 
+  const [creator, setCreator] = useState();
+
   if (state === 3) return;
   return (
     <motion.main

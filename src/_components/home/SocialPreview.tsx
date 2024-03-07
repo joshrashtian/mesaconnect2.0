@@ -12,7 +12,7 @@ const SocialPreview = () => {
     <motion.section className="flex flex-row p-10 w-screen h-screen">
       <section className="w-1/2">
         {List.map((item, index) => {
-          return <h1>{item.name}</h1>;
+          return <h1 key={index}>{item.name}</h1>;
         })}
       </section>
       <section className="w-1/2">

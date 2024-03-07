@@ -3,12 +3,16 @@ import React, { useContext, useEffect, useState } from "react";
 import { supabase } from "../../../../../../config/mesa-config";
 import { userContext } from "@/app/AuthContext";
 import { PollType } from "../_components/PollCard";
+import { DeletePoll } from "./DeletePoll";
+import { MenuContext } from "@/app/(connect)/InfoContext";
 
 const PollDashboard = () => {
   const user = useContext(userContext);
   const [confirm, setConfirm] = useState(false);
 
   const [data, setData] = useState<PollType[]>([]);
+
+  const modal = useContext(MenuContext);
 
   if (!user) return;
   useEffect(() => {
@@ -34,28 +38,42 @@ const PollDashboard = () => {
   const deletePoll = async (id: PollType) => {
     if (!confirm) {
       setConfirm(true);
-      return;
-    }
-
-    const { error } = await supabase.from("questions").delete().eq("id", id.id);
-
-    if (id.context) {
-      console.log(id.id);
-      const { error: QuestionError } = await supabase.storage
-        .from("questionContexts")
-        .remove([`${id.id}.${id?.contextType}`]);
-
-      if (QuestionError) {
-        console.error(error);
-        return;
-      }
-    }
-
-    if (error) {
-      console.error(error);
-      return;
+    } else {
+      DeletePoll(id);
     }
   };
+
+  useEffect(() => {
+    const channel = supabase
+      .channel("polls channel")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "questions",
+          //filter: `userid=eq.${user.user?.id}`
+        },
+        (payload) => {
+          if (payload.eventType === "DELETE") {
+            console.log(payload.old.id);
+            modal.toast(
+              `Deleted your Poll: ${payload.old.question} `,
+              "success"
+            );
+            setData((data) => data.filter((e) => e.id !== payload.old.id));
+          }
+          if (payload.eventType === "INSERT") {
+            setData((data: any) => [payload.new, ...data]);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [supabase]);
 
   return (
     <main className="w-full min-h-full ">
