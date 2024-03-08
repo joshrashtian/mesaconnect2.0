@@ -4,7 +4,7 @@ import Benefits from "@/_components/home/benefits";
 import Header from "@/_components/home/header";
 import MajorsText from "@/_components/home/majorsText";
 
-import { motion, useScroll } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import { useContext, useRef } from "react";
@@ -19,6 +19,18 @@ const inter = Inter({
 
 export default function Home() {
   const firstRef = useRef(null);
+  const mainRef = useRef(null);
+
+  const { scrollYProgress: FirstScroll } = useScroll({
+    target: mainRef,
+    offset: ["start start", "end end"],
+  });
+
+  const scrollBar = useSpring(FirstScroll, {
+    stiffness: 100,
+    damping: 50,
+    restDelta: 0.001,
+  });
 
   const { scrollYProgress } = useScroll({
     target: firstRef,
@@ -28,11 +40,15 @@ export default function Home() {
   const user = useContext(userContext);
 
   return (
-    <main
-      className={`${inter.className} flex min-h-screen flex-col items-center gap-y-24 p-12`}
+    <motion.main
+      className="no-scrollbar flex h-full flex-col items-center gap-y-24 p-12"
+      ref={mainRef}
     >
       <Header />
-
+      <motion.nav
+        className="w-4 fixed right-2 origin-top top-[10%] h-[80%] rounded-full bg-gradient-to-b from-slate-500 to-slate-600"
+        style={{ scaleY: scrollBar }}
+      />
       <section
         className={` border-b-2 border-slate-300 max-w-6xl w-full h-screen items-center justify-center flex flex-col gap-10 text-sm`}
       >
@@ -128,6 +144,6 @@ export default function Home() {
         </section>
       </motion.section>
       <SocialPreview />
-    </main>
+    </motion.main>
   );
 }

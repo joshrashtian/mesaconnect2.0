@@ -1,39 +1,39 @@
-import type { Metadata } from 'next'
-import './globals.css'
-import Dock from '@/_components/navigation'
-import { config } from '../../config/mesa-config'
-import AuthContext from './AuthContext'
-import { Inter } from 'next/font/google'
+import type { Metadata } from "next";
+import "./globals.css";
+import Dock from "@/_components/navigation";
+import { config } from "../../config/mesa-config";
+import AuthContext from "./AuthContext";
+import { Inter } from "next/font/google";
 
 const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap'
-})
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
     default: config.title,
-    template: '%s | ${config.title}'
+    template: "%s | ${config.title}",
   },
   description: config.description,
   icons: [
     {
-      url: '/src/app/MesaIcon.png',
-      href: '/src/app/MesaIcon.png'
-    }
-  ]
-}
+      url: "/src/app/MesaIcon.png",
+      href: "/src/app/MesaIcon.png",
+    },
+  ],
+};
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <AuthContext>
       <html>
-        <body className={`${inter.className}  bg-zinc-100 scroll-smooth`}>{children}</body>
+        <body className={`${inter.className}  bg-zinc-100`}>{children}</body>
       </html>
     </AuthContext>
-  )
+  );
 }
