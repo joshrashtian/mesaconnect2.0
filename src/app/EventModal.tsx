@@ -157,8 +157,11 @@ const Modal = ({ event }: { event: EventType }) => {
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 20, opacity: 0 }}
-          transition={{ delay: 0.2, duration: 0.5, type: "spring" }}
+          transition={{ duration: 0.5, type: "spring" }}
           className="bg-white shadow-lg flex flex-col justify-between w-1/2 h-1/2 p-5 px-10 z-50 rounded-3xl"
+          drag
+          dragMomentum={false}
+          whileDrag={{ scale: 0.85 }}
         >
           <header>
             <ul className=" justify-between flex flex-row items-center ">
