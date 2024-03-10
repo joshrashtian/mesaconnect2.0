@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "../../../../../../config/mesa-config";
 import { userContext } from "@/app/AuthContext";
+import { text } from "stream/consumers";
 
 interface Section {
   type: string;
@@ -23,8 +24,8 @@ const BuildPost = () => {
 
   const [errorMessage, setErrorMessage] = useState<string>();
 
-  useMemo(() => {
-    const newJSONfile = {
+  const memoizeJSON = useMemo(() => {
+    setJson({
       data: sections.map((e) => {
         switch (e.type) {
           case "initial":
@@ -39,10 +40,7 @@ const BuildPost = () => {
             };
         }
       }),
-    };
-
-    setJson(newJSONfile);
-    console.log(newJSONfile);
+    });
   }, [title, sections]);
 
   const createPost = async () => {
@@ -79,7 +77,7 @@ const BuildPost = () => {
       initial={{ y: 10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -20, opacity: 0 }}
-      className="flex flex-col justify-between h-full"
+      className="flex flex-col h-full"
     >
       <section className="h-full gap-5 flex flex-col">
         <h1 className="font-bold text-3xl">Create Post</h1>
@@ -93,46 +91,83 @@ const BuildPost = () => {
           />
         </section>
 
-        {sections.map((e, i) => {
-          switch (e.type) {
-            case "initial":
-              return (
-                <section key={i} className="h-1/4">
-                  <textarea
-                    onChange={(e) => {
-                      setSelections(
-                        sections.map((d, index) => {
-                          if (index === i) {
-                            return {
-                              ...d,
-                              text: e.target.value,
-                            };
-                          }
-                          return d;
-                        })
-                      );
-                    }}
-                    placeholder="'wonderful post idea about the sky being blue'"
-                    className=" resize-none rounded-3xl w-full p-5 focus:outline-none hover:shadow-md hover:scale-[1.01] h-full focus:scale-[1.02] focus:shadow-md duration-300"
-                  />
-                </section>
-              );
-            case "text":
-              return (
-                <section key={i} className="h-1/4">
-                  <textarea
-                    onChange={(a) => {
-                      e.text = a.target.value;
-                    }}
-                    placeholder="'wonderful post idea about the sky being blue'"
-                    className=" resize-none rounded-3xl border-2 border-orange-400 w-full p-5 focus:outline-none hover:shadow-md hover:scale-[1.01] h-full focus:scale-[1.02] focus:shadow-md duration-300"
-                  />
-                </section>
-              );
-            default:
-              null;
-          }
-        })}
+        <article className="h-full flex flex-col gap-3 ">
+          {sections.map((e, i) => {
+            switch (e.type) {
+              case "initial":
+                return (
+                  <section key={i} className="h-1/4">
+                    <textarea
+                      maxLength={100}
+                      onChange={(e) => {
+                        setSelections(
+                          sections.map((d, index) => {
+                            if (index === i) {
+                              return {
+                                ...d,
+                                text: e.target.value,
+                              };
+                            }
+                            return d;
+                          })
+                        );
+                      }}
+                      placeholder="'wonderful post idea about the sky being blue'"
+                      className=" resize-none rounded-3xl w-full p-5 focus:outline-none hover:shadow-md hover:scale-[1.01] h-full focus:shadow-md duration-300"
+                    />
+                    <AnimatePresence>
+                      {sections[0].text && (
+                        <motion.h2
+                          initial={{ opacity: 0, y: -40 }}
+                          animate={{ opacity: 1, y: -50 }}
+                          exit={{ opacity: 0, y: -40 }}
+                          className=" text-slate-400 text-center "
+                        >
+                          {sections[0].text.length} Characters /{" "}
+                          {sections[0].text.split(" ").length} Words
+                        </motion.h2>
+                      )}
+                    </AnimatePresence>
+                  </section>
+                );
+              case "text":
+                return (
+                  <section key={i} className="h-1/4">
+                    <button
+                      onClick={() => {
+                        setSelections(
+                          sections.filter((_, index) => index !== i)
+                        );
+                      }}
+                      className="p-2 translate-y-10 z-50"
+                    >
+                      x
+                    </button>
+                    <textarea
+                      onChange={(a) => {
+                        e.text = a.target.value;
+                      }}
+                      placeholder="'wonderful post idea about the sky being blue'"
+                      className=" resize-none h-full rounded-3xl w-full p-8 z-0 focus:outline-none hover:shadow-md focus:shadow-md duration-300"
+                    />
+                  </section>
+                );
+              default:
+                null;
+            }
+          })}
+          <section className="w-full mt-10 font-geist flex flex-row justify-center rounded-2xl h-12 bg-slate-50">
+            <button
+              onClick={() => {
+                setSelections([...sections, { type: "text" }]);
+              }}
+              className="w-full hover:scale-105 duration-300"
+            >
+              + Text Component
+            </button>
+            <button className="w-full">+ Code Component</button>
+          </section>
+        </article>
 
         <section className="flex flex-col justify-center text-2xl gap-3">
           <h2 className="font-bold text-slate-600">Tags:</h2>
@@ -166,7 +201,7 @@ const BuildPost = () => {
         </section>
       </section>
       <AnimatePresence>
-        {title && json && (
+        {title && sections[0].text?.length > 5 && (
           <motion.section
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

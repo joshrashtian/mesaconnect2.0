@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Eudoxus";
+  src: url("../_assets/EudoxusSans-Medium.ttf");
+}
 
 @font-face {
   font-family: "Geist";

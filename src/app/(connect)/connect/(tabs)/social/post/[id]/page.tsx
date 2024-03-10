@@ -81,9 +81,9 @@ const PostPage = ({ params }: { params: { id: string } }) => {
           switch (item.type) {
             case "text":
               return (
-                <h2 className="text-slate-500" key={index}>
+                <pre className="text-slate-500 font-eudoxus" key={index}>
                   {item.text}
-                </h2>
+                </pre>
               );
             default:
               return null;

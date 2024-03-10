@@ -8,6 +8,7 @@ const config: Config = {
   ],
   theme: {
     fontFamily: {
+      eudoxus: ["Eudoxus"],
       geist: ["Geist"],
       mono: ["JetBrains", "monospace"],
     },
