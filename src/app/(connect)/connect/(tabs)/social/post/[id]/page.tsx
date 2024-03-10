@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PostItem, PostType } from "@/_assets/types";
 import { supabase } from "../../../../../../../../config/mesa-config";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import LoadingPage from "@/_components/LoadingPage";
 
 const PostPage = ({ params }: { params: { id: string } }) => {
   const [post, setPost] = useState<PostType>();
@@ -20,16 +21,21 @@ const PostPage = ({ params }: { params: { id: string } }) => {
 
       if (error) {
         console.error(error);
-        return;
+        return false;
       }
       setPost(data);
+      return true;
     };
 
-    fetchData();
+    const success = fetchData();
   }, []);
 
   if (!post) {
-    return <div>Loading...</div>;
+    return (
+      <AnimatePresence>
+        <LoadingPage />
+      </AnimatePresence>
+    );
   }
 
   const data = JSON.parse(JSON.stringify(post.data)).data;
