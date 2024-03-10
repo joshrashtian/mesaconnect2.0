@@ -58,18 +58,7 @@ const Post = ({ post }: { post: PostType }) => {
           <h1 className="font-bold text-slate-700">{post.title}</h1>
           <h1 className="font-geist text-slate-700">{post.creator.realname}</h1>
         </section>
-        {data.map((item: PostItem, index: number) => {
-          switch (item.type) {
-            case "text":
-              return (
-                <h2 className="text-slate-500" key={index}>
-                  {item.text}
-                </h2>
-              );
-            default:
-              return null;
-          }
-        })}
+        <h2 className="text-slate-500">{data[0].text}</h2>
       </Link>
     </motion.ul>
   );

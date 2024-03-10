@@ -6,6 +6,7 @@ import { PostItem, PostType } from "@/_assets/types";
 import { supabase } from "../../../../../../../../config/mesa-config";
 import { AnimatePresence, motion } from "framer-motion";
 import LoadingPage from "@/_components/LoadingPage";
+import CodeBlock from "../CodeBlock";
 
 const PostPage = ({ params }: { params: { id: string } }) => {
   const [post, setPost] = useState<PostType>();
@@ -76,7 +77,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         </h2>
       </ul>
 
-      <section className=" ">
+      <section className="flex flex-col gap-4 ">
         {data.map((item: PostItem, index: number) => {
           switch (item.type) {
             case "text":
@@ -85,6 +86,8 @@ const PostPage = ({ params }: { params: { id: string } }) => {
                   {item.text}
                 </pre>
               );
+            case "code":
+              return <CodeBlock text={item.text} />;
             default:
               return null;
           }

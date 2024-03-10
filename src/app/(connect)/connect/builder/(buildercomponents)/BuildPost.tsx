@@ -38,6 +38,11 @@ const BuildPost = () => {
               type: "text",
               text: e.text,
             };
+          case "code":
+            return {
+              type: "code",
+              text: e.text,
+            };
         }
       }),
     });
@@ -77,7 +82,7 @@ const BuildPost = () => {
       initial={{ y: 10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -20, opacity: 0 }}
-      className="flex flex-col h-full"
+      className="flex flex-col h-full overflow-y-scroll mb-16"
     >
       <section className="h-full gap-5 flex flex-col">
         <h1 className="font-bold text-3xl">Create Post</h1>
@@ -96,7 +101,7 @@ const BuildPost = () => {
             switch (e.type) {
               case "initial":
                 return (
-                  <section key={i} className="h-1/4">
+                  <section key={i} className="h-1/4 resize-y">
                     <textarea
                       maxLength={100}
                       onChange={(e) => {
@@ -152,6 +157,34 @@ const BuildPost = () => {
                     />
                   </section>
                 );
+              case "code":
+                return (
+                  <section
+                    key={i}
+                    className="h-1/5 bg-slate-700 px-4 rounded-xl border-4 no-scrollbar overflow-y-scroll"
+                  >
+                    <ul className="z-50 py-4 w-full">
+                      <button
+                        onClick={() => {
+                          setSelections(
+                            sections.filter((_, index) => index !== i)
+                          );
+                        }}
+                        className="bg-white p-0.5 px-2 font-mono"
+                      >
+                        Del Code Block
+                      </button>
+                    </ul>
+                    <textarea
+                      onChange={(a) => {
+                        e.text = a.target.value;
+                      }}
+                      autoCorrect="false"
+                      placeholder="Paste code / System.out.println('Hello World'); "
+                      className="font-mono text-white bg-slate-700 resize-y h-full  border-slate-200 w-full z-0 focus:outline-none hover:shadow-md focus:shadow-md duration-300"
+                    />
+                  </section>
+                );
               default:
                 null;
             }
@@ -165,7 +198,14 @@ const BuildPost = () => {
             >
               + Text Component
             </button>
-            <button className="w-full">+ Code Component</button>
+            <button
+              onClick={() => {
+                setSelections([...sections, { type: "code" }]);
+              }}
+              className="w-full hover:scale-105 duration-300"
+            >
+              + Code Component
+            </button>
           </section>
         </article>
 
@@ -201,13 +241,13 @@ const BuildPost = () => {
         </section>
       </section>
       <AnimatePresence>
-        {title && sections[0].text?.length > 5 && (
+        {title && sections[0].text && sections[0].text?.length > 5 && (
           <motion.section
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
             transition={{ type: "spring" }}
-            className="w-full h-16 bg-orange-500 p-4 rounded-full"
+            className="w-1/2 bottom-24 right-1/4 left-1/4 fixed h-16 bg-orange-500 p-4 rounded-full"
           >
             <button
               onClick={() => {
