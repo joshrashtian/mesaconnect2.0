@@ -1,33 +1,33 @@
-import React, { useRef, useState } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
+import React, { useRef, useState } from 'react'
+import { motion, useScroll, useSpring } from 'framer-motion'
 
 const SocialPreview = () => {
-  const scrollRef = useRef<any>();
+  const scrollRef = useRef<any>()
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
-    offset: ["start end", "end end"],
-  });
+    offset: ['start end', 'end end']
+  })
 
   const opacity = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 50,
-    restDelta: 0.001,
-  });
+    restDelta: 0.001
+  })
 
   const ExpressYourself = [
     {
-      name: "Recieve feedback, test your collagues, or study for your next big test.",
+      name: 'Recieve feedback, test your collagues, or study for your next big test.'
     },
     {
-      name: "Showcase your projects and skills.",
+      name: 'Showcase your projects and skills.'
     },
     {
-      name: "Customize your portfolio to your heart's content.",
-    },
-  ];
+      name: "Customize your portfolio to your heart's content."
+    }
+  ]
 
-  const [focusedExpress, setFocusedExpress] = useState();
+  const [focusedExpress, setFocusedExpress] = useState()
 
   return (
     <motion.section
@@ -41,8 +41,8 @@ const SocialPreview = () => {
             Express Yourself.
           </h1>
           <p className="font-geist">
-            Show off all of you talents, skills and projects within a safe,
-            polished and creative environment.
+            Show off all of you talents, skills and projects within a safe, polished and creative
+            environment.
           </p>
           {ExpressYourself.map((e, index) => (
             <li
@@ -63,7 +63,7 @@ const SocialPreview = () => {
           disableRemotePlayback
           disablePictureInPicture
         >
-          <source src={"ShowcasePolls.webm"} />
+          <source src={'ShowcasePolls.webm'} />
           Oops! The video sadly does not work on this browser :(
         </video>
       </section>
@@ -73,7 +73,7 @@ const SocialPreview = () => {
         </h1>
       </section>
     </motion.section>
-  );
-};
+  )
+}
 
-export default SocialPreview;
+export default SocialPreview
