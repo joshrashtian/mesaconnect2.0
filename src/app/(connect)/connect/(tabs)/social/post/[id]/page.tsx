@@ -1,16 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PostItem, PostType } from "@/_assets/types";
+import { PostItem, PostType, UserData } from "@/_assets/types";
 import { supabase } from "../../../../../../../../config/mesa-config";
 import { AnimatePresence, motion } from "framer-motion";
 import LoadingPage from "@/_components/LoadingPage";
 import CodeBlock from "../CodeBlock";
+import { userContext } from "@/app/AuthContext";
 
 const PostPage = ({ params }: { params: { id: string } }) => {
   const [post, setPost] = useState<PostType>();
   const router = useRouter();
+  const user = useContext<UserData>(userContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,7 +33,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
     const success = fetchData();
   }, []);
 
-  if (!post) {
+  if (!post || !user) {
     return (
       <AnimatePresence>
         <LoadingPage />
@@ -93,9 +95,12 @@ const PostPage = ({ params }: { params: { id: string } }) => {
           }
         })}
       </section>
-      <section>
-        <h1>Add a Comment:</h1>
-        <input className="w-full h-12 rounded-full" />
+      <section className="flex flex-col gap-3">
+        <ul className="flex flex-col gap-3 p-5 bg-zinc-50 rounded-xl">
+          <img className="w-3 h-3" src={user.userData.avatar_url} />
+          <h1>Add a Comment:</h1>
+          <input className="w-full h-12 rounded-full" />
+        </ul>
       </section>
     </motion.main>
   );
