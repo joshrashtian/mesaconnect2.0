@@ -63,7 +63,7 @@ const EventCarousel = () => {
           );
         })}
       </motion.ul>
-      <motion.main className="overflow-y-scroll p-5">
+      <motion.main className="overflow-y-scroll no-scrollbar p-5">
         <Current.component />
       </motion.main>
     </motion.section>

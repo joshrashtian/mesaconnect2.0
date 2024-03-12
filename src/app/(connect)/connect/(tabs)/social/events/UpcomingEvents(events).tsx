@@ -1,33 +1,41 @@
-'use client'
-import React, { FC, useContext, useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
-import { Event } from '@/_components/socialhub/Event'
-import { EventType } from '@/_assets/types'
+"use client";
+import React, { FC, useContext, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Event } from "@/_components/socialhub/Event";
+import { EventType } from "@/_assets/types";
 
-import { supabase } from '../../../../../../../config/mesa-config'
-import { userContext } from '@/app/AuthContext'
+import { supabase } from "../../../../../../../config/mesa-config";
+import { userContext } from "@/app/AuthContext";
 
 const ComingUpEvents: FC = (): JSX.Element => {
-  const [data, setData] = useState<EventType[]>()
-  const activeUser: any = useContext(userContext)
+  const [data, setData] = useState<EventType[]>();
+  const activeUser: any = useContext(userContext);
+  const [index, setIndex] = useState<number>(0);
+  const [count, setCount] = useState<number | null>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase
-        .from('events')
-        .select()
-        .gte('start', new Date(Date.now()).toISOString())
-        .order('start')
+      const {
+        data,
+        count: newCount,
+        error,
+      } = await supabase
+        .from("events")
+        .select("*", { count: "exact" })
+        .gte("start", new Date(Date.now()).toISOString())
+        .order("start")
+        .range(index, index + 3);
 
       if (error) {
-        console.log(error)
-        return
+        console.log(error.message);
+        return;
       }
-      setData(data)
-    }
 
-    fetchData()
-  }, [])
+      setData(data);
+      setCount(newCount);
+    };
+    fetchData();
+  }, [index]);
 
   return (
     <motion.div
@@ -42,14 +50,37 @@ const ComingUpEvents: FC = (): JSX.Element => {
           <motion.section
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ type: 'spring', duration: 0.3, delay: 0.2 * index }}
+            transition={{ type: "spring", duration: 0.3, delay: 0.2 * index }}
+            key={index}
           >
-            <Event key={index} event={event} />
+            <Event event={event} />
           </motion.section>
-        )
+        );
       })}
+      <section>
+        {count && index >= 4 && (
+          <button
+            onClick={() => {
+              setIndex((prev) => prev - 4);
+            }}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold duration-300 w-16 py-2 px-4 rounded"
+          >
+            {"<"}
+          </button>
+        )}
+        {count && index < count - 4 && (
+          <button
+            onClick={() => {
+              setIndex((prev) => prev + 4);
+            }}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold duration-300 w-16 py-2 px-4 rounded"
+          >
+            {">"}
+          </button>
+        )}
+      </section>
     </motion.div>
-  )
-}
+  );
+};
 
-export default ComingUpEvents
+export default ComingUpEvents;
