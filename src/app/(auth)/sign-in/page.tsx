@@ -1,77 +1,92 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react'
-import { motion } from 'framer-motion'
-import { supabase } from '../../../../config/mesa-config'
+import React, { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { supabase } from "../../../../config/mesa-config";
+import Link from "next/link";
 
 const Page = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMsg] = useState<string | undefined>();
 
   const signInUser = async () => {
-    console.log('Signing In...')
+    console.log("Signing In...");
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
-      password: password
-    })
-    if (error) console.error('Error Signing Up')
-  }
+      password: password,
+    });
+    if (error) setErrorMsg(error.message);
+  };
 
   const loginUser = async (service: any) => {
     supabase.auth.signInWithOAuth({
-      provider: service
-    })
-  }
+      provider: service,
+    });
+  };
 
   return (
-    <main className="h-screen flex justify-center items-center">
+    
       <motion.section
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, damping: 10, type: 'spring' }}
-        className="bg-white rounded-3xl h-2/3 w-2/3 shadow-md flex gap-4 flex-col justify-center items-center "
+        transition={{ duration: 1, type: 'spring' }}
+        className="bg-white absolute origin-bottom bottom-0 rounded-t-3xl h-2/3 p-10 w-full shadow-md flex gap-4 flex-col justify-between "
       >
-        <h1 className="text-transparent bg-clip-text bg-gradient-to-tr from-orange-700 to-red-800 font-bold text-5xl p-6 mb-12 border-b-2 border-opacity-65 border-slate-200">
+        
+        <ul className="flex flex-col gap-2">
+          <h1 className="text-transparent bg-clip-text bg-gradient-to-tr from-orange-700 to-red-800 font-eudoxus text-5xl p-6 mb-5 border-b-2 border-opacity-65 border-slate-200">
           Let's Get You Signed In.
         </h1>
+        <AnimatePresence>
+        {
+          errorMessage &&
+          <motion.section onClick={() => {setErrorMsg(undefined)}} initial={{y: 10, opacity: 0}} animate={{y: 0, opacity: 1}} exit={{y: -10, opacity: 0}} className=" shadow-md rounded-full p-5 bg-red-200">
+          <h2 className=" font-eudoxus "><span className="text-red-800">Error:</span> {errorMessage}</h2>
+          </motion.section>
+        }
+        </AnimatePresence>
         <input
           placeholder="username"
-          className="bg-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-105 duration-300 md:w-3/4 xl:1/2 2xl:w-1/3 rounded-full px-5 p-3"
+          className="bg-gradient-to-br from-zinc-50 to-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-[1.02] duration-300 md:w-3/4 xl:1/2 2xl:w-2/5 rounded-full px-5 p-3"
           type="email"
           onChange={(e) => {
-            setEmail(e.target.value)
+            setEmail(e.target.value);
           }}
         />
         <input
           placeholder="password"
           type="password"
-          className="bg-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-105 duration-300  md:w-3/4 xl:1/2 2xl:w-1/3 rounded-full px-5 p-3"
+          className="bg-gradient-to-tr from-zinc-50 to-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-[1.02] duration-300  md:w-3/4 xl:1/2 2xl:w-2/5 rounded-full px-5 p-3"
           onChange={(e) => {
-            setPassword(e.target.value)
+            setPassword(e.target.value);
           }}
         />
-        <ul className="md:w-3/4 xl:1/2 2xl:w-1/4 justify-center flex-row flex">
-          <ul
-            className="p-3 bg-slate-600 hover:bg-orange-700 rounded-full dark:bg-orange-400 w-1/2"
+        </ul>
+        <ul className="md:w-3/4 xl:1/2 2xl:w-2/5 justify-center flex-col gap-2 flex">
+          <button
+            className="p-3 px-8 bg-gradient-to-r hover:scale-[1.02] duration-500 hover:shadow-lg from-red-700 to-orange-500 hover:bg-orange-700 rounded-full flex flex-row justify-between items-center dark:bg-orange-400 w-full"
             onClick={() => {
-              signInUser()
+              signInUser();
             }}
           >
-            <h1 className="text-white">Sign In</h1>
-          </ul>
-        </ul>
-        <h1 className="text-slate-400 text-xl font-black">- or -</h1>
-        <ul
-          className="bg-blue-500 group p-3 w-1/3 rounded-full"
-          onClick={() => {
-            loginUser('google')
-          }}
-        >
-          <h1 className="text-white font-semibold">Sign In With Google</h1>
+            <h1 className="text-white font-bold font-eudoxus">Sign In</h1>
+            <h1 className="text-white">></h1>
+          </button>
+          <Link
+            className="p-3 px-8 bg-gradient-to-r hover:scale-[1.02] duration-500 hover:shadow-lg from-teal-700 to-green-500 hover:bg-orange-700 rounded-full flex flex-row justify-between items-center dark:bg-orange-400 w-full"
+            onClick={() => {
+              signInUser();
+            }}
+            href='/sign-up'
+          >
+            <h1 className="text-white font-bold font-eudoxus">Join Connect</h1>
+            <h1 className="text-white font-bold">+</h1>
+          </Link>
         </ul>
       </motion.section>
-    </main>
-  )
-}
+    
+  );
+};
 
-export default Page
+export default Page;
