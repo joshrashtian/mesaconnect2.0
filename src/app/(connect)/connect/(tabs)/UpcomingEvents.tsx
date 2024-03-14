@@ -16,7 +16,7 @@ const UpcomingEvents: FC = (): JSX.Element => {
         .from('events')
         .select()
         .gte('start', new Date(Date.now()).toISOString())
-        .limit(4)
+        .limit(3)
         .order('start')
 
       if (error) {
