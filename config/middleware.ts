@@ -1,5 +1,5 @@
-import { NextRequest } from 'next/server'
-import { updateSession } from './mesa-config'
+import { NextRequest } from "next/server";
+import { updateSession } from "./mesa-config";
 
 {
   /*
@@ -18,5 +18,5 @@ export async function middleware(req: any) {
 }
 
 export async function middleware(req: NextRequest) {
-  return await updateSession(req)
+  return await updateSession(req);
 }
