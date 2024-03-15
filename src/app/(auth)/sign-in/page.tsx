@@ -1,35 +1,35 @@
-"use client";
+'use client'
 
-import React, { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { supabase } from "../../../../config/mesa-config";
-import Link from "next/link";
+import React, { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { supabase } from '../../../../config/mesa-config'
+import Link from 'next/link'
 
 const Page = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMsg] = useState<string | undefined>();
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [errorMessage, setErrorMsg] = useState<string | undefined>()
 
   const signInUser = async () => {
-    console.log("Signing In...");
+    console.log('Signing In...')
     const { data, error } = await supabase.auth.signInWithPassword({
       email: email,
-      password: password,
-    });
-    if (error) setErrorMsg(error.message);
-  };
+      password: password
+    })
+    if (error) setErrorMsg(error.message)
+  }
 
   const loginUser = async (service: any) => {
     supabase.auth.signInWithOAuth({
-      provider: service,
-    });
-  };
+      provider: service
+    })
+  }
 
   return (
     <motion.section
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1, type: "spring" }}
+      transition={{ duration: 1, type: 'spring' }}
       className="bg-white absolute origin-bottom bottom-0 rounded-t-3xl h-2/3 p-10 w-full shadow-md flex gap-4 flex-col justify-between "
     >
       <ul className="flex flex-col gap-2">
@@ -40,7 +40,7 @@ const Page = () => {
           {errorMessage && (
             <motion.section
               onClick={() => {
-                setErrorMsg(undefined);
+                setErrorMsg(undefined)
               }}
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -58,7 +58,7 @@ const Page = () => {
           className="bg-gradient-to-br from-zinc-50 to-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-[1.02] duration-300 md:w-3/4 xl:1/2 2xl:w-2/5 rounded-full px-5 p-3"
           type="email"
           onChange={(e) => {
-            setEmail(e.target.value);
+            setEmail(e.target.value)
           }}
         />
         <input
@@ -66,7 +66,7 @@ const Page = () => {
           type="password"
           className="bg-gradient-to-tr from-zinc-50 to-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-[1.02] duration-300  md:w-3/4 xl:1/2 2xl:w-2/5 rounded-full px-5 p-3"
           onChange={(e) => {
-            setPassword(e.target.value);
+            setPassword(e.target.value)
           }}
         />
       </ul>
@@ -74,16 +74,16 @@ const Page = () => {
         <button
           className="p-3 px-8 bg-gradient-to-r hover:scale-[1.02] duration-500 hover:shadow-lg from-red-700 to-orange-500 hover:bg-orange-700 rounded-full flex flex-row justify-between items-center dark:bg-orange-400 w-full"
           onClick={() => {
-            signInUser();
+            signInUser()
           }}
         >
           <h1 className="text-white font-bold font-eudoxus">Sign In</h1>
-          <h1 className="text-white">{">"}</h1>
+          <h1 className="text-white">{'>'}</h1>
         </button>
         <Link
           className="p-3 px-8 bg-gradient-to-r hover:scale-[1.02] duration-500 hover:shadow-lg from-teal-700 to-green-500 hover:bg-orange-700 rounded-full flex flex-row justify-between items-center dark:bg-orange-400 w-full"
           onClick={() => {
-            signInUser();
+            signInUser()
           }}
           href="/sign-up"
         >
@@ -92,7 +92,7 @@ const Page = () => {
         </Link>
       </ul>
     </motion.section>
-  );
-};
+  )
+}
 
-export default Page;
+export default Page

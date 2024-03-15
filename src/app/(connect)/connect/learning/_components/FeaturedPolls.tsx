@@ -1,23 +1,23 @@
-"use client";
-import React, { useContext, useEffect, useState } from "react";
-import PollCard, { PollType } from "./PollCard";
-import { supabase } from "../../../../../../config/mesa-config";
-import { userContext } from "@/app/AuthContext";
-import Link from "next/link";
+'use client'
+import React, { useContext, useEffect, useState } from 'react'
+import PollCard, { PollType } from './PollCard'
+import { supabase } from '../../../../../../config/mesa-config'
+import { userContext } from '@/app/AuthContext'
+import Link from 'next/link'
 
 const FeaturedPolls = () => {
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<any>([])
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase.from("questions").select();
+      const { data, error } = await supabase.from('questions').select()
       if (error) {
-        console.error(error);
-        return;
+        console.error(error)
+        return
       }
-      setData(data);
-    };
-    fetchData();
-  }, []);
+      setData(data)
+    }
+    fetchData()
+  }, [])
 
   return (
     <section className="flex flex-col gap-2">
@@ -30,13 +30,13 @@ const FeaturedPolls = () => {
           <h1 className="text-slate-600 font-mono">+ Create Question</h1>
         </Link>
       </ul>
-      <div className="w-full flex flex-row gap-2">
+      <div className="w-full flex flex-col md:flex-wrap lg:flex-row gap-2">
         {data.map((poll: PollType, index: number) => (
           <PollCard key={index} index={index} data={poll} />
         ))}
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default FeaturedPolls;
+export default FeaturedPolls
