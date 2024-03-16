@@ -59,9 +59,6 @@ const PollBuilder = () => {
     }
     const responsedata = data[0].id;
 
-    console.log(data);
-    console.log("Successfully Posted Poll!");
-
     if (context) {
       const { data, error } = await supabase.storage
         .from("questionContexts")

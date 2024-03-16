@@ -1,26 +1,27 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { checkEmail } from '../../../../config/functions'
-import { supabase } from '../../../../config/mesa-config'
-import { User } from '@supabase/supabase-js'
-import ChooseCampus from './choosecampus'
-import ChooseMajor from './ChooseMajor'
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { checkEmail } from "../../../../config/functions";
+import { supabase } from "../../../../config/mesa-config";
+import { User } from "@supabase/supabase-js";
+import ChooseCampus from "./choosecampus";
+import ChooseMajor from "./ChooseMajor";
 
 const SignUp = () => {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [realname, setRealname] = useState<string>()
-  const [username, setUsername] = useState<string>()
-  const [college, setCollege] = useState<string>()
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [realname, setRealname] = useState<string>();
+  const [username, setUsername] = useState<string>();
+  const [college, setCollege] = useState<string>();
+  const [major, setMajor] = useState<string>();
 
-  const [errorMsg, setErrorMsg] = useState<string | undefined>()
+  const [errorMsg, setErrorMsg] = useState<string | undefined>();
 
   const signUpUser = async () => {
     if (!email || !password || !realname || !username) {
-      setErrorMsg('All fields are required!')
-      return
+      setErrorMsg("All fields are required!");
+      return;
     }
 
     const { data, error } = await supabase.auth.signUp({
@@ -29,11 +30,11 @@ const SignUp = () => {
       options: {
         data: {
           real_name: realname,
-          username: username
-        }
-      }
-    })
-  }
+          username: username,
+        },
+      },
+    });
+  };
 
   return (
     <>
@@ -46,15 +47,15 @@ const SignUp = () => {
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, type: 'spring' }}
+        transition={{ duration: 1, type: "spring" }}
         className="bg-white absolute origin-bottom bottom-0 rounded-t-3xl h-2/3 p-10 w-full shadow-md flex gap-2 flex-col  "
       >
         <motion.h1 className="text-transparent bg-clip-text font-eudoxus bg-gradient-to-tr from-pink-700 to-blue-800 font-bold text-5xl p-6  border-b-2 border-opacity-65 border-slate-200 duration-300">
           Let's Build Your MESA Account.
         </motion.h1>
         <h2 className="font-eudoxus text-2xl p-2">
-          <span className="text-green-700">First,</span> Starting with some basic account
-          information:
+          <span className="text-green-700">First,</span> Starting with some
+          basic account information:
         </h2>
         <section className="flex flex-col lg:flex-row lg:flex-wrap gap-2">
           {errorMsg ? (
@@ -99,25 +100,39 @@ const SignUp = () => {
         {email && password && realname && username && (
           <ChooseCampus
             onChangeSelected={(e) => {
-              setCollege(e)
+              setCollege(e);
             }}
           />
         )}
-        {college && <ChooseMajor />}
-        <ul className="md:w-3/4 xl:1/2 2xl:w-2/5 justify-center flex-row flex">
-          <button
-            className="p-3 px-8 bg-gradient-to-r hover:scale-[1.02] duration-500 hover:shadow-lg from-purple-700 to-teal-500 hover:bg-orange-700 rounded-full flex flex-row justify-between items-center dark:bg-orange-400 w-full"
-            onClick={() => {
-              signUpUser()
+        {college && (
+          <ChooseMajor
+            onChangeMajor={(e) => {
+              setMajor(e);
             }}
+          />
+        )}
+        {major && (
+          <motion.ul
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="md:w-3/4 xl:1/2 2xl:w-2/5 justify-center flex-row flex"
           >
-            <h1 className="text-white font-eudoxus">Create Your New Connect Profile</h1>
-            <h1 className="text-white">+</h1>
-          </button>
-        </ul>
+            <button
+              className="p-3 px-8 bg-gradient-to-r hover:scale-[1.02] duration-500 hover:shadow-lg from-purple-700 to-teal-500 hover:bg-orange-700 rounded-full flex flex-row justify-between items-center dark:bg-orange-400 w-full"
+              onClick={() => {
+                signUpUser();
+              }}
+            >
+              <h1 className="text-white font-eudoxus">
+                Create Your New Connect Profile
+              </h1>
+              <h1 className="text-white">+</h1>
+            </button>
+          </motion.ul>
+        )}
       </motion.section>
     </>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
