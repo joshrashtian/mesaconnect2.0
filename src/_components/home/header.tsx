@@ -16,13 +16,15 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       href="/news"
       className="flex flex-row gap-2 p-4 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"
     >
-      <h1 className="text-xl text-zinc-600 font-semibold">News</h1>
+      <h1 className="text-xl text-zinc-600 dark:text-zinc-100 font-semibold">
+        News
+      </h1>
     </Link>,
     <Link
       href="/sign-in"
       className="flex flex-row gap-2 p-4 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"
     >
-      <h1 className="text-xl text-zinc-600 font-semibold">
+      <h1 className="text-xl text-zinc-600 dark:text-zinc-100 font-semibold">
         {user.user ? user.user.user_metadata.username : "Sign In"}
       </h1>
       <div className="bg-slate-300 w-8 rounded-full">
@@ -40,7 +42,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
     >
       <motion.ul
         style={{ opacity: scrollYProgress }}
-        className="h-28 w-full fixed top-0 left-0 bg-gradient-to-b rounded-b-3xl -z-10 from-orange-50 to-zinc-100 shadow-sm"
+        className="h-28 w-full fixed top-0 left-0 bg-gradient-to-b rounded-b-3xl -z-10 dark:from-orange-900 dark:to-zinc-800 from-orange-50 to-zinc-100 shadow-sm"
       />
       <h2 className="text-orange-700 text-xl font-eudoxus ">
         MESA<span className="text-slate-500">connect</span>
@@ -50,13 +52,13 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
           <motion.ul
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 1, duration: 2 }}
+            transition={{ delay: 1 + 0.5 * index, duration: 2 }}
             className="flex h-full w-full ml-4 items-center"
           >
             {e}
-            {headerComponents.length - 1 > index && (
-              <ul className="bg-zinc-200 w-0.5 ml-4 h-12" />
-            )}
+            {/*headerComponents.length - 1 > index && (
+              <ul className="bg-zinc-200 dark:bg-white w-0.5 ml-4 h-12" />
+            )*/}
           </motion.ul>
         ))}
       </section>

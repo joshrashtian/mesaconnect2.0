@@ -32,7 +32,9 @@ export default function RootLayout({
   return (
     <AuthContext>
       <html>
-        <body className={`${inter.className}  bg-zinc-100`}>{children}</body>
+        <body className={`${inter.className} dark:bg-zinc-800 bg-zinc-100`}>
+          {children}
+        </body>
       </html>
     </AuthContext>
   );

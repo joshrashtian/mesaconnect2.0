@@ -64,7 +64,7 @@ export default function Home() {
           </span>
           , ready to{" "}
           <span className="hover:text-green-700 duration-500">lead</span> the{" "}
-          <span className=" bg-gradient-to-r hover:text-green-700 from-indigo-700 to-blue-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
+          <span className=" bg-gradient-to-r hover:text-green-700 from-indigo-700 to-blue-500 dark:from-indigo-400 dark:to-pink-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
             next generation.
           </span>
         </motion.h1>
@@ -72,7 +72,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.7, type: "just" }}
-          className="text-lg text-slate-500"
+          className="text-lg text-slate-500 dark:text-slate-50"
         >
           A community for the students, by the students.
         </motion.h2>

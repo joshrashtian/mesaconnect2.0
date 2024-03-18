@@ -4,6 +4,7 @@ import HomePageHeader from "./(homepage)/header";
 
 import { redirect } from "next/navigation";
 import { serverside } from "../../../config/serverside";
+import Article from "./Article";
 
 const page = async () => {
   const { data: Posts, error } = await serverside
@@ -16,21 +17,12 @@ const page = async () => {
     redirect("/error");
   }
 
-  console.log(Posts);
-
   return (
-    <main>
+    <main className="flex flex-col gap-3">
       <HomePageHeader />
-      <section>
+      <section className="p-3">
         {Posts.map((post) => {
-          return (
-            <div key={post.id}>
-              <h1>{post.title}</h1>
-              {post.post_data.map((e: any) => (
-                <h1 className={e.style}>{e.text}</h1>
-              ))}
-            </div>
-          );
+          return <Article key={post.id} article={post} />;
         })}
       </section>
     </main>
