@@ -44,7 +44,7 @@ export default function Home() {
       className="no-scrollbar flex h-full flex-col items-center gap-y-24 p-12"
       ref={mainRef}
     >
-      <Header />
+      <Header scrollRefrence={firstRef} />
       <motion.nav
         className="w-4 fixed right-2 origin-top top-[10%] h-[80%] rounded-full bg-gradient-to-b from-slate-500 to-slate-600"
         style={{ scaleY: scrollBar }}

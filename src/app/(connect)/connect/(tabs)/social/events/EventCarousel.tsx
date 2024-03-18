@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import ComingUpEvents from "./UpcomingEvents(events)";
 import InterestedEvents from "./interested";
@@ -35,7 +35,7 @@ const EventCarousel = () => {
   );
 
   return (
-    <motion.section className="w-full">
+    <motion.section className="w-full h-full">
       <motion.ul className="flex flex-row gap-2 mb-5 justify-between">
         {Carousel.map((item, index) => {
           return (
@@ -63,7 +63,7 @@ const EventCarousel = () => {
           );
         })}
       </motion.ul>
-      <motion.main className="overflow-y-scroll no-scrollbar p-5">
+      <motion.main className="overflow-y-scroll h-full no-scrollbar p-5">
         <Current.component />
       </motion.main>
     </motion.section>

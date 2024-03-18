@@ -31,9 +31,17 @@ const SignUp = () => {
         data: {
           real_name: realname,
           username: username,
+          college: college,
+          major: major,
         },
       },
     });
+
+    if (error) {
+      console.error(error);
+      setErrorMsg(error.message);
+      return;
+    }
   };
 
   return (

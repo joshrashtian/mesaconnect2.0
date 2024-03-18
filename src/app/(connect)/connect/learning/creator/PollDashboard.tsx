@@ -17,6 +17,7 @@ const PollDashboard = () => {
   const modal: any = useContext(MenuContext);
 
   if (!user) return;
+
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase

@@ -1,31 +1,36 @@
-import React, { useContext } from 'react'
-import { ReplyType } from './Replies'
-import { months } from '../../../../../../../../config/calendar'
-import { MenuContext } from '@/app/(connect)/InfoContext'
-import { supabase } from '../../../../../../../../config/mesa-config'
-import { userContext } from '@/app/AuthContext'
+import React, { useContext } from "react";
+import { ReplyType } from "./Replies";
+import { months } from "../../../../../../../../config/calendar";
+import { MenuContext } from "@/app/(connect)/InfoContext";
+import { supabase } from "../../../../../../../../config/mesa-config";
+import { userContext } from "@/app/AuthContext";
 
 const Reply = ({ contents }: { contents: ReplyType }) => {
-  const time = new Date(contents.created_at)
-  const context = useContext<any>(MenuContext)
-  const user = useContext(userContext)
+  const time = new Date(contents.created_at);
+  const context = useContext<any>(MenuContext);
+  const user = useContext(userContext);
 
   const contextButtons = [
     {
-      name: 'Delete Post',
-      visible: user?.userData?.id === contents.user_id || user?.userData?.role === 'admin',
+      name: "Delete Reply",
+      visible:
+        user?.userData?.id === contents.user_id ||
+        user?.userData?.role === "admin",
       function: async () => {
-        const { error } = await supabase.from('replies').delete().eq('id', contents.id)
+        const { error } = await supabase
+          .from("replies")
+          .delete()
+          .eq("id", contents.id);
 
         if (error) {
-          console.error(error)
-          return
+          console.error(error);
+          return;
         }
 
-        context.toast('Deleted Post!', 'success')
-      }
-    }
-  ]
+        context.toast("Deleted Post!", "success");
+      },
+    },
+  ];
 
   return (
     <main
@@ -34,21 +39,21 @@ const Reply = ({ contents }: { contents: ReplyType }) => {
     >
       <ul
         className={`w-1 p-1 min-h-full ${
-          contents.private ? 'bg-teal-600' : 'bg-orange-600'
+          contents.private ? "bg-teal-600" : "bg-orange-600"
         }  rounded-l-2xl`}
       />
       <ul className="p-3 bg-white w-full h-full rounded-r-2xl">
         <section className="flex flex-row justify-between">
           <h1 className="font-bold">{contents.creator.realname}</h1>
           <h2>
-            {months[time.getMonth()]} {time.getDate()}, {time.getFullYear()} / {time.getHours()}:
-            {time.getMinutes()}
+            {months[time.getMonth()]} {time.getDate()}, {time.getFullYear()} /{" "}
+            {time.getHours()}:{time.getMinutes()}
           </h2>
         </section>
         <p className="text-slate-500">{contents.reply}</p>
       </ul>
     </main>
-  )
-}
+  );
+};
 
-export default Reply
+export default Reply;

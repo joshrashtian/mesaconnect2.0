@@ -91,6 +91,11 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             {user?.major ? user.major : "Undecided"}
           </h2>
         </ul>
+        <ul className="p-1 px-3 rounded-lg bg-white text-nowrap shadow-sm flex justify-center items-center">
+          <h2 className="text-cyan-700 font-semibold capitalize">
+            {user?.college ? user.college : "No College Set"}
+          </h2>
+        </ul>
       </section>
 
       <h2>{user?.bio ? user.bio : "This user has no bio set."}</h2>

@@ -5,6 +5,7 @@ import Reply from "./Reply";
 import { ContextProps } from "@/app/AuthContext";
 
 export type ReplyType = {
+  id: string;
   user_id: string;
   post_id: string;
   reply: string;

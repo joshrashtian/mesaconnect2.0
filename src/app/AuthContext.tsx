@@ -77,7 +77,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    console.log("successfully grabbed data", data);
+    console.log("successfully grabbed data");
 
     setData(data);
   };
