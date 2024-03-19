@@ -6,6 +6,7 @@ import { AdminModal, CreateModalPost } from '../AdminModal'
 
 const Viewposts = () => {
   const [data, setData] = useState<PostType[]>()
+  const [filter, setFilter] = useState()
 
   const Modal: any = useContext(AdminModal)
 
@@ -24,24 +25,38 @@ const Viewposts = () => {
     fetchData()
   }, [])
 
+  const replaceData = () => {}
+
   if (!data) return
 
   return (
-    <main className=" w-full flex flex-col gap-2  overflow-y-scroll ">
-      {data.map((post: PostType) => (
-        <div
-          onClick={() => Modal.createModal(post, 'post')}
-          key={post.id}
-          className="bg-white cursor-pointer rounded-md w-[1200px] h-16 overflow-x-scroll p-4 gap-5 flex  items-center"
-        >
-          <h1>Title: {post.type === 'post' ? post.title : post.data.data.text}</h1>
-          <h1>Post ID: {post.id}</h1>
-          <h1>Creator: {post.creator.name ? post.creator.name : post.creator.realname}</h1>
-          <h1 className="capitalize">Type: {post.type}</h1>
-          <h1>Created At: {post.created_at.toString()}</h1>
-          <h1>{post.tags && `Tags: ${post.tags} `}</h1>
-        </div>
-      ))}
+    <main className=" w-full flex flex-col ">
+      <div className="bg-slate-100 font-eudoxus rounded-t-2xl flex-row text-center justify-between text-nowrap rounded-md w-[1200px] h-16 overflow-x-scroll p-4 gap-5 flex  items-center">
+        <h1>Title</h1>
+        <h1>Post ID</h1>
+        <h1>Creator</h1>
+        <h1 className="capitalize">Type</h1>
+        <h1>Created At</h1>
+      </div>
+      <section className='" w-full flex flex-col overflow-y-scroll "'>
+        {data.map((post: PostType) => (
+          <div
+            onClick={() => Modal.createModal(post, 'post')}
+            key={post.id}
+            className="bg-white duration-300 font-eudoxus text-slate-500 odd:bg-zinc-50 hover:bg-slate-50 hover:odd:bg-zinc-100 odd:border-y-2  cursor-pointer text-nowrap last:rounded-b-2xl w-[1200px] h-16 overflow-x-scroll p-4 gap-5 flex justify-between items-center"
+          >
+            <h1>
+              {post.type === 'post'
+                ? post.title.slice(0, 10) + '...'
+                : post.data.data.text.slice(0, 10) + '...'}
+            </h1>
+            <h1>{post.id.slice(0, 5) + '...'}</h1>
+            <h1>{post.creator.name ? post.creator.name : post.creator.realname}</h1>
+            <h1 className="capitalize">{post.type}</h1>
+            <h1>{post.created_at.toString().slice(0, 10)}</h1>
+          </div>
+        ))}
+      </section>
     </main>
   )
 }

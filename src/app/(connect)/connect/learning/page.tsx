@@ -12,7 +12,7 @@ const Learning = () => {
         <h1 className=" font-bold text-5xl ">Learning Lab</h1>
       </header>
       <section className="flex flex-col gap-16">
-        <FeaturedLessons />
+        {/*<FeaturedLessons />*/}
         <FeaturedPolls />
       </section>
       <footer></footer>
