@@ -3,7 +3,7 @@ import React, { useContext, useRef, useState } from "react";
 import { supabase } from "../../../../../../config/mesa-config";
 import { useRouter } from "next/navigation";
 import { MenuContext } from "@/app/(connect)/InfoContext";
-import { userContext } from "@/app/AuthContext";
+import { ContextProps, userContext } from "@/app/AuthContext";
 
 const PollBuilder = () => {
   const [poll, setPoll] = useState<string>();
@@ -13,7 +13,7 @@ const PollBuilder = () => {
 
   const router = useRouter();
   const modal: any = useContext(MenuContext);
-  const user = useContext(userContext);
+  const user: ContextProps = useContext(userContext);
   const contextRef: any = useRef();
 
   const createPoll = async () => {
