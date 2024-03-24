@@ -66,6 +66,11 @@ export type EventType = {
   tags: string[];
   type: string;
   creator: string;
+  image: {
+    url: string;
+    creator: string;
+    type: string;
+  };
 };
 
 export type Lesson = {

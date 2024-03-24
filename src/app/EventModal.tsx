@@ -1,150 +1,151 @@
-'use client'
+"use client";
 
-import { EventType } from '@/_assets/types'
-import { createContext, useState, useEffect, useContext } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import { MenuContext } from './(connect)/InfoContext'
-import { supabase } from '../../config/mesa-config'
-import { userContext } from './AuthContext'
-import { calendar, months } from '../../config/calendar'
+import { EventType } from "@/_assets/types";
+import { createContext, useState, useEffect, useContext } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { MenuContext } from "./(connect)/InfoContext";
+import { supabase } from "../../config/mesa-config";
+import { userContext } from "./AuthContext";
+import { calendar, months } from "../../config/calendar";
+import Image from "next/image";
 
-export const EventModalContext: any = createContext({})
+export const EventModalContext: any = createContext({});
 
 const EventModal = ({ children }: { children: React.ReactNode }) => {
-  const [modal, setModal] = useState(false)
-  const [event, setEvent] = useState<EventType>()
+  const [modal, setModal] = useState(false);
+  const [event, setEvent] = useState<EventType>();
 
   const value = {
     createModal: (event: EventType) => {
-      setEvent(event)
+      setEvent(event);
     },
     disarmModal: () => {
-      setEvent(undefined)
-    }
-  }
+      setEvent(undefined);
+    },
+  };
 
   return (
     <EventModalContext.Provider value={value}>
       <AnimatePresence>{event && <Modal event={event} />}</AnimatePresence>
       {children}
     </EventModalContext.Provider>
-  )
-}
+  );
+};
 
 const Modal = ({ event }: { event: EventType }) => {
-  const [state, setState] = useState(3)
+  const [state, setState] = useState(3);
 
-  const user = useContext(userContext)
+  const user = useContext(userContext);
 
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase
-        .from('eventinterest')
+        .from("eventinterest")
         .select()
-        .eq('user_id', user.user?.id)
-        .eq('event_id', event.id)
+        .eq("user_id", user.user?.id)
+        .eq("event_id", event.id);
 
       if (error) {
-        console.error(error)
-        return
+        console.error(error);
+        return;
       }
 
-      if (data.length !== 0) setState(2)
-      else setState(0)
-    }
+      if (data.length !== 0) setState(2);
+      else setState(0);
+    };
 
-    if (state !== 1) fetchData()
-  }, [state])
+    if (state !== 1) fetchData();
+  }, [state]);
 
   const InterestedContext = [
     {
       text: "I'm Interested",
-      precursor: '+',
-      context: 0
+      precursor: "+",
+      context: 0,
     },
     {
-      text: 'Added!',
-      precursor: '✔',
-      context: 1
+      text: "Added!",
+      precursor: "✔",
+      context: 1,
     },
     {
       text: "I've Lost Interest",
-      precursor: 'x',
-      context: 2
-    }
-  ]
+      precursor: "x",
+      context: 2,
+    },
+  ];
 
-  const disarm = useContext<any>(EventModalContext)
-  const toast = useContext<any>(MenuContext)
-  const [dateMessage, setDateMessage] = useState<string>()
+  const disarm = useContext<any>(EventModalContext);
+  const toast = useContext<any>(MenuContext);
+  const [dateMessage, setDateMessage] = useState<string>();
 
   const dates = {
     startDate: new Date(event.start),
-    endDate: event.end ? new Date(event.end) : undefined
-  }
+    endDate: event.end ? new Date(event.end) : undefined,
+  };
 
-  const timeDif = dates.endDate && new calendar(dates.startDate, dates.endDate)
+  const timeDif = dates.endDate && new calendar(dates.startDate, dates.endDate);
 
   const onInterest = async () => {
-    setState(1)
-    toast.toast('Added to your List!', 'success')
+    setState(1);
+    toast.toast("Added to your List!", "success");
     setTimeout(() => {
-      setState(2)
-    }, 4000)
+      setState(2);
+    }, 4000);
 
-    const { error } = await supabase.from('eventinterest').insert({
+    const { error } = await supabase.from("eventinterest").insert({
       event_id: event.id,
       user_id: user.user?.id,
       data: {
         name: user.userData?.real_name,
         username: user.userData?.username,
-        major: user.userData?.major ? user.userData.major : 'Undecided'
-      }
-    })
+        major: user.userData?.major ? user.userData.major : "Undecided",
+      },
+    });
     if (error) {
-      console.error(error)
-      return
+      console.error(error);
+      return;
     }
 
-    setState(1)
-    toast.toast('Added to your List!', 'success')
+    setState(1);
+    toast.toast("Added to your List!", "success");
     setTimeout(() => {
-      setState(2)
-    }, 3400)
-  }
+      setState(2);
+    }, 3400);
+  };
 
   const onInterestLost = async () => {
-    setState(1)
+    setState(1);
 
     const { data, error } = await supabase
-      .from('eventinterest')
+      .from("eventinterest")
       .delete()
-      .match({ event_id: event.id, user_id: user.user?.id })
+      .match({ event_id: event.id, user_id: user.user?.id });
 
     if (error) {
-      console.error(error)
-      return
+      console.error(error);
+      return;
     }
 
-    toast.toast('Removed from your List!', 'success')
-    setState(0)
-  }
+    toast.toast("Removed from your List!", "success");
+    setState(0);
+  };
 
   useEffect(() => {
-    const now = Date.now()
+    const now = Date.now();
 
     if (dates.endDate && now > dates.endDate.getTime()) {
-      setDateMessage('Event has ended')
+      setDateMessage("Event has ended");
     } else if (now < dates.startDate.getTime()) {
-      setDateMessage('Upcoming Event')
+      setDateMessage("Upcoming Event");
     } else {
-      setDateMessage('Currently Ongoing')
+      setDateMessage("Currently Ongoing");
     }
-  }, [])
+  }, []);
 
-  const [creator, setCreator] = useState()
+  const [creator, setCreator] = useState();
 
-  if (state === 3) return
+  if (state === 3) return;
   return (
     <motion.main
       initial={{ opacity: 0 }}
@@ -157,113 +158,139 @@ const Modal = ({ event }: { event: EventType }) => {
           initial={{ y: 10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 20, opacity: 0 }}
-          transition={{ duration: 0.5, type: 'spring' }}
-          className="bg-white shadow-lg flex flex-col justify-between w-1/2 h-1/2 p-5 px-10 z-50 rounded-3xl"
+          transition={{ duration: 0.5, type: "spring" }}
+          className="bg-white shadow-lg flex flex-col  w-1/2 h-1/2 z-50 rounded-3xl"
           drag
+          onClick={(e) => e.preventDefault()}
           dragMomentum={false}
           whileDrag={{ scale: 0.95 }}
         >
-          <header>
-            <ul className=" justify-between flex flex-row items-center ">
-              <h1 className="font-bold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-slate-500 to-blue-400">
-                {event.name}
-              </h1>
-              <p
-                onClick={() => {
-                  disarm.disarmModal()
-                }}
-                className="font-medium cursor-pointer hover:text-red-600 duration-300 p-4 font-mono text-4xl"
-              >
-                x
-              </p>
-            </ul>
-            <h2 className="text-xl font-light text-slate-600">
-              {event.desc ? event.desc : 'This event does not have a description.'}
-            </h2>
-            <ul className=" justify-between flex flex-row items-center ">
-              <h2>
-                📅
-                {` ${
-                  months[dates.startDate.getMonth()]
-                } ${dates.startDate.getDate()}, ${dates.startDate.getFullYear()}`}
+          {event.image && (
+            <motion.section className="w-full relative h-48">
+              <Image
+                fill={true}
+                objectFit="cover"
+                className="rounded-t-3xl"
+                src={event.image.url}
+                alt="event image"
+              />
+            </motion.section>
+          )}
+          <main className="p-5 px-10 justify-between flex flex-col h-full">
+            <header>
+              <ul className=" justify-between flex flex-row items-center ">
+                <h1 className="font-bold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-slate-500 to-blue-400">
+                  {event.name}
+                </h1>
+                <p
+                  onClick={() => {
+                    disarm.disarmModal();
+                  }}
+                  className="font-medium cursor-pointer hover:text-red-600 duration-300 p-4 font-mono text-4xl"
+                >
+                  x
+                </p>
+              </ul>
+              <h2 className="text-xl font-light text-slate-600">
+                {event.desc
+                  ? event.desc
+                  : "This event does not have a description."}
               </h2>
+              <ul className=" justify-between flex flex-row items-center ">
+                <h2>
+                  📅
+                  {` ${
+                    months[dates.startDate.getMonth()]
+                  } ${dates.startDate.getDate()}, ${dates.startDate.getFullYear()}`}
+                </h2>
 
-              <div className="flex flex-row gap-2">
-                <ul className="p-2 px-4 bg-zinc-100 rounded-full">
-                  <h2 className="text-teal-700 font-medium">{dateMessage?.toUpperCase()}</h2>
-                </ul>
-                <ul className="p-2 px-4 bg-zinc-100 rounded-full">
-                  <h2 className="text-orange-700 font-medium">{event.type.toUpperCase()}</h2>
-                </ul>
-              </div>
-            </ul>
-            <h2 className="font-semibold flex flex-row gap-1 items-center">
-              <span className="px-2 p-1 bg-gradient-to-tr mr-2 from-slate-500 to-zinc-700 rounded-md text-white">
-                Time
-              </span>
-              <span className=" font-geist font-normal">
-                {` ${
-                  dates.startDate.getHours() > 12
-                    ? dates.startDate.getHours() - 12
-                    : dates.startDate.getHours()
-                }:${
-                  dates.startDate.getMinutes() < 10
-                    ? `0${dates.startDate.getMinutes()}`
-                    : dates.startDate.getMinutes()
-                } ${
-                  dates.endDate
-                    ? ` - ${
-                        dates.endDate.getHours() > 12
-                          ? dates.endDate.getHours() - 12
-                          : dates.endDate.getHours()
-                      }:${
-                        dates.endDate.getMinutes() < 10
-                          ? `0${dates.endDate.getMinutes()}`
-                          : dates.endDate.getMinutes()
-                      }`
-                    : ''
-                } ${dates.startDate.getHours() > 12 ? 'PM' : 'AM'}`}
-              </span>
-            </h2>
-            <ul className="w-full flex flex-row mt-2 items-center font-geist gap-1">
-              <h1 className="px-2 p-1 bg-gradient-to-tr from-slate-500 to-zinc-700 rounded-md text-white">
-                Tags
-              </h1>
-              {event.tags &&
-                event.tags.map((e) => (
-                  <div className="px-2 p-1">
-                    <h1>{e}</h1>
-                  </div>
-                ))}
-            </ul>
-          </header>
-          <motion.footer className="pb-6 gap-3">
-            <button
-              onClick={() => {
-                state === 0 ? onInterest() : onInterestLost()
-              }}
-              className={`p-3 ${
-                state === 0
-                  ? 'from-blue-600 to-indigo-700 animate-none'
-                  : state === 1
-                  ? 'from-green-600 to-emerald-800  scale-110 animate-bounce'
-                  : 'from-red-600 animate-none to-amber-700 '
-              } bg-gradient-to-br w-full xl:w-1/2 3xl:w-1/4 hover:scale-105 focus:scale-95 shadow-md hover:shadow-lg rounded-full transition-all duration-500`}
-            >
-              <p className=" font-semibold text-xl flex flex-row items-center justify-center gap-3 text-white">
-                <span className="text-2xl font-medium w-8 h-8 border-[2px] items-center flex justify-center rounded-full">
-                  {InterestedContext[state].precursor}
+                <div className="flex flex-row gap-2">
+                  <ul className="p-2 px-4 bg-zinc-100 rounded-full">
+                    <h2 className="text-teal-700 font-medium">
+                      {dateMessage?.toUpperCase()}
+                    </h2>
+                  </ul>
+                  <ul className="p-2 px-4 bg-zinc-100 rounded-full">
+                    <h2 className="text-orange-700 font-medium">
+                      {event.type.toUpperCase()}
+                    </h2>
+                  </ul>
+                </div>
+              </ul>
+              <h2 className="font-semibold flex flex-row gap-1 items-center">
+                <span className="px-2 p-1 bg-gradient-to-tr mr-2 from-slate-500 to-zinc-700 rounded-md text-white">
+                  Time
                 </span>
+                <span className=" font-geist font-normal">
+                  {` ${
+                    dates.startDate.getHours() > 12
+                      ? dates.startDate.getHours() - 12
+                      : dates.startDate.getHours()
+                  }:${
+                    dates.startDate.getMinutes() < 10
+                      ? `0${dates.startDate.getMinutes()}`
+                      : dates.startDate.getMinutes()
+                  } ${
+                    dates.endDate
+                      ? ` - ${
+                          dates.endDate.getHours() > 12
+                            ? dates.endDate.getHours() - 12
+                            : dates.endDate.getHours()
+                        }:${
+                          dates.endDate.getMinutes() < 10
+                            ? `0${dates.endDate.getMinutes()}`
+                            : dates.endDate.getMinutes()
+                        }`
+                      : ""
+                  } ${dates.startDate.getHours() > 12 ? "PM" : "AM"}`}
+                </span>
+              </h2>
+              <ul className="w-full flex flex-row mt-2 items-center font-geist gap-1">
+                <h1 className="px-2 p-1 bg-gradient-to-tr from-slate-500 to-zinc-700 rounded-md text-white">
+                  Tags
+                </h1>
+                {event.tags &&
+                  event.tags.map((e) => (
+                    <div className="px-2 p-1">
+                      <h1>{e}</h1>
+                    </div>
+                  ))}
+              </ul>
+            </header>
+            <motion.footer className="pb-6 gap-3">
+              <button
+                onClick={() => {
+                  state === 0 ? onInterest() : onInterestLost();
+                }}
+                className={`p-3 ${
+                  state === 0
+                    ? "from-blue-600 to-indigo-700 animate-none"
+                    : state === 1
+                    ? "from-green-600 to-emerald-800  scale-110 animate-bounce"
+                    : "from-red-600 animate-none to-amber-700 "
+                } bg-gradient-to-br w-full xl:w-1/2 3xl:w-1/4 hover:scale-105 focus:scale-95 shadow-md hover:shadow-lg rounded-full transition-all duration-500`}
+              >
+                <p className=" font-semibold text-xl flex flex-row items-center justify-center gap-3 text-white">
+                  <span className="text-2xl font-medium w-8 h-8 border-[2px] items-center flex justify-center rounded-full">
+                    {InterestedContext[state].precursor}
+                  </span>
 
-                {InterestedContext[state].text.toUpperCase()}
-              </p>
-            </button>
-          </motion.footer>
+                  {InterestedContext[state].text.toUpperCase()}
+                </p>
+              </button>
+            </motion.footer>
+          </main>
         </motion.section>
       </AnimatePresence>
-      <ul className="absolute inset-0 bg-gray-500 opacity-50 " />
-    </motion.main>
-  )
-}
 
-export default EventModal
+      <ul
+        className="absolute inset-0 bg-gray-500 opacity-50 "
+        onClick={() => {
+          disarm.disarmModal();
+        }}
+      />
+    </motion.main>
+  );
+};
+
+export default EventModal;

@@ -34,6 +34,7 @@ const EventBuilder = () => {
   });
   const [timeType, setTimeType] = useState<string | undefined>();
   const [submitting, setSubmitting] = useState(false);
+  const [newImage, setImage] = useState();
   const user = useContext<any>(userContext);
   const toast = useContext<any>(MenuContext);
   const router = useRouter();
@@ -49,6 +50,7 @@ const EventBuilder = () => {
       location: event.location,
       tags: event.tags,
       creator: user.user?.id,
+      image: newImage,
     });
 
     if (error) {
@@ -253,7 +255,11 @@ const EventBuilder = () => {
                                     <li className=" font-geist ">{value}</li>
                                   </motion.ul>
                                 ))}
-                              <UnsplashSearch />
+                              <UnsplashSearch
+                                updateImage={(e) => {
+                                  setImage(e);
+                                }}
+                              />
                             </motion.div>
                           </AnimatePresence>
                         </section>
