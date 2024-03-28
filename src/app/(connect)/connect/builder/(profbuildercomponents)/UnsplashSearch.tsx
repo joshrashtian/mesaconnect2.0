@@ -55,7 +55,6 @@ const UnsplashSearch = ({ updateImage }: { updateImage: (e: any) => void }) => {
                   updateImage({
                     url: e.urls.regular,
                     creator: e.user.name,
-                    type: type,
                   });
                 }}
                 className={`w-full h-full relative flex flex-col justify-between`}

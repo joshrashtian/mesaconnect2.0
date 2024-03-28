@@ -7,14 +7,14 @@ import { EventType } from "@/_assets/types";
 
 import Link from "next/link";
 import { supabase } from "../../../../../../../config/mesa-config";
-import { userContext } from "@/app/AuthContext";
+import { userContext, useUser } from "@/app/AuthContext";
 import LoadingPage from "@/_components/LoadingPage";
 import Scroller from "./scroller";
 
 const InterestedEvents: FC = (): JSX.Element => {
   const [data, setData] = useState<EventType[]>();
   const [count, setCount] = useState<number | null>();
-  const activeUser: any = useContext(userContext);
+  const activeUser = useUser();
 
   useEffect(() => {
     const fetchData = async () => {

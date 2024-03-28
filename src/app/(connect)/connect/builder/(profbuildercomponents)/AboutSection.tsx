@@ -1,33 +1,33 @@
-'use client'
+"use client";
 
-import { userContext } from '@/app/AuthContext'
-import React, { useContext, useMemo, useState } from 'react'
-import { ChangeAboutSection } from './ChangeIndex'
+import { userContext } from "@/app/AuthContext";
+import React, { useContext, useMemo, useState } from "react";
+import { ChangeAboutSection } from "./ChangeIndex";
 
 const AboutSection = () => {
-  const [about, setAbout] = useState<string>()
-  const [profileColor, setProfileColor] = useState<string>('#000')
+  const [about, setAbout] = useState<string>();
+  const [profileColor, setProfileColor] = useState<string>("#000");
 
-  const [json, setJSON] = useState<any>()
+  const [json, setJSON] = useState<any>();
 
-  const user = useContext(userContext)
+  const user = useContext(userContext);
 
   useMemo(() => {
     const newJSON = {
-      type: 'about',
+      type: "about",
       contents: about,
-      textColor: profileColor
-    }
-    setJSON(newJSON)
-  }, [about, profileColor])
+      textColor: profileColor,
+    };
+    setJSON(newJSON);
+  }, [about, profileColor]);
 
   const changeAbout = async () => {
     if (!json || !json.contents) {
-      console.log('Missing something...')
-      return
+      console.log("Missing something...");
+      return;
     }
-    ChangeAboutSection(user, json)
-  }
+    ChangeAboutSection(user, json);
+  };
 
   return (
     <main className="h-full flex flex-col gap-3">
@@ -44,7 +44,7 @@ const AboutSection = () => {
           <h1 className="font-bold text-2xl">Styling:</h1>
           <input
             onChange={(e) => {
-              setProfileColor(e.target.value)
+              setProfileColor(e.target.value);
             }}
             className="w-16 h-16"
             type="color"
@@ -53,16 +53,16 @@ const AboutSection = () => {
       </ul>
       <button
         onClick={() => {
-          changeAbout()
+          changeAbout();
         }}
         className={`p-3 w-full rounded-full ${
-          !json || !json.contents ? 'bg-slate-200' : 'bg-orange-500 text-white'
+          !json || !json.contents ? "bg-slate-200" : "bg-orange-500 text-white"
         } duration-300 `}
       >
         <p>Submit</p>
       </button>
     </main>
-  )
-}
+  );
+};
 
-export default AboutSection
+export default AboutSection;

@@ -107,4 +107,12 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
   return <userContext.Provider value={value}>{children}</userContext.Provider>;
 };
 
+export function useUser() {
+  const context = React.useContext(userContext);
+  if (context === undefined) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+  return context;
+}
+
 export default AuthContext;
