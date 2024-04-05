@@ -5,14 +5,15 @@ import { useUser } from "../AuthContext";
 import InfoContextContainer from "./InfoContext";
 import { config } from "../../../config/mesa-config";
 import EventModal from "../EventModal";
-import { serverside } from "../../../config/serverside";
+import { serverside, useSession } from "../../../config/serverside";
 import { redirect } from "next/navigation";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const session = await serverside.auth.getSession();
+  //TIP: UseSession Hook can only be used in Async Functions, since it returns a promise.
+  const { session, error } = await useSession();
 
-  if (!session.data.session?.user) {
-    redirect("/");
+  if (!session?.user || error) {
+    redirect("/sign-in");
   }
 
   return (
