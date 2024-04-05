@@ -1,15 +1,16 @@
-"use client";
+"use server";
 import Dock from "@/_components/navigation";
 import React, { useContext, useRef, useState } from "react";
-import { userContext } from "../AuthContext";
+import { useUser } from "../AuthContext";
 import InfoContextContainer from "./InfoContext";
 import { config } from "../../../config/mesa-config";
 import EventModal from "../EventModal";
+import { serverside } from "../../../config/serverside";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  const user = useContext(userContext);
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  const session = await serverside.auth.getSession();
 
-  if (!user) {
+  if (!session.data.session?.user) {
     console.log("user not logged in");
   }
 
