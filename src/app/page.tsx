@@ -41,7 +41,7 @@ export default function Home() {
 
   return (
     <motion.main
-      className="no-scrollbar flex h-full flex-col items-center gap-y-24 p-12"
+      className="no-scrollbar flex h-full flex-col items-center gap-y-24"
       ref={mainRef}
     >
       <Header scrollRefrence={firstRef} />
@@ -49,17 +49,15 @@ export default function Home() {
         className="w-4 fixed right-2 origin-top top-[10%] h-[80%] rounded-full bg-gradient-to-b from-slate-500 to-slate-600"
         style={{ scaleY: scrollBar }}
       />
-      <section
-        className={` border-b-2 border-slate-300 max-w-6xl w-full h-screen items-center justify-center flex flex-col gap-10 text-sm`}
-      >
+      <section className="w-screen bg-gradient-to-br from-indigo-500 to-orange-300 h-screen items-center justify-center flex flex-col gap-10 text-sm">
         <motion.h1
           initial={{ y: 30, opacity: 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, type: "just" }}
-          className="text-xl cursor-default text-center font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-zinc-700 dark:text-white duration-300 ease-in-out"
+          className="text-xl cursor-default font-eudoxus text-center font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white dark:text-white duration-300 ease-in-out"
         >
           Welcome to the next generation of{" "}
-          <span className=" bg-gradient-to-br from-red-700 to-orange-500 bg-clip-text text-transparent">
+          <span className=" bg-gradient-to-br from-red-500 to-orange-600 bg-clip-text text-transparent">
             MESA
           </span>
           , ready to{" "}
@@ -72,7 +70,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.7, type: "just" }}
-          className="text-lg text-slate-500 dark:text-slate-50"
+          className="text-lg text-white dark:text-slate-50"
         >
           A community for the students, by the students.
         </motion.h2>

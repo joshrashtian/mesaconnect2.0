@@ -1,6 +1,11 @@
 "use client";
 import { userContext } from "@/app/AuthContext";
-import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import Link from "next/link";
 import React, { Ref, useContext, useRef } from "react";
 
@@ -8,25 +13,27 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
   const user = useContext(userContext);
   const { scrollYProgress } = useScroll({
     target: scrollRefrence,
-    offset: ["start end", "end center"],
+    offset: ["start end", "end end"],
   });
+
+  const color = useTransform(scrollYProgress, [0, 1], ["#FFF", "#000"]);
 
   const headerComponents = [
     <Link
       href="/news"
       className="flex flex-row gap-2 p-4 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"
     >
-      <h1 className="text-xl text-zinc-600 dark:text-zinc-100 font-semibold">
+      <motion.h1 style={{ color: color }} className="text-xl font-eudoxus">
         News
-      </h1>
+      </motion.h1>
     </Link>,
     <Link
       href="/sign-in"
-      className="flex flex-row gap-2 p-4 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"
+      className="flex flex-row gap-2 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"
     >
-      <h1 className="text-xl text-zinc-600 dark:text-zinc-100 font-semibold">
+      <motion.h1 style={{ color: color }} className="text-xl font-eudoxus">
         {user.user ? user.user.user_metadata.username : "Sign In"}
-      </h1>
+      </motion.h1>
       <div className="bg-slate-300 w-8 rounded-full">
         <img src={user.userData?.avatar_url} className="w-8 h-8 rounded-full" />
       </div>
@@ -38,15 +45,20 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 5, type: "spring" }}
-      className="w-full h-8 px-[5%] fixed justify-between items-center flex-row flex "
+      className="w-full h-28 px-[5%] fixed justify-between items-center flex-row flex "
     >
       <motion.ul
         style={{ opacity: scrollYProgress }}
         className="h-28 w-full fixed top-0 left-0 bg-gradient-to-b rounded-b-3xl -z-10 dark:from-orange-900 dark:to-zinc-800 from-orange-50 to-zinc-100 shadow-sm"
       />
-      <h2 className="text-orange-700 text-xl font-eudoxus ">
-        MESA<span className="text-slate-500">connect</span>
-      </h2>
+      <motion.h2
+        initial="colorone"
+        animate={Number(scrollYProgress.get()) < 0.5 ? "colorone" : "colortwo"}
+        className="text-orange-500 text-xl font-eudoxus "
+      >
+        MESA
+        <motion.span style={{ color: color }}>connect</motion.span>
+      </motion.h2>
       <section className="flex flex-row text-nowrap items-center">
         {headerComponents.map((e, index) => (
           <motion.ul

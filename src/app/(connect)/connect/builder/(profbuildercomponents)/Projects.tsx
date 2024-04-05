@@ -7,9 +7,9 @@ import { userContext } from "@/app/AuthContext";
 import { AnimatePresence, Reorder, motion } from "framer-motion";
 
 export type ProjectLinks = {
-  name: string;
-  link: string;
-  website: {
+  name?: string;
+  link?: string;
+  website?: {
     name: string;
     icon: string;
   };

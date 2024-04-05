@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Dock from "@/_components/navigation";
 import { config } from "../../config/mesa-config";
 import AuthContext from "./AuthContext";
 import { Inter } from "next/font/google";
@@ -24,7 +23,7 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
