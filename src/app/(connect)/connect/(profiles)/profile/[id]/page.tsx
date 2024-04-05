@@ -9,6 +9,7 @@ import { Index } from "../boxTypes";
 import UserPosts from "./UserPosts";
 import { userContext } from "@/app/AuthContext";
 import ChangePfP from "./ChangePfP";
+import LoadingPage from "@/_components/LoadingPage";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
@@ -35,7 +36,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
   }, []);
 
   if (!user) {
-    return <div>Loading...</div>;
+    return <LoadingPage />;
   }
 
   return (

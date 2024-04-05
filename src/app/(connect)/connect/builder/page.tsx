@@ -64,12 +64,14 @@ const Page = () => {
                 setSelected(Home);
               }}
               className={`w-full p-3 flex justify-center ${
-                selected === "Home" ? "bg-slate-600 text-white" : ""
-              } duration-300 hover:bg-slate-500 hover:text-white cursor-pointer rounded-2xl `}
+                selected === "Home" ? " text-white" : ""
+              } duration-300 hover:bg-orange-500  hover:text-white cursor-pointer rounded-2xl `}
             >
-              <h1 className="font-semibold text-xl">Home</h1>
+              <h1 className="font-semibold font-eudoxus text-center text-xl">
+                Home
+              </h1>
             </ul>
-            <h1 className="font-black text-xl">Posts</h1>
+            <h1 className="font-bold text-xl">Posts</h1>
             {BuilderIndex.map((e, index) => {
               if (e.class === 0)
                 return (
@@ -80,15 +82,17 @@ const Page = () => {
                     key={index}
                     className={`w-full p-3 flex justify-center ${
                       selected.postType === e.postType
-                        ? "bg-slate-600 text-white"
+                        ? "bg-orange-600  text-white"
                         : ""
-                    } duration-300 hover:bg-slate-500 hover:text-white cursor-pointer rounded-2xl `}
+                    } duration-300 hover:bg-orange-500  hover:text-white cursor-pointer rounded-2xl `}
                   >
-                    <h1 className="font-semibold text-xl">{e.postType}</h1>
+                    <h1 className="font-semibold font-eudoxus text-center text-xl">
+                      {e.postType}
+                    </h1>
                   </ul>
                 );
             })}
-            <h1 className="font-black text-xl">Profile Builder</h1>
+            <h1 className="font-bold text-xl">Profile Studio</h1>
             {BuilderIndex.map((e, index) => {
               if (e.class === 1)
                 return (
@@ -99,11 +103,13 @@ const Page = () => {
                     key={index}
                     className={`w-full p-3 flex justify-center ${
                       selected.postType === e.postType
-                        ? "bg-slate-600 text-white"
+                        ? "bg-orange-600 text-white"
                         : ""
-                    } duration-300 hover:bg-slate-500 hover:text-white cursor-pointer rounded-2xl `}
+                    } duration-300 hover:bg-orange-500 hover:text-white cursor-pointer rounded-2xl `}
                   >
-                    <h1 className="font-semibold text-xl">{e.postType}</h1>
+                    <h1 className="font-semibold font-eudoxus text-center text-xl">
+                      {e.postType}
+                    </h1>
                   </ul>
                 );
             })}

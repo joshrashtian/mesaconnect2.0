@@ -6,12 +6,13 @@ import InfoContextContainer from "./InfoContext";
 import { config } from "../../../config/mesa-config";
 import EventModal from "../EventModal";
 import { serverside } from "../../../config/serverside";
+import { redirect } from "next/navigation";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const session = await serverside.auth.getSession();
 
   if (!session.data.session?.user) {
-    console.log("user not logged in");
+    redirect("/");
   }
 
   return (

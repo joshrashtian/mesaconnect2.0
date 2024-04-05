@@ -4,6 +4,7 @@ import { MenuContext } from "@/app/(connect)/InfoContext";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { ChangeSections } from "./ChangeIndex";
 import { userContext } from "@/app/AuthContext";
+import { AnimatePresence, Reorder, motion } from "framer-motion";
 
 export type ProjectLinks = {
   name: string;
@@ -12,6 +13,7 @@ export type ProjectLinks = {
     name: string;
     icon: string;
   };
+  id: number;
 };
 
 const webOptions = [
@@ -56,7 +58,7 @@ const Projects = () => {
     };
 
     getProjectsIntital();
-  }, [user]);
+  }, []);
 
   const upload = () => {
     if (!json || json.contents.length === 0) {
@@ -81,89 +83,112 @@ const Projects = () => {
 
   return (
     <main className="flex flex-col gap-4">
-      {links.map((link, i) => (
-        <section className="bg-zinc-100 shadow-md flex flex-col p-4 justify-center rounded-2xl gap-2">
-          <h1 className="font-bold text-2xl">Link #{i}</h1>
-          <ul className="flex flex-row justify-between">
-            <h1 className="font-mono">
-              {link.name} / {link.link} / {link.website?.name}
-            </h1>
-            <button
-              onClick={() => {
-                setLinks(links.filter((_, index) => index !== i));
-              }}
-            >
-              <h1>x</h1>
-            </button>
-          </ul>
-          <input
-            type="text"
-            className="p-2 px-5  rounded-full"
-            placeholder="Name"
-            contentEditable
-            value={links[i].name}
-            onChange={(e) => {
-              setLinks(
-                links.map((link, index) => {
-                  if (index === i) {
-                    return {
-                      ...link,
-                      name: e.target.value,
-                    };
-                  }
-                  return link;
-                })
-              );
-            }}
-          />
-          <input
-            type="text"
-            className="p-2 px-5 rounded-full"
-            placeholder="Link"
-            value={links[i].link}
-            onChange={(e) => {
-              setLinks(
-                links.map((link, index) => {
-                  if (index === i) {
-                    return {
-                      ...link,
-                      link: e.target.value,
-                    };
-                  }
-                  return link;
-                })
-              );
-            }}
-          />
-          <div className="flex flex-row gap-3 justify-center">
-            {webOptions.map((e) => (
-              <button
-                className="bg-white p-2 px-3 rounded-full"
-                onClick={() => {
-                  setLinks(
-                    links.map((link, index) => {
-                      if (index === i) {
-                        return {
-                          ...link,
-                          website: e,
-                        };
-                      }
-                      return link;
-                    })
-                  );
-                }}
+      <Reorder.Group
+        values={links}
+        onReorder={setLinks}
+        className="flex flex-col gap-4"
+      >
+        <AnimatePresence>
+          {links.map((link, i) => (
+            <Reorder.Item key={link.id ? link.id : link.name} value={link}>
+              <motion.section
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.4 }}
+                exit={{ scale: 0 }}
+                className="bg-neutral-50 hover:bg-neutral-100 active:bg-orange-100 duration-300  flex flex-col p-4 justify-center rounded-2xl gap-2"
               >
-                <h1>{e.name}</h1>
-              </button>
-            ))}
-          </div>
-        </section>
-      ))}
+                <ul className="flex flex-row justify-between items-center">
+                  <h1 className="font-eudoxus text-2xl">{i + 1}</h1>
+                  <h1 className="font-eudoxus">
+                    {link.name} - {link.link} - {link.website?.name}
+                  </h1>
+                  <button
+                    onClick={() => {
+                      setLinks(links.filter((_, index) => index !== i));
+                    }}
+                    className="p-2 group"
+                  >
+                    <h1 className="group-hover:text-red-500 group-hover:scale-105 duration-500 font-geist">
+                      x
+                    </h1>
+                  </button>
+                </ul>
+                <input
+                  type="text"
+                  className="p-2 px-5  rounded-full"
+                  placeholder="Name"
+                  contentEditable
+                  value={links[i].name}
+                  onChange={(e) => {
+                    setLinks(
+                      links.map((link, index) => {
+                        if (index === i) {
+                          return {
+                            ...link,
+                            name: e.target.value,
+                          };
+                        }
+                        return link;
+                      })
+                    );
+                  }}
+                />
+                <input
+                  type="text"
+                  className="p-2 px-5 rounded-full"
+                  placeholder="Link"
+                  value={links[i].link}
+                  onChange={(e) => {
+                    setLinks(
+                      links.map((link, index) => {
+                        if (index === i) {
+                          return {
+                            ...link,
+                            link: e.target.value,
+                          };
+                        }
+                        return link;
+                      })
+                    );
+                  }}
+                />
+                <div className="flex flex-row gap-3 justify-center">
+                  {webOptions.map((e) => (
+                    <button
+                      className="bg-white p-2 px-3 rounded-full"
+                      onClick={() => {
+                        setLinks(
+                          links.map((link, index) => {
+                            if (index === i) {
+                              return {
+                                ...link,
+                                website: e,
+                              };
+                            }
+                            return link;
+                          })
+                        );
+                      }}
+                    >
+                      <h1>{e.name}</h1>
+                    </button>
+                  ))}
+                </div>
+              </motion.section>
+            </Reorder.Item>
+          ))}
+        </AnimatePresence>
+      </Reorder.Group>
       <button
         onClick={() => {
           setLinks([
             ...links,
-            { name: undefined, link: undefined, website: undefined },
+            {
+              name: undefined,
+              link: undefined,
+              website: undefined,
+              id: Math.random(),
+            },
           ]);
         }}
         className="w-full border-2 border-opacity-40 border-dashed rounded-full p-3"
