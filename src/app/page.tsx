@@ -11,6 +11,8 @@ import { useContext, useRef } from "react";
 import { supabase } from "../../config/mesa-config";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
+import { Canvas } from "@react-three/fiber";
+import { BoxGeometry } from "three";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,71 +51,74 @@ export default function Home() {
         className="w-4 fixed right-2 origin-top top-[10%] h-[80%] rounded-full bg-gradient-to-b from-slate-500 to-slate-600"
         style={{ scaleY: scrollBar }}
       />
-      <section className="w-screen bg-gradient-to-br from-indigo-500 to-orange-300 h-screen items-center justify-center flex flex-col gap-10 text-sm">
-        <motion.h1
-          initial={{ y: 30, opacity: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, type: "just" }}
-          className="text-xl cursor-default font-eudoxus text-center font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white dark:text-white duration-300 ease-in-out"
-        >
-          Welcome to the next generation of{" "}
-          <span className=" bg-gradient-to-br from-red-500 to-orange-600 bg-clip-text text-transparent">
-            MESA
-          </span>
-          , ready to{" "}
-          <span className="hover:text-green-700 duration-500">lead</span> the{" "}
-          <span className=" bg-gradient-to-r hover:text-green-700 from-indigo-700 to-blue-500 dark:from-indigo-400 dark:to-pink-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
-            next generation.
-          </span>
-        </motion.h1>
-        <motion.h2
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.7, type: "just" }}
-          className="text-lg text-white dark:text-slate-50"
-        >
-          A community for the students, by the students.
-        </motion.h2>
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1.3 }}
-          className="w-full flex flex-row mt-6 justify-center gap-4"
-        >
-          {!user.user ? (
-            <>
+      <section className="w-screen rounded-b-[100px] bg-gradient-to-br from-indigo-500 to-orange-300 h-[105vh] shadow-lg items-center justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm">
+        <ul className="w-full h-full 2xl:w-3/4 flex flex-col justify-center px-28 gap-10 ">
+          <motion.h1
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, type: "just" }}
+            className="text-xl cursor-default font-eudoxus text-left font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white dark:text-white duration-300 ease-in-out"
+          >
+            Welcome to the next generation of{" "}
+            <span className=" bg-gradient-to-br from-red-500 to-orange-600 bg-clip-text text-transparent">
+              MESA
+            </span>
+            , to help{" "}
+            <span className="hover:text-green-500 duration-500">lead</span> the{" "}
+            <span className=" bg-gradient-to-r hover:text-green-500 from-indigo-700 to-blue-500 dark:from-indigo-400 dark:to-pink-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
+              next generation.
+            </span>
+          </motion.h1>
+          <motion.h2
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7, type: "just" }}
+            className="text-2xl font-eudoxus text-white dark:text-slate-50"
+          >
+            A community for the students, by the students.
+          </motion.h2>
+          <motion.section
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.3 }}
+            className="w-full flex flex-row mt-6 justify-center gap-4"
+          >
+            {!user.user ? (
+              <>
+                <Link
+                  href="/sign-in"
+                  className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-amber-400 to-orange-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+                >
+                  <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
+                    Sign In
+                  </h2>
+                </Link>
+                <Link
+                  href={"/sign-up"}
+                  className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-400 to-slate-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+                >
+                  <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
+                    Jump In For Free
+                  </h2>
+                </Link>
+              </>
+            ) : (
               <Link
-                href="/sign-in"
-                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-amber-400 to-orange-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+                href="/connect"
+                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-purple-400 to-blue-600 w-2/3 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
               >
                 <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
-                  Sign In
+                  Enter Connect
                 </h2>
               </Link>
-              <Link
-                href={"/sign-up"}
-                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-400 to-slate-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
-              >
-                <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
-                  Jump In For Free
-                </h2>
-              </Link>
-            </>
-          ) : (
-            <Link
-              href="/connect"
-              className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-purple-400 to-blue-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
-            >
-              <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
-                Enter Connect
-              </h2>
-            </Link>
-          )}
-        </motion.section>
+            )}
+          </motion.section>
+        </ul>
       </section>
+
       <motion.section
         style={{ scale: scrollYProgress, opacity: scrollYProgress }}
-        className={`max-w-[90%] border-b-2 border-slate-300 mt-16 gap-10 text-slate-400  rounded-2xl w-full h-screen items-center justify-center p-10 flex flex-col text-sm`}
+        className={`max-w-[90%]  border-b-2 border-slate-300 mt-16 gap-10 text-slate-400  rounded-2xl w-full h-screen items-center justify-center p-10 flex flex-col text-sm`}
         ref={firstRef}
       >
         <section className="w-full gap-12 flex flex-col bg-zinc-50 shadow- p-10 rounded-3xl">

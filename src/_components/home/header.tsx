@@ -66,6 +66,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 1 + 0.5 * index, duration: 2 }}
             className="flex h-full w-full ml-4 items-center"
+            key={index}
           >
             {e}
             {/*headerComponents.length - 1 > index && (
