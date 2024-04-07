@@ -11,8 +11,8 @@ import { useContext, useRef } from "react";
 import { supabase } from "../../config/mesa-config";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
-import { Canvas } from "@react-three/fiber";
-import { BoxGeometry } from "three";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { BoxGeometry, DirectionalLight } from "three";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,6 +20,7 @@ const inter = Inter({
 });
 
 export default function Home() {
+  const meshRef = useRef();
   const firstRef = useRef(null);
   const mainRef = useRef(null);
 
@@ -51,7 +52,11 @@ export default function Home() {
         className="w-4 fixed right-2 origin-top top-[10%] h-[80%] rounded-full bg-gradient-to-b from-slate-500 to-slate-600"
         style={{ scaleY: scrollBar }}
       />
-      <section className="w-screen rounded-b-[100px] bg-gradient-to-br from-indigo-500 to-orange-300 h-[105vh] shadow-lg items-center justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm">
+      <motion.section
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="w-screen rounded-b-[100px] bg-gradient-to-br from-indigo-500 to-orange-300 h-[105vh] shadow-lg items-center justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm"
+      >
         <ul className="w-full h-full 2xl:w-3/4 flex flex-col justify-center px-28 gap-10 ">
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
@@ -114,17 +119,17 @@ export default function Home() {
             )}
           </motion.section>
         </ul>
-      </section>
+      </motion.section>
 
       <motion.section
         style={{ scale: scrollYProgress, opacity: scrollYProgress }}
         className={`max-w-[90%]  border-b-2 border-slate-300 mt-16 gap-10 text-slate-400  rounded-2xl w-full h-screen items-center justify-center p-10 flex flex-col text-sm`}
         ref={firstRef}
       >
-        <section className="w-full gap-12 flex flex-col bg-zinc-50 shadow- p-10 rounded-3xl">
+        <section className="w-full gap-12 flex flex-col bg-zinc-50 shadow-md p-10 rounded-3xl">
           <MajorsText />
           <section className="flex flex-row justify-between ">
-            <ul className="w-3/5 flex flex-col gap-5  md:text-lg lg:text-2xl 2xl:text-3xl">
+            <ul className="w-3/5 flex flex-col gap-5 font-eudoxus font-light md:text-lg lg:text-2xl 2xl:text-3xl">
               <h1 className="  ">
                 As a community, MESA is here to push and motivate our best
                 selves. Leveraging modern technologies, we can help you
@@ -136,7 +141,13 @@ export default function Home() {
                 new dimesion of community.
               </h1>
             </ul>
-            <ul className="w-2/5 "></ul>
+            <Canvas style={{ maxWidth: "40%" }}>
+              <directionalLight position={[2, 2, 1]} />
+              <mesh position={[-2, 0, 0]}>
+                <boxGeometry args={[0.5, 3, 4]} />
+                <meshStandardMaterial color={"orange"} />
+              </mesh>
+            </Canvas>
           </section>
         </section>
         <section className="w-full gap-12 flex flex-col bg-zinc-50 shadow- p-10 rounded-3xl">

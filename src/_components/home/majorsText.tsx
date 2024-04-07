@@ -68,7 +68,7 @@ const MajorsText = () => {
 
   return (
     <motion.h1
-      className={`${inter.className} text-3xl md:text-4xl lg:text-5xl font-bold text-center lg:text-left gap-3 text-slate-500`}
+      className={`font-eudoxus text-3xl md:text-4xl lg:text-5xl font-bold text-center lg:text-left gap-3 text-slate-500`}
     >
       A home for the majors studying{" "}
       <motion.span
@@ -79,7 +79,7 @@ const MajorsText = () => {
           stiffness: 100,
           duration: 2,
         }}
-        className={`text-${color}-500 transition-colors`}
+        className={`text-${color}-500 transition-colors inline-block`}
       >
         {coverMajors[index]}.
       </motion.span>

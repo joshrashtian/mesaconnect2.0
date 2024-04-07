@@ -26,9 +26,12 @@ const Article = ({ article }: { article: ArticleType }) => {
   const date = new Date(article.created_at);
 
   return (
-    <main key={article.id} className="h-full flex flex-col gap-10">
+    <main
+      key={article.id}
+      className="bg-white p-10 rounded-2xl shadow-md h-full flex flex-col gap-10"
+    >
       <header className="w-full flex flex-col justify-between">
-        <h1 className="font-bold bg-gradient-to-tr dark:from-orange-400 dark:to-pink-500 from-red-800 to-purple-500 inline-block bg-clip-text text-transparent text-5xl">
+        <h1 className="font-bold font-eudoxus bg-gradient-to-tr dark:from-orange-400 dark:to-pink-500 from-red-800 to-purple-500 inline-block bg-clip-text text-transparent text-5xl">
           {article.title}
         </h1>
         <ul className="flex flex-row gap-2 p-0.5 items-center">

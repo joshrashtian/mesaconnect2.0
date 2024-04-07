@@ -67,7 +67,7 @@ const Dock = () => {
   ];
 
   return (
-    <div className="w-full bottom-8 h-16 fixed justify-center items-center z-50 flex">
+    <div className="w-full bottom-8 left-0 h-16 fixed justify-center items-center z-50 flex">
       <section
         onMouseEnter={() => {
           setIsHovered(true);
@@ -75,7 +75,7 @@ const Dock = () => {
         onMouseLeave={() => {
           setIsHovered(false);
         }}
-        className="group peer bg-white shadow-md rounded-full h-full w-16 hover:2xl:w-[40%] hover:w-[75%]  justify-center items-center duration-500 hover:scale-110 ease-in-out  "
+        className="group peer bg-white origin-center shadow-md rounded-full h-full w-16 hover:2xl:w-[40%] hover:w-[70%] max-w-2xl justify-center items-center duration-500 hover:scale-110 ease-in-out  "
       >
         <AnimatePresence>
           {profURL && !isHovered && (
@@ -101,7 +101,7 @@ const Dock = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ delay: 0.6, duration: 0.2 }}
-              className="w-full flex-row delay-500 flex justify-center gap-5 items-center duration-200"
+              className="w-full flex-row delay-500 flex justify-center gap-2 items-center duration-200"
             >
               {tabs.map((tab, index) => {
                 if (tab.permissions) {
@@ -125,7 +125,7 @@ const Dock = () => {
                       href={`/connect${tab.link}`}
                       className="flex group-[1] flex-row p-3 justify-center items-center"
                     >
-                      <h1 className="text-sm font-semibold group-hover:text-lg hover:text-orange-800 duration-200">
+                      <h1 className="2xl:text-sm text-[12px] font-semibold group-hover:text-lg hover:text-orange-800 duration-200">
                         {tab.name}
                       </h1>
                     </Link>
