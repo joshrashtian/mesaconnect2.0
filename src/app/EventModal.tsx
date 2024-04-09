@@ -33,7 +33,6 @@ const EventModal = ({ children }: { children: React.ReactNode }) => {
     }
 
     if (searchParams.get('event')) {
-      console.log('fetching event')
       fetchEvent()
     }
   }, [])
@@ -200,6 +199,21 @@ const Modal = ({ event }: { event: EventType }) => {
           dragMomentum={false}
           whileDrag={{ scale: 0.95 }}
         >
+          <ul
+            className={`min-w-full h-6 z-10 right-0 flex ${
+              event.image ? 'bg-white hover:opacity-75 opacity-0 -mb-6 ' : 'bg-gray-50'
+            }  items-center rounded-t-full rounded-bl-2xl duration-300 px-5 flex-row-reverse
+            relative`}
+          >
+            <p
+              onClick={() => {
+                disarm.disarmModal()
+              }}
+              className="font-medium cursor-pointer hover:text-red-600  duration-300  font-mono text-lg "
+            >
+              x
+            </p>
+          </ul>
           {event.image && (
             <motion.section className="w-full relative h-48">
               <Image
@@ -217,14 +231,6 @@ const Modal = ({ event }: { event: EventType }) => {
                 <h1 className="font-bold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
                   {event.name}
                 </h1>
-                <p
-                  onClick={() => {
-                    disarm.disarmModal()
-                  }}
-                  className="font-medium cursor-pointer hover:text-red-600 duration-300 p-4 font-mono text-4xl"
-                >
-                  x
-                </p>
               </ul>
               <h2 className="text-xl font-light text-slate-600">
                 {event.desc ? event.desc : 'This event does not have a description.'}
