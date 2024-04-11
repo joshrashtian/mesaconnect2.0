@@ -1,0 +1,101 @@
+import React, { useCallback, useEffect, useState } from 'react'
+import { supabase } from '../../../../../../config/mesa-config'
+
+export type ClassType = {
+  id: string
+  num: number
+  category: string
+  name: string
+}
+
+const ClassRelations = ({
+  exist,
+  onChange
+}: {
+  exist: boolean
+  onChange: (e: string[]) => void
+}) => {
+  const [classes, setClasses] = useState<ClassType[]>([])
+  const [selectedClasses, setSelectedClasses] = useState<string[]>([])
+  const [newSearch, setSearch] = useState<string>()
+  if (!exist) return null
+
+  const changeClasses = useEffect(() => {
+    if (!selectedClasses) return
+    onChange(selectedClasses)
+  }, [selectedClasses])
+
+  async function fetchClasses() {
+    const { data, error } = await supabase.schema('information').from('classes').select()
+
+    if (error) {
+      console.log(error)
+      return
+    } else setClasses(data)
+  }
+
+  const search = async (query: string | undefined) => {
+    if (!query) {
+      fetchClasses()
+      return null
+    }
+    const { data, error } = await supabase
+      .schema('information')
+      .from('classes')
+      .select()
+      .limit(3)
+      .textSearch('name', query, {
+        type: 'websearch',
+        config: 'english'
+      })
+    if (error) {
+      console.log(error)
+      return
+    }
+    setClasses(data)
+  }
+
+  useEffect(() => {
+    fetchClasses()
+  }, [])
+
+  return (
+    <main className="bg-slate-50 flex flex-col rounded-2xl">
+      <ul className="flex flex-row w-full">
+        <input
+          className="p-3 w-full bg-zinc-50 rounded-2xl last:border-b-0 font-eudoxus last:rounded-b-2xl even:border-y-2 "
+          onChange={(e) => {
+            setSearch(e.target.value)
+          }}
+          type="search"
+        />
+        <button
+          onClick={() => {
+            search(newSearch)
+          }}
+          className="p-2 bg-red-400 hover:bg-red-300 duration-300 hover:scale-105 font-mono rounded-tr-2xl"
+        >
+          <h2 className="text-white">Search</h2>
+        </button>
+      </ul>
+      {classes?.map((e, i) => (
+        <ul
+          className={`p-3 last:border-b-0 ${
+            selectedClasses.includes(e.id) && 'bg-orange-300 hover:bg-orange-200'
+          } font-eudoxus last:rounded-b-2xl hover:bg-slate-100 even:border-y-2 duration-300`}
+          onClick={() => {
+            selectedClasses.includes(e.id)
+              ? setSelectedClasses(selectedClasses.filter((id) => id !== e.id))
+              : setSelectedClasses([...selectedClasses, e.id])
+          }}
+        >
+          <h1>
+            {e.category} {e.num}: {e.name}
+          </h1>
+        </ul>
+      ))}
+    </main>
+  )
+}
+
+export default ClassRelations

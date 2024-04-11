@@ -1,81 +1,83 @@
-"use client";
+'use client'
 
-import React, { useContext, useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useRouter, useSearchParams } from "next/navigation";
-import { supabase } from "../../../../../../config/mesa-config";
-import { userContext } from "@/app/AuthContext";
-import { text } from "stream/consumers";
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { supabase } from '../../../../../../config/mesa-config'
+import { userContext } from '@/app/AuthContext'
+import { text } from 'stream/consumers'
+import ClassRelations from './ClassRelations'
+import { useToast } from '@/app/(connect)/InfoContext'
 
 interface Section {
-  type: string;
-  text?: string;
+  type: string
+  text?: string
 }
 
 const BuildPost = () => {
-  const searchParams = useSearchParams();
-  const user = useContext(userContext);
-  const router = useRouter();
+  const searchParams = useSearchParams()
+  const user = useContext(userContext)
+  const router = useRouter()
 
-  const [title, setTitle] = useState<string>();
-  const [json, setJson] = useState<object>();
-  const [sections, setSelections] = useState<Section[]>([{ type: "initial" }]);
-  const [tags, setTags] = useState<string[]>();
+  const [title, setTitle] = useState<string>()
+  const [json, setJson] = useState<object>()
+  const [sections, setSelections] = useState<Section[]>([{ type: 'initial' }])
+  const [tags, setTags] = useState<string[]>()
+  const [classConnections, setClassConnections] = useState<string[]>()
 
-  const [errorMessage, setErrorMessage] = useState<string>();
+  const [errorMessage, setErrorMessage] = useState<string>()
 
-  const memoizeJSON = useMemo(() => {
-    setJson({
-      data: sections.map((e) => {
-        switch (e.type) {
-          case "initial":
-            return {
-              type: "text",
-              text: e.text,
-            };
-          case "text":
-            return {
-              type: "text",
-              text: e.text,
-            };
-          case "code":
-            return {
-              type: "code",
-              text: e.text,
-            };
-        }
-      }),
-    });
-  }, [title, sections]);
+  const toast = useToast()
 
   const createPost = async () => {
-    const userInfo = user?.userData;
+    const userInfo = user?.userData
 
     if (!userInfo) {
-      console.error("No User!");
-      return;
+      console.error('No User!')
+      return
     }
 
-    const { error } = await supabase.from("posts").insert({
+    const { error } = await supabase.from('posts').insert({
       userid: userInfo.id,
       title: title,
-      data: json,
-      type: "post",
+      data: {
+        data: sections.map((e) => {
+          switch (e.type) {
+            case 'initial':
+              return {
+                type: 'text',
+                text: e.text
+              }
+            case 'text':
+              return {
+                type: 'text',
+                text: e.text
+              }
+            case 'code':
+              return {
+                type: 'code',
+                text: e.text
+              }
+          }
+        })
+      },
+      type: 'post',
       creator: {
         id: userInfo.id,
         realname: userInfo.real_name,
-        username: userInfo.username,
+        username: userInfo.username
       },
       tags: tags,
-    });
+      relations: classConnections
+    })
 
     if (error) {
-      console.error(error);
+      console.error(error)
     }
 
-    console.log("Success!");
-    router.push("/connect/social");
-  };
+    toast.toast('Successfully Posted!', 'success')
+    router.push('/connect/social')
+  }
 
   return (
     <motion.main
@@ -96,10 +98,10 @@ const BuildPost = () => {
           />
         </section>
 
-        <article className="h-full flex flex-col gap-3 ">
+        <article className="flex flex-col gap-3 ">
           {sections.map((e, i) => {
             switch (e.type) {
-              case "initial":
+              case 'initial':
                 return (
                   <section key={i} className="h-1/4 resize-y">
                     <textarea
@@ -110,15 +112,15 @@ const BuildPost = () => {
                             if (index === i) {
                               return {
                                 ...d,
-                                text: e.target.value,
-                              };
+                                text: e.target.value
+                              }
                             }
-                            return d;
+                            return d
                           })
-                        );
+                        )
                       }}
                       placeholder="'wonderful post idea about the sky being blue'"
-                      className=" resize-none rounded-3xl w-full p-5 focus:outline-none hover:shadow-md hover:scale-[1.01] h-full focus:shadow-md duration-300"
+                      className=" resize-none rounded-3xl w-full p-5 focus:outline-none hover:shadow-md hover:scale-[1.01] h-48 focus:shadow-md duration-300"
                     />
                     <AnimatePresence>
                       {sections[0].text && (
@@ -128,21 +130,19 @@ const BuildPost = () => {
                           exit={{ opacity: 0, y: -40 }}
                           className=" text-slate-400 text-center "
                         >
-                          {sections[0].text.length} Characters /{" "}
-                          {sections[0].text.split(" ").length} Words
+                          {sections[0].text.length} Characters /{' '}
+                          {sections[0].text.split(' ').length} Words
                         </motion.h2>
                       )}
                     </AnimatePresence>
                   </section>
-                );
-              case "text":
+                )
+              case 'text':
                 return (
                   <section key={i} className="h-1/4">
                     <button
                       onClick={() => {
-                        setSelections(
-                          sections.filter((_, index) => index !== i)
-                        );
+                        setSelections(sections.filter((_, index) => index !== i))
                       }}
                       className="p-2 translate-y-10 z-50"
                     >
@@ -150,25 +150,23 @@ const BuildPost = () => {
                     </button>
                     <textarea
                       onChange={(a) => {
-                        e.text = a.target.value;
+                        e.text = a.target.value
                       }}
                       placeholder="'wonderful post idea about the sky being blue'"
-                      className=" resize-none h-full rounded-3xl w-full p-8 z-0 focus:outline-none hover:shadow-md focus:shadow-md duration-300"
+                      className=" resize-none h-48 rounded-3xl w-full p-8 z-0 focus:outline-none hover:shadow-md focus:shadow-md duration-300"
                     />
                   </section>
-                );
-              case "code":
+                )
+              case 'code':
                 return (
                   <section
                     key={i}
-                    className="h-1/5 bg-slate-700 px-4 rounded-xl border-4 no-scrollbar overflow-y-scroll"
+                    className="h-48 bg-slate-700 px-4 rounded-xl border-4 no-scrollbar overflow-y-scroll"
                   >
                     <ul className="z-50 py-4 w-full">
                       <button
                         onClick={() => {
-                          setSelections(
-                            sections.filter((_, index) => index !== i)
-                          );
+                          setSelections(sections.filter((_, index) => index !== i))
                         }}
                         className="bg-white p-0.5 px-2 font-mono"
                       >
@@ -177,22 +175,22 @@ const BuildPost = () => {
                     </ul>
                     <textarea
                       onChange={(a) => {
-                        e.text = a.target.value;
+                        e.text = a.target.value
                       }}
                       autoCorrect="false"
                       placeholder="Paste code / System.out.println('Hello World'); "
-                      className="font-mono text-white bg-slate-700 resize-y h-full  border-slate-200 w-full z-0 focus:outline-none hover:shadow-md focus:shadow-md duration-300"
+                      className="font-mono text-white bg-slate-700 resize-y h-48  border-slate-200 w-full z-0 focus:outline-none hover:shadow-md focus:shadow-md duration-300"
                     />
                   </section>
-                );
+                )
               default:
-                null;
+                null
             }
           })}
-          <section className="w-full mt-10 font-geist flex flex-row justify-center rounded-2xl h-12 bg-slate-50">
+          <section className="w-full mt-24 z-50 font-geist flex flex-row justify-center rounded-2xl h-12 bg-slate-50">
             <button
               onClick={() => {
-                setSelections([...sections, { type: "text" }]);
+                setSelections([...sections, { type: 'text' }])
               }}
               className="w-full hover:scale-105 duration-300"
             >
@@ -200,7 +198,7 @@ const BuildPost = () => {
             </button>
             <button
               onClick={() => {
-                setSelections([...sections, { type: "code" }]);
+                setSelections([...sections, { type: 'code' }])
               }}
               className="w-full hover:scale-105 duration-300"
             >
@@ -210,12 +208,12 @@ const BuildPost = () => {
         </article>
 
         <section className="flex flex-col justify-center text-2xl gap-3">
-          <h2 className="font-bold text-slate-600">Tags:</h2>
+          <h2 className="font-bold font-eudoxus text-slate-600">Tags:</h2>
           <input
             placeholder="Tags are split up by commas. Input all tags with a comma after each."
             className="p-1 rounded-full focus:outline-none focus:shadow-md focus:p-3 px-5 duration-500 w-full"
             type="text"
-            onChange={(e) => setTags(e.target.value.split(","))}
+            onChange={(e) => setTags(e.target.value.split(','))}
           />
           <AnimatePresence>
             {tags && tags[0].length > 0 && (
@@ -223,7 +221,7 @@ const BuildPost = () => {
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -10, opacity: 0 }}
-                transition={{ type: "spring " }}
+                transition={{ type: 'spring ' }}
                 className="flex flex-row items-center font-mono gap-4"
               >
                 <h1 className="text-slate-400">Applied Tags</h1>
@@ -233,11 +231,18 @@ const BuildPost = () => {
                     <ul key={e} className="bg-slate-200 p-2 px-4 rounded-full">
                       <h1>{e}</h1>
                     </ul>
-                  );
+                  )
                 })}
               </motion.ul>
             )}
           </AnimatePresence>
+          <h2 className="font-bold font-eudoxus text-slate-600">Relations:</h2>
+          <ClassRelations
+            exist={true}
+            onChange={(e) => {
+              setClassConnections(e)
+            }}
+          />
         </section>
       </section>
       <AnimatePresence>
@@ -246,22 +251,22 @@ const BuildPost = () => {
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 20, opacity: 0 }}
-            transition={{ type: "spring" }}
+            transition={{ type: 'spring' }}
             className="w-1/2 bottom-24 right-1/4 left-1/4 fixed h-16 bg-orange-500 p-4 rounded-full"
           >
             <button
               onClick={() => {
-                createPost();
+                createPost()
               }}
               className=" cursor-pointer hover:scale-105 hover:shadow-md duration-500 h-full rounded-full w-32"
             >
-              <h2 className="font-bold text-white">Submit</h2>
+              <h2 className="font-bold font-eudoxus text-white">Submit</h2>
             </button>
           </motion.section>
         )}
       </AnimatePresence>
     </motion.main>
-  );
-};
+  )
+}
 
-export default BuildPost;
+export default BuildPost

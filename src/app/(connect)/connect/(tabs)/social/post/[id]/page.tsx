@@ -11,6 +11,7 @@ import { ContextProps, userContext } from '@/app/AuthContext'
 import { SubmitReply } from './SubmitReply'
 import { MenuContext } from '@/app/(connect)/InfoContext'
 import Replies from './Replies'
+import RelatedTo from './RelatedTo'
 
 const PostPage = ({ params }: { params: { id: string } }) => {
   const [post, setPost] = useState<PostType>()
@@ -103,6 +104,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         })}
       </section>
       <section className="flex flex-col gap-3">
+        <RelatedTo classes={post.relations} />
         <ul className="flex flex-col gap-3 p-5 bg-zinc-50 duration-300 rounded-xl">
           <div className="flex flex-row items-center gap-2">
             <img className="w-6 h-6 rounded-full" src={user.userData?.avatar_url} />

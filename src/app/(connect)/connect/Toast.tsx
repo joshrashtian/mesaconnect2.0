@@ -1,33 +1,33 @@
-"use client";
-import React, { useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+'use client'
+import React, { useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 const Toast = ({
   trigger,
   type,
   message,
-  turnOff,
+  turnOff
 }: {
-  trigger: boolean;
-  type: string;
-  message: string;
-  turnOff: any;
+  trigger: boolean
+  type: string
+  message: string
+  turnOff: any
 }) => {
-  const [toast, setToast] = React.useState({ type: type, message: message });
-  const [active, setActive] = React.useState(false);
+  const [toast, setToast] = React.useState({ type: type, message: message })
+  const [active, setActive] = React.useState(false)
 
   useEffect(() => {
-    setActive(trigger);
+    setActive(trigger)
     setToast({
       type: type,
-      message: message,
-    });
+      message: message
+    })
     if (trigger) {
       setTimeout(() => {
-        setActive(false);
-        turnOff();
-      }, 6000);
+        setActive(false)
+        turnOff()
+      }, 6000)
     }
-  }, [trigger]);
+  }, [trigger])
 
   return (
     <AnimatePresence>
@@ -36,12 +36,12 @@ const Toast = ({
           initial={{ x: 50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           exit={{ x: 50, opacity: 0 }}
-          transition={{ type: "spring", duration: 0.5 }}
+          transition={{ type: 'spring', duration: 0.5 }}
           className="absolute z-50 flex flex-col justify-center p-6 shadow-md rounded-3xl top-8 right-8 w-1/5 h-28 bg-white"
         >
           <h1
             className={`font-bold text-lg capitalize ${
-              toast.type === "success" && "text-green-800"
+              toast.type === 'success' && 'text-green-800'
             }`}
           >
             {toast.type}
@@ -50,7 +50,7 @@ const Toast = ({
         </motion.section>
       )}
     </AnimatePresence>
-  );
-};
+  )
+}
 
-export default Toast;
+export default Toast
