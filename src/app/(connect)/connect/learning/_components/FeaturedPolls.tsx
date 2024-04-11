@@ -22,12 +22,12 @@ const FeaturedPolls = () => {
   return (
     <section className="flex flex-col gap-2">
       <ul className="flex flex-row justify-between items-center">
-        <h2 className="font-semibold text-zinc-700 text-3xl">Featured Polls</h2>
+        <h2 className="font-semibold text-zinc-700 text-3xl font-eudoxus">Featured Polls</h2>
         <Link
           href="/connect/learning/creator"
           className="p-2 px-4 border-2 hover:border-opacity-100 hover:scale-105 duration-300 border-dashed border-opacity-50 border-slate-600 rounded-2xl"
         >
-          <h1 className="text-slate-600 font-mono">+ Create Question</h1>
+          <h1 className="text-slate-600 font-eudoxus">Create Question</h1>
         </Link>
       </ul>
       <div className="w-full flex flex-col md:flex-wrap lg:flex-row gap-2">

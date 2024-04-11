@@ -41,8 +41,12 @@ const LearningContextProvider = ({ children }: { children: React.ReactNode }) =>
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: 20, opacity: 0 }}
-                transition={{ delay: 0.2, duration: 0.5, type: 'spring' }}
-                className="bg-white shadow-lg flex flex-col justify-between w-3/4 h-3/4 p-5 px-10 z-50 rounded-3xl"
+                transition={{ duration: 0.5, type: 'spring' }}
+                className="bg-white shadow-lg flex flex-col z-50 w-[50%] h-[60%] rounded-3xl"
+                drag
+                onClick={(e) => e.preventDefault()}
+                dragMomentum={false}
+                whileDrag={{ scale: 0.95 }}
               >
                 {modal}
               </motion.section>
@@ -99,9 +103,7 @@ const PollModal = ({ data, disarm }: { data: PollType; disarm: () => void }) => 
   }, [])
 
   return (
-    <main
-      className={`p-12  flex flex-col ${context ? 'justify-between' : 'justify-center'} h-full`}
-    >
+    <main className={`p-12  flex flex-col justify-between h-full`}>
       <section
         onClick={(e) => {
           e.preventDefault()
