@@ -9,8 +9,8 @@ const Benefits = () => {
       title: "New Opportunities",
     },
     {
-      title: "Socialization"
-    }
+      title: "Socialization",
+    },
   ];
 
   return (
@@ -18,7 +18,7 @@ const Benefits = () => {
       {benefits.map((benefit, index) => {
         return (
           <section className=" " key={index}>
-            <h2 className="text-2xl">{benefit.title}</h2>
+            <h2 className="text-2xl font-eudoxus">{benefit.title}</h2>
           </section>
         );
       })}

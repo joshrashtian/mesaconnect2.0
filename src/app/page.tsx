@@ -64,12 +64,13 @@ export default function Home() {
             transition={{ duration: 0.8, type: "just" }}
             className="text-xl cursor-default font-eudoxus text-left font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white dark:text-white duration-300 ease-in-out"
           >
-            Welcome to the next generation of{" "}
+            The new way to{" "}
             <span className=" bg-gradient-to-br from-red-500 to-orange-600 bg-clip-text text-transparent">
               MESA
             </span>
-            , to help{" "}
-            <span className="hover:text-green-500 duration-500">lead</span> the{" "}
+            , a place to help{" "}
+            <span className="hover:text-green-500 duration-500">connect</span>{" "}
+            the{" "}
             <span className=" bg-gradient-to-r hover:text-green-500 from-indigo-700 to-blue-500 dark:from-indigo-400 dark:to-pink-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
               next generation.
             </span>
@@ -94,7 +95,7 @@ export default function Home() {
                   href="/sign-in"
                   className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-amber-400 to-orange-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
                 >
-                  <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
+                  <h2 className=" text-white text-md lg:text-lg 2xl:text-xl font-eudoxus duration-300">
                     Sign In
                   </h2>
                 </Link>
@@ -102,7 +103,7 @@ export default function Home() {
                   href={"/sign-up"}
                   className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-400 to-slate-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
                 >
-                  <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
+                  <h2 className=" text-white text-md lg:text-lg 2xl:text-xl font-eudoxus duration-300">
                     Jump In For Free
                   </h2>
                 </Link>
@@ -110,9 +111,9 @@ export default function Home() {
             ) : (
               <Link
                 href="/connect"
-                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-purple-400 to-blue-600 w-2/3 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-red-400 to-orange-600 w-2/3 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
               >
-                <h2 className=" text-white text-md lg:text-lg 2xl:text-xl duration-300">
+                <h2 className=" text-white text-md lg:text-lg 2xl:text-xl font-eudoxus duration-300">
                   Enter Connect
                 </h2>
               </Link>
@@ -150,11 +151,13 @@ export default function Home() {
             </Canvas>
           </section>
         </section>
-        <section className="w-full gap-12 flex flex-col bg-zinc-50 shadow- p-10 rounded-3xl">
-          <h2 className="text-4xl text-slate-500 font-semibold">
-            with many amazing reasons to join.{" "}
-          </h2>
-          <Benefits />
+        <section className="w-full gap-12 flex flex-row rounded-3xl">
+          <section className="w-1/2 gap-12 flex flex-col bg-zinc-50 shadow-md p-10 rounded-3xl">
+            <h2 className="text-4xl font-eudoxus text-slate-500 font-semibold">
+              A Million Reasons To Join.
+            </h2>
+            <Benefits />
+          </section>
         </section>
       </motion.section>
       <SocialPreview />
