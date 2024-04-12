@@ -1,24 +1,25 @@
-'use client'
-import React, { useContext } from 'react'
-import FeaturedLessons from './_components/FeaturedLessons'
-import PollCard from './_components/PollCard'
-import FeaturedPolls from './_components/FeaturedPolls'
-import { userContext } from '@/app/AuthContext'
-import Link from 'next/link'
+"use client";
+import React, { useContext } from "react";
+import FeaturedLessons from "./_components/FeaturedLessons";
+import PollCard from "./_components/PollCard";
+import FeaturedPolls from "./_components/FeaturedPolls";
+import { userContext } from "@/app/AuthContext";
+import Link from "next/link";
 
 const Learning = () => {
   const categories = [
     {
-      color: 'bg-gradient-to-tr from-orange-500 to-red-400 hover:bg-orange-300',
-      title: 'Community Questions',
-      link: ''
+      color: "bg-gradient-to-tr from-orange-500 to-red-400 hover:bg-orange-300",
+      title: "Community Questions",
+      link: "",
     },
     {
-      color: 'bg-gradient-to-br from-indigo-500 to-teal-400 hover:bg-indigo-300',
-      title: 'Study Questions',
-      link: ''
-    }
-  ]
+      color:
+        "bg-gradient-to-br from-indigo-500 to-teal-400 hover:bg-indigo-300",
+      title: "Study Questions",
+      link: "polls",
+    },
+  ];
   return (
     <>
       <main className="flex flex-col h-full pb-20 gap-10">
@@ -45,7 +46,7 @@ const Learning = () => {
         <footer></footer>
       </main>
     </>
-  )
-}
+  );
+};
 
-export default Learning
+export default Learning;
