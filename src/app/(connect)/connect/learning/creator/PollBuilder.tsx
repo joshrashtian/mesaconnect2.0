@@ -4,12 +4,14 @@ import { supabase } from '../../../../../../config/mesa-config'
 import { useRouter } from 'next/navigation'
 import { MenuContext } from '@/app/(connect)/InfoContext'
 import { ContextProps, userContext } from '@/app/AuthContext'
+import ClassRelations from '../../builder/(buildercomponents)/ClassRelations'
 
 const PollBuilder = () => {
   const [poll, setPoll] = useState<string>()
   const [options, setOptions] = useState<any[]>([])
   const [context, setContext] = useState<File>()
   const [correct, setCorrect] = useState<number | undefined>()
+  const [relation, setRelation] = useState<string[]>([])
 
   const router = useRouter()
   const modal: any = useContext(MenuContext)
@@ -49,7 +51,8 @@ const PollBuilder = () => {
         },
         context: context ? true : false,
         contextType: pathname,
-        creatorid: user.user?.id
+        creatorid: user.user?.id,
+        relations: relation
       })
       .select()
 
@@ -181,6 +184,14 @@ const PollBuilder = () => {
             <h1 className="font-mono">Create New Option</h1>
           </button>
         )}
+      </section>
+      <section>
+        <ClassRelations
+          exist={true}
+          onChange={(e) => {
+            setRelation(e)
+          }}
+        />
       </section>
       <section className="w-full mb-32 flex justify-center">
         <button

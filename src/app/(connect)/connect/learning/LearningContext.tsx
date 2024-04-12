@@ -74,6 +74,8 @@ const PollModal = ({ data, disarm }: { data: PollType; disarm: () => void }) => 
 
   const user = useContext(userContext)
 
+  const isQuestion = typeof data.correct === 'number'
+
   useEffect(() => {
     setSelected(false)
     const see = async () => {
@@ -110,10 +112,10 @@ const PollModal = ({ data, disarm }: { data: PollType; disarm: () => void }) => 
         }}
         className={`${context ? 'h-1/2' : 'h-24'} flex flex-col gap-2`}
       >
-        <h2 className="font-semibold text-3xl text-slate-700">
-          {data.correct ? 'QUESTION' : 'POLL'}
+        <h2 className="font-eudoxus font-bold text-3xl text-slate-700">
+          {isQuestion ? 'Question' : 'Poll'}
         </h2>
-        <h1 className="font-bold text-5xl">{data.question}</h1>
+        <h1 className="font-bold font-eudoxus text-5xl">{data.question}</h1>
         {context && (
           <img src={context} onClick={() => {}} className="w-full h-full mt-4 object-contain" />
         )}
@@ -122,17 +124,17 @@ const PollModal = ({ data, disarm }: { data: PollType; disarm: () => void }) => 
         {data.options.map((option: string, index: number) => (
           <button
             className={`w-[49%] p-5 rounded-2xl ${
-              selected !== undefined && selected === index && data.correct
-                ? index === data.correct
-                  ? 'bg-green-500 text-white animate-bounce'
-                  : 'bg-red-500 text-white'
-                : selected === index
-                ? 'bg-orange-200'
-                : 'bg-slate-100'
-            } duration-300`}
+              selected === index
+                ? isQuestion
+                  ? index === data.correct
+                    ? 'bg-green-500 text-white'
+                    : 'bg-red-500 text-white'
+                  : 'bg-orange-200'
+                : 'bg-slate-100 hover:bg-slate-50'
+            } duration-300 hover:scale-105`}
             key={index}
             onClick={() => {
-              if (selected !== undefined && !submitted) {
+              if (selected && !submitted) {
                 UploadResult(user, data.id, index)
               }
               setSelected(index)

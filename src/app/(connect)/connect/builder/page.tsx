@@ -56,7 +56,7 @@ const Page = () => {
       <h1 className="text-4xl font-bold text-transparent bg-clip-text inline-block bg-gradient-to-tr from-orange-700 to-black font-eudoxus ">
         MESA Studio
       </h1>
-      <section className="flex flex-row gap-3 w-full h-full">
+      <section className="flex flex-row gap-3 w-full min-h-full">
         <nav className="w-1/6 flex gap-10 flex-col bg-zinc-50  rounded-2xl text-center p-2 justify-between items-center">
           <section className="flex gap-3 flex-col">
             <ul
@@ -110,7 +110,7 @@ const Page = () => {
           </section>
         </nav>
 
-        <div className="bg-white rounded-3xl p-10 overflow-y-scroll no-scrollbar w-full">
+        <div className="bg-white rounded-3xl p-10 overflow-y-scroll no-scrollbar w-full h-full">
           <selected.onSelect />
         </div>
       </section>

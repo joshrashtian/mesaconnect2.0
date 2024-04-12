@@ -17,7 +17,7 @@ const PollInfo = ({ disarmModal, active }: { disarmModal: () => void; active: Po
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 20, opacity: 0 }}
           transition={{ delay: 0.2, duration: 0.5, type: 'spring' }}
-          className="bg-white shadow-lg flex flex-col justify-between w-3/4 h-1/2 p-16 z-50 rounded-3xl"
+          className="bg-white shadow-lg flex flex-col justify-between w-3/4 h-1/2 min-h-[600px] p-16 z-50 rounded-3xl"
         >
           <h1 className="font-bold text-4xl">{active.question}</h1>
           <section className="p-10 bg-slate-100 rounded-lg font-mono">

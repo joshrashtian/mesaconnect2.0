@@ -10,19 +10,26 @@ export type ClassType = {
 
 const ClassRelations = ({
   exist,
-  onChange
+  onChange,
+  onChangeClass,
+  getClass,
+  value
 }: {
   exist: boolean
-  onChange: (e: string[]) => void
+  onChange?: (e: string[]) => void
+  onChangeClass?: (e: ClassType[]) => void
+  getClass?: (e: ClassType) => void
+  value?: ClassType[]
 }) => {
-  const [classes, setClasses] = useState<ClassType[]>([])
-  const [selectedClasses, setSelectedClasses] = useState<string[]>([])
+  const [classes, setClasses] = useState<ClassType[]>(value ? value : [])
+  const [selectedClasses, setSelectedClasses] = useState<ClassType[]>([])
   const [newSearch, setSearch] = useState<string>()
   if (!exist) return null
 
   const changeClasses = useEffect(() => {
     if (!selectedClasses) return
-    onChange(selectedClasses)
+    if (onChange) onChange(selectedClasses.map((e) => e.id))
+    if (onChangeClass) onChangeClass(selectedClasses)
   }, [selectedClasses])
 
   async function fetchClasses() {
@@ -81,12 +88,13 @@ const ClassRelations = ({
       {classes?.map((e, i) => (
         <ul
           className={`p-3 last:border-b-0 ${
-            selectedClasses.includes(e.id) && 'bg-orange-300 hover:bg-orange-200'
+            selectedClasses.includes(e) && 'bg-orange-300 hover:bg-orange-200'
           } font-eudoxus last:rounded-b-2xl hover:bg-slate-100 even:border-y-2 duration-300`}
           onClick={() => {
-            selectedClasses.includes(e.id)
-              ? setSelectedClasses(selectedClasses.filter((id) => id !== e.id))
-              : setSelectedClasses([...selectedClasses, e.id])
+            selectedClasses.includes(e)
+              ? setSelectedClasses(selectedClasses.filter((id) => id.id !== e.id))
+              : setSelectedClasses([...selectedClasses, e])
+            if (getClass) getClass(e)
           }}
         >
           <h1>
