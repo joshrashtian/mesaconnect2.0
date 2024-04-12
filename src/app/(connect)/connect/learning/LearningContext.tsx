@@ -148,3 +148,21 @@ const PollModal = ({ data, disarm }: { data: PollType; disarm: () => void }) => 
     </main>
   )
 }
+
+export const usePollModal = () => {
+  const context = useContext(LearningContext)
+
+  function createModal(pollid: PollType) {
+    context.PollModal(pollid)
+  }
+
+  function getContext() {
+    return context
+  }
+
+  if (context === undefined) {
+    throw new Error('usePollModal must be used within a LearningProvider')
+  }
+
+  return { getContext, createModal }
+}

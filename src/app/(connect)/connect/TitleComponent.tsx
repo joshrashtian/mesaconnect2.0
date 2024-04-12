@@ -4,6 +4,7 @@ import { userContext } from '@/app/AuthContext'
 import { userAgent } from 'next/server'
 import React, { useContext, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
+import { usePollModal } from './learning/LearningContext'
 
 const TitleComponent = () => {
   const user = useContext(userContext)

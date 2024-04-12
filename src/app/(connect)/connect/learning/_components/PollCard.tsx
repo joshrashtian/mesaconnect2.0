@@ -1,7 +1,7 @@
 'use client'
 import { motion } from 'framer-motion'
 import React, { useContext } from 'react'
-import { LearningContext } from '../LearningContext'
+import { LearningContext, usePollModal } from '../LearningContext'
 
 export type PollType = {
   question: string
@@ -21,12 +21,12 @@ export type PollType = {
 }
 
 const PollCard = ({ data, index }: { data: PollType; index: number }) => {
-  const modal = useContext(LearningContext)
+  const { createModal } = usePollModal()
 
   return (
     <motion.div
       onClick={() => {
-        modal.PollModal(data)
+        createModal(data)
       }}
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
