@@ -1,12 +1,16 @@
 import React, { useContext } from "react";
 import { EventType } from "@/_assets/types";
 import { EventModalContext } from "@/app/EventModal";
-import { useContextMenu } from "@/app/(connect)/InfoContext";
+import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
+import { supabase } from "../../../config/mesa-config";
+import { useUser } from "@/app/AuthContext";
 
 export const Event = ({ event }: { event: EventType }) => {
   const date = new Date(event.start);
   const modal = useContext<any>(EventModalContext);
   const { createContext } = useContextMenu();
+  const { userData } = useUser();
+  const { CreateInfoToast } = useToast();
 
   const months = [
     "Jan",
@@ -44,6 +48,25 @@ export const Event = ({ event }: { event: EventType }) => {
               navigator.clipboard.writeText(
                 `localhost:3000/connect/social?event=${event.id}`
               );
+              CreateInfoToast("Copied Event Link To Clipboard");
+            },
+          },
+          {
+            name: "Delete Event",
+            visible:
+              userData?.id === event.creator || userData?.role === "admin",
+            function: async () => {
+              const { error } = await supabase
+                .from("events")
+                .delete()
+                .eq("id", event.id);
+
+              if (error) {
+                console.error(error);
+                return;
+              }
+
+              toast("Deleted Post!", "success");
             },
           },
         ])

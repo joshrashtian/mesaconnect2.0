@@ -129,7 +129,29 @@ export function useToast() {
   if (context === undefined) {
     throw new Error("useUser must be used within Provider");
   }
-  return context;
+
+  function toast(message: string, type: "success" | "error" | "informative") {
+    context.toast(message, type);
+  }
+
+  function CreateInfoToast(message: string) {
+    context.toast(message, "informative");
+  }
+
+  function CreateSuccessToast(message: string) {
+    context.toast(message, "success");
+  }
+
+  function CreateErrorToast(message: string) {
+    context.toast(message, "error");
+  }
+  return {
+    context,
+    CreateErrorToast,
+    CreateInfoToast,
+    CreateSuccessToast,
+    toast,
+  };
 }
 
 export function useContextMenu() {
