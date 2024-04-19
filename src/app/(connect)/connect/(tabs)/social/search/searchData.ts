@@ -1,43 +1,43 @@
-'use server'
+"use server";
 
-import { supabase } from '../../../../../../../config/mesa-config'
+import { supabase } from "../../../../../../../config/mesa-config";
 
 export const SearchPosts = async (search: string) => {
   const { data, error } = await supabase
-    .from('posts')
+    .from("posts")
     .select()
-    .textSearch('title_tags_creator', `${search}`, {
-      type: 'websearch',
-      config: 'english'
-    })
+    .textSearch("title_tags_creator", `${search}`, {
+      type: "websearch",
+      config: "english",
+    });
   //.or(`tags.cs.{${search}},title.like.${search}`)
 
   if (error) {
-    console.log(error)
-    return
+    console.log(error);
+    return;
   }
 
-  const events = await SearchEvents(search)
-  const final = [...data, ...events]
-  return final
-}
+  const events = await SearchEvents(search);
+  const final = [...data, ...events];
+  return final;
+};
 
 export const SearchEvents = async (search: string) => {
   const { data, error } = await supabase
-    .from('events')
+    .from("events")
     .select()
-    .textSearch('name', `${search}`, {
-      type: 'websearch',
-      config: 'english'
+    .textSearch("event_search", `${search}`, {
+      type: "websearch",
+      config: "english",
     })
-    .order('created_at', { ascending: false })
+    .order("created_at", { ascending: false });
   //.or(`tags.cs.{${search}},title.like.${search}`)
 
   if (error) {
-    console.log(error)
-    return
+    console.log(error);
+    return;
   }
 
-  const final = [...data]
-  return final
-}
+  const final = [...data];
+  return final;
+};

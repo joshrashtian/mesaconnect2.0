@@ -4,6 +4,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { SearchPosts } from "./searchData";
 import { EventType, PostType } from "@/_assets/types";
 import SearchInfo from "./SearchInfo";
+import { AnimatePresence, motion } from "framer-motion";
+import { TbMessageSearch } from "react-icons/tb";
+import { IoSearchCircleOutline, IoSearchOutline } from "react-icons/io5";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState<string>();
@@ -40,24 +43,23 @@ const Search = () => {
 
   useEffect(() => {
     searchPosts();
-  }, []);
+  }, [searchParams]);
 
   const onSubmit = () => {
     if (!searchQuery) return;
     router.replace(
       `/connect/social/search/?${createQueryString("search", searchQuery)}`
     );
-    searchPosts();
   };
 
   return (
-    <main className="flex flex-col w-full min-h-full gap-4 ">
-      <h1 className="font-bold text-4xl text-transparent bg-clip-text inline-block bg-gradient-to-r from-orange-800 to-black">
+    <motion.main className="flex flex-col w-full min-h-full gap-4 ">
+      <h1 className="font-bold text-4xl text-transparent font-eudoxus bg-clip-text inline-block bg-gradient-to-br from-orange-800 to-indigo-600">
         What would you like to search for?
       </h1>
-      <nav className="flex flex-row gap-5">
+      <nav className="flex flex-row gap-1.5">
         <input
-          className="p-4 shadow-md focus:outline-none hover:scale-[1.01] focus:scale-[1.01] duration-300 w-full rounded-full px-6"
+          className="p-4 shadow-md font-eudoxus focus:outline-none hover:scale-[1.01] focus:scale-[1.01] duration-300 w-full rounded-2xl px-6"
           type="search"
           placeholder="Search..."
           onChange={(e) => {
@@ -68,21 +70,41 @@ const Search = () => {
           onClick={() => {
             onSubmit();
           }}
-          className="p-4 w-40 rounded-full bg-blue-500 text-white hover:scale-105 duration-300 font-bold"
+          className="p-4 w-26 scale-100 rounded-2xl font-eudoxus hover:rounded-md bg-gradient-to-br from-red-500 to-amber-600 hover:bg-indigo-700 text-white hover:scale-110 duration-300 font-bold"
         >
-          Submit
+          <IoSearchOutline size={26} />
         </button>
       </nav>
-
-      {searchType === "Posts" && !searchResult ? (
-        loading ? (
-          <h1 className="text-xl ">Loading Search Results...</h1>
+      <AnimatePresence>
+        {!searchResult || loading ? (
+          <motion.h1
+            initial={{ y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 0, opacity: 0 }}
+            className="text-4xl text-center p-10 font-eudoxus"
+          >
+            Loading Search Results
+            {Array.from(Array(3).keys()).map((e, i) => (
+              <motion.span
+                key={i}
+                className="inline-block"
+                animate={{ y: [10, 0], opacity: [0, 1] }}
+                transition={{
+                  type: "spring",
+                  delay: 0.2 + i * 0.2,
+                  duration: 1,
+                  repeat: Infinity,
+                  repeatType: "reverse",
+                }}
+              >
+                .
+              </motion.span>
+            ))}
+          </motion.h1>
         ) : (
-          <h1></h1>
-        )
-      ) : (
-        searchResult && <SearchInfo data={searchResult} />
-      )}
+          searchResult && <SearchInfo data={searchResult} />
+        )}
+      </AnimatePresence>
       <button
         onClick={() => {
           router.back();
@@ -91,7 +113,7 @@ const Search = () => {
       >
         <h1 className="font-mono text-2xl">X</h1>
       </button>
-    </main>
+    </motion.main>
   );
 };
 

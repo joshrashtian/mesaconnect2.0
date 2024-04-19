@@ -6,16 +6,20 @@ import Post from "@/_components/socialhub/Post";
 import Wim from "@/_components/socialhub/Wim";
 import React from "react";
 
-const SearchInfo = ({ data }: { data: PostType[] | EventType[] }) => {
-  console.log(data);
+const SearchInfo = ({ data }: { data: PostType[] | EventType[] | any[] }) => {
   return (
     <div
       className="
-    p-5 flex flex-col min-h-full min-w-full overflow-y-scroll"
+    p-5 flex flex-col gap-5 min-h-full min-w-full overflow-y-scroll no-scrollbar"
     >
-      <h1>
-        {data.length} {data.length > 1 ? "results" : "result"}
-      </h1>
+      <ul className="p-4 bg-gray-50 rounded-full">
+        <h1 className="font-eudoxus ">
+          {data.length !== 0
+            ? data.length
+            : "There are no search results with this query."}{" "}
+          {data.length > 1 ? "results" : data.length === 0 ? "" : "result"}
+        </h1>
+      </ul>
 
       <section className="gap-3 flex flex-col">
         {data.map((e, index) => {

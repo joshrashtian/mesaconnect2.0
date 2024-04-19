@@ -1,37 +1,37 @@
-'use client'
+"use client";
 
-import { createContext, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
-import PostContext from '@/_components/socialhub/PostContext'
-import { AnimatePresence, motion } from 'framer-motion'
-import React from 'react'
-import Toast from './connect/Toast'
+import PostContext from "@/_components/socialhub/PostContext";
+import { AnimatePresence, motion } from "framer-motion";
+import React from "react";
+import Toast from "./connect/Toast";
 
 type MenuContext = {
-  valueAt: string | undefined
-  rightClick: (e: any, right: any) => void
-  toast: (message: string, type: 'success' | 'error' | 'informative') => void
-}
+  valueAt: string | undefined;
+  rightClick: (e: any, right: any) => void;
+  toast: (message: string, type: "success" | "error" | "informative") => void;
+};
 
 export const MenuContext = createContext({
   valueAt: undefined,
-  rightClick: () => {},
-  toast: () => {}
-})
+  rightClick: (e: any, right: any) => {},
+  toast: () => {},
+});
 
 const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
-  const contextRef = useRef<any>(null)
+  const contextRef = useRef<any>(null);
   const [contentPos, setContextPos] = useState({
     x: 0,
     y: 0,
     toggled: false,
-    buttons: {}
-  })
+    buttons: {},
+  });
   const [toastState, setToastState] = useState({
     open: false,
-    message: 'woop woop',
-    type: 'success'
-  })
+    message: "woop woop",
+    type: "success",
+  });
 
   useEffect(() => {
     const handler = (e: any) => {
@@ -41,57 +41,58 @@ const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
             x: 0,
             y: 0,
             toggled: false,
-            buttons: {}
-          })
+            buttons: {},
+          });
         }
       }
-    }
+    };
 
-    document.addEventListener('click', handler)
+    document.addEventListener("click", handler);
 
     return () => {
-      document.removeEventListener('click', handler)
-    }
-  })
+      document.removeEventListener("click", handler);
+    };
+  });
 
   const onContextMenu = async (e: any, right: any) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const att: any = contextRef?.current?.getBoundingClientRect()
+    const att: any = contextRef.current.getBoundingClientRect();
 
-    const isLeft: boolean = e.clientX < window?.innerWidth / 2
-    let x
-    let y = e.clientY
+    const isLeft: boolean = e.clientX < window?.innerWidth / 2;
+    let x;
+    let y = e.clientY;
 
     if (isLeft) {
-      x = e.clientX
+      x = e.clientX;
     } else {
-      x = e.clientX - att?.width
+      x = e.clientX - 130;
     }
 
     setContextPos({
       x,
       y,
       toggled: true,
-      buttons: right
-    })
-  }
+      buttons: right,
+    });
+  };
 
   const value = {
-    valueAt: '10',
+    valueAt: "10",
     rightClick: (e: any, right: any) => {
-      onContextMenu(e, right)
+      onContextMenu(e, right);
     },
     toast: (msg: string, type: string) => {
       setToastState({
         open: true,
         message: msg,
-        type: type ? type : 'Informative'
-      })
-    }
-  }
+        type: type ? type : "Informative",
+      });
+    },
+  };
 
   return (
+    //@ts-ignore
     <MenuContext.Provider value={value}>
       {children}
 
@@ -102,7 +103,7 @@ const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
             positionX={contentPos.x}
             positionY={contentPos.y}
             isToggled={contentPos.toggled}
-            rightClick={'ok'}
+            rightClick={"ok"}
             buttons={contentPos.buttons}
           />
         </AnimatePresence>
@@ -114,21 +115,41 @@ const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
           type={toastState.type}
           message={toastState.message}
           turnOff={() => {
-            setToastState({ open: false, message: '', type: 'success' })
+            setToastState({ open: false, message: "", type: "success" });
           }}
         />
       </AnimatePresence>
     </MenuContext.Provider>
-  )
-}
+  );
+};
 
 export function useToast() {
   //@ts-ignore
-  const context = useContext<MenuContext>(MenuContext)
+  const context = useContext<MenuContext>(MenuContext);
   if (context === undefined) {
-    throw new Error('useUser must be used within a UserProvider')
+    throw new Error("useUser must be used within Provider");
   }
-  return context
+  return context;
 }
 
-export default InfoContextContainer
+export function useContextMenu() {
+  const context = useContext(MenuContext);
+  if (context === undefined) {
+    throw new Error("useUser must be used within Provider");
+  }
+
+  function createContext(
+    e: React.MouseEvent,
+    buttons: { name: string; visible: boolean; function: () => void }[]
+  ) {
+    context.rightClick(e, buttons);
+  }
+
+  function getContext() {
+    return context;
+  }
+
+  return { createContext, getContext };
+}
+
+export default InfoContextContainer;
