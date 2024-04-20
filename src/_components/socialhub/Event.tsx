@@ -10,7 +10,7 @@ export const Event = ({ event }: { event: EventType }) => {
   const modal = useContext<any>(EventModalContext);
   const { createContext } = useContextMenu();
   const { userData } = useUser();
-  const { CreateInfoToast } = useToast();
+  const { CreateInfoToast, toast } = useToast();
 
   const months = [
     "Jan",

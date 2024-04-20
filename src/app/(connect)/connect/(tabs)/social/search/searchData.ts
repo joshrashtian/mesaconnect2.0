@@ -18,6 +18,7 @@ export const SearchPosts = async (search: string) => {
   }
 
   const events = await SearchEvents(search);
+  //@ts-ignore
   const final = [...data, ...events];
   return final;
 };
