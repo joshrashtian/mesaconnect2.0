@@ -49,7 +49,7 @@ const EventCarousel = () => {
                 key={index}
                 onClick={() => {
                   setState(item);
-                  router.push(
+                  router.replace(
                     `${pathname}?${createQueryString(
                       "carousel",
                       index.toString()

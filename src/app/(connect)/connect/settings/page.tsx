@@ -7,6 +7,7 @@ import {
 } from "react-icons/io5";
 import { useUser } from "@/app/AuthContext";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const SettingsPage = () => {
   const user = useUser();
@@ -19,8 +20,26 @@ const SettingsPage = () => {
           User Settings
         </h1>
       </header>
-      <section className="flex flex-col gap-3">
+      <section className="flex flex-col font-eudoxus gap-3">
         <h1 className="font-eudoxus text-2xl">Account Information</h1>
+        <ul className="p-6 bg-white flex flex-row items-center">
+          <div className="flex flex-col items-center">
+            <li className="relative w-16 h-16 rounded-full">
+              {user.userData?.avatar_url && (
+                <Image
+                  src={user.userData?.avatar_url}
+                  alt="profile picture"
+                  fill
+                  className="rounded-full"
+                />
+              )}
+            </li>
+            <h1 className="mt-3">Your Profile Picture</h1>
+          </div>
+          <div>
+            <h1>{user.userData?.real_name}</h1>
+          </div>
+        </ul>
         <button
           onClick={() => {
             user.signOut();

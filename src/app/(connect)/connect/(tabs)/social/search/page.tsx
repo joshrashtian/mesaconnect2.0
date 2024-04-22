@@ -6,7 +6,11 @@ import { EventType, PostType } from "@/_assets/types";
 import SearchInfo from "./SearchInfo";
 import { AnimatePresence, motion } from "framer-motion";
 import { TbMessageSearch } from "react-icons/tb";
-import { IoSearchCircleOutline, IoSearchOutline } from "react-icons/io5";
+import {
+  IoArrowBackCircle,
+  IoSearchCircleOutline,
+  IoSearchOutline,
+} from "react-icons/io5";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState<string>();
@@ -55,7 +59,9 @@ const Search = () => {
   return (
     <motion.main className="flex flex-col w-full min-h-full gap-4 ">
       <h1 className="font-bold text-4xl text-transparent font-eudoxus bg-clip-text inline-block bg-gradient-to-br from-orange-800 to-indigo-600">
-        What would you like to search for?
+        {!searchValue
+          ? "What would you like to search for?"
+          : `Results for ${searchValue}`}
       </h1>
       <nav className="flex flex-row gap-1.5">
         <input
@@ -76,7 +82,7 @@ const Search = () => {
         </button>
       </nav>
       <AnimatePresence>
-        {!searchResult || loading ? (
+        {loading ? (
           <motion.h1
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -109,9 +115,9 @@ const Search = () => {
         onClick={() => {
           router.back();
         }}
-        className="absolute cursor-pointer right-6 top-6 bg-white w-16 h-16 flex justify-center items-center hover:scale-105 duration-300 rounded-full"
+        className="absolute cursor-pointer right-9 top-12 text-orange-800 hover:text-indigo-600  w-16 h-16 flex justify-center items-center hover:scale-105 duration-300 rounded-full"
       >
-        <h1 className="font-mono text-2xl">X</h1>
+        <IoArrowBackCircle size="100%" />
       </button>
     </motion.main>
   );

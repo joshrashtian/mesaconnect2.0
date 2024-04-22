@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { months } from "../../../config/calendar";
+import { ExpandArticle } from "./ArticleModal";
 
 export type ArticleType = {
   id: string;
@@ -31,9 +32,15 @@ const Article = ({ article }: { article: ArticleType }) => {
       className="bg-white p-10 rounded-2xl shadow-md h-full flex flex-col gap-10"
     >
       <header className="w-full flex flex-col justify-between">
-        <h1 className="font-bold font-eudoxus bg-gradient-to-tr dark:from-orange-400 dark:to-pink-500 from-red-800 to-purple-500 inline-block bg-clip-text text-transparent text-5xl">
-          {article.title}
-        </h1>
+        <ul className="flex justify-between items-center">
+          <h1 className="font-bold font-eudoxus bg-gradient-to-tr dark:from-orange-400 dark:to-pink-500 from-red-800 to-purple-500 inline-block bg-clip-text text-transparent text-5xl">
+            {article.title}
+          </h1>
+          <ExpandArticle
+            className="text-3xl duration-300 hover:scale-[1.15] hover:text-orange-600"
+            article={article}
+          />
+        </ul>
         <ul className="flex flex-row gap-2 p-0.5 items-center">
           <ul className="w-6 h-6 z-0 relative">
             <Image
@@ -44,7 +51,7 @@ const Article = ({ article }: { article: ArticleType }) => {
             />
           </ul>
           <h1 className=" dark:text-slate-200 text-xl">
-            {article.author.realname} / @{article.author.username} /{" "}
+            {article.author.realname} / @{article.author.username}
           </h1>
         </ul>
         <h2 className="font-eudoxus">

@@ -1,17 +1,26 @@
-import { RecentPostsHome } from '@/_components/socialhub/RecentPostsHome.1'
-import Link from 'next/link'
-import React from 'react'
-import UpcomingEvents from '../UpcomingEvents'
+import { RecentPostsHome } from "@/_components/socialhub/RecentPostsHome.1";
+import Link from "next/link";
+import React from "react";
+import UpcomingEvents from "../UpcomingEvents";
+import {
+  IoSearchCircle,
+  IoSearchCircleOutline,
+  IoSearchSharp,
+} from "react-icons/io5";
 
 const Social = () => {
   return (
-    <main className="min-h-full flex flex-col items-center xl:items-start gap-7 ">
+    <main className="min-h-full flex flex-col font-eudoxus items-center xl:items-start gap-7 ">
       <header className="w-full flex flex-row justify-between">
-        <h1 className="text-transparent bg-clip-text font-bold text-5xl bg-gradient-to-tr from-slate-600 to-orange-900 ">
-          Social
+        <h1 className="text-transparent bg-clip-text font-bold font-eudoxus text-5xl bg-gradient-to-br from-orange-600 to-indigo-900 ">
+          MESA Community
         </h1>
-        <Link href="/connect/social/search">
-          <h1>Search</h1>
+        <Link
+          className="hover:scale-105 duration-300 gap-6 px-4 absolute flex flex-row items-center justify-between right-16 top-28 bg-gradient-to-tr rounded-full text-white from-indigo-600 to-orange-600 p-2 "
+          href="/connect/social/search"
+        >
+          <IoSearchSharp size={30} />
+          <h1 className="font-mono">Search</h1>
         </Link>
       </header>
       <section className="w-full h-full flex flex-col gap-10 xl:flex-row justify-normal lg:justify-between">
@@ -19,7 +28,7 @@ const Social = () => {
         <UpcomingEvents />
       </section>
     </main>
-  )
-}
+  );
+};
 
-export default Social
+export default Social;

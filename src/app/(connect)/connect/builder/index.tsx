@@ -1,32 +1,40 @@
-import BuildPost from './(buildercomponents)/BuildPost'
-import ClassesSelector from './(buildercomponents)/ClassesSelector'
-import AboutSection from './(profbuildercomponents)/AboutSection'
-import EventBuilder from './(profbuildercomponents)/EventBuilder'
-import Projects from './(profbuildercomponents)/Projects'
-import SkillsSection from './(profbuildercomponents)/SkillsSection'
+import {
+  IoChatboxSharp,
+  IoLinkOutline,
+  IoPeopleOutline,
+  IoPersonCircleOutline,
+} from "react-icons/io5";
+import BuildPost from "./(buildercomponents)/BuildPost";
+import AboutSection from "./(profbuildercomponents)/AboutSection";
+import EventBuilder from "./(profbuildercomponents)/EventBuilder";
+import Projects from "./(profbuildercomponents)/Projects";
+import SkillsSection from "./(profbuildercomponents)/SkillsSection";
+import { FaListCheck } from "react-icons/fa6";
 
 export const BuilderIndex = [
   {
-    postType: 'Post',
+    postType: "Post",
     onSelect: () => {
-      return <BuildPost />
+      return <BuildPost />;
     },
-    class: 0
+    class: 0,
+    icon: (params: any) => <IoChatboxSharp {...params} />,
   },
   {
-    postType: 'Events',
+    postType: "Event",
     onSelect: () => {
       return (
         <main className="flex flex-col w-full gap-14 p-5">
           <h1 className="text-slate-500 text-4xl ">Event Builder</h1>
           <EventBuilder />
         </main>
-      )
+      );
     },
-    class: 0
+    class: 0,
+    icon: (params: any) => <FaListCheck {...params} />,
   },
   {
-    postType: 'Basic Information',
+    postType: "About",
     onSelect: () => {
       return (
         <main className="flex flex-col w-full gap-14 p-5">
@@ -34,20 +42,22 @@ export const BuilderIndex = [
           <AboutSection />
           <SkillsSection />
         </main>
-      )
+      );
     },
-    class: 1
+    class: 1,
+    icon: (params: any) => <IoPersonCircleOutline {...params} />,
   },
   {
-    postType: 'Projects',
+    postType: "Projects",
     onSelect: () => {
       return (
         <main className="flex flex-col w-full gap-14 p-5">
           <h1 className="text-slate-500 text-4xl ">Links</h1>
           <Projects />
         </main>
-      )
+      );
     },
-    class: 1
-  }
-]
+    class: 1,
+    icon: (params: any) => <IoLinkOutline {...params} />,
+  },
+];

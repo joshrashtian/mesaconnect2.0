@@ -4,6 +4,8 @@ import Image from "next/image";
 import React, { useContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { IoPerson } from "react-icons/io5";
+import Link from "next/link";
 
 const HomePageHeader = () => {
   const user: ContextProps = useContext(userContext);
@@ -13,7 +15,7 @@ const HomePageHeader = () => {
       <h1 className="dark:text-white text-slate-800 font-eudoxus font-semibold text-4xl">
         <span className="text-orange-600">MESA</span>ConnectNews
       </h1>
-      {user?.userData?.avatar_url && (
+      {user?.userData?.avatar_url ? (
         <motion.ul
           initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -31,6 +33,19 @@ const HomePageHeader = () => {
             src={user?.userData?.avatar_url}
           />
         </motion.ul>
+      ) : (
+        <Link
+          href="/sign-in"
+          className="w-16 h-16 z-30 flex justify-center cursor-pointer items-center group bg-white hover:bg-transparent duration-500 rounded-full relative"
+        >
+          <IoPerson
+            size={"50%"}
+            className=" text-black group-hover:text-orange-500 group-hover:scale-[1.35] group-hover:-translate-x-16 cursor-pointer group-active:scale-[0.85] duration-500 "
+          />
+          <h1 className="group-hover:scale-100 absolute scale-0 font-bold font-eudoxus text-xl text-slate-600 cursor-pointer group-active:scale-[0.85] duration-500">
+            Sign In
+          </h1>
+        </Link>
       )}
       <AnimatePresence>
         <UserMenu

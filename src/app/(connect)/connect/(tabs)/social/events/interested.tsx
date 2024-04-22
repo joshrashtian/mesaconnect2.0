@@ -22,6 +22,7 @@ const InterestedEvents: FC = (): JSX.Element => {
 
       let query: any = [];
 
+      //@ts-ignore
       activeUser.userData.boxlist.map((e: Box) => {
         if (e.type === "skills") {
           query.push(e.skills);
