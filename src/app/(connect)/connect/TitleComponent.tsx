@@ -24,7 +24,7 @@ const TitleComponent = () => {
   if (!user.user) return
 
   return (
-    <main className="w-full text-center xl:text-left duration-300 flex flex-col xl:gap-0 gap-5">
+    <main className="w-full font-eudoxus text-center xl:text-left duration-300 flex flex-col xl:gap-0 gap-5">
       <motion.h1
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}

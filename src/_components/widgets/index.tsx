@@ -8,7 +8,7 @@ export const widgets = [
     widget: () => <CurrentEventSegment />,
     showcase: () => (
       <section
-        className={`w-52 h-52 flex flex-col gap-2 p-5 justify-center items-center rounded-3xl bg-zinc-200 `}
+        className={`w-52 h-52 flex flex-col gap-2 p-5 justify-center items-center rounded-xl bg-zinc-100 `}
       >
         <h1 className="font-light text-left text-md">Your Events</h1>
         <ul className="w-full h-full bg-white rounded-xl" />

@@ -1,16 +1,12 @@
-import { RecentPostsHome } from "@/_components/socialhub/RecentPostsHome.1";
-import Link from "next/link";
-import React from "react";
-import UpcomingEvents from "../UpcomingEvents";
-import {
-  IoSearchCircle,
-  IoSearchCircleOutline,
-  IoSearchSharp,
-} from "react-icons/io5";
+import { RecentPostsHome } from '@/_components/socialhub/RecentPostsHome.1'
+import Link from 'next/link'
+import React from 'react'
+import UpcomingEvents from '../UpcomingEvents'
+import { IoSearchCircle, IoSearchCircleOutline, IoSearchSharp } from 'react-icons/io5'
 
 const Social = () => {
   return (
-    <main className="min-h-full flex flex-col font-eudoxus items-center xl:items-start gap-7 ">
+    <main className="min-h-full flex flex-col font-eudoxus items-center xl:items-start gap-7 pb-28 ">
       <header className="w-full flex flex-row justify-between">
         <h1 className="text-transparent bg-clip-text font-bold font-eudoxus text-5xl bg-gradient-to-br from-orange-600 to-indigo-900 ">
           MESA Community
@@ -28,7 +24,7 @@ const Social = () => {
         <UpcomingEvents />
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default Social;
+export default Social
