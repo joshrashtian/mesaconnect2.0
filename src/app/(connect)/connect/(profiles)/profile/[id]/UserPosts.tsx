@@ -6,18 +6,18 @@ import Post from "@/_components/socialhub/Post";
 import Wim from "@/_components/socialhub/Wim";
 import { PostType } from "@/_assets/types";
 
-const UserPosts = (id: {id: string}) => {
+const UserPosts = (id: { id: string }) => {
   const [data, setData] = useState<PostType[]>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } : { data: any, error: any} = await supabase
+      const { data, error }: { data: any; error: any } = await supabase
         .from("posts")
         .select()
         .eq("userid", id.id);
       setData(data);
     };
-    fetchData()
+    fetchData();
   }, []);
 
   return (

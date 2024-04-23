@@ -41,23 +41,25 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
   return (
     <main className="min-h-screen p-3 gap-5 flex flex-col ">
-      <ul className="flex flex-row items-center gap-5 ">
+      <ul className="flex flex-row items-end gap-5 ">
         {ActiveUser.user?.id === user.id ? (
           <picture
             onClick={() => {
               pfpRef.current.click();
             }}
-            className="hover:scale-110 cursor-pointer scale-100 group w-16 h-16 duration-500"
+            className="hover:scale-110 rounded-full hover:shadow-lg cursor-pointer scale-100 group w-16 h-16 2xl:w-24 2xl:h-24 duration-500"
           >
             <Image
               src={user.avatar_url ? user.avatar_url : UsrIcon}
               alt="profile picture"
               layout="fill"
-              objectFit="contain"
-              style={{ borderRadius: "100%" }}
+              objectFit="cover"
+              className="rounded-full"
             />
-            <div className="w-full h-full absolute group-hover:opacity-30 duration-500 flex flex-row justify-center items-center rounded-full opacity-0 bg-black">
-              <h1 className="text-white text-xs text-center">Change PFP</h1>
+            <div className="w-full h-full absolute group-hover:opacity-80 group-hover:bg-opacity-75 duration-500 flex flex-row justify-center items-center rounded-full opacity-0 bg-black">
+              <h1 className="text-white text-sm font-mono text-center">
+                Change PFP
+              </h1>
             </div>
             <input
               ref={pfpRef}
@@ -77,11 +79,15 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             style={{ borderRadius: "100%" }}
           />
         )}
-        <h1 className="font-bold text-6xl">{user?.real_name}</h1>
-        <h2 className="font-light text-xl text-slate-400">@{user?.username}</h2>
+        <ul>
+          <h1 className="font-bold text-6xl font-eudoxus">{user?.real_name}</h1>
+          <h2 className="font-light text-xl font-eudoxus text-slate-500">
+            @{user?.username}
+          </h2>
+        </ul>
       </ul>
 
-      <section className="flex flex-row gap-3">
+      <section className="flex flex-row gap-3 font-eudoxus">
         <ul className="p-1 rounded-lg w-16 bg-white shadow-sm flex justify-center items-center">
           <h2 className="text-orange-700 font-semibold capitalize">
             {user?.role}
@@ -104,13 +110,15 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       <section className="border-b-2" />
       {user.boxlist && (
         <section className="flex-col flex gap-3">
-          <h2 className="font-bold text-3xl ">Inside {user.real_name}</h2>
-          <ul className="flex flex-row w-full h-full flex-wrap gap-2">
+          <h2 className="font-bold text-3xl font-eudoxus ">
+            Inside {user.real_name}
+          </h2>
+          <ul className="flex flex-row w-full h-full font-eudoxus flex-wrap gap-2">
             {user.boxlist.map((e: any) => {
               return (
                 <section
                   key={e.contents}
-                  className="w-[49%] min-h-full p-5 rounded-3xl shadow-md bg-white"
+                  className="w-[49%] min-h-full p-5 rounded-xl bg-white"
                 >
                   {Index.map((d: any, i: number) => {
                     if (d.title.toLowerCase() === e.type.toLowerCase()) {
@@ -129,9 +137,12 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         </section>
       )}
 
-      <section>
-        <h2 className="font-bold text-3xl ">Posts</h2>
-        <UserPosts id={user.id} />
+      <section className="w-full flex flex-row">
+        <article>
+          <h2 className="font-bold font-eudoxus text-3xl ">Recent Posts</h2>
+          <UserPosts id={user.id} />
+        </article>
+        <article></article>
       </section>
     </main>
   );

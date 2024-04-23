@@ -1,86 +1,88 @@
-'use client'
-import React, { useContext, useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import Link from 'next/link'
-import { supabase } from '../../config/mesa-config'
-import { userContext } from '@/app/AuthContext'
-import { IoHome } from 'react-icons/io5'
+"use client";
+import React, { useContext, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
+import { supabase } from "../../config/mesa-config";
+import { userContext } from "@/app/AuthContext";
+import { IoHome, IoLockClosed } from "react-icons/io5";
 
 const Dock = () => {
-  const [selected, setSelected] = useState('')
-  const [profURL, setProfURL] = useState<string | undefined>()
-  const [isHovered, setIsHovered] = useState(false)
-  const [profID, setProfID] = useState<string | undefined>()
+  const [selected, setSelected] = useState("");
+  const [profURL, setProfURL] = useState<string | undefined>();
+  const [isHovered, setIsHovered] = useState(false);
+  const [profID, setProfID] = useState<string | undefined>();
 
-  const userData = useContext<any>(userContext)
+  const [isLocked, setLocked] = useState(false);
 
-  const SamplePhoto = require('../../src/_assets/photos/UserIcon.png')
+  const userData = useContext<any>(userContext);
+
+  const SamplePhoto = require("../../src/_assets/photos/UserIcon.png");
 
   useEffect(() => {
     const fetchURL = async () => {
-      const user = await supabase.auth.getUser()
+      const user = await supabase.auth.getUser();
 
       const { data, error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .select()
-        .eq('id', user.data.user?.id)
-        .single()
+        .eq("id", user.data.user?.id)
+        .single();
 
       if (error) {
-        console.log(error)
-        setProfURL(undefined)
-        return
+        console.log(error);
+        setProfURL(undefined);
+        return;
       }
 
-      setProfID(data.id)
-      setProfURL(data.avatar_url)
-    }
+      setProfID(data.id);
+      setProfURL(data.avatar_url);
+    };
 
-    fetchURL()
-  }, [])
+    fetchURL();
+  }, []);
 
   const tabs = [
     {
-      name: 'Home',
-      link: '/'
+      name: "Home",
+      link: "/",
     },
     {
-      name: 'Profile',
-      link: `/profile/${profID}`
+      name: "Profile",
+      link: `/profile/${profID}`,
     },
     {
-      name: 'Social',
-      link: '/social'
+      name: "Social",
+      link: "/social",
     },
     {
-      name: 'Learning',
-      link: '/learning'
+      name: "Learning",
+      link: "/learning",
     },
     {
-      name: 'Studio',
-      link: '/builder'
+      name: "Studio",
+      link: "/builder",
     },
     {
-      name: 'Settings',
-      link: '/settings'
+      name: "Settings",
+      link: "/settings",
     },
     {
-      name: 'Admin',
-      link: '/admin',
-      permissions: ['admin']
-    }
-  ]
+      name: "Admin",
+      link: "/admin",
+      permissions: ["admin"],
+    },
+  ];
 
   return (
-    <div className="w-full bottom-8 left-0 h-16 fixed justify-center items-center z-50 flex">
+    <div className="w-full bottom-8 left-0 font-eudoxus h-16 fixed justify-center items-center z-50 flex">
       <section
         onMouseEnter={() => {
-          setIsHovered(true)
+          setIsHovered(true);
         }}
         onMouseLeave={() => {
-          setIsHovered(false)
+          setIsHovered(false);
         }}
-        className="group peer bg-white origin-center shadow-md rounded-full h-full w-16 hover:2xl:w-[60%] hover:w-[70%] max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-110 ease-in-out  "
+        className="group peer bg-white origin-center  drop-shadow-md rounded-3xl hover:-translate-y-3 h-full w-16 hover:2xl:w-[60%] hover:w-[70%] max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-[1.15] ease-in-out  "
       >
         <AnimatePresence>
           {profURL && !isHovered && (
@@ -110,8 +112,11 @@ const Dock = () => {
             >
               {tabs.map((tab, index) => {
                 if (tab.permissions) {
-                  if (!tab.permissions.includes(userData.userData?.role) || !userData) {
-                    return null
+                  if (
+                    !tab.permissions.includes(userData.userData?.role) ||
+                    !userData
+                  ) {
+                    return null;
                   }
                 }
 
@@ -125,14 +130,14 @@ const Dock = () => {
                   >
                     <Link
                       href={`/connect${tab.link}`}
-                      className="flex group-[1] flex-row p-3 justify-center items-center"
+                      className="flex hover:text-orange-700 flex-row p-3 justify-center items-center"
                     >
-                      <h1 className="2xl:text-sm text-[12px] font-semibold group-hover:text-lg hover:text-orange-800 duration-200">
+                      <h1 className="2xl:text-sm text-[12px] font-semibold group-hover:text-lg duration-200">
                         {tab.name}
                       </h1>
                     </Link>
                   </motion.li>
-                )
+                );
               })}
             </motion.ul>
           </AnimatePresence>
@@ -142,8 +147,13 @@ const Dock = () => {
       <section className=" absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white ">
         <h1 className="font-bold">{selected}</h1>
       </section>
+      <section
+        className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:translate-y-10 -translate-y-4 transition-all duration-500  bg-white`}
+      >
+        <IoLockClosed />
+      </section>
     </div>
-  )
-}
+  );
+};
 
-export default Dock
+export default Dock;

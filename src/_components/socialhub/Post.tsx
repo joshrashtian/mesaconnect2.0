@@ -57,7 +57,7 @@ const Post = ({ post }: { post: PostType }) => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ ease: "backInOut", duration: 0.2 }}
       whileHover={{ scale: 1.02 }}
-      className="h-1/5 p-5 shadow-sm hover:scale-[1.01] duration-500 rounded-3xl w-full bg-gradient-to-br from-[#FFFBF6] to-[#F7F7F7]"
+      className="h-22 p-5 shadow-sm hover:scale-[1.01] duration-500 rounded-3xl w-full bg-gradient-to-br from-[#FFFBF6] to-[#F7F7F7]"
       onContextMenu={(e) => {
         createContext(e, contextButtons);
       }}
