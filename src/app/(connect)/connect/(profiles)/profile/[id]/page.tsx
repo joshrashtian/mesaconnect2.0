@@ -10,6 +10,7 @@ import UserPosts from "./UserPosts";
 import { userContext } from "@/app/AuthContext";
 import ChangePfP from "./ChangePfP";
 import LoadingPage from "@/_components/LoadingPage";
+import FollowButton from "./FollowButton";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
@@ -87,6 +88,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         </ul>
       </ul>
 
+      {user.id !== ActiveUser.user?.id && <FollowButton id={user.id} />}
       <section className="flex flex-row gap-3 font-eudoxus">
         <ul className="p-1 rounded-lg w-16 bg-white shadow-sm flex justify-center items-center">
           <h2 className="text-orange-700 font-semibold capitalize">
