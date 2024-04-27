@@ -65,7 +65,7 @@ const InviteKeys = () => {
                   <button className="duration-300 bg-red-400 hover:scale-105 text-white rounded-full active:scale-90 active:bg-orange-400 p-2">
                     <IoTrashBin
                       onClick={async () => {
-                        const { data, error } = await supabase
+                        const { error } = await supabase
                           .from("invitekeys")
                           .delete()
                           .eq("id", key.id);

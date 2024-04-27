@@ -14,13 +14,17 @@ const SettingsPage = () => {
   const user = useUser();
   const router = useRouter();
   return (
-    <main className=" font-eudoxus ">
+    <main className=" font-eudoxus flex flex-col gap-10 ">
       <header className="">
-        <IoSettingsOutline size={70} />
+        <IoSettingsOutline
+          size={70}
+          className=" hover:animate-spin hover:text-orange-500 duration-300"
+        />
         <h1 className="font-eudoxus z-10 text-3xl drop-shadow-2xl md:text-4xl lg:text-6xl font-bold text-center lg:text-left gap-3 text-indigo-900 duration-300">
           User Settings
         </h1>
       </header>
+      <InviteKeys />
       <section className="flex flex-col font-eudoxus gap-3">
         <h1 className="font-eudoxus text-2xl">Account Information</h1>
         <ul className="p-6 bg-white flex flex-row items-center">
@@ -52,7 +56,6 @@ const SettingsPage = () => {
           <h1>Sign Out</h1>
         </button>
       </section>
-      <InviteKeys />
     </main>
   );
 };
