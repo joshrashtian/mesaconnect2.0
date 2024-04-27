@@ -5,6 +5,7 @@ import { useUser } from "@/app/AuthContext";
 import { AnimatePresence } from "framer-motion";
 import { motion } from "framer-motion";
 import { IoCopyOutline, IoKeyOutline, IoTrashBin } from "react-icons/io5";
+import { useModal } from "../Modal";
 
 export type Key = {
   id: string;
@@ -17,6 +18,7 @@ const InviteKeys = () => {
   const [activeKeys, setKeys] = useState<Key[]>();
   const [modal, setModal] = useState<boolean>(false);
   const { user } = useUser();
+  const { CreateModal } = useModal();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,7 +86,7 @@ const InviteKeys = () => {
             {activeKeys?.length < 3 && (
               <button
                 onClick={() => {
-                  setModal(true);
+                  CreateModal(<InviteModal />);
                 }}
                 className="flex flex-row bg-slate-100 hover:bg-slate-200 duration-300 w-full p-3 text-xl justify-between gap-2 items-center"
               >
@@ -100,7 +102,7 @@ const InviteKeys = () => {
           </p>
           <button
             onClick={() => {
-              setModal(true);
+              CreateModal(<InviteModal />);
             }}
             className="text-lg text-theme-blue duration-500 hover:text-black"
           >
@@ -108,30 +110,18 @@ const InviteKeys = () => {
           </button>
         </>
       )}
-      <AnimatePresence>
-        <InviteModal
-          modal={modal}
-          turnOffModal={() => {
-            setModal(false);
-          }}
-        />
-      </AnimatePresence>
     </section>
   );
 };
 
-const InviteModal = ({
-  modal,
-  turnOffModal,
-}: {
-  modal: boolean;
-  turnOffModal: () => void;
-}) => {
+const InviteModal = () => {
   const { user } = useUser();
   const [key, setKey] = useState<Key>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const createKey = async () => {
+      console.log("Creating new key...");
       const { data, error } = await supabase
         .from("invitekeys")
         .insert({
@@ -146,36 +136,25 @@ const InviteModal = ({
       }
       setKey(data);
     };
-    if (modal) createKey();
-  }, [modal]);
 
-  if (!modal) return;
+    createKey();
+  }, []);
 
   return (
     <>
-      <section className="fixed inset-0 flex justify-center items-center overflow-y-auto">
-        <div className="p-10 rounded-xl h-64 z-50 w-1/3 min-w-96 bg-zinc-50">
-          <h1 className="text-2xl">Here Is Your New Key</h1>
-          <p className="text-slate-600">It will expire in 7 days.</p>
+      <h1 className="text-2xl">Here Is Your New Key</h1>
+      <p className="text-slate-600">It will expire in 7 days.</p>
 
-          <p className="p-3 flex flex-row justify-between items-center bg-white shadow-sm">
-            {key ? key.id : "Loading Key..."}
-            <button className="duration-300 bg-blue-400 hover:scale-105 text-white rounded-full active:scale-90 active:bg-orange-400 p-2">
-              <IoCopyOutline
-                onClick={() => {
-                  navigator.clipboard.writeText(key?.id);
-                }}
-              />
-            </button>
-          </p>
-        </div>
-        <ul
-          className="absolute inset-0 z-0 bg-gray-500 opacity-50 "
-          onClick={() => {
-            turnOffModal();
-          }}
-        />
-      </section>
+      <p className="p-3 flex flex-row justify-between items-center bg-white shadow-sm">
+        {key ? key.id : "Loading Key..."}
+        <button className="duration-300 bg-blue-400 hover:scale-105 text-white rounded-full active:scale-90 active:bg-orange-400 p-2">
+          <IoCopyOutline
+            onClick={() => {
+              navigator.clipboard.writeText(key?.id);
+            }}
+          />
+        </button>
+      </p>
     </>
   );
 };
