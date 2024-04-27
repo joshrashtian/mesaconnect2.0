@@ -117,7 +117,7 @@ const InviteKeys = () => {
 const InviteModal = () => {
   const { user } = useUser();
   const [key, setKey] = useState<Key>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const a = useModal();
 
   useEffect(() => {
     const createKey = async () => {
@@ -141,21 +141,33 @@ const InviteModal = () => {
   }, []);
 
   return (
-    <>
-      <h1 className="text-2xl">Here Is Your New Key</h1>
-      <p className="text-slate-600">It will expire in 7 days.</p>
+    <section className="flex flex-col h-full justify-between">
+      <section>
+        <h1 className="text-2xl">Here Is Your New Key.</h1>
+        <p className="text-slate-600">It will expire in 7 days.</p>
+      </section>
 
       <p className="p-3 flex flex-row justify-between items-center bg-white shadow-sm">
         {key ? key.id : "Loading Key..."}
         <button className="duration-300 bg-blue-400 hover:scale-105 text-white rounded-full active:scale-90 active:bg-orange-400 p-2">
           <IoCopyOutline
             onClick={() => {
+              //@ts-ignore
               navigator.clipboard.writeText(key?.id);
             }}
           />
         </button>
       </p>
-    </>
+      <button
+        onClick={() => {
+          a.DisarmModal();
+          window.location.reload();
+        }}
+        className=" p-3 w-full duration-500 hover:scale-105 hover:bg-orange-400 text-white font-eudoxus bg-orange-500 rounded-2xl"
+      >
+        Confirm
+      </button>
+    </section>
   );
 };
 

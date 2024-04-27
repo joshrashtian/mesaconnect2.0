@@ -37,14 +37,16 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
             <motion.div
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 10, opacity: 0 }}
               transition={{ type: "spring" }}
-              className="p-10 rounded-xl h-64 z-50 w-1/3 min-w-96 bg-zinc-50"
+              className="p-10 rounded-xl h-64 z-50 min-w-[500px] min-h-72 bg-zinc-50"
             >
               {active}
             </motion.div>
             <motion.ul
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.25 }}
+              exit={{ opacity: 0 }}
               className="absolute inset-0 z-0 bg-gray-500 opacity-50 "
               onClick={() => {
                 value.disarmModal();
@@ -57,16 +59,29 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export const useModal = () => {
+export const useModal = (settings?: {
+  storedComponent: React.JSX.Element;
+  onUnmount: (func: () => void) => void;
+  draggable: boolean;
+}) => {
   const context = React.useContext(ModalContext);
 
   if (!context) {
     throw new Error("useModal must be used within a ModalProvider");
   }
 
-  function CreateModal(component: React.JSX.Element) {
-    context.createModal(component);
-    console.log("Creating Modal");
+  function CreateModal(
+    component?: React.JSX.Element,
+    settings?: {
+      storedComponent: React.JSX.Element;
+      onUnmount: (func: () => void) => void;
+    }
+  ) {
+    if (!settings?.storedComponent && !component) return;
+    if (settings?.storedComponent)
+      context.createModal(settings.storedComponent);
+    //@ts-ignore
+    else context.createModal(component);
   }
 
   function CreateDialogBox(
@@ -76,11 +91,15 @@ export const useModal = () => {
     context.createDialogBox(e, confirmed);
   }
 
+  function DisarmModal() {
+    context.disarmModal();
+  }
+
   function GetContext() {
     return context;
   }
 
-  return { CreateModal, CreateDialogBox, GetContext };
+  return { CreateModal, CreateDialogBox, DisarmModal, GetContext };
 };
 
 export default ModalProvider;

@@ -11,11 +11,11 @@ import { userContext } from "@/app/AuthContext";
 import { MenuContext } from "@/app/(connect)/InfoContext";
 import { BsPostcard } from "react-icons/bs";
 import { IoChatboxEllipsesOutline } from "react-icons/io5";
+import { useModal } from "@/app/(connect)/connect/Modal";
 
 export const RecentPostsHome = () => {
   const [posts, setPosts] = useState<PostType[]>([]);
   const [modal, setModal] = useState(false);
-
   const user = useContext(userContext);
 
   useEffect(() => {
@@ -30,10 +30,8 @@ export const RecentPostsHome = () => {
         console.log(error);
         return;
       }
-
       setPosts(data);
     };
-
     fetchData();
   }, []);
 
