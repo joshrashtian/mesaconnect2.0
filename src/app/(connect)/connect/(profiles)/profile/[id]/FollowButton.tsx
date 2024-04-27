@@ -21,7 +21,7 @@ const FollowButton = ({ id }: { id: string }) => {
 
   return (
     <motion.button
-      className={`absolute w-32 active:scale-90 rounded-lg hover:w-40 h-12 gap-4 text-white flex flex-row justify-center items-center group hover:scale-105 duration-500 origin-right font-eudoxus right-16 bg-gradient-to-r ${
+      className={`absolute w-32 active:scale-90 hover:drop-shadow-xl rounded-lg hover:w-40 h-12 gap-4 text-white flex flex-row justify-center items-center group hover:scale-105 duration-500 origin-right font-eudoxus right-16 bg-gradient-to-br ${
         isFollowing
           ? "from-green-800 to-theme-blue-2"
           : "from-theme-blue to-theme-blue-2"

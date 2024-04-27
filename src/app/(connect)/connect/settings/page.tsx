@@ -8,12 +8,13 @@ import {
 import { useUser } from "@/app/AuthContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import InviteKeys from "./InviteKeys";
 
 const SettingsPage = () => {
   const user = useUser();
   const router = useRouter();
   return (
-    <main>
+    <main className=" font-eudoxus ">
       <header className="">
         <IoSettingsOutline size={70} />
         <h1 className="font-eudoxus z-10 text-3xl drop-shadow-2xl md:text-4xl lg:text-6xl font-bold text-center lg:text-left gap-3 text-indigo-900 duration-300">
@@ -51,6 +52,7 @@ const SettingsPage = () => {
           <h1>Sign Out</h1>
         </button>
       </section>
+      <InviteKeys />
     </main>
   );
 };
