@@ -93,7 +93,7 @@ export default function Home() {
               <>
                 <Link
                   href="/sign-in"
-                  className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-amber-400 to-orange-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+                  className=" shadow-sm hover:shadow-xl cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-theme-blue to-theme-blue-2 w-full h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
                 >
                   <h2 className=" text-white text-md lg:text-lg 2xl:text-xl font-eudoxus duration-300">
                     Sign In
@@ -101,7 +101,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href={"/sign-up"}
-                  className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-400 to-slate-600 w-1/4 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+                  className=" shadow-sm hover:shadow-xl cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-500 to-slate-600 w-full h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
                 >
                   <h2 className=" text-white text-md lg:text-lg 2xl:text-xl font-eudoxus duration-300">
                     Jump In For Free
@@ -142,13 +142,6 @@ export default function Home() {
                 new dimesion of community.
               </h1>
             </ul>
-            <Canvas style={{ maxWidth: "40%" }}>
-              <directionalLight position={[2, 2, 1]} />
-              <mesh position={[-2, 0, 0]}>
-                <boxGeometry args={[0.5, 3, 4]} />
-                <meshStandardMaterial color={"orange"} />
-              </mesh>
-            </Canvas>
           </section>
         </section>
         <section className="w-full gap-12 flex flex-row rounded-3xl">
