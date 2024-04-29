@@ -2,39 +2,49 @@
 import React, { useContext, useEffect, useState } from "react";
 import PollCard, { PollType } from "./PollCard";
 import { supabase } from "../../../../../../config/mesa-config";
-import { userContext } from "@/app/AuthContext";
-import Link from "next/link";
 
-const ClassPollList = ({
-  title,
-  classlist,
-}: {
-  title: string;
-  classlist: string[];
-}) => {
+const ClassPollList = ({ classid }: { classid: string }) => {
   const [data, setData] = useState<any>([]);
+  const [name, setName] = useState<string>();
+
   useEffect(() => {
-    const fetchData = async () => {
+    const getName = async () => {
       const { data, error } = await supabase
-        .from("questions")
-        .select("*")
-        .in("relations", ["707914dc-c067-4a59-b0cb-5a8261fca8bc"]);
+        .schema("information")
+        .from("classes")
+        .select("name")
+        .eq("id", classid)
+        .single();
 
       if (error) {
         console.error(error);
-        return;
+        return null;
       }
+
+      setName(`For ${data.name} `);
+    };
+    const fetchData = async () => {
+      let { data, error } = await supabase.rpc("get_questions_by_class", {
+        class: classid,
+      });
+      if (error) return;
       setData(data);
     };
+    getName();
     fetchData();
   }, []);
 
   return (
     <section className="flex flex-col gap-2">
       <ul className="flex flex-row justify-between items-center">
-        <h2 className="font-semibold text-zinc-700 text-3xl font-eudoxus">
-          {title}
-        </h2>
+        {name && (
+          <h2 className="font-semibold text-zinc-700 text-3xl font-eudoxus">
+            {name}{" "}
+            <span className="text-xl text-zinc-500">
+              in which you are currently studying.
+            </span>
+          </h2>
+        )}
       </ul>
       <div className="w-full flex flex-col md:flex-wrap lg:flex-row gap-2">
         {data.map((poll: PollType, index: number) => (
