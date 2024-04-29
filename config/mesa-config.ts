@@ -1,4 +1,5 @@
 import { createBrowserClient, createServerClient } from "@supabase/ssr";
+import { Database } from "./supabasetypes";
 
 export const config = {
   title: "MESA Connect",
@@ -10,7 +11,7 @@ export const config = {
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-export const supabase = createBrowserClient(supabaseUrl, supabaseKey);
+export const supabase = createBrowserClient<Database>(supabaseUrl, supabaseKey);
 
 import { type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
