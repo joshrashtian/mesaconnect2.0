@@ -10,6 +10,7 @@ const ClassPollList = ({ classid }: { classid: string }) => {
   useEffect(() => {
     const getName = async () => {
       const { data, error } = await supabase
+        //@ts-ignore
         .schema("information")
         .from("classes")
         .select("name")
@@ -33,6 +34,8 @@ const ClassPollList = ({ classid }: { classid: string }) => {
     getName();
     fetchData();
   }, []);
+
+  if (data?.length == 0) return null;
 
   return (
     <section className="flex flex-col gap-2">

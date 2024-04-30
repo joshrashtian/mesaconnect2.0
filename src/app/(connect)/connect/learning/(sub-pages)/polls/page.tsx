@@ -1,8 +1,21 @@
+"use server";
 import React from "react";
 import FeaturedPolls from "../../_components/FeaturedPolls";
 import ClassPollList from "../../_components/ClassSpecific";
+import { serverside } from "../../../../../../../config/serverside";
+import { redirect } from "next/navigation";
+import LoadingPage from "@/_components/LoadingPage";
 
-const PollsHome = () => {
+const PollsHome = async () => {
+  const { data, error } = await serverside
+    .from("userclasses")
+    .select("classid")
+    .eq("userid", (await serverside.auth.getUser()).data.user?.id);
+
+  if (error) redirect("/error");
+
+  if (!data) return <LoadingPage />;
+
   return (
     <main className="flex flex-col absolute min-h-screen w-screen pt-32 left-0 top-0 gap-12">
       <header className="h-28 flex fixed items-center px-10 w-full bg-gradient-to-b from-zinc-200 to-transparent top-0 left-0">
@@ -13,8 +26,9 @@ const PollsHome = () => {
 
       <section className="gap-10 flex flex-col p-10">
         <FeaturedPolls />
-        <ClassPollList classid="c6eb331c-bf25-4600-a660-f6dab5219e2f" />
-        <ClassPollList classid="707914dc-c067-4a59-b0cb-5a8261fca8bc" />
+        {data.map((e) => (
+          <ClassPollList classid={e.classid} />
+        ))}
       </section>
     </main>
   );

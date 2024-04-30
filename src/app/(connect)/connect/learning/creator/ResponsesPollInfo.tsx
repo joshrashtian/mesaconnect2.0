@@ -1,52 +1,55 @@
-'use client'
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { supabase } from '../../../../../../config/mesa-config'
-import Link from 'next/link'
+"use client";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { supabase } from "../../../../../../config/mesa-config";
+import Link from "next/link";
 
 type Response = {
-  response_id: string
-  time_responsed: Date
-  responder_id: string
-  response: number
-  question_id: string
-  responder_name: string
-}
-const ResponsesPollInfo = ({ id, options }: { id: string; options: string[] }) => {
-  const [data, setData] = useState<Response[]>()
-  const [filter, setFilter] = useState<string>()
-  const [filtered, setFiltered] = useState<Response[]>()
+  response_id: string;
+  time_responsed: Date;
+  responder_id: string;
+  response: number;
+  question_id: string;
+  responder_name: string;
+};
+const ResponsesPollInfo = ({
+  id,
+  options,
+}: {
+  id: string;
+  options: string[];
+}) => {
+  const [data, setData] = useState<Response[]>();
+  const [filter, setFilter] = useState<string>();
+  const [filtered, setFiltered] = useState<Response[]>();
 
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase
-        .from('questionRepsonses')
+        .from("questionRepsonses")
         .select()
-        .eq('question_id', id)
+        .eq("question_id", id);
 
       if (error) {
-        console.error(error)
-        return
+        console.error(error);
+        return;
       }
 
-      setData(data)
-      setFiltered(data)
-    }
-    fetchData()
-  }, [])
+      setData(data);
+      setFiltered(data);
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (!filter) {
-      setFiltered(data)
-      return
+      setFiltered(data);
+      return;
     }
-    setFiltered(data?.filter((e) => options[e.response] === filter))
-  }, [filter])
+    setFiltered(data?.filter((e) => options[e.response] === filter));
+  }, [filter]);
 
-  if (!data) return
-
-  console.log('rerender')
-
-  if (data.length === 0) return <h1>There is no responses (yet).</h1>
+  if (!data) return;
+  if (data.length === 0) return <h1>There is no responses (yet).</h1>;
 
   return (
     <section className="p-5 px-5 h-40 rounded-2xl shadow-md bg-opacity-15 bg-gray-200 justify-between flex flex-col">
@@ -55,7 +58,7 @@ const ResponsesPollInfo = ({ id, options }: { id: string; options: string[] }) =
         <ul className="flex flex-row gap-3 items-center">
           <ul
             onClick={() => {
-              setFilter(undefined)
+              setFilter(undefined);
             }}
             className="px-2 py-0.5 text-center border-2 hover:bg-gray-200 duration-300 rounded-xl cursor-pointer"
           >
@@ -67,15 +70,15 @@ const ResponsesPollInfo = ({ id, options }: { id: string; options: string[] }) =
               <ul
                 key={e}
                 onClick={() => {
-                  setFilter(e)
+                  setFilter(e);
                 }}
                 className={`px-2 py-0.5 text-center hover:bg-gray-200 duration-300 rounded-xl cursor-pointer ${
-                  filter === e && 'font-bold'
+                  filter === e && "font-bold"
                 }`}
               >
                 {e}
               </ul>
-            )
+            );
           })}
         </ul>
       </section>
@@ -89,14 +92,14 @@ const ResponsesPollInfo = ({ id, options }: { id: string; options: string[] }) =
               <Link href={`/connect/profile/${response.responder_id}`}>
                 {response.responder_name}
               </Link>
-              {'\n'}
+              {"\n"}
               <span className="font-mono">{options[response.response]} </span>
             </h1>
           </ul>
         ))}
       </section>
     </section>
-  )
-}
+  );
+};
 
-export default ResponsesPollInfo
+export default ResponsesPollInfo;
