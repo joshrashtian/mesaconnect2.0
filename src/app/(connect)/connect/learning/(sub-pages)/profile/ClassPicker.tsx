@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '../../../../../../../config/mesa-config'
 import { useUser } from '@/app/AuthContext'
 import { ClassType } from '../../../builder/(buildercomponents)/ClassRelations'
+import ClassCard from './ClassCard'
 
 const ClassPicker = () => {
   const [classes, setClasses] = useState<any[]>([])
@@ -27,20 +28,9 @@ const ClassPicker = () => {
   return (
     <section className=" font-eudoxus">
       <h1>Classes</h1>
-      <section className="flex flex-row gap-3">
+      <section className="flex flex-row gap-3 w-full">
         {classes.map((c, i) => {
-          return (
-            <div className="p-5 w-64 text-slate-500 bg-white shadow-lg rounded-lg" key={i}>
-              <h2 className="font-black text-slate-800">
-                {c.category} {c.num}
-              </h2>
-              <h1>{c.name}</h1>
-              <h1>{c.teacher}</h1>
-              <h1>
-                {c.grade} / {c.semester}
-              </h1>
-            </div>
-          )
+          return <ClassCard class={c} key={c.id} />
         })}
       </section>
     </section>

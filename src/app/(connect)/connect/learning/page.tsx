@@ -38,7 +38,7 @@ const Learning = () => {
               key={e.title}
               href={`/connect/learning/${e.link}`}
               className={`${e.color} rounded-2xl hover:opacity-80 shadow-lg
-             duration-300 hover:scale-105 p-3 w-64 h-24 flex justify-center items-center`}
+             duration-300 hover:scale-105 p-3 w-64 h-24 flex flex-col-reverse origin-bottom `}
             >
               <p className="text-white font-eudoxus text-xl">{e.title}</p>
             </Link>
