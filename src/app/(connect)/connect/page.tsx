@@ -1,6 +1,12 @@
 import React, { Suspense, lazy } from 'react'
 import TitleComponent from './TitleComponent'
 import CurrentEventSegment from '@/_components/socialhub/CurrentEventSegment'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Hub',
+  description: 'Home for MESAConnect'
+}
 
 const page = () => {
   const Widgets = lazy(() => import('./homescreenwidgets'))

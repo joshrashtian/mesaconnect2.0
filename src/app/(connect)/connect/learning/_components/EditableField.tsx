@@ -34,7 +34,10 @@ const EditableField = ({
           {viewable ? (
             <div onClick={(e) => e.preventDefault()} className="w-full flex h-full">
               <input type="text" value={value} onChange={(e) => onChangeText(e.target.value)} />
-              <button className="h-6 w-6 flex justify-center items-center ml-2 px-2 rounded-full text-white text-lg bg-green-600 ">
+              <button
+                onClick={() => setViewable(false)}
+                className="h-6 w-6 z-20 flex justify-center items-center ml-2 px-2 rounded-full text-white text-lg bg-green-600 "
+              >
                 <IoChevronForward />
               </button>
             </div>

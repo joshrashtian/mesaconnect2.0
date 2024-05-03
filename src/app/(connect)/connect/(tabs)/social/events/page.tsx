@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-import InterestedEvents from "./interested";
-import CurrentEventSegment from "@/_components/socialhub/CurrentEventSegment";
-import ComingUpEvents from "./UpcomingEvents(events)";
-import EventCarousel from "./EventCarousel";
-import Link from "next/link";
-import { IoSearchSharp } from "react-icons/io5";
+import React, { useState } from 'react'
+import InterestedEvents from './interested'
+import CurrentEventSegment from '@/_components/socialhub/CurrentEventSegment'
+import ComingUpEvents from './UpcomingEvents(events)'
+import EventCarousel from './EventCarousel'
+import Link from 'next/link'
+import { IoSearchSharp } from 'react-icons/io5'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Events'
+}
 
 const EventPage = () => {
   return (
@@ -24,7 +29,7 @@ const EventPage = () => {
         <EventCarousel />
       </section>
     </main>
-  );
-};
+  )
+}
 
-export default EventPage;
+export default EventPage

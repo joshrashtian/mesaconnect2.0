@@ -3,6 +3,11 @@ import Link from 'next/link'
 import React from 'react'
 import UpcomingEvents from '../UpcomingEvents'
 import { IoSearchCircle, IoSearchCircleOutline, IoSearchSharp } from 'react-icons/io5'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Recent Activity'
+}
 
 const Social = () => {
   return (

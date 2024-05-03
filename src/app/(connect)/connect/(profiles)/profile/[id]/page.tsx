@@ -67,7 +67,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
           }
         ])
       }
-      className="min-h-screen p-3 gap-5 flex flex-col "
+      className="min-h-screen p-3 gap-5 pb-32 flex flex-col "
     >
       <ul className="flex flex-row items-end gap-5 ">
         {ActiveUser.user?.id === user.id ? (

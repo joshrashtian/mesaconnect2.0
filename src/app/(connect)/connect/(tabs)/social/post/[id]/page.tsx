@@ -34,6 +34,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         console.error(error)
         return false
       }
+      //@ts-ignore
       setPost(data)
       return true
     }

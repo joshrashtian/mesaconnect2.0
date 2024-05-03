@@ -31,28 +31,30 @@ const ClassModal = ({ e }: { e: any }) => {
         </h2>
       </div>
 
-      <EditableField
-        value={newClass.teacher}
-        onChangeText={(e) => {
-          setNewClass({
-            ...newClass,
-            teacher: e
-          })
-        }}
-      >
-        <h2 className="text-xl text-slate-500">{newClass.teacher}</h2>
-      </EditableField>
-      <EditableField
-        value={newClass.grade}
-        onChangeText={(e) => {
-          setNewClass({
-            ...newClass,
-            grade: e.at(0)
-          })
-        }}
-      >
-        <h2 className="text-xl text-slate-500">{newClass.grade}</h2>
-      </EditableField>
+      <section>
+        <EditableField
+          value={newClass.teacher}
+          onChangeText={(e) => {
+            setNewClass({
+              ...newClass,
+              teacher: e
+            })
+          }}
+        >
+          <h2 className="text-xl text-slate-500">{newClass.teacher}</h2>
+        </EditableField>
+        <EditableField
+          value={newClass.grade}
+          onChangeText={(e) => {
+            setNewClass({
+              ...newClass,
+              grade: e.at(0)
+            })
+          }}
+        >
+          <h2 className="text-xl text-slate-500">{newClass.grade}</h2>
+        </EditableField>
+      </section>
     </section>
   )
 }
