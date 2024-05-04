@@ -1,6 +1,11 @@
 "use client";
 import React, { Component, createContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  IoCheckbox,
+  IoChevronForward,
+  IoChevronForwardCircle,
+} from "react-icons/io5";
 export const ModalContext = createContext({
   createModal: (component: React.JSX.Element) => {},
   createDialogBox: (
@@ -45,15 +50,18 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 10, opacity: 0 }}
               transition={{ type: "spring" }}
-              className="p-10 rounded-xl z-50 min-w-[500px] min-h-72 bg-zinc-50"
+              className="p-10 rounded-xl z-50 flex flex-col justify-between min-w-[500px] min-h-72 bg-zinc-50"
             >
               {active}
               {type === "dialog" && (
                 <button
                   onClick={(e) => confirmCommand()}
-                  className=" cursor-pointer bg-gradient-to-br p-2 text-white from-theme-blue to-theme-blue-2 hover:drop-shadow-lg hover:bg-orange-400 hover:scale-105 hover:shadow-md duration-500 h-full rounded-xl hover:rounded-lg w-32"
+                  className=" cursor-pointer group flex flex-row items-center justify-center text-lg gap-2 bg-gradient-to-br p-2 text-white from-theme-blue to-theme-blue-2 hover:drop-shadow-lg hover:bg-orange-400 hover:scale-105 hover:shadow-md duration-500 h-full rounded-xl hover:rounded-lg hover:w-48 w-40"
                 >
-                  Confirm
+                  <p className="group-hover:translate-x-0 translate-x-3 duration-200">
+                    Confirm
+                  </p>
+                  <IoChevronForward className="group-hover:opacity-100 opacity-0 duration-300 group-hover:translate-x-0 -translate-x-3 " />
                 </button>
               )}
             </motion.div>
