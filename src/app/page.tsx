@@ -145,7 +145,7 @@ export default function Home() {
           </section>
         </section>
         <section className="w-full gap-12 flex flex-row rounded-3xl">
-          <section className="w-1/2 gap-12 flex flex-col bg-zinc-50 shadow-md p-10 rounded-3xl">
+          <section className="w-full gap-12 flex flex-col bg-zinc-50 shadow-md p-10 rounded-3xl">
             <h2 className="text-4xl font-eudoxus text-slate-500 font-semibold">
               A Million Reasons To Join.
             </h2>

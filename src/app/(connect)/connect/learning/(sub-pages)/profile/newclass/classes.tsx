@@ -5,6 +5,7 @@ import { supabase } from '../../../../../../../../config/mesa-config'
 import { useModal } from '@/app/(connect)/connect/Modal'
 import { useToast } from '@/app/(connect)/InfoContext'
 import { useRouter } from 'next/navigation'
+import { IoSearchOutline } from 'react-icons/io5'
 
 const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
   const [filter, setFilter] = useState(classes)
@@ -38,9 +39,10 @@ const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
 
   return (
     <div>
-      <ul className="flex flex-row w-full">
+      <ul className="flex flex-row mb-5 gap-3 w-full">
         <input
-          className="p-3 w-full bg-zinc-50 rounded-2xl last:border-b-0 font-eudoxus last:rounded-b-2xl even:border-y-2 "
+          className="p-4 shadow-md font-eudoxus focus:outline-none hover:scale-[1.01] focus:scale-[1.01] duration-300 w-full rounded-2xl px-6"
+          placeholder="Enter Class Name..."
           onChange={(e) => {
             setSearch(e.target.value)
           }}
@@ -50,14 +52,19 @@ const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
           onClick={() => {
             search(newSearch)
           }}
-          className="p-2 bg-red-400 hover:bg-red-300 duration-300 hover:scale-105 font-mono rounded-tr-2xl"
+          className="p-4 w-26 scale-100 rounded-2xl font-eudoxus hover:rounded-md bg-gradient-to-br from-red-500 to-amber-600 hover:bg-indigo-700 text-white hover:scale-110 duration-300 font-bold"
         >
-          <h2 className="text-white">Search</h2>
+          <IoSearchOutline
+            size={26}
+            color="#FFF"
+            className="drop-shadow-2xl
+          "
+          />
         </button>
       </ul>
       {filter.map((e, i) => (
         <div
-          className={`p-3 cursor-pointer last:border-b-0 bg-white font-eudoxus last:rounded-b-2xl hover:bg-slate-100 even:border-y-2 duration-300`}
+          className={`p-3 cursor-pointer last:border-b-0 bg-white font-eudoxus first:rounded-t-2xl last:rounded-b-2xl hover:bg-slate-100 even:border-y-2 duration-300`}
           onClick={() => modal.CreateModal(<ClassModal c={e} />)}
           key={e.id}
         >

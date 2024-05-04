@@ -7,20 +7,22 @@ import { supabase } from '../../../../../../../../config/mesa-config'
 import { AnimatePresence, motion } from 'framer-motion'
 import LoadingPage from '@/_components/LoadingPage'
 import CodeBlock from '../CodeBlock'
-import { ContextProps, userContext } from '@/app/AuthContext'
+import { ContextProps, userContext, useUser } from '@/app/AuthContext'
 import { SubmitReply } from './SubmitReply'
-import { MenuContext } from '@/app/(connect)/InfoContext'
+import { MenuContext, useToast } from '@/app/(connect)/InfoContext'
 import Replies from './Replies'
 import RelatedTo from './RelatedTo'
+import { IoPaperPlane, IoPerson, IoPersonAdd } from 'react-icons/io5'
+import Link from 'next/link'
 
 const PostPage = ({ params }: { params: { id: string } }) => {
   const [post, setPost] = useState<PostType>()
   const [reply, setReply] = useState<string>()
   const [isPrivate, setPrivate] = useState(false)
-  const toast = useContext<any>(MenuContext)
 
   const router = useRouter()
-  const user = useContext<ContextProps>(userContext)
+  const user = useUser()
+  const toast = useToast()
 
   const AlterReply = useMemo(() => {
     setReply(reply)
@@ -70,19 +72,39 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         <h1 className="text-3xl font-mono font-bold">{'<'}</h1>
       </ul>
 
-      <ul>
+      <ul className="font-eudoxus">
         <h1 className="text-slate-600 font-bold text-3xl lg:text-6xl duration-300">
           {post?.title}
         </h1>
-        <h2 className="text-semibold text-zinc-600 text-2xl">
+        <h2 className=" text-zinc-600 text-2xl">
           by{' '}
           <span
-            onClick={() => {
-              router.push(`/connect/profile/${post.userid}`)
-            }}
-            className="font-bold cursor-pointer p-2 hover:scale-105 duration-300"
+            onClick={() => {}}
+            className="group text-blue-500 hover:text-blue-600 inline-block cursor-pointer hover:scale-110 hover:px-2 duration-300"
           >
-            @{post?.creator?.username}
+            {post?.creator?.username}
+            <div
+              onClick={(e) => e.preventDefault()}
+              className="w-64 cursor-default absolute text-lg text-black bg-white drop-shadow-none group-hover:drop-shadow-lg h-28 rounded-xl p-3 duration-500 delay-300 origin-top group-hover:scale-100 scale-0"
+            >
+              <h1>{post.creator.realname}</h1>
+              <div className="flex flex-row text-sm h-full gap-1">
+                <Link
+                  href={`/connect/profile/${post.userid}`}
+                  className="h-2/3 flex flex-col justify-center p-2 text-white rounded-lg hover:scale-[1.02] duration-200 w-full bg-gradient-to-tr from-blue-500 to-indigo-600"
+                >
+                  <IoPerson />
+                  <p>View Profile</p>
+                </Link>
+                <button
+                  onClick={() => toast.CreateErrorToast('This feature is currently not available.')}
+                  className="h-2/3 flex flex-col justify-center p-2 text-white rounded-lg hover:scale-[1.02] duration-200 w-full bg-gradient-to-tr from-orange-600 to-red-700"
+                >
+                  <IoPaperPlane />
+                  <p>Message</p>
+                </button>
+              </div>
+            </div>
           </span>{' '}
           - {date?.toDateString()}
         </h2>
