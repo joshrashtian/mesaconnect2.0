@@ -3,32 +3,34 @@ import React, { useEffect, useState } from "react";
 import { PostType } from "@/_assets/types";
 import { supabase } from "../../../../../../../config/mesa-config";
 import Wim from "@/_components/socialhub/Wim";
-import CondensedPost from "@/_components/socialhub/CondensedPost";
 import Post from "@/_components/socialhub/Post";
 import PostListItem from "@/_components/socialhub/PostListItem";
 import { AnimatePresence } from "framer-motion";
+import { IoAdd } from "react-icons/io5";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { getFollowed, intfetch } from "./PostsPageQueries";
+import { useToast } from "@/app/(connect)/InfoContext";
 
 const PostsPageHome = () => {
   const [range, setRange] = useState(0);
-  const [limit, setLimit] = useState();
   const [posts, setPosts] = useState<PostType[]>();
 
-  useEffect(() => {
-    async function intfetch() {
-      const { data, error } = await supabase
-        .from("posts")
-        .select("*", { count: "exact" })
-        .range(0, 10)
-        .order("created_at", { ascending: false });
-      if (error) {
-        console.error(error);
-        return;
-      }
-      //@ts-ignore
-      setPosts(data);
-      setRange((r) => r + 10);
+  const { CreateErrorToast } = useToast();
+
+  async function fet() {
+    const { data, error } = await intfetch(0);
+    if (error) {
+      console.error(error);
+      return;
     }
-    intfetch();
+    //@ts-ignore
+    setPosts(data);
+    setRange((r) => r + 10);
+  }
+
+  useEffect(() => {
+    fet();
   }, []);
 
   useEffect(() => {
@@ -60,13 +62,28 @@ const PostsPageHome = () => {
   }, [supabase]);
 
   return (
-    <section>
+    <motion.section className="  ">
       <section>
         <h1 className="text-transparent pb-10 bg-clip-text font-bold font-eudoxus text-5xl bg-gradient-to-br from-orange-600 to-indigo-900 ">
           Community Posts
         </h1>
       </section>
-      <article className="flex flex-col pb-10">
+      <motion.nav className="p-4 top-20 sticky rounded-2xl z-50 mb-5 bg-zinc-200">
+        <button onClick={() => fet()}>Recent Posts</button>
+        <button
+          onClick={async () => {
+            setRange(0);
+            setPosts([]);
+            const { data, error } = await getFollowed();
+            if (error) {
+              CreateErrorToast(error.message);
+            } else setPosts(data);
+          }}
+        >
+          Followed
+        </button>
+      </motion.nav>
+      <motion.article className="flex flex-col pb-10">
         <AnimatePresence>
           {posts?.map((post, index) => {
             switch (post.type) {
@@ -79,8 +96,21 @@ const PostsPageHome = () => {
             }
           })}
         </AnimatePresence>
-      </article>
-    </section>
+      </motion.article>
+      <motion.ul
+        initial={{ y: 10, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 1 }}
+        className=" fixed z-50  cursor-pointer  text-2xl text-white bottom-8 rounded-[30px] hover:rounded-3xl hover:scale-105 right-6 w-16 h-16 bg-red-600 hover:bg-red-400 duration-300"
+      >
+        <Link
+          className="w-full flex justify-center items-center h-full"
+          href="/connect/builder?type=post"
+        >
+          <IoAdd />
+        </Link>
+      </motion.ul>
+    </motion.section>
   );
 };
 
