@@ -22,3 +22,23 @@ export async function getFollowed() {
     return { data, error };
   
 }
+
+export const byTag = async (search: string) => {
+
+  const { data, error } = await serverside
+    .from("posts")
+    .select()
+    .textSearch("title_tags_creator", `${search}`, {
+      type: "websearch",
+      config: "english",
+    })
+    .order("created_at", { ascending: false });
+  //.or(`tags.cs.{${search}},title.like.${search}`)
+
+  if (error) {
+    console.log(error);
+  }
+
+  return { data, error };
+};
+
