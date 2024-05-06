@@ -91,10 +91,10 @@ export const RecentPostsHome = () => {
         </ul>
       </section>
       <Link
-        href={`/connect/social/posts`}
+        href={`/connect/social/community`}
         className="flex flex-col w-full h-12 p-5 bg-gradient-to-r from-red-600 to-indigo-600 rounded-2xl hover:scale-[1.02] duration-500 drop-shadow-xl hover:shadow-lg justify-center items-center"
       >
-        <h1 className="text-white">View All Posts</h1>
+        <h1 className="text-white">Community Home</h1>
       </Link>
       <AnimatePresence>
         {posts?.map((post, index) => {
