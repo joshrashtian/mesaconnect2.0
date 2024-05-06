@@ -1,122 +1,122 @@
-'use client'
-import React, { useContext, useEffect, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import Link from 'next/link'
-import { supabase } from '../../config/mesa-config'
-import { userContext, useUser } from '@/app/AuthContext'
-import { IoHome, IoLockClosed } from 'react-icons/io5'
-import { useContextMenu } from '@/app/(connect)/InfoContext'
-import { useRouter } from 'next/navigation'
+"use client";
+import React, { useContext, useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Link from "next/link";
+import { supabase } from "../../config/mesa-config";
+import { userContext, useUser } from "@/app/AuthContext";
+import { IoHome, IoLockClosed } from "react-icons/io5";
+import { useContextMenu } from "@/app/(connect)/InfoContext";
+import { useRouter } from "next/navigation";
 
 const Dock = () => {
-  const [selected, setSelected] = useState('')
-  const [profURL, setProfURL] = useState<string | undefined>()
-  const [isHovered, setIsHovered] = useState(false)
-  const [profID, setProfID] = useState<string | undefined>()
-  const context = useContextMenu()
-  const router = useRouter()
-  const [isLocked, setLocked] = useState(false)
+  const [selected, setSelected] = useState("");
+  const [profURL, setProfURL] = useState<string | undefined>();
+  const [isHovered, setIsHovered] = useState(false);
+  const [profID, setProfID] = useState<string | undefined>();
+  const context = useContextMenu();
+  const router = useRouter();
+  const [isLocked, setLocked] = useState(false);
 
-  const { userData } = useUser()
+  const { userData } = useUser();
 
-  const SamplePhoto = require('../../src/_assets/photos/UserIcon.png')
+  const SamplePhoto = require("../../src/_assets/photos/UserIcon.png");
 
   const navContext = [
     {
-      name: 'Home',
+      name: "Home",
       visible: true,
-      function: () => router.push('/connect/')
+      function: () => router.push("/connect/"),
     },
     {
-      name: 'Profile',
+      name: "Profile",
       visible: true,
-      function: () => router.push(`/connect/profile/${profID}`)
+      function: () => router.push(`/connect/profile/${profID}`),
     },
     {
-      name: 'Social',
+      name: "Social",
       visible: true,
-      function: () => router.push('/connect/social')
+      function: () => router.push("/connect/social"),
     },
     {
-      name: 'Learning',
+      name: "Learning",
       visible: true,
-      function: () => router.push('/connect/learning')
+      function: () => router.push("/connect/learning"),
     },
     {
-      name: 'Studio',
+      name: "Studio",
       visible: true,
-      function: () => router.push('/connect/builder')
+      function: () => router.push("/connect/builder"),
     },
     {
-      name: 'Settings',
+      name: "Settings",
       visible: true,
-      function: () => router.push('/connect/settings')
-    }
-  ]
+      function: () => router.push("/connect/settings"),
+    },
+  ];
 
   useEffect(() => {
     const fetchURL = async () => {
-      const user = await supabase.auth.getUser()
+      const user = await supabase.auth.getUser();
 
       const { data, error } = await supabase
-        .from('profiles')
+        .from("profiles")
         .select()
-        .eq('id', userData?.id)
-        .single()
+        .eq("id", userData?.id)
+        .single();
 
       if (error) {
-        console.log(error)
-        setProfURL(undefined)
-        return
+        console.log(error);
+        setProfURL(undefined);
+        return;
       }
 
-      setProfID(data.id)
-      setProfURL(data.avatar_url)
-    }
+      setProfID(data.id);
+      setProfURL(data.avatar_url);
+    };
 
-    fetchURL()
-  }, [])
+    fetchURL();
+  }, []);
 
   const tabs = [
     {
-      name: 'Home',
-      link: '/'
+      name: "Home",
+      link: "/",
     },
     {
-      name: 'Profile',
-      link: `/profile/${profID}`
+      name: "Profile",
+      link: `/profile/${profID}`,
     },
     {
-      name: 'Social',
-      link: '/social'
+      name: "Social",
+      link: "/social",
     },
     {
-      name: 'Learning',
-      link: '/learning'
+      name: "Learning",
+      link: "/learning",
     },
     {
-      name: 'Studio',
-      link: '/builder'
+      name: "Studio",
+      link: "/builder",
     },
     {
-      name: 'Settings',
-      link: '/settings'
+      name: "Settings",
+      link: "/settings",
     },
     {
-      name: 'Admin',
-      link: '/admin',
-      permissions: ['admin']
-    }
-  ]
+      name: "Admin",
+      link: "/admin",
+      permissions: ["admin"],
+    },
+  ];
 
   return (
-    <div className="w-full bottom-8 left-0 font-eudoxus h-16 fixed justify-center items-center z-50 flex">
+    <div className="w-full bottom-8 left-0 -z-0 font-eudoxus h-16 fixed justify-center items-center flex">
       <section
         onMouseEnter={() => {
-          setIsHovered(true)
+          setIsHovered(true);
         }}
         onMouseLeave={() => {
-          setIsHovered(false)
+          setIsHovered(false);
         }}
         onContextMenu={(e) => context.createContext(e, navContext)}
         className="group peer bg-white origin-center  drop-shadow-md rounded-3xl hover:-translate-y-3 h-full w-16 hover:2xl:w-[60%] hover:w-[70%] max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-[1.15] ease-in-out  "
@@ -149,8 +149,11 @@ const Dock = () => {
             >
               {tabs.map((tab, index) => {
                 if (tab.permissions) {
-                  if (!tab.permissions.includes(userData.userData?.role) || !userData) {
-                    return null
+                  if (
+                    !tab.permissions.includes(userData.userData?.role) ||
+                    !userData
+                  ) {
+                    return null;
                   }
                 }
 
@@ -171,7 +174,7 @@ const Dock = () => {
                       </h1>
                     </Link>
                   </motion.li>
-                )
+                );
               })}
             </motion.ul>
           </AnimatePresence>
@@ -187,7 +190,7 @@ const Dock = () => {
         <IoLockClosed />
       </section>
     </div>
-  )
-}
+  );
+};
 
-export default Dock
+export default Dock;

@@ -14,6 +14,8 @@ import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
 import InterestButtons from "./InterestButtons";
 import LoadingPage from "@/_components/LoadingPage";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import WimListItem from "@/_components/socialhub/WimListItem";
+import AddPost from "./addPost";
 
 const PostsPageHome = () => {
   const [range, setRange] = useState(0);
@@ -209,7 +211,7 @@ const PostsPageHome = () => {
             posts?.map((post, index) => {
               switch (post.type) {
                 case "wim":
-                  return <Wim key={index} post={post} />;
+                  return <WimListItem key={index} post={post} />;
                 case "post":
                   return <PostListItem key={index} index={index} post={post} />;
                 default:
@@ -219,19 +221,7 @@ const PostsPageHome = () => {
           )}
         </AnimatePresence>
       </motion.article>
-      <motion.ul
-        initial={{ y: 10, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 1 }}
-        className=" fixed z-50  cursor-pointer  text-2xl text-white bottom-8 rounded-[30px] hover:rounded-3xl hover:scale-105 right-6 w-16 h-16 bg-red-600 hover:bg-red-400 duration-300"
-      >
-        <Link
-          className="w-full flex justify-center items-center h-full"
-          href="/connect/builder?type=post"
-        >
-          <IoAdd />
-        </Link>
-      </motion.ul>
+      <AddPost />
     </motion.section>
   );
 };
