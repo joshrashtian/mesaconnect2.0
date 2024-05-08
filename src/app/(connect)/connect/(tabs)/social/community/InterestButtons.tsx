@@ -20,7 +20,7 @@ import { IoIosInfinite } from "react-icons/io";
 export type Interest = {
   id?: string;
   interest: string;
-  fieldType: string;
+  fieldtype: string;
   userid?: string;
 };
 
@@ -117,7 +117,7 @@ const InterestButtons = ({
               }
             }}
           >
-            {icons.find((e) => interest.fieldType === e.name)?.icon}
+            {icons.find((e) => interest.fieldtype === e.name)?.icon}
             {interest.interest}
           </button>
         </Reorder.Item>
