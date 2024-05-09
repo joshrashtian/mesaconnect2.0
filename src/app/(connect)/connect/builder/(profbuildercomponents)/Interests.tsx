@@ -55,9 +55,9 @@ const Interests = () => {
                 key={interest.id}
                 value={interest}
               >
-                {icons.find((e) => interest.fieldType === e.name)?.icon}
+                {icons.find((e) => interest.fieldtype === e.name)?.icon}
                 <h1>{interest.interest}</h1>
-                <p className="text-slate-400">{interest.fieldType}</p>
+                <p className="text-slate-400">{interest.fieldtype}</p>
               </Reorder.Item>
             ))}
           </Reorder.Group>
@@ -164,7 +164,6 @@ export const NewInterests = ({
                   {icons.map((icon) => (
                     <p
                       onClick={() => {
-                        console.log(icon.name);
                         setCategory(icon.name);
                         setDropdownCustom(false);
                       }}
@@ -184,7 +183,7 @@ export const NewInterests = ({
               if (!toAdd || !category) return;
               const { data, error } = await submitInterests({
                 interest: toAdd,
-                fieldType: category,
+                fieldtype: category,
               });
             }}
             className={` scale-0 flex p-1 rounded-md hover:scale-105 -translate-x-6 w-32 bg-gradient-to-br from-theme-blue to-theme-blue-2 justify-center translate-y-1 items-center gap-3 duration-500 ${
@@ -195,13 +194,22 @@ export const NewInterests = ({
           </motion.button>
         </motion.ul>
         {interests?.map((interest) => (
-          <ul className="p-2 flex justify-between items-center bg-slate-100">
+          <button
+            onClick={async () => {
+              const { data, error } = await submitInterests({
+                interest: interest.interest,
+                fieldtype: interest.fieldtype,
+                id: interest.id,
+              });
+            }}
+            className="p-2 flex justify-between items-center bg-slate-100"
+          >
             <li className="flex gap-3 items-center">
-              {icons.find((e) => interest.fieldType === e.name)?.icon}
+              {icons.find((e) => interest.fieldtype === e.name)?.icon}
               <h1>{interest.interest}</h1>
             </li>
-            <h2 className="text-slate-400">{interest.fieldType}</h2>
-          </ul>
+            <h2 className="text-slate-400">{interest.fieldtype}</h2>
+          </button>
         ))}
       </menu>
     </div>
