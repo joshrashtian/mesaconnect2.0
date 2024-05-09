@@ -18,6 +18,7 @@ import { Reorder } from "framer-motion";
 import { IoIosInfinite } from "react-icons/io";
 
 export type Interest = {
+  interestid?: any;
   id?: string;
   interest: string;
   fieldtype: string;

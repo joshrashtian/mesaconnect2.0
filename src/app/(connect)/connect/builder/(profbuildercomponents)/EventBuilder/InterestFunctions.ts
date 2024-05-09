@@ -18,3 +18,13 @@ export async function submitInterests (interest: Interest) {
     return { data, error }
 
 }
+
+export async function deleteInterest (interest: Interest) {
+    let { data, error } = await serverside.from("interests").delete().eq("id", interest.id);
+
+    if (error) {
+        console.error(error);
+    }
+
+    return { data, error };
+}

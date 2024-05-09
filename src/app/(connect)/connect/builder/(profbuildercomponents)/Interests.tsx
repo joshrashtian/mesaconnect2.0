@@ -6,21 +6,46 @@ import {
   IoCode,
   IoFlask,
   IoGameController,
-  IoPencil,
+  IoPencil, IoTrash,
 } from "react-icons/io5";
 import { supabase } from "../../../../../../config/mesa-config";
 import { icons, Interest } from "../../(tabs)/social/community/InterestButtons";
 import { AnimatePresence, Reorder, motion } from "framer-motion";
 import { useModal } from "../../Modal";
 import { IoMdArrowDropdown } from "react-icons/io";
-import { submitInterests } from "./EventBuilder/InterestFunctions";
+import {deleteInterest, submitInterests} from "./EventBuilder/InterestFunctions";
+import {set} from "yaml/dist/schema/yaml-1.1/set";
+import {useContextMenu, useToast} from "@/app/(connect)/InfoContext";
 
 const Interests = () => {
-  const [interest, setInterests] = useState<Interest[]>();
+  const [interest, setInterests] = useState<Interest[]>([]);
 
   const { CreateModal } = useModal();
-
+  const { createContext } = useContextMenu()
+  const { CreateErrorToast } = useToast()
   const { user } = useUser();
+
+  useEffect(() => {
+    const channels = supabase.channel('custom-insert-channel')
+        .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'interests', filter: `userid=eq.${user?.id}` },
+            (payload) => {
+
+              if(payload.eventType === 'INSERT') {
+                // @ts-ignore
+                setInterests(e => [...e, payload.new])
+              } else if (payload.eventType === "DELETE") {
+                setInterests((e) => e?.filter((d) => d.id !== payload.old.id))
+              }
+            }
+        )
+        .subscribe()
+
+        return () => {
+        channels.unsubscribe()
+        }
+  }, [supabase]);
 
   useEffect(() => {
     const getInterests = async () => {
@@ -49,17 +74,33 @@ const Interests = () => {
             values={interest}
             onReorder={setInterests}
           >
+            <AnimatePresence>
             {interest?.map((interest) => (
               <Reorder.Item
-                className="p-5 bg-zinc-50 shadow-md"
+                className="p-5 cursor-pointer bg-white hover:bg-slate-50 shadow-md"
                 key={interest.id}
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -20, opacity: 0 }}
                 value={interest}
+                onContextMenu={(e) => createContext(e, [{
+                  name: "Delete Interest",
+                  visible: true,
+                  function: async () => {
+                    let { data, error } = await deleteInterest(interest)
+                    if(error) {
+                      CreateErrorToast(error.message)
+                    }
+                  },
+                  icon: <IoTrash />
+                }]) }
               >
                 {icons.find((e) => interest.fieldtype === e.name)?.icon}
                 <h1>{interest.interest}</h1>
                 <p className="text-slate-400">{interest.fieldtype}</p>
               </Reorder.Item>
             ))}
+            </AnimatePresence>
           </Reorder.Group>
         )}
         <button
@@ -74,7 +115,7 @@ const Interests = () => {
 };
 
 export const NewInterests = ({
-  userinterests,
+  userinterests
 }: {
   userinterests: Interest[] | undefined;
 }) => {
@@ -83,13 +124,16 @@ export const NewInterests = ({
   const [dropdownCustom, setDropdownCustom] = useState(false);
   const [category, setCategory] = useState<string>();
   const [toAdd, setToAdd] = useState<string>();
+
   const { user } = useUser();
+  const toast = useToast()
+
   useEffect(() => {
     const getInterests = async () => {
       const { data, error } = await supabase
         .from("availableinterests")
         .select("*")
-        .limit(10);
+        .limit(6).order("popularity", {ascending: false}) .not('id','in',`(${userinterests?.map((e) => e.interestid)})`)
 
       if (error) {
         console.log(error);
@@ -185,7 +229,13 @@ export const NewInterests = ({
                 interest: toAdd,
                 fieldtype: category,
               });
+              if(error) {
+                toast.CreateErrorToast(error.message)
+              } else {
+                toast.CreateSuccessToast(`Successfully Added ${ toAdd } As An Interest!`)
+              }
             }}
+
             className={` scale-0 flex p-1 rounded-md hover:scale-105 -translate-x-6 w-32 bg-gradient-to-br from-theme-blue to-theme-blue-2 justify-center translate-y-1 items-center gap-3 duration-500 ${
               custom && "scale-100"
             }`}
@@ -201,7 +251,15 @@ export const NewInterests = ({
                 fieldtype: interest.fieldtype,
                 id: interest.id,
               });
+              if(error) {
+                toast.CreateErrorToast(error.message)
+              } else {
+                toast.CreateSuccessToast(`Successfully Added ${interest.interest} As An Interest!`)
+                setInterests(e => e?.filter(d => d.id !== interest.id))
+              }
             }}
+
+            key={interest.id}
             className="p-2 flex justify-between items-center bg-slate-100"
           >
             <li className="flex gap-3 items-center">
