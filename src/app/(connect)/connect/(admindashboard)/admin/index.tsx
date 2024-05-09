@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Viewposts from "./viewposts";
 import ViewUsers from "./ViewUsers";
 import CreateNews from "./createnewspost";
+import {useToast} from "@/app/(connect)/InfoContext";
+import {AdminHome} from "@/app/(connect)/connect/(admindashboard)/admin/AdminHome";
 
 export interface AdminPanel {
   name: string;
@@ -15,9 +17,7 @@ const AdminIndex: AdminPanel[] = [
     displayname: "Dashboard",
     permissions: ["admin"],
     component: () => (
-      <main>
-        <h1>Dashboard Home </h1>
-      </main>
+      <AdminHome />
     ),
   },
   {

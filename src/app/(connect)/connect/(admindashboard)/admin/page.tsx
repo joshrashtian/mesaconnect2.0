@@ -4,10 +4,12 @@ import React, { useContext, useState } from 'react'
 import { motion } from 'framer-motion'
 import { userContext } from '@/app/AuthContext'
 import AdminIndex, { AdminPanel } from '.'
+import {useToast} from "@/app/(connect)/InfoContext";
 
 const page = () => {
   const user = useContext(userContext)
   const [selected, setSelected] = useState<AdminPanel>(AdminIndex[0])
+  const toast = useToast()
 
   return (
     <motion.main initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>

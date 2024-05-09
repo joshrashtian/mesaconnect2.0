@@ -107,6 +107,12 @@ const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
             isToggled={contentPos.toggled}
             rightClick={'ok'}
             buttons={contentPos.buttons}
+            dismount={() => {setContextPos({
+              x: 0,
+              y: 0,
+              toggled: false,
+              buttons: {}
+            })}}
           />
         </AnimatePresence>
       </motion.section>

@@ -1,6 +1,7 @@
 'use client'
 import React, { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import {IoCheckmark, IoCheckmarkCircle, IoInformation, IoWarning} from "react-icons/io5";
 const Toast = ({
   trigger,
   type,
@@ -33,20 +34,32 @@ const Toast = ({
     <AnimatePresence>
       {active && (
         <motion.section
-          initial={{ x: 50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: 50, opacity: 0 }}
-          transition={{ type: 'spring', duration: 0.5 }}
-          className="absolute z-50 flex flex-col justify-center p-6 shadow-md rounded-3xl top-8 right-8 w-1/5 h-28 bg-white"
+          initial={{ y: 30, opacity: 0, scaleX: 0, scaleY: 0.5}}
+          animate={{ y: 0, opacity: 1, scaleX: 1, scaleY: 1 }}
+          exit={{ y: 30, opacity: 0, scaleX: 0, scaleY: 0.5 }}
+          onClick={() => {
+            setActive(false)
+            turnOff()
+          }}
+          transition={{ duration: 0.6, type: 'spring' }}
+          className="fixed bottom-28 font-eudoxus origin-bottom flex flex-row justify-center items-center rounded-3xl w-full h-16"
         >
-          <h1
-            className={`font-bold text-lg capitalize ${
-              toast.type === 'success' && 'text-green-800'
+          <motion.ul className="flex flex-row items-center gap-2.5 p-2 shadow-md rounded-3xl top-8 right-8 w-96 h-16 duration-500 hover:bg-slate-200 cursor-pointer bg-white">
+            <ul className={`${ toast.type === 'success' ? "bg-green-700" : toast.type === 'error' ? "bg-red-700" : "bg-teal-700"} text-white rounded-full p-2 text-3xl`}
+            >
+            { toast.type === 'success' ? <IoCheckmark /> : toast.type === 'error' ? <IoWarning /> : <IoInformation />}
+            </ul>
+            <ul>
+            <h1
+            className={`font-bold capitalize ${
+              toast.type === 'success' ? 'text-green-800' : toast.type === "error" && 'text-red-500'
             }`}
           >
             {toast.type}
           </h1>
           <h1>{toast.message}</h1>
+          </ul>
+          </motion.ul>
         </motion.section>
       )}
     </AnimatePresence>

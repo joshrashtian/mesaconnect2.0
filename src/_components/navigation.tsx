@@ -110,7 +110,7 @@ const Dock = () => {
   ];
 
   return (
-    <div className="w-full bottom-8 left-0 -z-0 font-eudoxus h-16 fixed justify-center items-center flex">
+    <div className="w-full bottom-8 left-0 z-30 font-eudoxus h-16 fixed justify-center items-center flex">
       <section
         onMouseEnter={() => {
           setIsHovered(true);
@@ -119,7 +119,7 @@ const Dock = () => {
           setIsHovered(false);
         }}
         onContextMenu={(e) => context.createContext(e, navContext)}
-        className="group peer bg-white origin-center  drop-shadow-md rounded-3xl hover:-translate-y-3 h-full w-16 hover:2xl:w-[60%] hover:w-[70%] max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-[1.15] ease-in-out  "
+        className="group peer bg-white  origin-bottom drop-shadow-md rounded-3xl hover:-translate-y-3 h-full w-16 hover:2xl:w-[60%] hover:w-[70%] max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-[1.15] ease-in-out  "
       >
         <AnimatePresence>
           {profURL && !isHovered && (

@@ -10,7 +10,8 @@ const PostContext = ({
   positionY,
   isToggled,
   buttons,
-  contextMenuRef
+  contextMenuRef,
+  dismount
 }: {
   rightClick: any
   positionX: number
@@ -18,6 +19,8 @@ const PostContext = ({
   isToggled: boolean
   buttons: any
   contextMenuRef: any
+  dismount: () => void
+
 }) => {
   if (!isToggled) return null
 
@@ -42,7 +45,8 @@ const PostContext = ({
             key={e.name}
             className="cursor-pointer rounded-lg text-md text-left items-center text-nowrap px-3 p-2 flex flex-row w-full hover:bg-blue-100 duration-500"
             onClick={() => {
-              e.function()
+              e.function();
+              dismount()
             }}
           >
             <h1 className=" w-full font-eudoxus">{e.name}</h1>

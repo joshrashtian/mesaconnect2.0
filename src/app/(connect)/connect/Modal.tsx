@@ -55,7 +55,10 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
               {active}
               {type === "dialog" && (
                 <button
-                  onClick={(e) => confirmCommand()}
+                  onClick={(e) => {
+                    confirmCommand();
+                    setActive(undefined)
+                  }}
                   className=" cursor-pointer group flex flex-row items-center justify-center text-lg gap-2 bg-gradient-to-br p-2 text-white from-theme-blue to-theme-blue-2 hover:drop-shadow-lg hover:bg-orange-400 hover:scale-105 hover:shadow-md duration-500 h-full rounded-xl hover:rounded-lg hover:w-48 w-40"
                 >
                   <p className="group-hover:translate-x-0 translate-x-3 duration-200">
