@@ -80,7 +80,7 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
         duration: 0.2,
       }}
       whileHover={{ scale: 1.02 }}
-      className=" p-5 min-h-36 flex flex-col justify-between hover:shadow-lg rounded-sm hover:rounded-xl last:border-b-0 border-b-2 cursor-pointer font-eudoxus hover:scale-[1.005] hover:bg-slate-50 duration-300 w-full bg-white"
+      className=" p-5 min-h-36 flex flex-col justify-between hover:shadow-lg rounded-sm hover:rounded-xl last:border-b-0 border-b-2 cursor-pointer font-eudoxus hover:scale-[1.0005] hover:bg-slate-50/10 duration-300 w-full bg-white"
       onContextMenu={(e) => {
         createContext(e, contextButtons);
       }}

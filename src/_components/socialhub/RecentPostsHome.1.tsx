@@ -74,15 +74,15 @@ export const RecentPostsHome = () => {
 
       <Link
         href={`/connect/social/community`}
-        className="flex flex-col justify-end text-white text-xl w-full h-24 p-5 bg-gradient-to-r from-red-600 to-indigo-600 rounded-2xl hover:scale-[1.03] duration-500 drop-shadow-xl hover:shadow-2xl "
+        className="flex flex-col hover:ring-2 hover:ring-offset-1 hover:ring-opacity-70 ring-0 ring-offset-0 ring-purple-700/45 justify-end text-white text-xl w-full h-24 p-5 bg-gradient-to-tr from-red-600 to-indigo-600 rounded-2xl hover:scale-[1.03] duration-500 drop-shadow-xl hover:shadow-2xl "
       >
         <IoPeople className="text-3xl" />
         <h1 className="">Community Home</h1>
       </Link>
-      <section className="flex flex-row w-4/5 justify-center items-center gap-1">
+      <section className="flex flex-row w-4/5 justify-center items-center">
         <Link
           href="/connect/builder"
-          className="h-12 p-5 gap-2 shadow-md text-white cursor-pointer hover:scale-[1.02] flex flex-row justify-center items-center duration-500 rounded-bl-xl hover:rounded-md w-full bg-gradient-to-br from-red-600 to-amber-600"
+          className="h-12 p-5 hover:ring-2 hover:ring-offset-1 hover:ring-opacity-70 ring-0 ring-offset-0 ring-orange-400/45 gap-2 shadow-md text-white cursor-pointer hover:scale-[1.02] flex flex-row justify-center items-center duration-500 rounded-bl-xl hover:rounded-md w-full bg-gradient-to-br from-red-600 to-amber-600"
         >
           <BsPostcard size={22} />
           <h1>Post Builder</h1>
@@ -91,7 +91,7 @@ export const RecentPostsHome = () => {
           onClick={() => {
             setModal(true);
           }}
-          className="h-12 p-5 shadow-md text-white gap-2 cursor-pointer hover:scale-[1.02] flex flex-row justify-center items-center duration-500 rounded-br-xl hover:rounded-md w-full bg-gradient-to-br from-indigo-600 to-blue-400"
+          className="h-12 p-5 hover:ring-2 hover:ring-offset-1 hover:ring-opacity-70 ring-0 ring-offset-0 ring-blue-700/45 shadow-md text-white gap-2 cursor-pointer hover:scale-[1.02] flex flex-row justify-center items-center duration-500 rounded-br-xl hover:rounded-md w-full bg-gradient-to-br from-indigo-600 to-blue-400"
         >
           <IoChatboxEllipsesOutline size={22} />
           <h1>Create Wim</h1>

@@ -14,7 +14,6 @@ import { AnimatePresence, Reorder, motion } from "framer-motion";
 import { useModal } from "../../Modal";
 import { IoMdArrowDropdown } from "react-icons/io";
 import {deleteInterest, submitInterests} from "./EventBuilder/InterestFunctions";
-import {set} from "yaml/dist/schema/yaml-1.1/set";
 import {useContextMenu, useToast} from "@/app/(connect)/InfoContext";
 
 const Interests = () => {
@@ -206,6 +205,7 @@ export const NewInterests = ({
                   className="bg-white absolute p-2 origin-right"
                 >
                   {icons.map((icon) => (
+                      // eslint-disable-next-line react/jsx-key
                     <p
                       onClick={() => {
                         setCategory(icon.name);
