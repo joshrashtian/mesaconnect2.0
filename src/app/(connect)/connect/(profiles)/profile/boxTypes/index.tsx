@@ -1,5 +1,6 @@
 import ProjectBox from "./ProjectBox";
 import Skills from "./Skills";
+import Interestsblock from "@/app/(connect)/connect/(profiles)/profile/boxTypes/interestsblock";
 
 export const Index = [
   {
@@ -27,6 +28,14 @@ export const Index = [
     component: (data: any) => {
       const e = data.data;
       return <ProjectBox e={e} />;
+    },
+    create: (data: any) => {},
+  },
+  {
+    title: "Interests",
+    component: (data: any) => {
+      const e = data.data;
+      return <Interestsblock data={e} />;
     },
     create: (data: any) => {},
   },

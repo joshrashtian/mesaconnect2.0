@@ -13,6 +13,7 @@ import LoadingPage from "@/_components/LoadingPage";
 import FollowButton from "./FollowButton";
 import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
 import { IoCopyOutline, IoPersonAddOutline, IoSchool } from "react-icons/io5";
+import Infoblocks from "@/app/(connect)/connect/(profiles)/profile/[id]/infoblocks";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
@@ -146,9 +147,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       <section className="border-b-2" />
       {user.boxlist && (
         <section className="flex-col flex gap-3">
-          <h2 className="font-bold text-3xl font-eudoxus ">
-            Inside {user.real_name}
-          </h2>
+
           <ul className="flex flex-row w-full h-full font-eudoxus flex-wrap gap-2">
             {user.boxlist.map((e: any) => {
               return (
@@ -170,6 +169,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
               );
             })}
           </ul>
+          <Infoblocks user={user} />
         </section>
       )}
 
