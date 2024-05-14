@@ -98,7 +98,7 @@ const InfoContextContainer = ({ children }: { children: React.ReactNode }) => {
     <MenuContext.Provider value={value}>
       {children}
 
-      <motion.section ref={contextRef}>
+      <motion.section className="z-50" ref={contextRef}>
         <AnimatePresence>
           <PostContext
             contextMenuRef={contextRef}

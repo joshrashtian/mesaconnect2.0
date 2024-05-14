@@ -44,7 +44,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
       <AnimatePresence>
         {active && (
-          <motion.section className="fixed inset-0 flex justify-center items-center overflow-y-auto">
+          <motion.section className="fixed inset-0 z-50 flex justify-center items-center overflow-y-auto">
             <motion.div
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -72,7 +72,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.25 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 z-0 bg-gray-500 opacity-50 "
+              className="absolute inset-0 z-10 bg-gray-500 opacity-50 "
               onClick={() => {
                 value.disarmModal();
               }}

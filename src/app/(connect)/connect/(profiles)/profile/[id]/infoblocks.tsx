@@ -1,13 +1,27 @@
 "use client"
 
 import {Index} from "@/app/(connect)/connect/(profiles)/profile/boxTypes";
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {supabase} from "../../../../../../../config/mesa-config";
 import { motion } from "framer-motion";
 import {IoAdd} from "react-icons/io5";
+import {useModal} from "@/app/(connect)/connect/Modal";
+import InfoBlockDashboard from "@/app/(connect)/connect/(profiles)/profile/[id]/(infoblockscreator)/InfoBlockDashboard";
+
+export type InfoBlockType = {
+    id: string
+    userid: string
+    created_at: Date
+    data: {
+        length?: number
+    }
+    type: string
+    visible: 'public' | 'private' | 'friends'
+}
 
 const Infoblocks = (props: any) => {
-    const [blocks, setBlocks] = useState([]);
+    const [blocks, setBlocks] = useState<InfoBlockType[]>([]);
+    const Modal = useModal()
 
     useEffect(() => {
         async function getBlocks() {
@@ -16,10 +30,17 @@ const Infoblocks = (props: any) => {
                 console.error(error.message)
                 return
             }
+            // @ts-ignore
             setBlocks(data.length != 0 ? data : null)
         }
         getBlocks()
-    }, []);
+    }, [props.user.id]);
+
+    // @ts-ignore
+    const DashboardEnable = useCallback(() => Modal.CreateModal(DashboardComp), [])
+
+    const DashboardComp = useCallback(() => (<InfoBlockDashboard />)
+    , [])
 
     return (
         <section className="w-full">
@@ -27,8 +48,8 @@ const Infoblocks = (props: any) => {
             <h2 className="font-bold text-3xl font-eudoxus ">
                 Inside {props.user.real_name}
             </h2>
-            <button className="relative right-0">
-                <IoAdd/>
+            <button onClick={DashboardEnable} className="relative right-0">
+                <IoAdd />
             </button>
             </ul>
             <ul className="flex flex-row w-full h-full font-eudoxus flex-wrap gap-2">

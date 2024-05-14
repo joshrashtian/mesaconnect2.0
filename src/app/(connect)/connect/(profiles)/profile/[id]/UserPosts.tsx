@@ -5,6 +5,7 @@ import { supabase } from "../../../../../../../config/mesa-config";
 import Post from "@/_components/socialhub/Post";
 import Wim from "@/_components/socialhub/Wim";
 import { PostType } from "@/_assets/types";
+import PostListItem from "@/_components/socialhub/PostListItem";
 
 const UserPosts = (id: { id: string }) => {
   const [data, setData] = useState<PostType[]>();
@@ -21,14 +22,14 @@ const UserPosts = (id: { id: string }) => {
   }, []);
 
   return (
-    <main className="gap-2 flex flex-col">
+    <main className="gap-0.5 flex flex-col">
       {data &&
         data?.map((e: PostType, index: number) => {
           switch (e.type) {
             case "wim":
               return <Wim post={e} key={index} />;
             case "post":
-              return <Post post={e} key={index} />;
+              return <PostListItem post={e} index={index} key={index} />;
             default:
               return null;
           }
