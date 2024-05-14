@@ -15,7 +15,7 @@ const InterestsBlock = () => {
         async function get() {
             const { data, error } = await supabase.from('infoblocks').select("id").match({userid: user?.id, type: 'interests' }).single()
             if(error) {
-                CreateErrorToast(error.message)
+              setExists(false)
                 return
             }
             if(!data) {
@@ -33,7 +33,7 @@ const InterestsBlock = () => {
         else setVisible(!visible)
     }, [])
 
-    if(!exists) return null
+    if(!exists) return (null)
     return (
         <div>
             <h1>Interests</h1>

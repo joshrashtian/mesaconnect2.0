@@ -1,6 +1,10 @@
 import ProjectBox from "./ProjectBox";
 import Skills from "./Skills";
 import Interestsblock from "@/app/(connect)/connect/(profiles)/profile/boxTypes/interestsblock";
+import InterestsBlock from "@/app/(connect)/connect/(profiles)/profile/[id]/(infoblockscreator)/InterestsBlock";
+import React from "react";
+import {MdInterests} from "react-icons/md";
+import {IoBuildOutline} from "react-icons/io5";
 
 export const Index = [
   {
@@ -37,6 +41,15 @@ export const Index = [
       const e = data.data;
       return <Interestsblock data={e} />;
     },
-    create: (data: any) => {},
+    icon: <MdInterests />,
+    create: <InterestsBlock />,
   },
+  {
+    title: "Personal Project",
+    icon: <IoBuildOutline />,
+    component: (data: any) => (
+      <h1>Project</h1>
+    ),
+    create: () => {}
+  }
 ];
