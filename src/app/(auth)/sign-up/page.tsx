@@ -7,7 +7,7 @@ import { supabase } from "../../../../config/mesa-config";
 import { User } from "@supabase/supabase-js";
 import ChooseCampus from "./choosecampus";
 import ChooseMajor from "./ChooseMajor";
-import { IoCheckmark, IoChevronForward } from "react-icons/io5";
+import {IoCheckmark, IoChevronForward, IoLogoGoogle} from "react-icons/io5";
 import { Key } from "@/app/(connect)/connect/settings/InviteKeys";
 
 const SignUp = () => {
@@ -41,6 +41,8 @@ const SignUp = () => {
       },
     });
 
+
+
     if (error) {
       console.error(error);
       setErrorMsg(error.message);
@@ -48,6 +50,11 @@ const SignUp = () => {
     }
   };
 
+  const withGoogle = async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google'
+    })
+  }
   return (
     <>
       <motion.section
@@ -65,6 +72,13 @@ const SignUp = () => {
         <motion.h1 className="text-transparent bg-clip-text font-eudoxus bg-gradient-to-tr from-pink-700 to-blue-800 font-bold text-5xl p-6  border-b-2 border-opacity-65 border-slate-200 duration-300">
           Let's Build Your MESA Account.
         </motion.h1>
+        <ul className="font-eudoxus">
+          <p className="text-2xl">Quickstart</p>
+          <p className="text-slate-400">Note: You may have to set up profile details later.</p>
+          <button onClick={() => withGoogle()} className="w-16 h-16 bg-blue-400 flex justify-center items-center text-2xl text-white
+          "><IoLogoGoogle /></button>
+        </ul>
+
         <h2 className="font-eudoxus text-2xl p-2">
           <span className="text-green-700">First,</span> Starting with some
           basic account information:
