@@ -1,9 +1,9 @@
 "use client"
 
 import {Index} from "@/app/(connect)/connect/(profiles)/profile/boxTypes";
-import {useCallback, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {supabase} from "../../../../../../../config/mesa-config";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import {IoAdd} from "react-icons/io5";
 import {useModal} from "@/app/(connect)/connect/Modal";
 import InfoBlockDashboard from "@/app/(connect)/connect/(profiles)/profile/[id]/(infoblockscreator)/InfoBlockDashboard";
@@ -37,10 +37,9 @@ const Infoblocks = (props: any) => {
     }, [props.user.id]);
 
     // @ts-ignore
-    const DashboardEnable = useCallback(() => Modal.CreateModal(DashboardComp), [])
-
-    const DashboardComp = useCallback(() => (<InfoBlockDashboard />)
-    , [])
+    const DashboardEnable = () => {
+      Modal.CreateModal(<InfoBlockDashboard Blocks={blocks} />)
+    }
 
     return (
         <section className="w-full">

@@ -1,12 +1,12 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import React, {useEffect, useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
 import Link from "next/link";
-import { supabase } from "../../config/mesa-config";
-import { userContext, useUser } from "@/app/AuthContext";
-import { IoHome, IoLockClosed } from "react-icons/io5";
-import { useContextMenu } from "@/app/(connect)/InfoContext";
-import { useRouter } from "next/navigation";
+import {supabase} from "../../config/mesa-config";
+import {useUser} from "@/app/AuthContext";
+import {IoLockClosed} from "react-icons/io5";
+import {useContextMenu} from "@/app/(connect)/InfoContext";
+import {useRouter} from "next/navigation";
 
 const Dock = () => {
   const [selected, setSelected] = useState("");
@@ -150,7 +150,7 @@ const Dock = () => {
               {tabs.map((tab, index) => {
                 if (tab.permissions) {
                   if (
-                    !tab.permissions.includes(userData.userData?.role) ||
+                    !tab.permissions.includes(userData?.role) ||
                     !userData
                   ) {
                     return null;
