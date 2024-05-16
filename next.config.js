@@ -7,13 +7,13 @@ const nextConfig = {
         protocol: "https",
         hostname: "gnmpzioggytlqzekuyuo.supabase.co",
         port: "",
-        pathname: "/storage/v1/object/public/avatars/**",
+        pathname: "/storage/v1/object/public/**",
       },
       {
         protocol: "https",
         hostname: "gnmpzioggytlqzekuyuo.supabase.co",
         port: "",
-        pathname: "/storage/v1/object/sign/avatars/**",
+        pathname: "/storage/v1/object/sign/**",
       },
       {
         protocol: "https",

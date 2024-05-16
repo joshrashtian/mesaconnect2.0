@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext, useEffect, useMemo, useState } from "react";
+import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import { useRouter } from "next/navigation";
 import { PostItem, PostType, UserData } from "@/_assets/types";
 import { supabase } from "../../../../../../../../config/mesa-config";
@@ -14,16 +14,28 @@ import Replies from "./Replies";
 import RelatedTo from "./RelatedTo";
 import { IoPaperPlane, IoPerson, IoPersonAdd } from "react-icons/io5";
 import Link from "next/link";
+import {FileObject} from "@supabase/storage-js";
+import Image from "next/image";
 
 const PostPage = ({ params }: { params: { id: string } }) => {
   const [post, setPost] = useState<PostType>();
   const [reply, setReply] = useState<string>();
   const [isPrivate, setPrivate] = useState(false);
-
+  const [images, setImages] = useState<FileObject[]>([])
   const router = useRouter();
   const user = useUser();
   const toast = useToast();
 
+  const getImages = useCallback(async() => {
+    const { data, error } = await supabase.storage.from('postPictures').list(params.id)
+
+    if(error) {
+      toast.CreateErrorToast(error.message)
+    } else {
+      console.log(data)
+      setImages(data)
+    }
+  }, [])
   const AlterReply = useMemo(() => {
     setReply(reply);
   }, [reply]);
@@ -42,6 +54,11 @@ const PostPage = ({ params }: { params: { id: string } }) => {
       }
       //@ts-ignore
       setPost(data);
+
+      // @ts-ignore
+      if(data?.images) {
+        getImages()
+      }
       return true;
     };
 
@@ -102,8 +119,8 @@ const PostPage = ({ params }: { params: { id: string } }) => {
                 </Link>
                 <button
                   onClick={() =>
-                    toast.CreateErrorToast(
-                      "This feature is currently not available."
+                    toast.CreateInfoToast(
+                      "This feature is currently a Work In Progress. Oopsies!"
                     )
                   }
                   className="h-2/3 flex flex-col justify-center p-2 text-white rounded-lg hover:scale-[1.02] duration-200 w-full bg-gradient-to-tr from-orange-600 to-red-700"
@@ -117,6 +134,18 @@ const PostPage = ({ params }: { params: { id: string } }) => {
           - {date?.toDateString()}
         </h2>
       </ul>
+
+      {
+        images && (
+            <div>
+              {
+        images?.map(image => {
+          return (
+              // eslint-disable-next-line react/jsx-key
+              <Image src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/postPictures/${params.id}/${image.name}`} alt={image.name} width={120} height={120} />
+          )
+        })} </div>)
+      }
 
       <section className="flex flex-col gap-4 ">
         {data.map((item: PostItem, index: number) => {
