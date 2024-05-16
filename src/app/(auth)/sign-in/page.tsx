@@ -75,8 +75,11 @@ const Page = () => {
 
         <ul className="font-eudoxus">
           <p className="text-2xl text-slate-700 mb-2">Alternative Logins</p>
-          <button onClick={() => loginUser('google')} className="w-16 h-16 rounded-2xl duration-500 hover:scale-110 bg-blue-400 flex justify-center items-center text-2xl text-white
-          "><IoLogoGoogle/></button>
+          <button onClick={() => loginUser('google')} className="w-16 h-16 z-10 rounded-2xl duration-500 hover:scale-110 bg-gradient-to-br from-[#174EA6] to-[#4285F4]  flex justify-center items-center text-2xl text-white
+          "><IoLogoGoogle className="text-2xl "/>
+
+
+          </button>
         </ul>
       </ul>
       <ul className="md:w-3/4 xl:1/2 2xl:w-2/5 justify-center flex-col gap-2 flex">

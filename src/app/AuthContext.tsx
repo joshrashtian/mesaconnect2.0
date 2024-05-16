@@ -66,10 +66,12 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
   const getUserData = async () => {
     const userId = (await supabase.auth.getUser()).data.user?.id;
 
+
     const { data, error } = await supabase
       .from("profiles")
       .select()
-      .eq("id", userId)
+        // @ts-ignore
+        .eq("id", userId)
       .single();
 
     if (error) {
@@ -79,6 +81,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
 
     console.log("successfully grabbed data");
 
+    // @ts-ignore
     setData(data);
   };
 
@@ -86,6 +89,23 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     getUser();
   }, []);
 
+  useEffect(() => {
+    const profiles = supabase.channel('custom-update-channel')
+        .on(
+            'postgres_changes',
+            { event: 'UPDATE', schema: 'public', table: 'profiles',
+             // filter: `id=eq.${(supabase.auth.getUser()).then(e => e.data.user?.id)}`
+            },
+            (payload) => {
+              console.log(payload.new
+              )
+              setData(payload.new)
+            }
+        )
+        .subscribe()
+
+    return () => { profiles.unsubscribe() }
+  }, [supabase]);
   const { data } = supabase.auth.onAuthStateChange((event, session) => {
     if (event === "INITIAL_SESSION") {
       // handle initial session

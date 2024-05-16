@@ -32,7 +32,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       className="flex flex-row gap-2 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"
     >
       <motion.h1 style={{ color: color }} className="text-xl font-eudoxus">
-        {user.user ? user.user.user_metadata.username : "Sign In"}
+        {user.user ? user.user.user_metadata.full_name ? user.user.user_metadata.full_name : user.user.user_metadata.username : "Sign In"}
       </motion.h1>
       <div className="bg-slate-300 w-8 rounded-full">
         <img src={user.userData?.avatar_url} className="w-8 h-8 rounded-full" />

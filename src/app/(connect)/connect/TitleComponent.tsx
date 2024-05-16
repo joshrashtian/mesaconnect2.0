@@ -1,13 +1,13 @@
 'use client'
 
-import { userContext } from '@/app/AuthContext'
+import {userContext, useUser} from '@/app/AuthContext'
 import { userAgent } from 'next/server'
 import React, { useContext, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { usePollModal } from './learning/LearningContext'
 
 const TitleComponent = () => {
-  const user = useContext(userContext)
+  const { user, userData } = useUser()
   const [date, setDate] = useState(new Date())
 
   useEffect(() => {
@@ -21,8 +21,6 @@ const TitleComponent = () => {
   const greeting =
     date.getHours() < 12 ? 'Good Morning' : date.getHours() < 18 ? 'Good Afternoon' : 'Good Evening'
 
-  if (!user.user) return
-
   return (
     <main className="w-full font-eudoxus text-center xl:text-left duration-300 flex flex-col xl:gap-0 gap-5">
       <motion.h1
@@ -31,7 +29,7 @@ const TitleComponent = () => {
         transition={{ duration: 0.5, ease: 'easeInOut', delay: 0.25 }}
         className=" text-transparent bg-clip-text bg-gradient-to-br from-slate-500 to-slate-800 text-3xl"
       >
-        {greeting}, {user?.user?.user_metadata?.real_name}
+        {greeting}, {user?.user_metadata.full_name ? user.user_metadata.full_name : userData?.real_name}
       </motion.h1>
       <motion.h1
         className="text-2xl text-slate-600 font-semibold duration-500"
