@@ -10,7 +10,9 @@ import Link from "next/link";
 import { useContext, useRef } from "react";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
-Inter({
+import {NextFont} from "next/dist/compiled/@next/font";
+
+const inter: NextFont = Inter({
   subsets: ["latin"],
   display: "swap",
 });
