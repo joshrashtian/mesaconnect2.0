@@ -47,7 +47,7 @@ const UnsplashSearch = ({ updateImage }: { updateImage: (e: any) => void }) => {
         </button>
         {images?.map((e, i: number) => {
           return (
-            <article className="flex flex-col w-full group h-full">
+            <article key={e.id} className="flex flex-col w-full group h-full">
               <button
                 onClick={() => {
                   setSelectedImage(e);

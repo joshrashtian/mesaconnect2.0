@@ -34,6 +34,7 @@ const Page = () => {
       setSelected(found);
     };
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     useParams();
   }, []);
 

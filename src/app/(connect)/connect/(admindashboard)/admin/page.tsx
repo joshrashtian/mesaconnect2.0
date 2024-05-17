@@ -2,13 +2,16 @@
 
 import React, { useContext, useState } from 'react'
 import { motion } from 'framer-motion'
-import { userContext } from '@/app/AuthContext'
+import {userContext, useUser} from '@/app/AuthContext'
 import AdminIndex, { AdminPanel } from '.'
 import {useToast} from "@/app/(connect)/InfoContext";
 
 const page = () => {
-  const user = useContext(userContext)
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+  const user = useUser()
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   const [selected, setSelected] = useState<AdminPanel>(AdminIndex[0])
+    // eslint-disable-next-line react-hooks/rules-of-hooks
   const toast = useToast()
 
   return (

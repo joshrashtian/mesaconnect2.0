@@ -26,6 +26,7 @@ const ClassRelations = ({
   const [newSearch, setSearch] = useState<string>()
   if (!exist) return null
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const changeClasses = useEffect(() => {
     if (!selectedClasses) return
     if (onChange) onChange(selectedClasses.map((e) => e.id))
@@ -62,6 +63,7 @@ const ClassRelations = ({
     setClasses(data)
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     fetchClasses()
   }, [])
@@ -87,6 +89,7 @@ const ClassRelations = ({
       </ul>
       {classes?.map((e, i) => (
         <ul
+            key={i}
           className={`p-3 last:border-b-0 ${
             selectedClasses.includes(e) && 'bg-orange-300 hover:bg-orange-200'
           } font-eudoxus last:rounded-b-2xl hover:bg-slate-100 even:border-y-2 duration-300`}

@@ -13,12 +13,14 @@ const EditWidgets = ({ current }: { current: any }) => {
   const updateWidgets = async (e: any) => {
     const NewWidget = [{ name: e }];
 
+
     const { data, error } = await supabase
       .from("profiles")
       .update({
         widgets: current ? [...current, ...NewWidget] : [...NewWidget],
       })
-      .eq("id", user.user?.id);
+        // @ts-ignore
+        .eq("id", user.user?.id);
 
     if (error) {
       toast.toast("Error updating widgets: " + error.message, "error");
@@ -48,7 +50,7 @@ const EditWidgets = ({ current }: { current: any }) => {
         <section className="flex flex-row items-center">
           {widgets.map((widget) => {
             return (
-              <div className="flex flex-col gap-0.5 items-center">
+              <div key={widget.name} className="flex flex-col gap-0.5 items-center">
                 <button
                   className="hover:scale-105 hover:shadow-md rounded-3xl duration-300"
                   onClick={() => {

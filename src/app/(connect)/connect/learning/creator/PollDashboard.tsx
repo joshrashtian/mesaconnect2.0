@@ -18,6 +18,7 @@ const PollDashboard = () => {
 
   if (!user) return
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const fetchData = async () => {
       const { data, error } = await supabase
@@ -34,7 +35,7 @@ const PollDashboard = () => {
     }
 
     fetchData()
-  }, [])
+  }, [user.user?.id])
 
   if (!data) return
 
@@ -46,6 +47,7 @@ const PollDashboard = () => {
     }
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const channel = supabase
       .channel('polls channel')
@@ -73,18 +75,20 @@ const PollDashboard = () => {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [supabase])
+  }, [supabase, modal])
 
   return (
     <main className="w-full min-h-full ">
       <h1 className="font-bold text-3xl text-slate-700">Your Polls</h1>
       <section className="w-full flex flex-col gap-3 mt-5">
         {data.length === 0 ? (
+            // eslint-disable-next-line react/no-unescaped-entities
           <h1>Currently, you haven't created any polls.</h1>
         ) : (
           data.map((item, index) => {
             return (
               <button
+                  key={index}
                 onClick={() => {
                   setFocus(item)
                 }}

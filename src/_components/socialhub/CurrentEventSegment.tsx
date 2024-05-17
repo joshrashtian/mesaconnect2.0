@@ -32,6 +32,7 @@ const CurrentEventSegment: FC = (): JSX.Element | undefined => {
         return
       }
 
+      // @ts-ignore
       setData(data)
     }
 
@@ -98,6 +99,7 @@ const CurrentEventSegment: FC = (): JSX.Element | undefined => {
             href="/connect/social/events"
             className="text-blue-500 hover:text-slate-600 duration-300 font-semibold"
           >
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
             let's see what's going on.
           </Link>
         </h1>

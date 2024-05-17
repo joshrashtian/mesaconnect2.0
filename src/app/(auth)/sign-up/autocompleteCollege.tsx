@@ -19,6 +19,7 @@ const AutocompleteCampus = ({ input, onChange }: { input: string; onChange: any 
         {results.length > 0 ? (
           results.map((value: string) => (
             <ul
+                key={value}
               onClick={() => {
                 onChange(value)
               }}

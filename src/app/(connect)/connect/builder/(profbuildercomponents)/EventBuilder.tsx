@@ -69,6 +69,7 @@ const EventBuilder = () => {
       <motion.header>
         <ul className="flex flex-col gap-2">
           <h1 className="font-bold text-2xl">
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
             Let's start with some basics of <span className=" text-indigo-800">your</span> event.
           </h1>
           <input
@@ -128,6 +129,7 @@ const EventBuilder = () => {
             className="flex flex-col gap-4"
           >
             <h1 className="font-bold text-2xl">
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
               <span className="text-green-600">Perfect!</span> Let's learn a little more about your
               new event... starting with timing.
             </h1>

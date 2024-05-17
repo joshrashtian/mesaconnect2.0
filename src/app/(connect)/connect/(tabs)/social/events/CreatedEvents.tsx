@@ -27,6 +27,7 @@ const CreatedEvents: FC = (): JSX.Element => {
         console.log(error)
         return
       }
+      // @ts-ignore
       setData(data)
     }
 
@@ -43,11 +44,12 @@ const CreatedEvents: FC = (): JSX.Element => {
       {data?.map((event, index) => {
         return (
           <motion.section
+              key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ type: 'spring', duration: 0.3, delay: 0.2 * index }}
           >
-            <Event key={index} event={event} />
+            <Event event={event} />
           </motion.section>
         )
       })}

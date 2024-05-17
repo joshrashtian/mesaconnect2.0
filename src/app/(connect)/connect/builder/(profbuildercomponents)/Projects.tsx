@@ -155,6 +155,7 @@ const Projects = () => {
                 <div className="flex flex-row gap-3 justify-center">
                   {webOptions.map((e) => (
                     <button
+                        key={e.name}
                       className="bg-white p-2 px-3 rounded-full"
                       onClick={() => {
                         setLinks(

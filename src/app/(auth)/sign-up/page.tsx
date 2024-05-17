@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { checkEmail } from "../../../../config/functions";
 import { supabase } from "../../../../config/mesa-config";
-import { User } from "@supabase/supabase-js";
 import ChooseCampus from "./choosecampus";
 import ChooseMajor from "./ChooseMajor";
 import {IoCheckmark, IoChevronForward, IoLogoGoogle} from "react-icons/io5";
@@ -28,7 +26,7 @@ const SignUp = () => {
       return;
     }
 
-    const { data, error } = await supabase.auth.signUp({
+    const {error } = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
@@ -51,7 +49,7 @@ const SignUp = () => {
   };
 
   const withGoogle = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const {error } = await supabase.auth.signInWithOAuth({
       provider: 'google'
     })
   }
@@ -70,6 +68,7 @@ const SignUp = () => {
         className="bg-white absolute origin-bottom overflow-y-scroll no-scrollbar  bottom-0 rounded-t-3xl h-2/3 p-10 w-full shadow-md flex gap-2 pb-20 flex-col  "
       >
         <motion.h1 className="text-transparent bg-clip-text font-eudoxus bg-gradient-to-tr from-pink-700 to-blue-800 font-bold text-5xl p-6  border-b-2 border-opacity-65 border-slate-200 duration-300">
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
           Let's Build Your MESA Account.
         </motion.h1>
         <ul className="font-eudoxus">
@@ -124,7 +123,9 @@ const SignUp = () => {
                   });
                   if (error) setErrorMsg(error.message);
                   else {
+                    // @ts-ignore
                     console.log(data[0]);
+                    // @ts-ignore
                     setValidKey(data[0]);
                   }
                 }}

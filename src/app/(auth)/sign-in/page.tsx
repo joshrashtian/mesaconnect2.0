@@ -35,6 +35,7 @@ const Page = () => {
     >
       <ul className="flex flex-col gap-2">
         <h1 className="text-transparent bg-clip-text bg-gradient-to-tr from-orange-700 to-red-800 font-eudoxus text-5xl p-6 mb-5 border-b-2 border-opacity-65 border-slate-200">
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
           Let's Get You Signed In.
         </h1>
         <AnimatePresence>

@@ -19,6 +19,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
   const color = useTransform(scrollYProgress, [0, 1], ["#FFF", "#000"]);
 
   const headerComponents = [
+    // eslint-disable-next-line react/jsx-key
     <Link
       href="/news"
       className="flex flex-row gap-2 p-4 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"
@@ -27,6 +28,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
         News
       </motion.h1>
     </Link>,
+    // eslint-disable-next-line react/jsx-key
     <Link
       href="/sign-in"
       className="flex flex-row gap-2 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"

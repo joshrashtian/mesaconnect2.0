@@ -27,7 +27,7 @@ const PollsHome = async () => {
       <section className="gap-10 flex flex-col p-10">
         <FeaturedPolls />
         {data.map((e) => (
-          <ClassPollList classid={e.classid} />
+          <ClassPollList key={e.classid} classid={e.classid} />
         ))}
       </section>
     </main>
