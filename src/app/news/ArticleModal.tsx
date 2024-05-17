@@ -90,13 +90,13 @@ export const ArticleModalProvider = ({
   );
 };
 
-// @ts-ignore
+
 export const ExpandedArticle = ({
   article,
   disengage,
 }: {
   article: ArticleType;
-  disengage: () => void;
+  disengage: any;
 }) => {
   const date = new Date(article.created_at);
 

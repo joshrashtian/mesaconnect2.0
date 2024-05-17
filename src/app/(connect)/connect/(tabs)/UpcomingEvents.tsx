@@ -24,6 +24,7 @@ const UpcomingEvents: FC = (): JSX.Element => {
         return;
       }
 
+      //@ts-ignore
       setData(data);
     };
 
