@@ -73,9 +73,9 @@ const SignUp = () => {
           Let's Build Your MESA Account.
         </motion.h1>
         <ul className="font-eudoxus">
-          <p className="text-2xl">Quickstart</p>
+          <p className="text-2xl">Quickstart - Requires Key</p>
           <p className="text-slate-400">Note: You may have to set up profile details later.</p>
-          <button onClick={() => withGoogle()} className="w-16 h-16 bg-blue-400 flex justify-center items-center text-2xl text-white
+          <button onClick={() => validKey ? withGoogle() : setErrorMsg('Requries Invite Key To Join.')} className="w-16 h-16 bg-blue-400 flex justify-center items-center text-2xl text-white
           "><IoLogoGoogle /></button>
         </ul>
 

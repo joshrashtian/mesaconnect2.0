@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../../../../../config/mesa-config";
 import Reply from "./Reply";
 import { ContextProps } from "@/app/AuthContext";
+import {AnimatePresence} from "framer-motion";
 
 export type ReplyType = {
   id: string;
@@ -47,11 +48,26 @@ const Replies = ({
   }, []);
 
   useEffect(() => {
-    // TODO - Add Optimistic Updates
+
+    const channels = supabase.channel('custom-all-channel')
+        .on(
+            'postgres_changes',
+            { event: '*', schema: 'public', table: 'replies' },
+            (payload) => {
+              if(payload.eventType === 'INSERT') setData(e => [payload.new, ...e])
+              if(payload.eventType === 'DELETE') setData(e => e?.filter(d => d.id !== payload.old.id))
+            }
+        )
+        .subscribe()
+
+    return () => {
+      channels.unsubscribe()
+    }
   }, [supabase]);
 
   return (
     <div className="flex flex-col gap-1">
+      <AnimatePresence>
       {data &&
         data.map((e, i) => {
           if (e.private) {
@@ -61,6 +77,7 @@ const Replies = ({
           }
           return <Reply contents={e} key={i} />;
         })}
+      </AnimatePresence>
     </div>
   );
 };

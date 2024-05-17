@@ -37,6 +37,7 @@ const BuildPost = () => {
       return
     }
 
+    // @ts-ignore
     const { error } = await supabase.from('posts').insert({
       userid: userInfo.id,
       title: title,

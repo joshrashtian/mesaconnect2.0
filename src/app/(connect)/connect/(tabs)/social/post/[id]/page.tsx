@@ -36,9 +36,6 @@ const PostPage = ({ params }: { params: { id: string } }) => {
       setImages(data)
     }
   }, [])
-  const AlterReply = useMemo(() => {
-    setReply(reply);
-  }, [reply]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -79,7 +76,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <motion.main
-      className=" p-10 gap-5 flex flex-col "
+      className=" p-10 gap-5 flex font-eudoxus flex-col "
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "circInOut" }}
@@ -93,7 +90,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         <h1 className="text-3xl font-mono font-bold">{"<"}</h1>
       </ul>
 
-      <ul className="font-eudoxus">
+      <ul>
         <h1 className="text-slate-600 font-bold text-3xl lg:text-6xl duration-300">
           {post?.title}
         </h1>
@@ -134,7 +131,9 @@ const PostPage = ({ params }: { params: { id: string } }) => {
           - {date?.toDateString()}
         </h2>
       </ul>
-
+      {
+        //TODO Fix this horrible 47 score please
+      }
       {
         images && (
             <div>
@@ -142,8 +141,10 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         images?.map(image => {
           return (
               // eslint-disable-next-line react/jsx-key
-              <Image src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/postPictures/${params.id}/${image.name}`} alt={image.name} width={120} height={120} />
-          )
+              <motion.div className="relative hover:scale-105 duration-500 w-72 h-72 rounded-3xl shadow-lg">
+              <Image style={{ borderRadius: 20 }} src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/postPictures/${params.id}/${image.name}`} alt={image.name} fill objectFit={'cover'} sizes="(max-width: 128px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+              </motion.div>
+                )
         })} </div>)
       }
 

@@ -1,9 +1,11 @@
+"use client"
 import React, { useContext } from "react";
 import { ReplyType } from "./Replies";
 import { months } from "../../../../../../../../config/calendar";
 import { MenuContext } from "@/app/(connect)/InfoContext";
 import { supabase } from "../../../../../../../../config/mesa-config";
 import { userContext } from "@/app/AuthContext";
+import { motion } from "framer-motion";
 
 const Reply = ({ contents }: { contents: ReplyType }) => {
   const time = new Date(contents.created_at);
@@ -33,7 +35,10 @@ const Reply = ({ contents }: { contents: ReplyType }) => {
   ];
 
   return (
-    <main
+    <motion.main
+        initial={{ x: 10, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        exit={{ x: -10, opacity: 0}}
       className="flex flex-row shadow-xl rounded-2xl"
       onContextMenu={(e) => context.rightClick(e, contextButtons)}
     >
@@ -52,7 +57,7 @@ const Reply = ({ contents }: { contents: ReplyType }) => {
         </section>
         <p className="text-slate-500">{contents.reply}</p>
       </ul>
-    </main>
+    </motion.main>
   );
 };
 
