@@ -12,9 +12,3 @@ export const serverside = createServerClient(
     },
   }
 );
-
-export const useSession = async () => {
-  const { data, error } = await serverside.auth.getSession();
-  let session = data.session;
-  return { session, error };
-};
