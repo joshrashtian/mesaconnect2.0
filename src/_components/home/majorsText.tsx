@@ -4,11 +4,6 @@ import { coverMajors } from "@/_assets/coverData";
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
-import { Inter } from "next/font/google";
-Inter({
-  subsets: ["latin"],
-  display: "swap",
-});
 const variants = {
   moving: {
     opacity: 0,
