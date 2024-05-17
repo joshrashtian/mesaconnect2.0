@@ -3,6 +3,7 @@ import './globals.css'
 import { config } from '../../config/mesa-config'
 import AuthContext from './AuthContext'
 import { Inter } from 'next/font/google'
+import {SpeedInsights} from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ['latin'],
@@ -25,7 +26,7 @@ export default async function RootLayout({
   return (
     <AuthContext>
       <html>
-        <body className={`${inter.className} dark:bg-zinc-800 bg-zinc-100`}>{children}</body>
+        <body className={`${inter.className} dark:bg-zinc-800 bg-zinc-100`}>{children}<SpeedInsights /></body>
       </html>
     </AuthContext>
   )
