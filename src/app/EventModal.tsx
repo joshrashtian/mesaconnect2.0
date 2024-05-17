@@ -20,14 +20,17 @@ const EventModal = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchEvent = async () => {
+
       const { data, error } = await supabase
         .from('events')
         .select('*')
-        .eq('id', searchParams.get('event'))
+          // @ts-ignore
+          .eq('id', searchParams.get('event'))
         .single()
       if (error) {
         console.log(error)
       } else {
+        // @ts-ignore
         setEvent(data)
       }
     }
@@ -35,7 +38,7 @@ const EventModal = ({ children }: { children: React.ReactNode }) => {
     if (searchParams.get('event')) {
       fetchEvent()
     }
-  }, [])
+  }, [searchParams])
 
   function handleParams(term?: string) {
     const params = new URLSearchParams(searchParams)
@@ -76,6 +79,7 @@ const Modal = ({ event }: { event: EventType }) => {
       const { data, error } = await supabase
         .from('eventinterest')
         .select()
+          //@ts-ignore
         .eq('user_id', user.user?.id)
         .eq('event_id', event.id)
 
@@ -89,7 +93,7 @@ const Modal = ({ event }: { event: EventType }) => {
     }
 
     if (state !== 1) fetchData()
-  }, [state])
+  }, [event.id, user.user?.id])
 
   const InterestedContext = [
     {
@@ -117,9 +121,7 @@ const Modal = ({ event }: { event: EventType }) => {
     startDate: new Date(event.start),
     endDate: event.end ? new Date(event.end) : undefined
   }
-
-  const timeDif = dates.endDate && new calendar(dates.startDate, dates.endDate)
-
+  dates.endDate && new calendar(dates.startDate, dates.endDate);
   const onInterest = async () => {
     setState(1)
     toast.toast('Added to your List!', 'success')
@@ -151,7 +153,7 @@ const Modal = ({ event }: { event: EventType }) => {
   const onInterestLost = async () => {
     setState(1)
 
-    const { data, error } = await supabase
+    const {error } = await supabase
       .from('eventinterest')
       .delete()
       .match({ event_id: event.id, user_id: user.user?.id })
@@ -175,7 +177,7 @@ const Modal = ({ event }: { event: EventType }) => {
     } else {
       setDateMessage('Currently Ongoing')
     }
-  }, [])
+  }, [dates.endDate, dates.startDate])
 
   const [creator, setCreator] = useState()
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../../../config/mesa-config";
 import Link from "next/link";
 
@@ -34,11 +34,13 @@ const ResponsesPollInfo = ({
         return;
       }
 
+      // @ts-ignore
       setData(data);
+      // @ts-ignore
       setFiltered(data);
     };
     fetchData();
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     if (!filter) {
@@ -46,7 +48,7 @@ const ResponsesPollInfo = ({
       return;
     }
     setFiltered(data?.filter((e) => options[e.response] === filter));
-  }, [filter]);
+  }, [data, filter, options]);
 
   if (!data) return;
   if (data.length === 0) return <h1>There is no responses (yet).</h1>;

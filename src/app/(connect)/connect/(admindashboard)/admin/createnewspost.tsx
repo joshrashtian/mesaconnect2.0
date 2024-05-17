@@ -1,30 +1,28 @@
 "use client";
 import React, { useState } from "react";
 import Tiptap from "@/app/(connect)/connect/builder/(buildercomponents)/TipTap";
-import {useCurrentEditor} from "@tiptap/react";
 import {motion} from "framer-motion";
 import {useUser} from "@/app/AuthContext";
 import {UploadNews} from "@/app/(connect)/connect/(admindashboard)/admin/ServerActions";
 import {useToast} from "@/app/(connect)/InfoContext";
-import {router} from "next/client";
+import {useRouter} from "next/navigation";
 
 const CreateNews = () => {
   const [title, setTitle] = useState<string>();
   const [json, setJson] = useState<object>();
   const [tags, setTags] = useState<string[]>();
   const { userData } = useUser()
+    const router = useRouter()
     const toast = useToast()
-  const { editor } = useCurrentEditor()
-
-  const Upload = async () => {
+    const Upload = async () => {
       if(!title || !json || !tags ) {
           toast.CreateErrorToast("Please Fill Out All Fields!")
           return;
       }
       // @ts-ignore
-      const { data, error } = await UploadNews({ title, tags, contents: json}, userData)
+      const {error } = await UploadNews({ title, tags, contents: json}, userData)
       if(error) toast.CreateErrorToast(error.message)
-      else router.push('/news')
+      else await router.push('/news')
   }
 
     //TODO: Finish The News Editor / Allow Upload

@@ -1,5 +1,5 @@
 import React from "react";
-import { IoBookOutline, IoBookSharp } from "react-icons/io5";
+import { IoBookSharp } from "react-icons/io5";
 import ClassPicker from "./ClassPicker";
 import { Metadata } from "next";
 

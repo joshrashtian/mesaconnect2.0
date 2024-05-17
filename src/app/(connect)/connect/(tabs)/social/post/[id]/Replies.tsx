@@ -40,6 +40,7 @@ const Replies = ({
         console.error(error);
         return;
       }
+      //@ts-ignore
       setData(data);
       return;
     };
@@ -54,6 +55,7 @@ const Replies = ({
             'postgres_changes',
             { event: '*', schema: 'public', table: 'replies' },
             (payload) => {
+              //@ts-ignore
               if(payload.eventType === 'INSERT') setData(e => [payload.new, ...e])
               if(payload.eventType === 'DELETE') setData(e => e?.filter(d => d.id !== payload.old.id))
             }

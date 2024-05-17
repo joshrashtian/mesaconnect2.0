@@ -58,9 +58,11 @@ const Dock = () => {
     const fetchURL = async () => {
       const user = await supabase.auth.getUser();
 
+
       const { data, error } = await supabase
         .from("profiles")
         .select()
+        //@ts-ignore
         .eq("id", userData?.id)
         .single();
 
@@ -71,11 +73,12 @@ const Dock = () => {
       }
 
       setProfID(data.id);
+      //@ts-ignore
       setProfURL(data.avatar_url);
     };
 
     fetchURL();
-  }, []);
+  }, [userData]);
 
   const tabs = [
     {
@@ -149,7 +152,9 @@ const Dock = () => {
             >
               {tabs.map((tab, index) => {
                 if (tab.permissions) {
+
                   if (
+                      // @ts-ignore
                     !tab.permissions.includes(userData?.role) ||
                     !userData
                   ) {

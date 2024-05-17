@@ -1,11 +1,9 @@
 'use client'
 import React, { FC, useContext, useEffect, useState } from 'react'
-import { Box } from '@/_assets/types'
 import { motion } from 'framer-motion'
 import { Event } from '@/_components/socialhub/Event'
 import { EventType } from '@/_assets/types'
 
-import Link from 'next/link'
 import { supabase } from '../../../../../../../config/mesa-config'
 import { userContext } from '@/app/AuthContext'
 

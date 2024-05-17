@@ -14,10 +14,12 @@ const FollowButton = ({ id }: { id: string }) => {
         other_id: id,
       });
       if (error) console.error(error);
-      else isNotFollowing(data);
+      else { // @ts-ignore
+        isNotFollowing(data);
+      }
     };
     getStatus();
-  }, []);
+  }, [id]);
 
   return (
     <motion.button
@@ -31,7 +33,9 @@ const FollowButton = ({ id }: { id: string }) => {
           other_id: id,
         });
         if (error) console.error(error);
-        else isNotFollowing(data);
+        else { // @ts-ignore
+          isNotFollowing(data);
+        }
       }}
     >
       <div className=" scale-0 text-2xl -rotate-90 group-hover:-rotate-6 group-hover:scale-105 duration-500">

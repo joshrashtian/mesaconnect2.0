@@ -1,4 +1,5 @@
-import React, {useEffect, useRef, useState} from "react";
+"use client"
+import React, {useRef} from "react";
 import {motion, useScroll, useSpring, useTransform} from "framer-motion";
 import {IoChatbox, IoPrism} from "react-icons/io5";
 import {AiFillBook} from "react-icons/ai";
@@ -31,9 +32,6 @@ const SocialPreview = () => {
       icon: < IoPrism />
     },
   ];
-
-  const [focusedExpress, setFocusedExpress] = useState();
-
   return (
     <motion.section
       ref={scrollRef}

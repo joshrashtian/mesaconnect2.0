@@ -1,18 +1,18 @@
 "use client";
 
-import React, {useCallback, useContext, useEffect, useMemo, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { useRouter } from "next/navigation";
-import { PostItem, PostType, UserData } from "@/_assets/types";
+import { PostItem, PostType } from "@/_assets/types";
 import { supabase } from "../../../../../../../../config/mesa-config";
 import { AnimatePresence, motion } from "framer-motion";
 import LoadingPage from "@/_components/LoadingPage";
 import CodeBlock from "../CodeBlock";
-import { ContextProps, userContext, useUser } from "@/app/AuthContext";
+import { useUser } from "@/app/AuthContext";
 import { SubmitReply } from "./SubmitReply";
-import { MenuContext, useToast } from "@/app/(connect)/InfoContext";
+import { useToast } from "@/app/(connect)/InfoContext";
 import Replies from "./Replies";
 import RelatedTo from "./RelatedTo";
-import { IoPaperPlane, IoPerson, IoPersonAdd } from "react-icons/io5";
+import { IoPaperPlane, IoPerson } from "react-icons/io5";
 import Link from "next/link";
 import {FileObject} from "@supabase/storage-js";
 import Image from "next/image";
@@ -35,7 +35,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
       console.log(data)
       setImages(data)
     }
-  }, [])
+  }, [params.id, toast])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,13 +54,12 @@ const PostPage = ({ params }: { params: { id: string } }) => {
 
       // @ts-ignore
       if(data?.images) {
-        getImages()
+        await getImages()
       }
       return true;
     };
-
-    const success = fetchData();
-  }, []);
+    fetchData();
+  }, [getImages, params.id]);
 
   if (!post || !user) {
     return (
@@ -168,10 +167,11 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         <RelatedTo classes={post.relations} />
         <ul className="flex flex-col gap-3 p-5 bg-zinc-50 duration-300 rounded-xl">
           <div className="flex flex-row items-center gap-2">
+            {/* eslint-disable-next-line jsx-a11y/alt-text,@next/next/no-img-element */}
             <img
               className="w-6 h-6 rounded-full"
               src={user.userData?.avatar_url}
-            />
+             alt={user.userData?.username}/>
             <h1 className="text-lg">Add a Comment:</h1>
           </div>
           <input
@@ -195,7 +195,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
                       : "hover:bg-slate-100 bg-slate-200"
                   } `}
                   onClick={() => {
-                    setPrivate(isPrivate ? false : true);
+                    setPrivate(!isPrivate);
                   }}
                 >
                   Private

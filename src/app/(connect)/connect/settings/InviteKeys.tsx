@@ -16,21 +16,23 @@ export type Key = {
 
 const InviteKeys = () => {
   const [activeKeys, setKeys] = useState<Key[]>();
-  const [modal, setModal] = useState<boolean>(false);
-  const { user } = useUser();
+    const { user } = useUser();
   const { CreateModal } = useModal();
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase
+
+        const { data, error } = await supabase
         .from("invitekeys")
         .select()
+            // @ts-ignore
         .eq("creator", user?.id);
       if (error) {
         console.error(error);
         return;
       }
-      setKeys(data);
+      // @ts-ignore
+        setKeys(data);
     };
     if (user) fetchData();
   }, [user]);
@@ -123,9 +125,11 @@ const InviteModal = () => {
   useEffect(() => {
     const createKey = async () => {
       console.log("Creating new key...");
-      const { data, error } = await supabase
+
+        const { data, error } = await supabase
         .from("invitekeys")
         .insert({
+            // @ts-ignore
           creator: user?.id,
         })
         .select()
@@ -135,11 +139,12 @@ const InviteModal = () => {
         console.error(error);
         return;
       }
+      //@ts-ignore
       setKey(data);
     };
 
     createKey();
-  }, []);
+  }, [user?.id]);
 
   return (
     <section className="flex flex-col h-full justify-between">

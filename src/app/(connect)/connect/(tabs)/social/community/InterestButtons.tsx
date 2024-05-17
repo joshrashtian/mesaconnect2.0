@@ -5,11 +5,9 @@ import { byTag } from "./PostsPageQueries";
 import { PostType } from "@/_assets/types";
 import {
   IoAdd,
-  IoArrowDown,
   IoBook,
   IoChevronDown,
   IoCode,
-  IoCodeDownload,
   IoFlask,
   IoGameController,
 } from "react-icons/io5";
@@ -50,8 +48,7 @@ export const icons = [
 
 const InterestButtons = ({
   newInfo,
-  reload,
-}: {
+                         }: {
   newInfo: (e: PostType[]) => void;
   reload: () => void;
 }) => {
@@ -90,7 +87,7 @@ const InterestButtons = ({
     };
 
     getInterests();
-  }, []);
+  }, [user?.id]);
   return (
     <Reorder.Group
       axis="x"

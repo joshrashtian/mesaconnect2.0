@@ -37,7 +37,8 @@ const PollBuilder = () => {
 
     const pathname = context?.type.split('/')[1]
 
-    const { data, error } = await supabase
+    // @ts-ignore
+      const { data, error } = await supabase
       .from('questions')
       .insert({
         question: poll,
@@ -49,7 +50,7 @@ const PollBuilder = () => {
           username: user.userData?.username,
           picture: user.userData?.avatar_url
         },
-        context: context ? true : false,
+        context: !!context,
         contextType: pathname,
         creatorid: user.user?.id,
         relations: relation
@@ -63,7 +64,7 @@ const PollBuilder = () => {
     const responsedata = data[0].id
 
     if (context) {
-      const { data, error } = await supabase.storage
+      const {error } = await supabase.storage
         .from('questionContexts')
         .upload(`${responsedata}.${pathname}`, context, {
           cacheControl: '3600',
@@ -97,7 +98,8 @@ const PollBuilder = () => {
           <h2 className="font-mono my-4">Context:</h2>
           <section>
             {context.type.includes('image/') && (
-              <img src={URL.createObjectURL(context)} className=" w-28 " />
+                // eslint-disable-next-line jsx-a11y/alt-text
+              <img alt={'context'} src={URL.createObjectURL(context)} className=" w-28 " />
             )}
             <ul className="p-2 px-5 bg-slate-200 rounded-full w-1/3 flex justify-between items-center">
               <p />
@@ -136,7 +138,7 @@ const PollBuilder = () => {
       />
       <section className="w-full flex flex-row flex-wrap gap-3 ">
         {options &&
-          options.map((e, i) => {
+          options.map((_e, i) => {
             return (
               <ul
                 className={`${

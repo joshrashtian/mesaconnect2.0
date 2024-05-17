@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import {IoCheckmark, IoCheckmarkCircle, IoInformation, IoWarning} from "react-icons/io5";
+import {IoCheckmark, IoInformation, IoWarning} from "react-icons/io5";
 const Toast = ({
   trigger,
   type,
@@ -28,7 +28,7 @@ const Toast = ({
         turnOff()
       }, 6000)
     }
-  }, [trigger])
+  }, [message, trigger, turnOff, type])
 
   return (
     <AnimatePresence>

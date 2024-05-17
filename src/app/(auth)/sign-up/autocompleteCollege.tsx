@@ -1,7 +1,6 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
+import React, { useMemo } from 'react'
 
 const temp = ['College of the Canyons Canyon Country', 'College of the Canyons']
 

@@ -1,14 +1,12 @@
 "use client";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { SearchPosts } from "./searchData";
-import { EventType, PostType } from "@/_assets/types";
+import { PostType } from "@/_assets/types";
 import SearchInfo from "./SearchInfo";
 import { AnimatePresence, motion } from "framer-motion";
-import { TbMessageSearch } from "react-icons/tb";
 import {
   IoArrowBackCircle,
-  IoSearchCircleOutline,
   IoSearchOutline,
 } from "react-icons/io5";
 

@@ -4,8 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import PollBuilder from "./PollBuilder";
 import PollDashboard from "./PollDashboard";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Metadata, ResolvingMetadata } from "next";
-import { SearchParamProps } from "@/_assets/types";
 
 const options = [
   //{ name: "Lesson", type: 0, comp: () => {} },
@@ -29,7 +27,7 @@ const Page: FC = () => {
         }
       });
     }
-  }, [searchParams]);
+  }, [initial, searchParams]);
 
   const createQueryString = useCallback(
     (name: string, value: string) => {

@@ -1,7 +1,5 @@
-import React, { useState } from 'react'
-import InterestedEvents from './interested'
-import CurrentEventSegment from '@/_components/socialhub/CurrentEventSegment'
-import ComingUpEvents from './UpcomingEvents(events)'
+
+import React from 'react'
 import EventCarousel from './EventCarousel'
 import Link from 'next/link'
 import { IoSearchSharp } from 'react-icons/io5'

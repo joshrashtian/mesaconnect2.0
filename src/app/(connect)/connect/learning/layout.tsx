@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import LearningContextProvider from './LearningContext'
-import { userContext } from '@/app/AuthContext'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {

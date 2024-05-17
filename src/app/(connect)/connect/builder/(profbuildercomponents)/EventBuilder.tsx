@@ -29,6 +29,7 @@ const types = [
 const timeTypes = ['In-Person', 'Zoom']
 
 const EventBuilder = () => {
+  // @ts-ignore
   const [event, setEvent] = useState<EventType>({
     type: 'User Created'
   })
@@ -41,7 +42,9 @@ const EventBuilder = () => {
 
   const eventSubmit = async () => {
     setSubmitting(true)
+
     const { error } = await supabase.from('events').insert({
+      // @ts-ignore
       name: event.name,
       desc: event.desc,
       type: event.type,

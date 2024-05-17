@@ -1,6 +1,5 @@
 "use client";
 
-import LoadingPage from "@/_components/LoadingPage";
 import { useUser } from "../AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoPeopleCircleOutline } from "react-icons/io5";

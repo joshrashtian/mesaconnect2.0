@@ -1,8 +1,6 @@
 "use client";
-import React, { Provider, useContext } from "react";
+import React, { useContext } from "react";
 import { userContext } from "../AuthContext";
-import Link from "next/link";
-import { redirect, useRouter } from "next/navigation";
 import Dashboard from "./Dashboard";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {

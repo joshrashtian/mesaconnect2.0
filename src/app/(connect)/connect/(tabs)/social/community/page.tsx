@@ -1,14 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { PostType } from "@/_assets/types";
 import { supabase } from "../../../../../../../config/mesa-config";
-import Wim from "@/_components/socialhub/Wim";
 import Post from "@/_components/socialhub/Post";
 import PostListItem from "@/_components/socialhub/PostListItem";
 import { AnimatePresence } from "framer-motion";
-import { IoAdd, IoNewspaper, IoPeople, IoSchool } from "react-icons/io5";
+import { IoNewspaper, IoPeople } from "react-icons/io5";
 import { motion } from "framer-motion";
-import Link from "next/link";
 import { byTag, getFollowed, intfetch } from "./PostsPageQueries";
 import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
 import InterestButtons from "./InterestButtons";
@@ -39,7 +37,7 @@ const PostsPageHome = () => {
     replace(`${pathname}?${search.toString()}`);
   }
 
-  async function fet() {
+  const fet = useCallback(async() => {
     setReload(true);
     const { data, error } = await intfetch(range);
     if (error) {
@@ -50,7 +48,7 @@ const PostsPageHome = () => {
     setPosts(data);
     setRange((r) => r + 10);
     setReload(false);
-  }
+  }, [])
 
   useEffect(() => {
     const getByTag = async () => {
@@ -72,7 +70,7 @@ const PostsPageHome = () => {
     if (!tag) {
       fet();
     }
-  }, []);
+  }, [fet, tag]);
 
   useEffect(() => {
     const channel = supabase

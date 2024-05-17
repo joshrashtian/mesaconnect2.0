@@ -1,8 +1,6 @@
 "use client";
 import React, {
-  useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
 } from "react";
@@ -45,12 +43,13 @@ const UnsplashSearch = ({ updateImage }: { updateImage: (e: any) => void }) => {
         >
           Custom
         </button>
-        {images?.map((e, i: number) => {
+        {images?.map((e) => {
           return (
             <article key={e.id} className="flex flex-col w-full group h-full">
               <button
                 onClick={() => {
                   setSelectedImage(e);
+                  //@ts-ignore
                   setType("unsplash");
                   updateImage({
                     url: e.urls.regular,

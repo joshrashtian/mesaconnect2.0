@@ -31,6 +31,7 @@ const ComingUpEvents: FC = (): JSX.Element => {
         return;
       }
 
+      // @ts-ignore
       setData(data);
       setCount(newCount);
     };

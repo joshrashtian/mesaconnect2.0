@@ -1,6 +1,5 @@
 "use client";
-import { PostItem, PostType } from "@/_assets/types";
-import Link from "next/link";
+import { PostType } from "@/_assets/types";
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../../../config/mesa-config";
@@ -10,7 +9,6 @@ import { MenuContext } from "@/app/(connect)/InfoContext";
 import { months } from "../../../config/calendar";
 
 const Wim = ({ post }: { post: PostType }) => {
-  const router = useRouter();
   const user: any = useContext(userContext);
   const contextMenu = useContext<any>(MenuContext);
   const contextButtons = [

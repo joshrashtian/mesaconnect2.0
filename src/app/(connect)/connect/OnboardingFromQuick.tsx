@@ -1,5 +1,5 @@
 "use client"
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import {AnimatePresence, motion} from "framer-motion";
 import {useUser} from "@/app/AuthContext";
 import {UpdateUser} from "@/_functions/edituser";
@@ -11,7 +11,7 @@ const OnboardingFromQuick = () => {
     const toast = useToast()
 
     const uploadChanges = async () => {
-        const { data, error } = await UpdateUser(changes)
+        const {error } = await UpdateUser(changes)
 
         if(error) toast.CreateErrorToast(error.message)
     }

@@ -22,6 +22,7 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
   const toast = useToast();
   const { CreateDialogBox } = useModal();
 
+  // @ts-ignore
   const contextButtons = [
     {
       name: "View Post",
@@ -51,6 +52,7 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
             </h1>
             <h2>{post.title}</h2>
           </div>,
+            //@ts-ignore
           async () => {
             const { error } = await supabase
               .from("posts")

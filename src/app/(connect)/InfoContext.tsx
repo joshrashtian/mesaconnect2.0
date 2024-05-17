@@ -6,8 +6,6 @@ import PostContext from '@/_components/socialhub/PostContext'
 import { AnimatePresence, motion } from 'framer-motion'
 import React from 'react'
 import Toast from './connect/Toast'
-import { IconBaseProps } from 'react-icons'
-import { Icon } from 'next/dist/lib/metadata/types/metadata-types'
 
 type MenuContext = {
   valueAt: string | undefined

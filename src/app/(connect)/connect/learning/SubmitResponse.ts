@@ -1,4 +1,3 @@
-import { UserData } from '@/_assets/types'
 import { supabase } from '../../../../../config/mesa-config'
 
 export const UploadResult = async (user: any, id: string, response: number) => {

@@ -2,11 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../../../../config/mesa-config";
 import { useUser } from "@/app/AuthContext";
-import { ClassType } from "../../../builder/(buildercomponents)/ClassRelations";
 import ClassCard from "./ClassCard";
 import Link from "next/link";
 import { IoAdd } from "react-icons/io5";
-import { Metadata } from "next";
 
 const ClassPicker = () => {
   const [classes, setClasses] = useState<any[]>([]);
@@ -26,14 +24,14 @@ const ClassPicker = () => {
       setClasses(data);
     };
     fetchClasses();
-  }, []);
+  }, [user?.id]);
 
   return (
     <section className=" flex flex-col gap-10">
       <h1 className=" font-eudoxus font-bold text-3xl">Your Courses</h1>
       <section className="flex flex-row gap-3 w-full">
         {classes.length > 0 ? (
-          classes.map((c, i) => {
+          classes.map((c) => {
             return <ClassCard class={c} key={c.id} />;
           })
         ) : (

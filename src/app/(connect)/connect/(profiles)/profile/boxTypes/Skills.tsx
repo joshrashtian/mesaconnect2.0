@@ -1,5 +1,4 @@
 import React from "react";
-import { IoPencil } from "react-icons/io5";
 
 const Skills = (e: any) => {
   const data = e.e;

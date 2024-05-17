@@ -14,6 +14,7 @@ const ViewUsers = () => {
         return
       }
 
+      // @ts-ignore
       setData(data)
     }
 

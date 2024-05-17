@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { supabase } from '../../../../../../config/mesa-config'
 
 export type ClassType = {
@@ -27,13 +27,13 @@ const ClassRelations = ({
   if (!exist) return null
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const changeClasses = useEffect(() => {
+  useEffect(() => {
     if (!selectedClasses) return
     if (onChange) onChange(selectedClasses.map((e) => e.id))
     if (onChangeClass) onChangeClass(selectedClasses)
-  }, [selectedClasses])
-
+  }, [onChange, onChangeClass, selectedClasses]);
   async function fetchClasses() {
+    // @ts-ignore
     const { data, error } = await supabase.schema('information').from('classes').select()
 
     if (error) {
@@ -44,11 +44,13 @@ const ClassRelations = ({
 
   const search = async (query: string | undefined) => {
     if (!query) {
-      fetchClasses()
+      await fetchClasses()
       return null
     }
+
     const { data, error } = await supabase
-      .schema('information')
+        // @ts-ignore
+        .schema('information')
       .from('classes')
       .select()
       .limit(3)

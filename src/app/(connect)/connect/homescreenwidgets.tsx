@@ -1,7 +1,6 @@
 'use client'
 
 import EditWidgets from '@/_components/home/editWidgets'
-import CurrentEventSegment from '@/_components/socialhub/CurrentEventSegment'
 import { userContext } from '@/app/AuthContext'
 import React, { useContext, useState } from 'react'
 import { widgets } from '@/_components/widgets'
@@ -24,12 +23,14 @@ const HomeScreenWidgets = () => {
   const deleteWidget = async (e: any) => {
     console.log(e.name)
 
-    const { data, error } = await supabase
+
+      const {error } = await supabase
       .from('profiles')
       .update({
         widgets: user.userData?.widgets?.filter((widget) => widget?.name !== e.name)
       })
-      .eq('id', user.user?.id)
+          // @ts-ignore
+          .eq('id', user.user?.id)
 
     if (error) {
       toast.toast('Error updating widgets: ' + error.message, 'error')

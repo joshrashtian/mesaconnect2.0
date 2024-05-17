@@ -1,13 +1,12 @@
 "use client";
-import React, { Component, createContext, useState } from "react";
+import React, { createContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  IoCheckbox,
   IoChevronForward,
-  IoChevronForwardCircle,
+
 } from "react-icons/io5";
 export const ModalContext = createContext({
-  createModal: (component: React.JSX.Element) => {},
+  createModal: () => {},
   createDialogBox: (
     e: React.JSX.Element | JSX.IntrinsicElements,
     confirmed: (props: any) => void
@@ -56,6 +55,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
               {type === "dialog" && (
                 <button
                   onClick={(e) => {
+                    // @ts-ignore
                     confirmCommand();
                     setActive(undefined)
                   }}
@@ -104,15 +104,16 @@ export const useModal = (settings?: {
   ) {
     if (!settings?.storedComponent && !component) return;
     if (settings?.storedComponent)
-      context.createModal(settings.storedComponent);
+      context.createModal();
     //@ts-ignore
-    else context.createModal(component);
+    else context.createModal();
   }
 
   function CreateDialogBox(
     e: React.JSX.Element | JSX.IntrinsicElements,
     confirmed: { newFunction: () => Promise<void> }
   ) {
+    // @ts-ignore
     context.createDialogBox(e, { newFunction: confirmed });
   }
 

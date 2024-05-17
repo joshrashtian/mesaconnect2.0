@@ -5,8 +5,9 @@ import {InfoBlockType} from "@/app/(connect)/connect/(profiles)/profile/[id]/inf
 import {Index} from "@/app/(connect)/connect/(profiles)/profile/boxTypes";
 
 const InfoBlockDashboard = ({ Blocks } : { Blocks: InfoBlockType[] | undefined}) => {
-  const [Active, setActive] = useState<JSX.Element | ((data: any) => void)>()
+  const [Active, setActive] = useState<any>()
 
+  // @ts-ignore
   return (
     <React.Fragment>
       <main className="min-w-[110ch] max-w-[120ch] pb-10 h-[410px] font-eudoxus">
@@ -31,7 +32,8 @@ const InfoBlockDashboard = ({ Blocks } : { Blocks: InfoBlockType[] | undefined})
             })}
 
           </nav>
-          {Active &&
+          {
+            Active &&
 
             <section className="w-full">
               {Active}

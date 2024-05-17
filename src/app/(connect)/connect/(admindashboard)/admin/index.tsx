@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import Viewposts from "./viewposts";
 import ViewUsers from "./ViewUsers";
 import CreateNews from "./createnewspost";
-import {useToast} from "@/app/(connect)/InfoContext";
 import {AdminHome} from "@/app/(connect)/connect/(admindashboard)/admin/AdminHome";
 
 export interface AdminPanel {

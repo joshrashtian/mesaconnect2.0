@@ -99,6 +99,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
             (payload) => {
               console.log(payload.new
               )
+              //@ts-ignore
               setData(payload.new)
             }
         )

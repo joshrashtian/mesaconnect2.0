@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import PollCard, { PollType } from "./PollCard";
 import { supabase } from "../../../../../../config/mesa-config";
 
@@ -33,7 +33,7 @@ const ClassPollList = ({ classid }: { classid: string }) => {
     };
     getName();
     fetchData();
-  }, []);
+  }, [classid]);
 
   if (data?.length == 0) return null;
 

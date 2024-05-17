@@ -1,12 +1,10 @@
-import {BiBold} from "react-icons/bi";
-
 {/*
 * Mostly due to complexities of the Text Editor (as well as performance worries and
 * customizablity worries) this package called TipTap will do the work for us.
 * */}
 
 import React from 'react'
-import { useEditor, EditorContent, FloatingMenu, BubbleMenu } from '@tiptap/react'
+import { useEditor, EditorContent, FloatingMenu } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 
 // define your extension array

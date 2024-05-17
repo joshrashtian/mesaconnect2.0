@@ -4,13 +4,11 @@ import React, {
   createContext,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from "react";
 import {ArticleType, ParagraphBlock} from "./Article";
 import { supabase } from "../../../config/mesa-config";
 import { IoExpandOutline } from "react-icons/io5";
-import Image from "next/image";
 import { months } from "../../../config/calendar";
 
 type ArtModal = {
@@ -36,11 +34,12 @@ export const ArticleModalProvider = ({
 
   useEffect(() => {
     const getArticle = async () => {
-      // @ts-ignore
+
       const { data, error } = await supabase
         .from("newsposts")
         .select("*")
-        .eq("id", searchParams.get("arid"))
+          // @ts-ignore
+          .eq("id", searchParams.get("arid"))
         .single();
       if (error) {
         console.log(error);
@@ -53,7 +52,7 @@ export const ArticleModalProvider = ({
     if (searchParams.get("arid")) {
       getArticle();
     }
-  }, []);
+  }, [searchParams]);
 
   function handleParams(term?: string) {
     const params = new URLSearchParams(searchParams);
@@ -91,6 +90,7 @@ export const ArticleModalProvider = ({
   );
 };
 
+// @ts-ignore
 export const ExpandedArticle = ({
   article,
   disengage,
@@ -196,7 +196,8 @@ export const ExpandArticle = (params: any) => {
       <button
           {...params}
           onClick={() => {
-            modal.createModal(params.article);
+            // @ts-ignore
+            modal.createModal();
           }}
       >
         <IoExpandOutline/>

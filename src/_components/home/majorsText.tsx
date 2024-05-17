@@ -1,16 +1,14 @@
 "use client";
 
 import { coverMajors } from "@/_assets/coverData";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import { Inter } from "next/font/google";
-
-const inter = Inter({
+Inter({
   subsets: ["latin"],
   display: "swap",
 });
-
 const variants = {
   moving: {
     opacity: 0,
@@ -27,7 +25,7 @@ const MajorsText = () => {
   const [isChanging, setIsChanging] = useState(false);
   const [color, setColor] = useState("");
 
-  const colors = [
+  const colors = useMemo(() => [
     "teal",
     "orange",
     "green",
@@ -35,17 +33,7 @@ const MajorsText = () => {
     "indigo",
     "purple",
     "pink",
-  ];
-  const samples = [
-    "text-teal-500",
-    "text-orange-500",
-    "text-green-500",
-    "text-blue-500",
-    "text-indigo-500",
-    "text-purple-500",
-    "text-pink-500",
-  ];
-
+  ], []);
   useEffect(() => {
     setInterval(() => {
       setIsChanging(true);
@@ -64,7 +52,7 @@ const MajorsText = () => {
         setIsChanging(false);
       }, 600);
     }, 4000);
-  }, []);
+  }, [colors, index]);
 
   return (
     <motion.h1

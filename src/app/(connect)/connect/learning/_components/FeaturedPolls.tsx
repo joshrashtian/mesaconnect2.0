@@ -1,8 +1,7 @@
 'use client'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PollCard, { PollType } from './PollCard'
 import { supabase } from '../../../../../../config/mesa-config'
-import { userContext } from '@/app/AuthContext'
 import Link from 'next/link'
 
 const FeaturedPolls = () => {

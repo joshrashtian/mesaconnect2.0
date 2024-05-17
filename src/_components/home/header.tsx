@@ -2,12 +2,11 @@
 import { userContext } from "@/app/AuthContext";
 import {
   motion,
-  useMotionValueEvent,
   useScroll,
   useTransform,
 } from "framer-motion";
 import Link from "next/link";
-import React, { Ref, useContext, useRef } from "react";
+import React, { useContext } from "react";
 
 const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
   const user = useContext(userContext);
@@ -37,7 +36,8 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
         {user.user ? user.user.user_metadata.full_name ? user.user.user_metadata.full_name : user.user.user_metadata.username : "Sign In"}
       </motion.h1>
       <div className="bg-slate-300 w-8 rounded-full">
-        <img src={user.userData?.avatar_url} className="w-8 h-8 rounded-full" />
+        {/* eslint-disable-next-line @next/next/no-img-element,jsx-a11y/alt-text */}
+        <img src={user.userData?.avatar_url} className="w-8 h-8 rounded-full"  alt={user.userData?.username}/>
       </div>
     </Link>,
   ];

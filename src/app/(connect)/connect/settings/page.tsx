@@ -2,7 +2,6 @@
 import React from "react";
 import {
   IoPersonRemoveOutline,
-  IoSettings,
   IoSettingsOutline,
 } from "react-icons/io5";
 import { useUser } from "@/app/AuthContext";

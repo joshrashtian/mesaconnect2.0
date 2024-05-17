@@ -24,13 +24,14 @@ const PollDashboard = () => {
       const { data, error } = await supabase
         .from('questions')
         .select()
+          //@ts-ignore
         .eq('creatorid', user.user?.id)
 
       if (error) {
         console.error(error)
         return
       }
-
+      //@ts-ignore
       setData(data)
     }
 
@@ -43,7 +44,7 @@ const PollDashboard = () => {
     if (!confirm) {
       setConfirm(true)
     } else {
-      DeletePoll(id)
+      await DeletePoll(id)
     }
   }
 
@@ -75,7 +76,7 @@ const PollDashboard = () => {
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [supabase, modal])
+  }, [modal])
 
   return (
     <main className="w-full min-h-full ">

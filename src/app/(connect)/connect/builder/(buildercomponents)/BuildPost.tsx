@@ -1,11 +1,10 @@
 'use client'
 
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '../../../../../../config/mesa-config'
 import { userContext } from '@/app/AuthContext'
-import { text } from 'stream/consumers'
 import ClassRelations from './ClassRelations'
 import { useToast } from '@/app/(connect)/InfoContext'
 
@@ -15,7 +14,7 @@ interface Section {
 }
 
 const BuildPost = () => {
-  const searchParams = useSearchParams()
+  useSearchParams();
   const user = useContext(userContext)
   const router = useRouter()
 

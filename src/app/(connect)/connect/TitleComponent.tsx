@@ -1,10 +1,8 @@
 'use client'
 
-import {userContext, useUser} from '@/app/AuthContext'
-import { userAgent } from 'next/server'
-import React, { useContext, useEffect, useState } from 'react'
+import {useUser} from '@/app/AuthContext'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { usePollModal } from './learning/LearningContext'
 
 const TitleComponent = () => {
   const { user, userData } = useUser()
@@ -16,6 +14,7 @@ const TitleComponent = () => {
     }, 1000)
 
     return () => clearInterval(updateClock)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [Date.now()])
 
   const greeting =

@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { supabase } from "../../../../../../config/mesa-config";
 import { PostType } from "@/_assets/types";
-import { AdminModal, CreateModalPost } from "../AdminModal";
+import { AdminModal } from "../AdminModal";
 
 const Viewposts = () => {
   const [data, setData] = useState<PostType[]>();
@@ -19,6 +19,7 @@ const Viewposts = () => {
         return;
       }
 
+      // @ts-ignore
       setData(data);
     };
 
@@ -41,7 +42,7 @@ const Viewposts = () => {
       <section className='" w-full flex flex-col overflow-y-scroll "'>
         {data.map((post: PostType) => (
           <div
-            onClick={() => Modal.createModal(post, "post")}
+            onClick={() => Modal.createModal("post")}
             key={post.id}
             className="bg-white duration-300 no-scrollbar font-eudoxus text-slate-500 odd:bg-zinc-50 hover:bg-slate-50 hover:odd:bg-zinc-100 odd:border-y-2  cursor-pointer text-nowrap last:rounded-b-2xl w-full h-16 overflow-x-scroll p-4 gap-5 flex justify-between items-center"
           >

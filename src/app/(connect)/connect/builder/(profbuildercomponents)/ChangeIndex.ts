@@ -86,8 +86,10 @@ export const ChangeSections = async (
     });
 
     console.log("reached");
+
     const { error } = await supabase
       .from("profiles")
+        // @ts-ignore
       .update({ boxlist: copy })
       .eq("id", user.id);
 
@@ -98,9 +100,11 @@ export const ChangeSections = async (
 
     console.log("Success!");
   } else {
+    // @ts-ignore
     const { error } = await supabase
       .from("profiles")
       .update({
+        // @ts-ignore
         boxlist: user.boxlist ? [...user.boxlist, change] : [change],
       })
       .eq("id", user.id);

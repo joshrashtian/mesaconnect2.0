@@ -8,7 +8,6 @@ import { useSession } from '../../../config/serverside'
 import { redirect } from 'next/navigation'
 import ModalProvider from './connect/Modal'
 import { UserCheck } from './UserCheck'
-import { Metadata } from 'next'
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   //TIP: UseSession Hook can only be used in Async Functions, since it returns a promise.

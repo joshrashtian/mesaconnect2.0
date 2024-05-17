@@ -1,9 +1,6 @@
 "use client";
-import React, { useContext } from "react";
-import FeaturedLessons from "./_components/FeaturedLessons";
-import PollCard from "./_components/PollCard";
+import React from "react";
 import FeaturedPolls from "./_components/FeaturedPolls";
-import { userContext } from "@/app/AuthContext";
 import Link from "next/link";
 import { IoIosBook } from "react-icons/io";
 import { IoList, IoPerson } from "react-icons/io5";

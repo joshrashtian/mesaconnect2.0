@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { supabase } from "../../../../config/mesa-config";
 import Link from "next/link";
-import {IoLogoGoogle} from "react-icons/io5";
 
 const Page = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +12,7 @@ const Page = () => {
 
   const signInUser = async () => {
     console.log("Signing In...");
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const {error } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });

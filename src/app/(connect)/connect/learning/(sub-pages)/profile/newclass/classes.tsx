@@ -10,9 +10,6 @@ import { IoSearchOutline } from 'react-icons/io5'
 const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
   const [filter, setFilter] = useState(classes)
   const [newSearch, setSearch] = useState<string>()
-
-  const [selected, setSelected] = useState<ClassType>()
-
   const modal = useModal()
 
   const search = async (query: string | undefined) => {
@@ -62,7 +59,7 @@ const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
           />
         </button>
       </ul>
-      {filter.map((e, i) => (
+      {filter.map((e) => (
         <div
           className={`p-3 cursor-pointer last:border-b-0 bg-white font-eudoxus first:rounded-t-2xl last:rounded-b-2xl hover:bg-slate-100 even:border-y-2 duration-300`}
           onClick={() => modal.CreateModal(<ClassModal c={e} />)}

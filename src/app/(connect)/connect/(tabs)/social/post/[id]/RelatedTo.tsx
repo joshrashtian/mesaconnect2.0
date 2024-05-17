@@ -11,8 +11,10 @@ const RelatedTo = ({ classes }: { classes: string[] }) => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     async function Get() {
+
       const { data: Posts, error } = await supabase
-        .schema('information')
+          // @ts-ignore
+          .schema('information')
         .from('classes')
         .select()
         .in('id', classes)

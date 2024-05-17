@@ -1,6 +1,5 @@
 "use client";
-import { PostItem, PostType } from "@/_assets/types";
-import Link from "next/link";
+import { PostType } from "@/_assets/types";
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../../../config/mesa-config";

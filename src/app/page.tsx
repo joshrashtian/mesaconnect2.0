@@ -8,19 +8,14 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import { useContext, useRef } from "react";
-import { supabase } from "../../config/mesa-config";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
-import { Canvas, useFrame } from "@react-three/fiber";
-import { BoxGeometry, DirectionalLight } from "three";
-
-const inter = Inter({
+Inter({
   subsets: ["latin"],
   display: "swap",
 });
-
 export default function Home() {
-  const meshRef = useRef();
+  useRef();
   const firstRef = useRef(null);
   const mainRef = useRef(null);
 
@@ -28,13 +23,11 @@ export default function Home() {
     target: mainRef,
     offset: ["start start", "end end"],
   });
-
-  const scrollBar = useSpring(FirstScroll, {
+  useSpring(FirstScroll, {
     stiffness: 100,
     damping: 50,
     restDelta: 0.001,
   });
-
   const { scrollYProgress } = useScroll({
     target: firstRef,
     offset: ["0 1.3", "0.5 0.67"],

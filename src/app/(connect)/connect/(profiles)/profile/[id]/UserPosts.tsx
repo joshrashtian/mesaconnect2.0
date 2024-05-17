@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../../../../config/mesa-config";
-import Post from "@/_components/socialhub/Post";
 import Wim from "@/_components/socialhub/Wim";
 import { PostType } from "@/_assets/types";
 import PostListItem from "@/_components/socialhub/PostListItem";
