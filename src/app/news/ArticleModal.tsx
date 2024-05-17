@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
-import { ArticleType } from "./Article";
+import {ArticleType, ParagraphBlock} from "./Article";
 import { supabase } from "../../../config/mesa-config";
 import { IoExpandOutline } from "react-icons/io5";
 import Image from "next/image";
@@ -36,6 +36,7 @@ export const ArticleModalProvider = ({
 
   useEffect(() => {
     const getArticle = async () => {
+      // @ts-ignore
       const { data, error } = await supabase
         .from("newsposts")
         .select("*")
@@ -44,6 +45,7 @@ export const ArticleModalProvider = ({
       if (error) {
         console.log(error);
       } else {
+        // @ts-ignore
         setArticle(data);
       }
     };
@@ -101,9 +103,10 @@ export const ExpandedArticle = ({
   return (
     <ul className="absolute flex justify-center overflow-y-scroll min-h-screen w-screen top-0 px-32 pt-32 left-0">
       <main
-        onClick={() => {}}
-        key={article.id}
-        className="bg-white z-50 p-10 rounded-t-2xl overflow-y-scroll no-scrollbar shadow-md min-h-full w-3/4 flex flex-col gap-10"
+          onClick={() => {
+          }}
+          key={article.id}
+          className="bg-white z-50 p-10 rounded-t-2xl overflow-y-scroll no-scrollbar shadow-md min-h-full w-3/4 flex flex-col gap-10"
       >
         <header className="w-full flex flex-col justify-between">
           <h1 className="font-bold font-eudoxus bg-gradient-to-tr dark:from-orange-400 dark:to-pink-500 from-red-800 to-purple-500 inline-block bg-clip-text text-transparent text-5xl">
@@ -111,63 +114,77 @@ export const ExpandedArticle = ({
           </h1>
 
           <ul className="flex flex-row gap-2 p-0.5 items-center">
-            <ul className="w-6 h-6 z-0 relative">
+            { /*<ul className="w-6 h-6 z-0 relative">
+
               <Image
-                fill={true}
-                style={{ objectFit: "cover", borderRadius: "100%" }}
-                alt="Profile Picture"
-                src={article.author.avatar_url}
+                  fill={true}
+                  style={{objectFit: "cover", borderRadius: "100%"}}
+                  alt="Profile Picture"
+                  src={article.userid}
               />
-            </ul>
+
+            </ul>*/}
             <h1 className=" dark:text-slate-200 text-xl">
-              {article.author.realname} / @{article.author.username}
+              Joshua Rashtian / @jrdev
             </h1>
           </ul>
           <h2 className="font-eudoxus">
             {`${
-              months[date.getMonth()]
+                months[date.getMonth()]
             } ${date.getDate()}, ${date.getFullYear()} | ${date.getHours()}:${
-              date.getMinutes() < 10
-                ? `0${date.getMinutes()}`
-                : date.getMinutes()
+                date.getMinutes() < 10
+                    ? `0${date.getMinutes()}`
+                    : date.getMinutes()
             } ${date.getHours() < 12 ? "AM" : "PM"}`}
           </h2>
         </header>
-        <section>
-          {article.post_data.map((e: any, i: number) => {
-            switch (e.type) {
-              case "h1":
-                return <h1 key={i}>{e.text}</h1>;
-              case "h2":
-                return <h2 key={i}>{e.text}</h2>;
-              case "text":
+        <div className="flex flex-col font-eudoxus gap-3">
+          {article.details.content.map((block, i) => {
+            switch (block.type) {
+              case "paragraph":
                 return (
-                  <p key={i} className={e.style}>
-                    {e.text}
-                  </p>
+                    <div className="flex gap-1" key={i}>
+                      {block.content?.map((component) => {
+                        switch (component.type) {
+                          case "text":
+                            return (
+                                <ParagraphBlock component={component} key={i}/>
+                            );
+                        }
+                      })}
+                    </div>
                 );
-              case "image":
+              case "bulletList":
                 return (
-                  <ul className="w-full h-64" key={i}>
-                    <Image
-                      src={e.image}
-                      style={{ objectFit: "contain" }}
-                      fill={true}
-                      alt={e.alt}
-                      width={128}
-                    />
-                  </ul>
+                    <div className="flex flex-col font-eudoxus gap-3" key={i}>
+                      {block.content?.map((item, i) => (
+                          <ul key={i}>
+                            {item.content?.map((f: { content: any[]; }, i: React.Key | null | undefined) => (
+                                <ul key={i}>
+                                  {
+                                    f.content.map((paragraph, i) => (
+                                        <li key={i} className="flex items-center gap-3">
+                                          <div className="w-1.5 h-1.5 rounded-full bg-black"/>
+                                          <ParagraphBlock component={paragraph} key={i}/>
+                                        </li>
+                                    ))
+                                  }
+                                </ul>
+                            ))}
+                          </ul>
+                      ))}
+                    </div>
                 );
             }
           })}
-        </section>
+        </div>
       </main>
       <ul
-        className="fixed inset-0 z-20
+          className="fixed inset-0 z-20
          bg-gray-500 opacity-50"
-        onClick={() => {
-          disengage();
-        }}
+          onClick={() => {
+            disengage();
+          }}
       />
     </ul>
   );
@@ -176,13 +193,13 @@ export const ExpandedArticle = ({
 export const ExpandArticle = (params: any) => {
   const modal = useContext(ArticleModal);
   return (
-    <button
-      {...params}
-      onClick={() => {
-        modal.createModal(params.article);
-      }}
-    >
-      <IoExpandOutline />
-    </button>
+      <button
+          {...params}
+          onClick={() => {
+            modal.createModal(params.article);
+          }}
+      >
+        <IoExpandOutline/>
+      </button>
   );
 };

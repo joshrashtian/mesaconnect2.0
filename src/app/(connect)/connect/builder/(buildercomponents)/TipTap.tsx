@@ -35,7 +35,6 @@ const Tiptap = ({ json } : { json: (JSONFile: any) => void }) => {
             <EditorContent editor={editor} />
             <FloatingMenu editor={editor} className="text-slate-500">Write down some text...</FloatingMenu>
             {/* <BubbleMenu editor={editor}>This is the bubble menu</BubbleMenu> */}
-
         </React.Fragment>
     )
 }

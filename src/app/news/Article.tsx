@@ -3,22 +3,42 @@ import React from "react";
 import { months } from "../../../config/calendar";
 import { ExpandArticle } from "./ArticleModal";
 
+export const classNames = [
+  {
+    type: "bold",
+    returns: "font-bold",
+  },
+  {
+    type: "italic",
+    returns: "italic",
+  },
+];
+
 export type ArticleType = {
   id: string;
   title: string;
-  post_data: [
-    {
-      text?: string;
-      style?: string;
-    }
-  ];
-  created_at: Date;
-  author: {
-    id: string;
-    username: string;
-    realname: string;
-    avatar_url: string;
+  details: {
+    type: string;
+    content: [
+      {
+        type: string;
+        content: [
+          {
+            content: any;
+            type: string;
+            text: string;
+            marks: [
+              {
+                type: string;
+              }
+            ];
+          }
+        ];
+      }
+    ];
   };
+  created_at: Date;
+  userid: string;
   tags: string[];
   category: string;
 };
@@ -42,17 +62,7 @@ const Article = ({ article }: { article: ArticleType }) => {
           />
         </ul>
         <ul className="flex flex-row gap-2 p-0.5 items-center">
-          <ul className="w-6 h-6 z-0 relative">
-            <Image
-              fill={true}
-              style={{ objectFit: "cover", borderRadius: "100%" }}
-              alt="Profile Picture"
-              src={article.author.avatar_url}
-            />
-          </ul>
-          <h1 className=" dark:text-slate-200 text-xl">
-            {article.author.realname} / @{article.author.username}
-          </h1>
+          <h1 className=" dark:text-slate-200 text-xl">by Joshua Rashtian</h1>
         </ul>
         <h2 className="font-eudoxus">
           {`${
@@ -62,36 +72,67 @@ const Article = ({ article }: { article: ArticleType }) => {
           } ${date.getHours() < 12 ? "AM" : "PM"}`}
         </h2>
       </header>
-      <section>
-        {article.post_data.map((e: any, i: number) => {
-          switch (e.type) {
-            case "h1":
-              return <h1 key={i}>{e.text}</h1>;
-            case "h2":
-              return <h2 key={i}>{e.text}</h2>;
-            case "text":
+      <div className="flex flex-col font-eudoxus gap-3">
+        {article.details.content.map((block, i) => {
+          switch (block.type) {
+            case "paragraph":
               return (
-                <p key={i} className={e.style}>
-                  {e.text}
-                </p>
+                <div className="flex gap-1" key={i}>
+                  {block.content?.map((component) => {
+                    switch (component.type) {
+                      case "text":
+                        return (
+                            <ParagraphBlock component={component} key={i} />
+                        );
+                    }
+                  })}
+                </div>
               );
-            case "image":
+            case "bulletList":
               return (
-                <ul className="w-full h-64" key={i}>
-                  <Image
-                    src={e.image}
-                    style={{ objectFit: "contain" }}
-                    fill={true}
-                    alt={e.alt}
-                    width={128}
-                  />
-                </ul>
+                <div className="flex flex-col font-eudoxus gap-3" key={i}>
+                  {block.content?.map((item, i) => (
+                    <ul key={i}>
+                      {item.content?.map((f: { content: any[]; }, i: React.Key | null | undefined) => (
+                        <ul key={i}>
+                          {
+                            f.content.map((paragraph, i) => (
+                                <li key={i} className="flex items-center gap-3">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-black" />
+                                  <ParagraphBlock component={paragraph} key={i} />
+                                </li>
+                            ))
+                          }
+                        </ul>
+                      ))}
+                    </ul>
+                  ))}
+                </div>
               );
           }
         })}
-      </section>
+      </div>
     </main>
   );
 };
+
+export const ParagraphBlock = ({component} : {component: { marks: any[]; text: string }}) => {
+ return (
+     <p
+      className={
+          component.marks &&
+          component.marks
+              .map(
+                  (a) =>
+                      classNames.find((b) => b.type === a.type)
+                          ?.returns
+              )
+              .join(" ")
+      }
+  >
+    {component.text}
+  </p>
+ )
+}
 
 export default Article;
