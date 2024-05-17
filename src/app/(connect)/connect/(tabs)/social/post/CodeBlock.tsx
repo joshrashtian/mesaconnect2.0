@@ -6,7 +6,7 @@ const CodeBlock = ({ text }: { text: string | undefined }) => {
   return (
     <pre className="bg-gray-800 p-4 flex flex-col rounded-xl">
       {code?.map((line: string, i: number) => (
-        <code className="text-white font-mono">
+        <code key={i} className="text-white font-mono">
           {i} | {line}
         </code>
       ))}

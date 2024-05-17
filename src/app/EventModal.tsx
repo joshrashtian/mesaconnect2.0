@@ -286,7 +286,7 @@ const Modal = ({ event }: { event: EventType }) => {
                 </h1>
                 {event.tags &&
                   event.tags.map((e) => (
-                    <div className="px-2 p-1">
+                    <div key={e} className="px-2 p-1">
                       <h1>{e}</h1>
                     </div>
                   ))}

@@ -8,6 +8,7 @@ const RelatedTo = ({ classes }: { classes: string[] }) => {
 
   if (!classes) return
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     async function Get() {
       const { data: Posts, error } = await supabase

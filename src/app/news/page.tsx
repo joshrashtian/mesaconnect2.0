@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { serverside } from "../../../config/serverside";
 import Article from "./Article";
 
-const page = async () => {
+const Page = async () => {
   const { data: Posts, error } = await serverside
     .from("newsposts")
     .select()
@@ -29,4 +29,4 @@ const page = async () => {
   );
 };
 
-export default page;
+export default Page;

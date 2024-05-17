@@ -106,6 +106,7 @@ const InviteKeys = () => {
             }}
             className="text-lg text-theme-blue duration-500 hover:text-black"
           >
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
             So, Let's Create Some.
           </button>
         </>

@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, {FC, useCallback, useEffect, useState} from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PollBuilder from "./PollBuilder";
 import PollDashboard from "./PollDashboard";
@@ -13,7 +13,7 @@ const options = [
   { name: "Edit Polls", type: 1, comp: () => <PollDashboard /> },
 ];
 
-const page = () => {
+const Page: FC = () => {
   const [selected, setSelected] = useState<any>();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -116,4 +116,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
