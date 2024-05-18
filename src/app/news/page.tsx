@@ -5,6 +5,7 @@ import HomePageHeader from "./(homepage)/header";
 import { redirect } from "next/navigation";
 import { serverside } from "../../../config/serverside";
 import Article from "./Article";
+import Provider from "@/app/news/Provider";
 
 async function getData() {
     const { data, error } = await serverside
@@ -25,9 +26,11 @@ const Page = async () => {
     <main className="flex flex-col gap-3">
       <HomePageHeader />
       <Suspense>
+          <Provider>
         {Posts.map((post) => {
           return <Article key={post.id} article={post} />;
         })}
+          </Provider>
       </Suspense>
     </main>
   );
