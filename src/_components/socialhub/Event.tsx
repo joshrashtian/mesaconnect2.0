@@ -31,7 +31,7 @@ export const Event = ({ event }: { event: EventType }) => {
   return (
     <main
       onClick={() => {
-        modal.createModal()
+        modal.createModal(event)
       }}
       onContextMenu={(e) =>
         createContext(e, [
@@ -39,7 +39,7 @@ export const Event = ({ event }: { event: EventType }) => {
             name: 'Enlarge Event',
             visible: true,
             function: () => {
-              modal.createModal()
+              modal.createModal(event)
             },
             //@ts-ignore
             icon: <IoExpandOutline />
