@@ -17,12 +17,16 @@ const Page = () => {
       password: password,
     });
     if (error) setErrorMsg(error.message);
+    else window.location.reload()
   };
 
   const loginUser = async (service: any) => {
-    supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: service,
     });
+
+    if (error) setErrorMsg(error.message);
+    else window.location.reload()
   };
 
   return (

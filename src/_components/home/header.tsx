@@ -2,7 +2,7 @@
 import { userContext } from "@/app/AuthContext";
 import {
   motion,
-  useScroll,
+  useScroll, useSpring,
   useTransform,
 } from "framer-motion";
 import Link from "next/link";
@@ -15,24 +15,26 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
     offset: ["start end", "end end"],
   });
 
-  const color = useTransform(scrollYProgress, [0, 1], ["#FFF", "#000"]);
+  const springedValue = useSpring(scrollYProgress)
+
+  const color = useTransform(springedValue, [0.5, 1], ["#FFF", "#444"]);
 
   const headerComponents = [
     // eslint-disable-next-line react/jsx-key
     <Link
       href="/news"
-      className="flex flex-row gap-2 p-4 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"
+      className="flex flex-row gap-2 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
     >
-      <motion.h1 style={{ color: color }} className="text-xl font-eudoxus">
+      <motion.h1 style={{ color: color }} className="text-xl">
         News
       </motion.h1>
     </Link>,
     // eslint-disable-next-line react/jsx-key
     <Link
       href="/sign-in"
-      className="flex flex-row gap-2 py-8 rounded-full hover:shadow-sm items-center hover:scale-105 duration-300 cursor-pointer"
+      className="flex flex-row gap-1 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
     >
-      <motion.h1 style={{ color: color }} className="text-xl font-eudoxus">
+      <motion.h1 style={{ color: color }} className="text-xl">
         {user.user ? user.user.user_metadata.full_name ? user.user.user_metadata.full_name : user.user.user_metadata.username : "Sign In"}
       </motion.h1>
       <div className="bg-slate-300 w-8 rounded-full">
@@ -61,7 +63,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
         MESA
         <motion.span style={{ color: color }}>connect</motion.span>
       </motion.h2>
-      <section className="flex flex-row text-nowrap items-center">
+      <section className="flex flex-row gap-5 text-nowrap items-center">
         {headerComponents.map((e, index) => (
           <motion.ul
             initial={{ y: -30, opacity: 0 }}

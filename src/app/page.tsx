@@ -5,17 +5,12 @@ import Header from "@/_components/home/header";
 import MajorsText from "@/_components/home/majorsText";
 
 import { motion, useScroll, useSpring } from "framer-motion";
-import { Inter } from "next/font/google";
 import Link from "next/link";
 import { useContext, useRef } from "react";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
-import {NextFont} from "next/dist/compiled/@next/font";
+import {IoPerson} from "react-icons/io5";
 
-const inter: NextFont = Inter({
-  subsets: ["latin"],
-  display: "swap",
-});
 export default function Home() {
   useRef();
   const firstRef = useRef(null);
@@ -46,23 +41,23 @@ export default function Home() {
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="w-screen rounded-b-[100px] bg-gradient-to-br from-indigo-500 to-orange-300 h-[105vh] shadow-lg items-center justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm"
+        className="w-screen rounded-b-[100px] bg-gradient-to-br from-indigo-700 to-orange-200 h-[112vh] shadow-lg items-center justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm"
       >
         <ul className="w-full h-full 2xl:w-3/4 flex flex-col justify-center px-28 gap-10 ">
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "just" }}
-            className="text-xl cursor-default font-eudoxus text-left font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white dark:text-white duration-300 ease-in-out"
+            className="text-xl cursor-default drop-shadow-xl font-eudoxus text-left font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white dark:text-white duration-300 ease-in-out"
           >
             The new way to{" "}
-            <span className=" bg-gradient-to-br from-red-500 to-orange-600 bg-clip-text text-transparent">
+            <span className=" bg-gradient-to-br from-red-300 to-orange-400 bg-clip-text text-transparent">
               MESA
             </span>
             , a place to help{" "}
             <span className="hover:text-green-500 duration-500">connect</span>{" "}
             the{" "}
-            <span className=" bg-gradient-to-r hover:text-green-500 from-indigo-700 to-blue-500 dark:from-indigo-400 dark:to-pink-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
+            <span className=" bg-gradient-to-r hover:text-green-300 from-indigo-500 to-blue-400 dark:from-indigo-400 dark:to-pink-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
               next generation.
             </span>
           </motion.h1>
@@ -78,27 +73,21 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.3 }}
-            className="w-full flex flex-row mt-6 justify-center gap-4"
+            className="w-96 flex flex-row mt-6 justify-center gap-4"
           >
             {!user.user ? (
-              <>
+
                 <Link
                   href="/sign-in"
-                  className=" shadow-sm hover:shadow-xl cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-theme-blue to-theme-blue-2 w-full h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+                  className=" shadow-sm gap-2 hover:shadow-xl text-white text-md lg:text-lg 2xl:text-xl cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-[1.02] bg-theme-blue hover:bg-theme-blue-2 hover:ring-2 ring-blue-700 ring-offset-1 w-full h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
                 >
-                  <h2 className=" text-white text-md lg:text-lg 2xl:text-xl font-eudoxus duration-300">
+                  <IoPerson />
+                  <h2 className="   font-eudoxus duration-300">
                     Sign In
                   </h2>
+
                 </Link>
-                <Link
-                  href={"/sign-up"}
-                  className=" shadow-sm hover:shadow-xl cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tl from-slate-500 to-slate-600 w-full h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
-                >
-                  <h2 className=" text-white text-md lg:text-lg 2xl:text-xl font-eudoxus duration-300">
-                    Jump In For Free
-                  </h2>
-                </Link>
-              </>
+
             ) : (
               <Link
                 href="/connect"
@@ -115,7 +104,7 @@ export default function Home() {
 
       <motion.section
         style={{ scale: scrollYProgress, opacity: scrollYProgress }}
-        className={`max-w-[90%]  border-b-2 border-slate-300 mt-16 gap-10 text-slate-400  rounded-2xl w-full h-screen items-center justify-center p-10 flex flex-col text-sm`}
+        className={`max-w-[90%] border-slate-300 mt-16 gap-10 text-slate-400  rounded-2xl w-full h-screen items-center justify-center p-10 flex flex-col text-sm`}
         ref={firstRef}
       >
         <section className="w-full gap-12 flex flex-col bg-zinc-50 shadow-md p-10 rounded-3xl">

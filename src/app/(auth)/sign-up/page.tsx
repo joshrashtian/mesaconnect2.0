@@ -46,12 +46,16 @@ const SignUp = () => {
       setErrorMsg(error.message);
       return;
     }
+
+    else window.location.reload()
   };
 
   const withGoogle = async () => {
     const {error } = await supabase.auth.signInWithOAuth({
       provider: 'google'
     })
+  if(error) setErrorMsg(error.message);
+  else window.location.reload()
   }
   return (
     <>

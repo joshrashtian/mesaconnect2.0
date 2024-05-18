@@ -104,9 +104,10 @@ export const useModal = (settings?: {
   ) {
     if (!settings?.storedComponent && !component) return;
     if (settings?.storedComponent)
-      context.createModal();
+      //@ts-ignore
+      context.createModal(settings?.storedComponent);
     //@ts-ignore
-    else context.createModal();
+    else context.createModal(component);
   }
 
   function CreateDialogBox(
