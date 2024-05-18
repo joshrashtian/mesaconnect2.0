@@ -1,21 +1,30 @@
-"use client";
+"use server"
 import React, { useContext } from "react";
 import { userContext } from "../AuthContext";
 import Dashboard from "./Dashboard";
+import {serverside} from "../../../config/serverside";
+import {redirect} from "next/navigation";
+import {Metadata} from "next";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
-  const user = useContext(userContext);
+//TODO: Fix Auth SignOut
 
-  {
-    if (user?.user) {
-      return (
-        <div className="bg-orange-600 h-screen">
-          <Dashboard />
-        </div>
-      );
-    }
-    return <div className="bg-orange-600 h-screen">{children}</div>;
+export async function generateMetadata() {
+
+  return {
+    title: "Sign In"
   }
+}
+
+
+const Layout = async ({ children }: { children: React.ReactNode }) => {
+  const user = await serverside.auth.getSession()
+
+  if(user.data.session?.user) {
+    redirect('/connect')
+  }
+
+  return <main className="bg-orange-600 h-screen">{children}</main>;
+
 };
 
 export default Layout;

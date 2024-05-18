@@ -104,6 +104,7 @@ export const ExpandedArticle = ({
     <ul className="absolute flex justify-center overflow-y-scroll min-h-screen w-screen top-0 px-32 pt-32 left-0">
       <main
           onClick={() => {
+
           }}
           key={article.id}
           className="bg-white z-50 p-10 rounded-t-2xl overflow-y-scroll no-scrollbar shadow-md min-h-full w-3/4 flex flex-col gap-10"
@@ -197,7 +198,7 @@ export const ExpandArticle = (params: any) => {
           {...params}
           onClick={() => {
             // @ts-ignore
-            modal.createModal();
+            modal.createModal(params.article);
           }}
       >
         <IoExpandOutline/>

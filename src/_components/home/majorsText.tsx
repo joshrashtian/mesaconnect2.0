@@ -21,16 +21,17 @@ const MajorsText = () => {
   const [color, setColor] = useState("");
 
   const colors = useMemo(() => [
-    "teal",
-    "orange",
-    "green",
-    "blue",
-    "indigo",
-    "purple",
-    "pink",
+    "text-teal-500",
+    "text-orange-500",
+    "text-green-500",
+    "text-blue-500",
+    "text-indigo-500",
+    "text-purple-500",
+    "text-pink-500",
   ], []);
+
   useEffect(() => {
-    setInterval(() => {
+    const int = setInterval(() => {
       setIsChanging(true);
 
       setTimeout(() => {
@@ -47,11 +48,12 @@ const MajorsText = () => {
         setIsChanging(false);
       }, 600);
     }, 4000);
-  }, [colors, index]);
+
+  }, []);
 
   return (
     <motion.h1
-      className={`font-eudoxus text-3xl md:text-4xl lg:text-5xl font-bold text-center lg:text-left gap-3 text-slate-500`}
+      className={`font-eudoxus drop-shadow-md text-3xl md:text-4xl lg:text-5xl font-bold text-center lg:text-left gap-3 text-slate-500`}
     >
       A home for the majors studying{" "}
       <motion.span
@@ -62,7 +64,7 @@ const MajorsText = () => {
           stiffness: 100,
           duration: 2,
         }}
-        className={`text-${color}-500 transition-colors inline-block`}
+        className={`${color} transition-colors inline-block`}
       >
         {coverMajors[index]}.
       </motion.span>
