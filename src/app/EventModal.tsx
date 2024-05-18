@@ -38,7 +38,7 @@ const EventModal = ({ children }: { children: React.ReactNode }) => {
     if (searchParams.get('event')) {
       fetchEvent()
     }
-  }, [searchParams])
+  }, [])
 
   function handleParams(term?: string) {
     const params = new URLSearchParams(searchParams)
@@ -93,7 +93,7 @@ const Modal = ({ event }: { event: EventType }) => {
     }
 
     if (state !== 1) fetchData()
-  }, [event.id, user.user?.id])
+  }, [])
 
   const InterestedContext = [
     {
