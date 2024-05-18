@@ -1,5 +1,5 @@
 "use server";
-import React from "react";
+import React, {Suspense} from "react";
 import HomePageHeader from "./(homepage)/header";
 
 import { redirect } from "next/navigation";
@@ -25,11 +25,11 @@ const Page = async () => {
   return (
     <main className="flex flex-col gap-3">
       <HomePageHeader />
-      <section className="p-3">
+      <Suspense>
         {Posts.map((post) => {
           return <Article key={post.id} article={post} />;
         })}
-      </section>
+      </Suspense>
     </main>
   );
 };

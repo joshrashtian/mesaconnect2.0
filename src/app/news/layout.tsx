@@ -10,7 +10,7 @@ const layout = ({ children }: { children: React.ReactNode }) => {
 };
 
 const Provider = ({ children }: { children: React.ReactNode }) => {
-  return <main>{children}</main>;
+  return <ArticleModalProvider>{children}</ArticleModalProvider>;
 };
 
 export default layout;
