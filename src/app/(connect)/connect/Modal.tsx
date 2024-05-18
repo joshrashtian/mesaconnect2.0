@@ -104,6 +104,7 @@ export const useModal = (settings?: {
   ) {
     if (!settings?.storedComponent && !component) return;
     if (settings?.storedComponent)
+      //@ts-ignore
       context.createModal(settings?.storedComponent);
     //@ts-ignore
     else context.createModal(component);
