@@ -116,6 +116,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     } else if (event === "SIGNED_OUT") {
       console.warn("signed out");
       setUser(undefined);
+      setData(undefined)
     } else if (event === "PASSWORD_RECOVERY") {
       // handle password recovery event
     } else if (event === "TOKEN_REFRESHED") {

@@ -12,9 +12,9 @@ import {serverside} from "../../../config/serverside";
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   //TIP: UseSession Hook can only be used in Async Functions, since it returns a promise.
 
-  const { data: session, error } = await serverside.auth.getSession()
+  const { data, error } = await serverside.auth.getUser()
 
-  if (!session.session?.user || error) {
+  if (!data.user) {
     redirect('/sign-in')
   }
 

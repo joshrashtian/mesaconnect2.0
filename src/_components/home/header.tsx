@@ -1,15 +1,18 @@
 "use client";
-import { userContext } from "@/app/AuthContext";
+import {userContext, useUser} from "@/app/AuthContext";
 import {
+  AnimatePresence,
   motion,
   useScroll, useSpring,
   useTransform,
 } from "framer-motion";
 import Link from "next/link";
-import React, { useContext } from "react";
+import React, {useContext, useState} from "react";
+import {HeaderContext} from "@/_components/home/HeaderContext";
 
 const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
-  const user = useContext(userContext);
+  const user = useUser()
+  const [menu, setMenu] = useState(false)
   const { scrollYProgress } = useScroll({
     target: scrollRefrence,
     offset: ["start end", "end end"],
@@ -30,8 +33,8 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       </motion.h1>
     </Link>,
     // eslint-disable-next-line react/jsx-key
-    <Link
-      href="/sign-in"
+    <button
+      onClick={() => setMenu(!menu)}
       className="flex flex-row gap-1 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
     >
       <motion.h1 style={{ color: color }} className="text-xl">
@@ -41,7 +44,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
         {/* eslint-disable-next-line @next/next/no-img-element,jsx-a11y/alt-text */}
         <img src={user.userData?.avatar_url} className="w-8 h-8 rounded-full"  alt={user.userData?.username}/>
       </div>
-    </Link>,
+    </button>,
   ];
 
   return (
@@ -63,7 +66,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
         MESA
         <motion.span style={{ color: color }}>connect</motion.span>
       </motion.h2>
-      <section className="flex flex-row gap-5 text-nowrap items-center">
+      <motion.section className="flex flex-row gap-5 text-nowrap items-center">
         {headerComponents.map((e, index) => (
           <motion.ul
             initial={{ y: -30, opacity: 0 }}
@@ -78,7 +81,10 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
             )*/}
           </motion.ul>
         ))}
-      </section>
+      </motion.section>
+      <AnimatePresence>
+      <HeaderContext user={user} isActive={menu} disengage={() => setMenu(!menu)} />
+      </AnimatePresence>
     </motion.div>
   );
 };
