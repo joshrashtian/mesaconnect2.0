@@ -17,9 +17,9 @@ export async function generateMetadata() {
 
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const user = await serverside.auth.getSession()
+  const { data} = await serverside.auth.getUser()
 
-  if(user.data.session?.user) {
+  if(!!data.user) {
     redirect('/connect')
   }
 

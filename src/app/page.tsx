@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useContext, useRef } from "react";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
-import {IoPerson} from "react-icons/io5";
+import {IoNewspaper, IoPerson} from "react-icons/io5";
 
 export default function Home() {
   useRef();
@@ -73,7 +73,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.3 }}
-            className="w-96 flex flex-row mt-6 justify-center gap-4"
+            className=" w-[620px] flex flex-row mt-6 justify-center gap-2"
           >
             {!user.user ? (
 
@@ -91,13 +91,25 @@ export default function Home() {
             ) : (
               <Link
                 href="/connect"
-                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-105 bg-gradient-to-tr from-red-400 to-orange-600 w-2/3 h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl bg-orange-600 h-12 lg:h-16 hover:ring-2 ring-orange-400 ring-offset-1 w-full flex justify-center items-center duration-500 transition-all ease-in-out"
               >
                 <h2 className=" text-white text-md lg:text-lg 2xl:text-xl font-eudoxus duration-300">
                   Enter Connect
                 </h2>
               </Link>
             )}
+            <Link
+                href="/news"
+                className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-indigo-600 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
+            >
+              <IoNewspaper />
+            </Link>
+            <Link
+                href="/news"
+                className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-indigo-600 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
+            >
+              <IoNewspaper />
+            </Link>
           </motion.section>
         </ul>
       </motion.section>
