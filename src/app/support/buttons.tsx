@@ -29,7 +29,7 @@ const Buttons = () => {
         {categories.map((e) => (
           <button
             key={e.title}
-            onClick={() => { modal.CreateDialogBox(e.comp, () => { }) }}
+            onClick={() => { modal.CreateDialogBox(e.comp, { newFunction: () => { }})}}
             className={`${e.color} rounded-2xl hover:opacity-80 active:scale-95 shadow-lg
              duration-300 hover:scale-105 p-3 w-64 text-white font-eudoxus text-xl h-24 flex flex-col-reverse origin-center `}
           >

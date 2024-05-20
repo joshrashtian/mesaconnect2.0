@@ -1,10 +1,8 @@
 "use client";
-import React, { createContext, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import {
-  IoChevronForward,
+import React, {createContext, useState} from "react";
+import {AnimatePresence, motion} from "framer-motion";
+import {IoChevronForward,} from "react-icons/io5";
 
-} from "react-icons/io5";
 export const ModalContext = createContext({
   createModal: () => {},
   createDialogBox: (
@@ -112,7 +110,7 @@ export const useModal = (settings?: {
 
   function CreateDialogBox(
     e: React.JSX.Element | JSX.IntrinsicElements,
-    confirmed: { newFunction: () => Promise<void> }
+    confirmed: { newFunction: () => Promise<void> | void }
   ) {
     // @ts-ignore
     context.createDialogBox(e, { newFunction: confirmed });
