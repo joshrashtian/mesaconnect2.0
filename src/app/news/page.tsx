@@ -2,8 +2,8 @@
 import React, {Suspense} from "react";
 import HomePageHeader from "./(homepage)/header";
 
-import { redirect } from "next/navigation";
-import { serverside } from "../../../config/serverside";
+import {redirect} from "next/navigation";
+import {serverside} from "../../../config/serverside";
 import Article from "./Article";
 import Provider from "@/app/news/Provider";
 
@@ -11,7 +11,8 @@ async function getData() {
     const { data, error } = await serverside
         .from("newsposts")
         .select()
-        .limit(3);
+        .limit(3).order('created_at', { ascending: false })
+
 
     if (error) {
         console.error(error);
@@ -23,7 +24,7 @@ async function getData() {
 const Page = async () => {
   const { data: Posts} = await getData();
   return (
-    <main className="flex flex-col gap-3">
+    <main className="flex flex-col gap-3 dark:from-slate-800 dark:to-orange-950 bg-gradient-to-b from-zinc-100 from-[40%] to-orange-100 dark:bg-gradient-to-b p-16 min-h-screen duration-700">
       <HomePageHeader />
       <Suspense>
           <Provider>

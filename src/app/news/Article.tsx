@@ -1,6 +1,6 @@
 import React from "react";
-import { months } from "../../../config/calendar";
-import { ExpandArticle } from "./ArticleModal";
+import {months} from "../../../config/calendar";
+import {ExpandArticle} from "./ArticleModal";
 
 export const classNames = [
   {
@@ -95,7 +95,7 @@ const Article = ({ article }: { article: ArticleType }) => {
                       {item.content?.map((f: { content: any[]; }, i: React.Key | null | undefined) => (
                         <ul key={i}>
                           {
-                            f.content.map((paragraph, i) => (
+                            f.content?.map((paragraph, i) => (
                                 <li key={i} className="flex items-center gap-3">
                                   <div className="w-1.5 h-1.5 rounded-full bg-black" />
                                   <ParagraphBlock component={paragraph} key={i} />
@@ -123,7 +123,7 @@ export const ParagraphBlock = ({component} : {component: { marks: any[]; text: s
           component.marks
               .map(
                   (a) =>
-                      classNames.find((b) => b.type === a.type)
+                      classNames?.find((b) => b.type === a.type)
                           ?.returns
               )
               .join(" ")
