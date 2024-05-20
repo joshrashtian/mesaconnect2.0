@@ -110,7 +110,7 @@ export const useModal = (settings?: {
 
   function CreateDialogBox(
     e: React.JSX.Element | JSX.IntrinsicElements,
-    confirmed: { newFunction: () => Promise<void> | void }
+    confirmed: () => Promise<void>
   ) {
     // @ts-ignore
     context.createDialogBox(e, { newFunction: confirmed });
