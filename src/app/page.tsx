@@ -9,7 +9,8 @@ import Link from "next/link";
 import { useContext, useRef } from "react";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
-import {IoNewspaper, IoPerson} from "react-icons/io5";
+import {IoChevronForward, IoNewspaper, IoPerson} from "react-icons/io5";
+import {BiSupport} from "react-icons/bi";
 
 export default function Home() {
   useRef();
@@ -91,11 +92,14 @@ export default function Home() {
             ) : (
               <Link
                 href="/connect"
-                className=" shadow-lg cursor-pointer rounded-3xl hover:rounded-2xl bg-orange-600 h-12 lg:h-16 hover:ring-2 ring-orange-400 ring-offset-1 w-full flex justify-center items-center duration-500 transition-all ease-in-out"
+                className=" shadow-lg cursor-pointer text-white text-md lg:text-lg 2xl:text-xl gap-3 rounded-3xl hover:rounded-2xl bg-gradient-to-tr from-red-700 to-orange-500 hover:bg-orange-700 h-12 lg:h-16 hover:ring-2 ring-orange-400 ring-offset-1 w-full flex justify-center items-center duration-500 transition-all ease-in-out"
               >
-                <h2 className=" text-white text-md lg:text-lg 2xl:text-xl font-eudoxus duration-300">
+
+                <h2 className="  font-eudoxus duration-300">
+
                   Enter Connect
                 </h2>
+                <IoChevronForward />
               </Link>
             )}
             <Link
@@ -105,10 +109,10 @@ export default function Home() {
               <IoNewspaper />
             </Link>
             <Link
-                href="/news"
-                className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-indigo-600 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
+                href="/support"
+                className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-teal-700 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
             >
-              <IoNewspaper />
+              < BiSupport />
             </Link>
           </motion.section>
         </ul>

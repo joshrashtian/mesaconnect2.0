@@ -7,13 +7,13 @@ import { useRouter } from "next/navigation";
 import { IoPerson } from "react-icons/io5";
 import Link from "next/link";
 
-const HomePageHeader = () => {
+const HomePageHeader = ({ title } : { title: string }) => {
   const user: ContextProps = useContext(userContext);
   const [menu, setMenu] = useState(false);
   return (
     <motion.main className="flex flex-row h-16 items-center justify-between">
       <h1 className="dark:text-white text-slate-800 font-eudoxus font-semibold text-4xl">
-        <span className="text-orange-600">MESA</span>ConnectNews
+        <span className="text-orange-600">MESA</span>{title}
       </h1>
       {user?.userData?.avatar_url ? (
         <motion.ul

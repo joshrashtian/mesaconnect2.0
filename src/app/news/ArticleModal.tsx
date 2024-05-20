@@ -163,7 +163,7 @@ export const ExpandedArticle = ({
                             {item.content?.map((f: { content: any[]; }, i: React.Key | null | undefined) => (
                                 <ul key={i}>
                                   {
-                                    f.content.map((paragraph, i) => (
+                                    f.content?.map((paragraph, i) => (
                                         <li key={i} className="flex items-center gap-3">
                                           <div className="w-1.5 h-1.5 rounded-full bg-black"/>
                                           <ParagraphBlock component={paragraph} key={i}/>

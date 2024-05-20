@@ -4,9 +4,11 @@ import {AnimatePresence, motion} from "framer-motion";
 import Link from "next/link";
 import {supabase} from "../../config/mesa-config";
 import {useUser} from "@/app/AuthContext";
-import {IoLockClosed} from "react-icons/io5";
+import {IoLockClosed, IoNewspaper} from "react-icons/io5";
 import {useContextMenu} from "@/app/(connect)/InfoContext";
 import {useRouter} from "next/navigation";
+import {GrUserAdmin} from "react-icons/gr";
+import {BiSupport} from "react-icons/bi";
 
 const Dock = () => {
   const [selected, setSelected] = useState("");
@@ -108,7 +110,21 @@ const Dock = () => {
     {
       name: "Admin",
       link: "/admin",
+      icon: < GrUserAdmin />,
       permissions: ["admin"],
+      color: 'bg-gradient-to-tr from-blue-600 to-teal-600 hover:text-blue-300'
+    },
+    {
+      name: "News",
+      sitelink: "/news",
+      icon: < IoNewspaper />,
+      color: 'bg-gradient-to-tr from-green-600 to-emerald-400 hover:text-lime-300'
+    },
+    {
+      name: "Beta Support",
+      sitelink: "/support",
+      icon: < BiSupport />,
+      color: 'bg-gradient-to-tr from-red-600 to-orange-600 hover:text-amber-300'
     },
   ];
 
@@ -122,10 +138,10 @@ const Dock = () => {
           setIsHovered(false);
         }}
         onContextMenu={(e) => context.createContext(e, navContext)}
-        className="group peer bg-white  origin-bottom drop-shadow-md rounded-3xl hover:-translate-y-3 h-full w-16 hover:2xl:w-[60%] hover:w-[70%] max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-[1.15] ease-in-out  "
+        className={`group peer bg-white  origin-bottom drop-shadow-md rounded-3xl hover:-translate-y-3 h-full w-16 ${ isLocked ? '2xl:w-[60%] w-[70%]' : ' w-16 hover:2xl:w-[60%] hover:w-[70%]'}  max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-[1.15] ease-in-out`}
       >
         <AnimatePresence>
-          {profURL && !isHovered && (
+          {profURL && !isHovered && !isLocked && (
             <motion.ul
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -141,16 +157,16 @@ const Dock = () => {
             </motion.ul>
           )}
         </AnimatePresence>
-        {isHovered && (
+        {(isHovered || isLocked) && (
           <AnimatePresence>
             <motion.ul
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ delay: 0.6, duration: 0.2 }}
-              className="w-full h-full flex-row delay-500 flex justify-center gap-2  items-center duration-200"
+              className="w-full h-full flex-row delay-500 flex justify-center  gap-2  items-center duration-200"
             >
-              {tabs.map((tab, index) => {
+              {tabs.filter(e => !e.icon).map((tab, index) => {
                 if (tab.permissions) {
 
                   if (
@@ -168,19 +184,53 @@ const Dock = () => {
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
                     onHoverStart={() => setSelected(tab.name)}
-                    className=" opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out"
+                    className={`${ isLocked ? 'opacity-100 group-hover:translate-y-0' : 'group-hover:opacity-100'} opacity-0  translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out`}
                   >
                     <Link
                       href={`/connect${tab.link}`}
                       className="flex hover:text-orange-700 flex-row p-3 justify-center items-center"
                     >
-                      <h1 className="2xl:text-sm text-[12px] font-semibold group-hover:text-lg duration-200">
+                      <h1 className={`${ isLocked ? 'text-lg' : 'text-[12px] 2xl:text-sm group-hover:text-lg'}   font-semibold  duration-200`}>
                         {tab.name}
                       </h1>
                     </Link>
                   </motion.li>
                 );
               })}
+              <ul className="w-0.5 h-1/2 bg-slate-200 mr-3" />
+              {
+                tabs.filter(e => e.icon).map((tab, index) => {
+                    if (tab.permissions) {
+
+                if (
+                // @ts-ignore
+                !tab.permissions.includes(userData?.role) ||
+                !userData
+                ) {
+                return null;
+              }
+              }
+
+                return (
+                <motion.li
+                key={index}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onHoverStart={() => setSelected(tab.name)}
+              className=" opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out"
+            >
+              <Link
+                  href={tab.sitelink ? tab.sitelink : `/connect${tab.link}`}
+                  className={`flex rounded-2xl ${ tab.color } text-white flex-row p-3 justify-center items-center`}
+              >
+                <h1 className="2xl:text-sm text-[12px] font-semibold group-hover:text-lg duration-200">
+                  {tab.icon}
+                </h1>
+              </Link>
+            </motion.li>
+            );
+            })
+              }
             </motion.ul>
           </AnimatePresence>
         )}
@@ -189,11 +239,12 @@ const Dock = () => {
       <section className=" absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white ">
         <h1 className="font-bold">{selected}</h1>
       </section>
-      <section
-        className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:translate-y-10 -translate-y-4 transition-all duration-500  bg-white`}
+      <button
+          onClick={() => setLocked(!isLocked)}
+        className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:translate-y-10 -translate-y-7 transition-all duration-500  bg-white`}
       >
         <IoLockClosed />
-      </section>
+      </button>
     </div>
   );
 };
