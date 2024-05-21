@@ -16,11 +16,13 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [active, setActive] = useState<React.JSX.Element | undefined>();
   const [type, setType] = useState<"dialog" | "modal">("modal");
   const [confirmCommand, setConfirmCommand] = useState<() => Promise<void>>();
+  const [settings, setSettings] = useState<ModalSettingType | null>()
 
   const value = {
-    createModal: (component: React.JSX.Element) => {
+    createModal: (component: React.JSX.Element, settings: ModalSettingType) => {
       setType("modal");
       setActive(component);
+      setSettings(settings)
     },
     createDialogBox: (
       e: React.JSX.Element | JSX.IntrinsicElements,
@@ -32,7 +34,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       const newFunction = () => confirmed.newFunction();
       setConfirmCommand(() => newFunction);
     },
-    disarmModal: () => setActive(undefined),
+    disarmModal: () => { setActive(undefined); setSettings(null) }
   };
 
   return (
@@ -70,9 +72,9 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.25 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 z-10 bg-gray-500 opacity-50 "
+              className={`absolute inset-0 z-10 bg-gray-500 opacity-50 ${settings?.backgroundClass}`}
               onClick={() => {
-                value.disarmModal();
+                if(!settings || settings.canUnmount) value.disarmModal();
               }}
             />
           </motion.section>
@@ -95,17 +97,14 @@ export const useModal = (settings?: {
 
   function CreateModal(
     component?: React.JSX.Element,
-    settings?: {
-      storedComponent: React.JSX.Element;
-      onUnmount: (func: () => void) => void;
-    }
+    settings?: ModalSettingType
   ) {
     if (!settings?.storedComponent && !component) return;
     if (settings?.storedComponent)
       //@ts-ignore
-      context.createModal(settings?.storedComponent);
+      context.createModal(settings?.storedComponent,settings);
     //@ts-ignore
-    else context.createModal(component);
+    else context.createModal(component, settings);
   }
 
   function CreateDialogBox(
@@ -126,5 +125,12 @@ export const useModal = (settings?: {
 
   return { CreateModal, CreateDialogBox, DisarmModal, GetContext };
 };
+
+export type ModalSettingType = {
+  storedComponent?: React.JSX.Element;
+  canUnmount?: boolean
+  onUnmount?: (func: () => void) => void;
+  backgroundClass?: string,
+}
 
 export default ModalProvider;
