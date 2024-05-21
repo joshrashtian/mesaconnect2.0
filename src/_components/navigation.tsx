@@ -217,7 +217,7 @@ const Dock = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onHoverStart={() => setSelected(tab.name)}
-              className=" opacity-0 group-hover:opacity-100 translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out"
+              className={`${ isLocked ? 'opacity-100 group-hover:translate-y-0' : 'group-hover:opacity-100'} opacity-0  translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out`}
             >
               <Link
                   href={tab.sitelink ? tab.sitelink : `/connect${tab.link}`}
