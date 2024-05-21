@@ -1,12 +1,22 @@
-import React from 'react';
-import HomePageHeader from "@/app/news/(homepage)/header";
+"use server"
 
-const Page = () => {
+import React, {Suspense} from 'react';
+import HomePageHeader from "@/app/news/(homepage)/header";
+import ModalProvider from "@/app/(connect)/connect/Modal";
+import Buttons from "@/app/support/buttons";
+import Tickets from "@/app/support/tickets";
+
+const Page = async () => {
     return (
-        <div>
-            <HomePageHeader title="Support" />
-            <h1></h1>
-        </div>
+        <main className="flex flex-col gap-4">
+          <HomePageHeader title="Support" />
+          <Suspense>
+            <ModalProvider>
+              <Buttons />
+              <Tickets/>
+            </ModalProvider>
+          </Suspense>
+        </main>
     );
 };
 

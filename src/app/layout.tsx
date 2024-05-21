@@ -1,9 +1,8 @@
-import type { Metadata } from 'next'
+import type {Metadata} from 'next'
 import './globals.css'
-import { config } from '../../config/mesa-config'
+import {config} from '../../config/mesa-config'
 import AuthContext from './AuthContext'
-import { Inter } from 'next/font/google'
-import EduIcon from '../_assets/photos/EducationIcon.png'
+import {Inter} from 'next/font/google'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -17,12 +16,17 @@ export const metadata: Metadata = {
   },
   description: config.description,
   openGraph: {
+    title: 'MESAConnect',
+    description: 'Connecting The Next Generation Together.',
+    url: 'https://mesaconnect.io',
+    siteName: 'MESAConnect',
     images: [
       {
         url: "https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/seo/Messagestcon.png?t=2024-05-18T19%3A31%3A00.671Z"
-      }
-      ]
-  }
+      }],
+    locale: 'en_US',
+    type: 'website',
+  },
 }
 
 export default async function RootLayout({

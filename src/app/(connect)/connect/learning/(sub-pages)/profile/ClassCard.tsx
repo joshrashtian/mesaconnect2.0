@@ -1,10 +1,12 @@
 "use client";
-import React, { useState } from "react";
-import { useModal } from "../../../Modal";
+import React, {useState} from "react";
+import {useModal} from "../../../Modal";
 import EditableField from "../../_components/EditableField";
-import { useContextMenu } from "@/app/(connect)/InfoContext";
-import { IoTrailSignOutline } from "react-icons/io5";
-import { supabase } from "../../../../../../../config/mesa-config";
+import {useContextMenu, useToast} from "@/app/(connect)/InfoContext";
+import {IoTrailSignOutline} from "react-icons/io5";
+import {supabase} from "../../../../../../../config/mesa-config";
+import {updateClass} from "@/app/(connect)/connect/learning/(sub-pages)/profile/ClassFunctions";
+import {AiOutlineLoading} from "react-icons/ai";
 
 const ClassCard = ({ class: c }: { class: any }) => {
   const modal = useModal();
@@ -70,6 +72,10 @@ const DeleteBox = ({ cla }: { cla: any }) => {
 
 const ClassModal = ({ e }: { e: any }) => {
   const [newClass, setNewClass] = useState(e);
+  const [submitting, setSubmitting] = useState(false)
+  const modal = useModal()
+  const { CreateErrorToast } = useToast()
+
   return (
     <section className="font-eudoxus flex flex-col gap-4">
       <div>
@@ -102,6 +108,20 @@ const ClassModal = ({ e }: { e: any }) => {
         >
           <h2 className="text-xl text-slate-500">{newClass.grade}</h2>
         </EditableField>
+        <button onClick={async () => {
+          if (newClass === e) return;
+          setSubmitting(true)
+          let {error} = await updateClass(newClass);
+          if (error) {
+            CreateErrorToast(error.message)
+            return;
+          }
+          else modal.DisarmModal()
+        }}
+                className={`font-eudoxus p-3 px-5 ${(newClass !== e) ? 'bg-indigo-600 text-white' : 'bg-white'} rounded-xl duration-300`}
+        >
+          <h1>{ submitting ? <AiOutlineLoading className="animate-spin" /> : 'Submit' }</h1>
+        </button>
       </section>
     </section>
   );
