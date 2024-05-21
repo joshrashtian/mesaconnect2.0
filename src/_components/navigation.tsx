@@ -239,7 +239,7 @@ const Dock = () => {
       </section>
       <button
           onClick={() => setLocked(!isLocked)}
-        className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:translate-y-10 -translate-y-7 transition-all duration-500  bg-white`}
+        className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-11 -translate-y-9 transition-all duration-500  bg-white`}
       >
         <IoLockClosed />
       </button>
