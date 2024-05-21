@@ -7,7 +7,7 @@ export default async function Tickets() {
 
 
   return (
-    <main className="flex">
+    <main className="flex gap-4 flex-wrap">
       {
         data?.map((e) => (
           <Ticket key={e.id} data={e} />
