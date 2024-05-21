@@ -4,11 +4,10 @@ import {AnimatePresence, motion} from "framer-motion";
 import Link from "next/link";
 import {supabase} from "../../config/mesa-config";
 import {useUser} from "@/app/AuthContext";
-import {IoLockClosed, IoNewspaper} from "react-icons/io5";
+import {IoLockClosed} from "react-icons/io5";
 import {useContextMenu} from "@/app/(connect)/InfoContext";
 import {useRouter} from "next/navigation";
-import {GrUserAdmin} from "react-icons/gr";
-import {BiSupport} from "react-icons/bi";
+import {GrArticle, GrSupport, GrUserAdmin, GrUserSettings} from "react-icons/gr";
 
 const Dock = () => {
   const [selected, setSelected] = useState("");
@@ -58,9 +57,6 @@ const Dock = () => {
 
   useEffect(() => {
     const fetchURL = async () => {
-      const user = await supabase.auth.getUser();
-
-
       const { data, error } = await supabase
         .from("profiles")
         .select()
@@ -106,6 +102,8 @@ const Dock = () => {
     {
       name: "Settings",
       link: "/settings",
+      icon: <GrUserSettings />,
+      color: 'bg-gradient-to-tr from-orange-600 to-yellow-600 hover:text-orange-300'
     },
     {
       name: "Admin",
@@ -117,13 +115,13 @@ const Dock = () => {
     {
       name: "News",
       sitelink: "/news",
-      icon: < IoNewspaper />,
+      icon: < GrArticle />,
       color: 'bg-gradient-to-tr from-green-600 to-emerald-400 hover:text-lime-300'
     },
     {
       name: "Beta Support",
       sitelink: "/support",
-      icon: < BiSupport />,
+      icon: < GrSupport />,
       color: 'bg-gradient-to-tr from-red-600 to-orange-600 hover:text-amber-300'
     },
   ];
