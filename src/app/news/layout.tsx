@@ -7,10 +7,9 @@ export async function generateMetadata() {
   }
 }
 
-const layout = ({ children }: { children: React.ReactNode }) => {
+const layout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <main>
-
       {children}
     </main>
   );

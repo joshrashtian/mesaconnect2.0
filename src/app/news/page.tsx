@@ -18,11 +18,18 @@ async function getData() {
         console.error(error);
         redirect("/error");
     }
-    return { data }
+    return { data, error }
 }
 
 const Page = async () => {
-  const { data: Posts} = await getData();
+  const { data: Posts, error} = await getData();
+
+  if(error) {
+      return (
+          <h1>Oops! An Error Has Occured</h1>
+      )
+  }
+
   return (
     <main className="flex flex-col gap-3 dark:from-slate-800 dark:to-orange-950 bg-gradient-to-b from-zinc-100 from-[40%] to-orange-100 dark:bg-gradient-to-b p-16 min-h-screen duration-700">
       <HomePageHeader title="News" />
