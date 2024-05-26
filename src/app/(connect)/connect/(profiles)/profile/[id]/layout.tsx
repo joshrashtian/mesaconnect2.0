@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
 import React from 'react'
 
-const LayoutProfile = ({ children }: { children: React.ReactNode }) => {
+const LayoutProfile = async ({ children }: { children: React.ReactNode }) => {
   return <div>{children}</div>
 }
 
