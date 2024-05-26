@@ -1,6 +1,7 @@
 import React from "react";
 import {months} from "../../../config/calendar";
 import {ExpandArticle} from "./ArticleModal";
+import Image from "next/image";
 
 export const classNames = [
   {
@@ -42,7 +43,7 @@ export type ArticleType = {
   category: string;
 };
 
-const Article = ({ article }: { article: ArticleType }) => {
+const Article = ({ article, image }: { article: ArticleType, image: boolean }) => {
   const date = new Date(article.created_at);
 
   return (
@@ -51,6 +52,11 @@ const Article = ({ article }: { article: ArticleType }) => {
       className="bg-white p-10 rounded-2xl shadow-md h-full flex flex-col gap-10"
     >
       <header className="w-full flex flex-col justify-between">
+        { image &&
+        <ul className="relative w-full h-96 bg-black" >
+            <Image  src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/NewsPictures/${article.id}/context.png`} alt={"Context"} fill objectFit={"cover"} />
+        </ul>
+        }
         <ul className="flex justify-between items-center">
           <h1 className="font-bold font-eudoxus bg-gradient-to-tr dark:from-orange-400 dark:to-pink-500 from-red-800 to-purple-500 inline-block bg-clip-text text-transparent text-5xl">
             {article.title}

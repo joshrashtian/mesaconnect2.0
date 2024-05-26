@@ -24,9 +24,21 @@ async function getData() {
 const Page = async () => {
   const { data: Posts, error} = await getData();
 
-  if(error) {
+  const { data: NewsPictures, error: NewsError } = await serverside
+    .storage
+    .from('NewsPictures')
+    .list('', {
+      limit: 100,
+      offset: 0,
+      sortBy: { column: 'name', order: 'asc' },
+    })
+
+  if(error || NewsError) {
       return (
+        <>
           <h1>Oops! An Error Has Occured</h1>
+          <h2>{NewsError?.message}</h2>
+        </>
       )
   }
 
@@ -36,7 +48,7 @@ const Page = async () => {
       <Suspense>
           <Provider>
         {Posts.map((post) => {
-          return <Article key={post.id} article={post} />;
+          return <Article key={post.id} article={post} image={!!NewsPictures?.find(e => Number(e.name) === post.id)}/>;
         })}
           </Provider>
       </Suspense>
