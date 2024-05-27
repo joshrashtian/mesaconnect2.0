@@ -1,6 +1,6 @@
 import React from "react";
-import {months} from "../../../config/calendar";
-import {ExpandArticle} from "./ArticleModal";
+import { months } from "../../../config/calendar";
+import { ExpandArticle } from "./ArticleModal";
 import Image from "next/image";
 import {IoCalendar, IoPerson, IoTime} from "react-icons/io5";
 
@@ -60,7 +60,7 @@ const Article = ({ article, image }: { article: ArticleType, image: boolean }) =
                    alt={"Context"} fill objectFit={"cover"}/>
           </ul>
         }
-        <p className="font-eudoxus font-bold text-slate-400 text-xl">ARTICLE</p>
+        <p className="font-eudoxus font-bold text-slate-400 text-xl">{article?.category.toUpperCase()}</p>
         <ul className="flex justify-between items-center">
           <h1
             className="font-eudoxus font-black bg-gradient-to-tr dark:from-orange-400 dark:to-pink-500 from-red-800 to-orange-600 inline-block bg-clip-text text-transparent text-5xl">
@@ -69,12 +69,15 @@ const Article = ({ article, image }: { article: ArticleType, image: boolean }) =
           <ExpandArticle
             className="text-3xl duration-300 hover:scale-[1.15] hover:text-orange-600"
             article={article}
+            hasImage={image}
           />
         </ul>
         <ul
           className="flex flex-row font-eudoxus text-slate-600 dark:text-slate-100 text-lg font-light gap-2 p-0.5 items-center">
-          <IoPerson/>
-          <h2> Joshua Rashtian</h2>
+          <ul className="relative w-6 h-6 rounded-full">
+          <Image className="rounded-full" src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/avatars/${article.userid}`} alt={"Profile"} loading={"lazy"} fill />
+          </ul>
+            <h2> Joshua Rashtian</h2>
           <ul className="w-1 h-1 rounded-sm bg-slate-600"/>
           <IoCalendar/>
           <h2 className="">
@@ -97,34 +100,35 @@ const Article = ({ article, image }: { article: ArticleType, image: boolean }) =
           switch (block.type) {
             case "paragraph":
               return (
-                <div className="flex gap-1" key={i}>
+                <h1 className=" flex-nowrap" key={i}>
                   {block.content?.map((component) => {
                     switch (component.type) {
                       case "text":
-                        return (
-                            <ParagraphBlock component={component} key={i} />
-                        );
+                        return <ParagraphBlock component={component} key={i} />;
                     }
                   })}
-                </div>
+                </h1>
               );
             case "bulletList":
               return (
                 <div className="flex flex-col font-eudoxus gap-3" key={i}>
                   {block.content?.map((item, i) => (
                     <ul key={i}>
-                      {item.content?.map((f: { content: any[]; }, i: React.Key | null | undefined) => (
-                        <ul key={i}>
-                          {
-                            f.content?.map((paragraph, i) => (
-                                <li key={i} className="flex items-center gap-3">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-black" />
-                                  <ParagraphBlock component={paragraph} key={i} />
-                                </li>
-                            ))
-                          }
-                        </ul>
-                      ))}
+                      {item.content?.map(
+                        (
+                          f: { content: any[] },
+                          i: React.Key | null | undefined
+                        ) => (
+                          <ul key={i}>
+                            {f.content?.map((paragraph, i) => (
+                              <li key={i} className="flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 rounded-full bg-orange-500" />
+                                <ParagraphBlock component={paragraph} key={i} />
+                              </li>
+                            ))}
+                          </ul>
+                        )
+                      )}
                     </ul>
                   ))}
                 </div>
@@ -136,23 +140,23 @@ const Article = ({ article, image }: { article: ArticleType, image: boolean }) =
   );
 };
 
-export const ParagraphBlock = ({component} : {component: { marks: any[]; text: string }}) => {
- return (
-     <p
+export const ParagraphBlock = ({
+  component,
+}: {
+  component: { marks: any[]; text: string };
+}) => {
+  return (
+    <p
       className={
-          component.marks &&
-          component.marks
-              .map(
-                  (a) =>
-                      classNames?.find((b) => b.type === a.type)
-                          ?.returns
-              )
-              .join(" ")
+        component.marks &&
+        component.marks
+          .map((a) => classNames?.find((b) => b.type === a.type)?.returns)
+          .join(" ")
       }
-  >
-    {component.text}
-  </p>
- )
-}
+    >
+      {component.text}
+    </p>
+  );
+};
 
 export default Article;
