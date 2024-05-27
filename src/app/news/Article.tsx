@@ -2,6 +2,7 @@ import React from "react";
 import {months} from "../../../config/calendar";
 import {ExpandArticle} from "./ArticleModal";
 import Image from "next/image";
+import {IoCalendar, IoPerson, IoTime} from "react-icons/io5";
 
 export const classNames = [
   {
@@ -52,13 +53,17 @@ const Article = ({ article, image }: { article: ArticleType, image: boolean }) =
       className="bg-white p-10 rounded-2xl shadow-md h-full flex flex-col gap-10"
     >
       <header className="w-full flex flex-col justify-between">
-        { image &&
-        <ul className="relative w-full h-96 bg-black" >
-            <Image  src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/NewsPictures/${article.id}/context.png`} alt={"Context"} fill objectFit={"cover"} />
-        </ul>
+        {image &&
+          <ul className="relative w-full h-[600px] rounded-[42px] mb-7 bg-black">
+            <Image className="rounded-[42px] hover:shadow-2xl shadow-lg hover:scale-[1.02] duration-500"
+                   src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/NewsPictures/${article.id}/context.png`}
+                   alt={"Context"} fill objectFit={"cover"}/>
+          </ul>
         }
+        <p className="font-eudoxus font-bold text-slate-400 text-xl">ARTICLE</p>
         <ul className="flex justify-between items-center">
-          <h1 className="font-bold font-eudoxus bg-gradient-to-tr dark:from-orange-400 dark:to-pink-500 from-red-800 to-purple-500 inline-block bg-clip-text text-transparent text-5xl">
+          <h1
+            className="font-eudoxus font-black bg-gradient-to-tr dark:from-orange-400 dark:to-pink-500 from-red-800 to-orange-600 inline-block bg-clip-text text-transparent text-5xl">
             {article.title}
           </h1>
           <ExpandArticle
@@ -66,16 +71,26 @@ const Article = ({ article, image }: { article: ArticleType, image: boolean }) =
             article={article}
           />
         </ul>
-        <ul className="flex flex-row gap-2 p-0.5 items-center">
-          <h1 className=" dark:text-slate-200 text-xl">by Joshua Rashtian</h1>
+        <ul
+          className="flex flex-row font-eudoxus text-slate-600 dark:text-slate-100 text-lg font-light gap-2 p-0.5 items-center">
+          <IoPerson/>
+          <h2> Joshua Rashtian</h2>
+          <ul className="w-1 h-1 rounded-sm bg-slate-600"/>
+          <IoCalendar/>
+          <h2 className="">
+            {`${
+              months[date.getMonth()]
+            } ${date.getDate()}, ${date.getFullYear()}`}
+          </h2>
+          <ul className="w-1 h-1 rounded-sm bg-slate-600"/>
+          <IoTime/>
+          <h2>
+            {`
+            ${date.getHours() <= 12 ? date.getHours() : date.getHours() - 12}:${
+              date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
+            } ${date.getHours() < 12 ? "AM" : "PM"}`}
+          </h2>
         </ul>
-        <h2 className="font-eudoxus">
-          {`${
-            months[date.getMonth()]
-          } ${date.getDate()}, ${date.getFullYear()} | ${date.getHours()}:${
-            date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
-          } ${date.getHours() < 12 ? "AM" : "PM"}`}
-        </h2>
       </header>
       <div className="flex flex-col font-eudoxus gap-3">
         {article.details.content.map((block, i) => {
