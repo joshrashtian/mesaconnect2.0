@@ -4,7 +4,39 @@
 
 @font-face {
   font-family: "Eudoxus";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("../_assets/EudoxusSans-ExtraLight-BF659b6cb1e7092.ttf");
+}
+
+@font-face {
+  font-family: "Eudoxus";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("../_assets/EudoxusSans-Light-BF659b6cb2036b5.ttf");
+}
+
+@font-face {
+  font-family: "Eudoxus";
   src: url("../_assets/EudoxusSans-Medium.ttf");
+}
+
+@font-face {
+  font-family: "Eudoxus";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("../_assets/EudoxusSans-Bold-BF659b6cb1408e5.ttf");
+}
+
+@font-face {
+  font-family: "Eudoxus";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("../_assets/EudoxusSans-ExtraBold-BF659b6cb1b96c9.ttf");
 }
 
 @font-face {
