@@ -124,7 +124,7 @@ const EventBuilder = () => {
         </ul>
       </motion.header>
       <AnimatePresence>
-        {event.type && event.name && event.name.length > 5 && event.desc && (
+        {event.type && event.name && event.name?.length > 5 && event.desc && (
           <motion.main
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -175,7 +175,7 @@ const EventBuilder = () => {
             ) : null}
 
             <AnimatePresence>
-              {event.location && (
+              {event?.location && (
                 <motion.section
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
@@ -240,7 +240,7 @@ const EventBuilder = () => {
                             className="w-full text-2xl p-3 my-2 rounded-xl shadow-md focus:text-black focus:scale-[1.03] focus:shadow-lg focus:outline-zinc-200 focus:outline-dotted duration-300 text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-emerald-600 to-slate-700 inline-block "
                           />
                           <AnimatePresence>
-                            {event.tags.length !== 0 && (
+                            {event?.tags?.length !== 0 && (
                               <motion.ul
                                 initial={{ y: 10, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
