@@ -1,17 +1,22 @@
 'use client'
 import { EventType } from '@/_assets/types'
 import { userContext } from '@/app/AuthContext'
-import React, { useContext, useMemo, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Recommendations from './EventBuilder/Recommendations'
 import { supabase } from '../../../../../../config/mesa-config'
 import { MenuContext } from '@/app/(connect)/InfoContext'
 import { useRouter } from 'next/navigation'
 import UnsplashSearch from './UnsplashSearch'
+import Input from "@/_components/Input";
+import {IoCalendar, IoPerson} from "react-icons/io5";
+import {AiFillTags} from "react-icons/ai";
+import {VscLoading} from "react-icons/vsc";
 
 const types = [
   {
-    type: 'User Created'
+    type: 'User Created',
+    icon: <IoPerson />
   },
   {
     type: 'Workshop'
@@ -68,7 +73,7 @@ const EventBuilder = () => {
   if (!user.userData) return <h1>Loading...</h1>
 
   return (
-    <motion.main className="flex flex-col gap-10 pb-20">
+    <motion.main className="flex flex-col gap-10 font-eudoxus pb-20">
       <motion.header>
         <ul className="flex flex-col gap-2">
           <h1 className="font-bold text-2xl">
@@ -124,7 +129,7 @@ const EventBuilder = () => {
         </ul>
       </motion.header>
       <AnimatePresence>
-        {event.type && event.name && event.name.length > 5 && event.desc && (
+        {event.type && event.name && event.name?.length > 5 && event.desc && (
           <motion.main
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -175,19 +180,19 @@ const EventBuilder = () => {
             ) : null}
 
             <AnimatePresence>
-              {event.location && (
+              {event?.location && (
                 <motion.section
                   initial={{ y: 20, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   className="flex flex-col gap-3 p-5 text-center"
                 >
                   <h1 className="font-bold text-3xl">and it starts at</h1>
-                  <input
+                  <Input
+                      icon={<IoCalendar />}
                     type="datetime-local"
-                    onChange={(e) => {
+                    onChange={(e: any) => {
                       setEvent({ ...event, start: new Date(e.target.value) })
                     }}
-                    className=" shadow-md p-3 rounded-full "
                   />
                   {event.start?.getTime() < Date.now() && (
                     <h1 className="bg-zinc-100 p-3 font-geist rounded-xl">
@@ -206,47 +211,47 @@ const EventBuilder = () => {
                         <ul className="flex flex-row justify-center items-center gap-5">
                           <h1 className="font-bold text-2xl">...and goes until (optional)</h1>
 
-                          <input
+                          <Input
+                              icon={<IoCalendar />}
                             type="datetime-local"
-                            onChange={(e) => {
+                            onChange={(e: any) => {
                               setEvent({
                                 ...event,
                                 end: new Date(e.target.value)
                               })
                             }}
-                            className=" shadow-md p-3 rounded-full "
                           />
                         </ul>
-                        {event.end?.getTime() < Date.now() && (
+                        {event.end?.getTime() < event.start?.getTime() && (
                           <h1 className="bg-zinc-100 p-3 font-geist rounded-xl">
-                            <span className="text-orange-700 font-bold ">WARN</span> The time / date
-                            stated has already passed
+                            <span className="text-orange-700 font-bold ">WARN</span> The event starts after it ends
                           </h1>
                         )}
                         <section>
-                          <input
-                            onChange={(e) => {
-                              setEvent({
-                                ...event,
-                                tags: e.target.value
-                                  .split(',')
+                          <Input
+                              icon={<AiFillTags />}
+                              onChange={(e: any) => {
+                                setEvent({
+                                  ...event,
+                                  tags: e?.target?.value
+                                      .split(',')
 
-                                  .map((e) => e.trim())
-                                  .filter((e) => e.length > 0)
-                              })
-                            }}
-                            placeholder="Some Tags..."
-                            maxLength={65}
-                            className="w-full text-2xl p-3 my-2 rounded-xl shadow-md focus:text-black focus:scale-[1.03] focus:shadow-lg focus:outline-zinc-200 focus:outline-dotted duration-300 text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-emerald-600 to-slate-700 inline-block "
+                                      .map((e: any) => e.trim())
+                                      .filter((e: any) => e.length > 0)
+                                })
+                              }}
+                              placeholder="Each tag ends with a ','"
+                              maxLength={65}
+
                           />
                           <AnimatePresence>
-                            {event.tags.length !== 0 && (
+                            {event?.tags?.length !== 0 && (
                               <motion.ul
                                 initial={{ y: 10, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 exit={{ y: -10, opacity: 0 }}
                                 transition={{ type: 'spring ' }}
-                                className="flex flex-row items-center font-mono w-full gap-4"
+                                className="flex flex-row mt-3 items-center font-mono w-full gap-4"
                               >
                                 <h1 className="text-slate-400">Applied Tags</h1>
                                 <li className="w-0.5 h-full bg-slate-400" />
@@ -286,11 +291,14 @@ const EventBuilder = () => {
           >
             <button
               onClick={() => {
-                eventSubmit()
+                if(!submitting) eventSubmit()
               }}
-              className={`w-2/3 h-12  bg-orange-500 shadow-lg z-40 text-white font-bold rounded-2xl`}
+              className={`w-1/3 h-12 hover:scale-105 duration-500 justify-center flex items-center ${ submitting ? "bg-theme-blue-2" : "bg-orange-500 hover:bg-orange-400"} shadow-lg z-40 text-white font-bold rounded-2xl`}
             >
-              Submit
+              {
+                submitting ?
+                    <VscLoading className="animate-spin text-center" /> : "Submit"
+              }
             </button>
           </motion.footer>
         )}
