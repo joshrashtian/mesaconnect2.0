@@ -10,7 +10,7 @@ const Custom404 = () => {
         <Text404 />
         <h1 className="">Error</h1>
       </div>
-      <ul className="border-l-2 border-amber-600 p-4">
+      <ul className="border-l-2 border-amber-600 font-eudoxus p-4">
         <h2 className="font-light text-2xl">This page does not exist.</h2>
         <ReturnButton />
       </ul>

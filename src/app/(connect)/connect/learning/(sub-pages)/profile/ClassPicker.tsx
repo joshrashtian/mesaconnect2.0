@@ -8,7 +8,7 @@ import { IoAdd } from "react-icons/io5";
 
 const ClassPicker = () => {
   const [classes, setClasses] = useState<any[]>([]);
-  const { user } = useUser();
+  const { user, userData } = useUser();
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -27,9 +27,10 @@ const ClassPicker = () => {
   }, [user?.id]);
 
   return (
-    <section className=" flex flex-col gap-10">
+    <section className=" flex flex-col gap-5">
       <h1 className=" font-eudoxus font-bold text-3xl">Your Courses</h1>
-      <section className="flex flex-row gap-3 w-full">
+      <h2 className="font-eudoxus font-black text-2xl">{userData?.college}</h2>
+      <section className="flex flex-row gap-3 p-4 overflow-x-scroll no-scrollbar w-full">
         {classes.length > 0 ? (
           classes.map((c) => {
             return <ClassCard class={c} key={c.id} />;

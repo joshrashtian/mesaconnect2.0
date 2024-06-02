@@ -21,7 +21,7 @@ export interface ContextProps {
         role: string;
         real_name: string;
         avatar_url: string;
-        classes?: JSON;
+        college: string;
         major?: string;
         boxlist: object[];
         bio?: string;

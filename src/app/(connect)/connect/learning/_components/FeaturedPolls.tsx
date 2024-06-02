@@ -29,7 +29,7 @@ const FeaturedPolls = () => {
           <h1 className="text-slate-600 font-eudoxus">Create Question</h1>
         </Link>
       </ul>
-      <div className="w-full flex flex-col md:flex-wrap lg:flex-row gap-2">
+      <div className="w-full flex flex-col md:flex-wrap lg:flex-row no-scrollbar pb-4 lg:overflow-x-scroll gap-2">
         {data.map((poll: PollType, index: number) => (
           <PollCard key={index} index={index} data={poll} />
         ))}
