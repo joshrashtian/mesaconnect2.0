@@ -35,7 +35,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
       console.log(data)
       setImages(data)
     }
-  }, [params.id, toast])
+  }, [params.id])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,7 +93,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         <h1 className="text-slate-600 font-bold text-3xl lg:text-6xl duration-300">
           {post?.title}
         </h1>
-        <h2 className=" text-zinc-600 text-2xl">
+        <h2 className=" text-zinc-600 z-50 text-2xl">
           by{" "}
           <span
             onClick={() => {}}
@@ -140,8 +140,8 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         images?.map(image => {
           return (
               // eslint-disable-next-line react/jsx-key
-              <motion.div className="relative hover:scale-105 duration-500 w-72 h-72 rounded-3xl shadow-lg">
-              <Image style={{ borderRadius: 20 }} src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/postPictures/${params.id}/${image.name}`} alt={image.name} fill objectFit={'cover'} sizes="(max-width: 128px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+              <motion.div className="relative hover:scale-105 -z-10 duration-500 w-72 h-72 rounded-3xl shadow-lg">
+              <Image style={{ borderRadius: 20 }} className="z-10" src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/postPictures/${params.id}/${image.name}`} alt={image.name} fill objectFit={'cover'} sizes="(max-width: 128px) 100vw, (max-width: 1200px) 50vw, 33vw" />
               </motion.div>
                 )
         })} </div>)

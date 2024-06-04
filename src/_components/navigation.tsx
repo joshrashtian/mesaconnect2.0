@@ -238,12 +238,14 @@ const Dock = () => {
       <section className=" absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white ">
         <h1 className="font-bold">{selected}</h1>
       </section>
+      { settings.taskbar === 'default' &&
       <button
           onClick={() => setLocked(!isLocked)}
         className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-11 -translate-y-9 transition-all duration-500  bg-white`}
       >
         <IoLockClosed />
       </button>
+      }
     </div>
   );
 };

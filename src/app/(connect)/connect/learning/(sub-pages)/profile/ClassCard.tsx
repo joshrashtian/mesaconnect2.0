@@ -44,7 +44,7 @@ const ClassCard = ({ class: c }: { class: any }) => {
           },
         ])
       }
-      className="p-5 w-96 font-eudoxus group cursor-pointer hover:scale-[1.03] duration-300 text-slate-500 bg-white shadow-lg rounded-xl hover:rounded-md"
+      className="p-5 w-96 font-eudoxus group cursor-pointer hover:scale-[1.03] duration-300 text-slate-500 bg-white hover:bg-zinc-50 shadow-lg rounded-xl hover:rounded-md"
     >
         <ul className="flex flex-row justify-between">
       <h2 className="font-black text-slate-800">
@@ -53,8 +53,8 @@ const ClassCard = ({ class: c }: { class: any }) => {
             <IoPencil className="scale-0 group-hover:scale-100 text-2xl text-black group-hover:text-orange-600 duration-300 origin-top-right" />
         </ul>
         <p>{c.name}</p>
-        <p className="font-light">Teacher - {c.teacher}</p>
-        <p className="font-light">Grade - {c.grade}</p>
+        <p className="font-light">Teacher: {c.teacher}</p>
+        <p className="font-light">Grade: {c.grade}</p>
     </div>
   );
 };
