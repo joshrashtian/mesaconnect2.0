@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import Link from "next/link";
 import {supabase} from "../../config/mesa-config";
-import {useUser} from "@/app/AuthContext";
+import {useSettings, useUser} from "@/app/AuthContext";
 import {IoLockClosed} from "react-icons/io5";
 import {useContextMenu} from "@/app/(connect)/InfoContext";
 import {useRouter} from "next/navigation";
@@ -16,7 +16,8 @@ const Dock = () => {
   const [profID, setProfID] = useState<string | undefined>();
   const context = useContextMenu();
   const router = useRouter();
-  const [isLocked, setLocked] = useState(false);
+  const settings = useSettings()
+  const [isLocked, setLocked] = useState(settings.taskbar !== "default");
 
   const { userData } = useUser();
 

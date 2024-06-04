@@ -4,6 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 const Custom404 = () => {
+
   return (
     <main className="min-h-screen gap-10 flex justify-center items-center">
       <div className="font-bold text-6xl font-eudoxus">

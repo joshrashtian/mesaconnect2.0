@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, createContext, useMemo, useState } from "react";
+import React, {useEffect, createContext, useMemo, useState, useContext} from "react";
 import { supabase } from "../../config/mesa-config";
 import { User } from "@supabase/supabase-js";
 
@@ -10,8 +10,10 @@ export const userContext = createContext<ContextProps>({
   signOut: () => {
     supabase.auth.signOut();
   },
+  settings: undefined
 });
 export interface ContextProps {
+  settings: any;
   user: User | undefined;
   userData:
     | {
@@ -38,6 +40,7 @@ export interface ContextProps {
 const AuthContext = ({ children }: { children: React.ReactNode }) => {
   const [u, setUser] = useState<User>();
   const [userdata, setData] = useState();
+  const [settings, setSettings] = useState()
 
   const value = useMemo(() => {
     return {
@@ -46,8 +49,9 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
       signOut: () => {
         supabase.auth.signOut();
       },
+      settings
     };
-  }, [u, userdata]);
+  }, [u, userdata, settings]);
 
   const getUser = async () => {
     try {
@@ -57,6 +61,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
       if (user) {
         setUser(user);
         getUserData();
+        getSettings()
       }
     } catch (error) {
       console.log(error);
@@ -84,6 +89,26 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     // @ts-ignore
     setData(data);
   };
+
+  const getSettings = async () => {
+    const userId = (await supabase.auth.getUser()).data.user?.id;
+
+    const { data, error } = await supabase
+        .from("settings")
+        .select()
+        .eq("id", userId)
+        .single();
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    console.log(data.data);
+
+    // @ts-ignore
+    setSettings(data);
+  }
 
   useEffect(() => {
     getUser();
@@ -135,6 +160,15 @@ export function useUser() {
     throw new Error("useUser must be used within a UserProvider");
   }
   return context;
+}
+
+export function useSettings() {
+  const context = useContext(userContext)
+  if (context === undefined) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+
+  return context?.settings?.data ? context.settings.data : undefined;
 }
 
 export default AuthContext;
