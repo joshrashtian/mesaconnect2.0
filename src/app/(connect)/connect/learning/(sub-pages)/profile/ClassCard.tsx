@@ -52,9 +52,10 @@ const ClassCard = ({ class: c }: { class: any }) => {
       </h2>
             <IoPencil className="scale-0 group-hover:scale-100 text-2xl text-black group-hover:text-orange-600 duration-300 origin-top-right" />
         </ul>
-        <p>{c.name}</p>
+        <p>{c.name} - {`${c.units} ${c.units > 1 ? 'Units' : 'Unit'} `} </p>
         <p className="font-light">Teacher: {c.teacher}</p>
         <p className="font-light">Grade: {c.grade}</p>
+
     </div>
   );
 };

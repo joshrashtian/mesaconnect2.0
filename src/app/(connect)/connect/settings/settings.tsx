@@ -42,7 +42,7 @@ const Settings = () => {
             </button>
             <ul>
                 <p>Constantly Locked Taskbar</p>
-                <Switch click={() => setSettings({ ...settings, taskbar: settings.taskbar === 'default' ? "open" : "default"})} toggled={settings.taskbar === 'default'} />
+                <Switch click={() => setSettings({ ...settings, taskbar: settings.taskbar === 'default' ? "open" : "default"})} toggled={settings.taskbar !== 'default'} />
             </ul>
 
         </div>
