@@ -6,7 +6,7 @@ import { IoPeopleCircleOutline } from "react-icons/io5";
 import { useEffect, useState } from "react";
 import OnboardingFromQuick from "@/app/(connect)/connect/OnboardingFromQuick";
 export const UserCheck = ({ children }: { children: React.ReactNode }) => {
-  const { userData } = useUser();
+  const { userData, settings } = useUser();
   const [tooLong, setTooLong] = useState(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export const UserCheck = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AnimatePresence>
-      {userData && userData.username ? (
+      {userData && settings && userData.username ? (
         children
       ) : userData ?
     <OnboardingFromQuick />

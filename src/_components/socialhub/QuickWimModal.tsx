@@ -6,6 +6,7 @@ import { supabase } from '../../../config/mesa-config'
 import { userContext } from '@/app/AuthContext'
 import { MenuContext } from '@/app/(connect)/InfoContext'
 
+
 const QuickWimModal = ({ disengageModal }: { disengageModal: any }) => {
   const [text, setText] = useState<string>()
   const [errorMessage, setErrorMessage] = useState<string>()
@@ -60,7 +61,8 @@ const QuickWimModal = ({ disengageModal }: { disengageModal: any }) => {
         exit={{ opacity: 0 }}
         className="fixed top-0 left-0 min-w-full min-h-full bg-black opacity-10"
       />
-      <motion.section
+      <motion.form
+          onSubmit={() => onSubmit()}
         initial={{ y: 20 }}
         animate={{ y: 0 }}
         exit={{ y: 20, opacity: 0 }}
@@ -78,17 +80,15 @@ const QuickWimModal = ({ disengageModal }: { disengageModal: any }) => {
             }}
             className="w-3/4 h-full p-5 text-3xl text-slate-600 focus:outline-none"
           />
-          <ul
-            onClick={() => {
-              onSubmit()
-            }}
+          <button
+              type="submit"
             className="p-3 px-6 hover:scale-105 cursor-pointer group hover:bg-teal-500 rounded-xl duration-300"
           >
             <h1 className="text-black group-hover:text-white font-mono duration-300">Submit</h1>
-          </ul>
+          </button>
         </ul>
         {errorMessage && <h1 className="text-red-600 font-bold">{errorMessage}</h1>}
-      </motion.section>
+      </motion.form>
       <div
         onClick={() => {
           disengageModal()

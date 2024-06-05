@@ -3,16 +3,14 @@ import {useRouter} from "next/navigation";
 import {motion} from "framer-motion";
 import React from "react";
 import Image from "next/image";
-import {IoPersonAdd, IoPersonRemove} from "react-icons/io5";
+import {IoChevronForward, IoHammer, IoPerson, IoPersonAdd, IoPersonRemove, IoSchool, IoTicket} from "react-icons/io5";
 
 export const HeaderContext = ({
                       user,
                       isActive = false,
-                      disengage,
                   }: {
     user: ContextProps;
     isActive: boolean;
-    disengage: () => void;
 }) => {
     if (!isActive) return;
 
@@ -20,19 +18,39 @@ export const HeaderContext = ({
     const router = useRouter();
 
     const options = [
+
         {
-            label: "Enter Connect",
+            label: "My Dashboard",
             function: () => {
                 router.push("/connect");
             },
             signedIn: true,
+            icon: <IoChevronForward />
         },
         {
-            label: "User Information",
+            label: "Admin Dashboard",
             function: () => {
-                router.push("/sign-in");
+                router.push(`/connect/builder`);
             },
             signedIn: true,
+            permission: user?.userData?.role === "admin",
+            icon: <IoChevronForward />
+        },
+        {
+            label: "Support Forums",
+            function: () => {
+                router.push("/support");
+            },
+            signedIn: null,
+            icon: <IoTicket />
+        },
+        {
+            label: "MESA News",
+            function: () => {
+                router.push("/news");
+            },
+            signedIn: null,
+            icon: <IoTicket />
         },
         {
             label: "My Profile",
@@ -40,12 +58,29 @@ export const HeaderContext = ({
                 router.push(`/connect/profile/${user.user?.id}`);
             },
             signedIn: true,
+            icon: <IoPerson />
+        },
+        {
+            label: "MESA Creator",
+            function: () => {
+                router.push(`/connect/builder`);
+            },
+            signedIn: true,
+            icon: <IoHammer />
+        },
+        {
+            label: "MESA Learning Lab",
+            function: () => {
+                router.push(`/connect/learning`);
+            },
+            signedIn: true,
+            icon: <IoSchool />
         },
         {
             label: "Sign Out",
             function: () => {
                 user.signOut()
-
+                window.location.reload()
             },
             signedIn: true,
             icon: <IoPersonRemove />
@@ -89,7 +124,7 @@ export const HeaderContext = ({
                     </ul>}
                 <h1 className=" text-center border-b-2 pb-3">{user.user?.email}</h1>
                 <section className="flex flex-col mt-2 font-eudoxus">
-                    {options.filter(e => e.signedIn === !!user.userData ).map((option) => (
+                    {options.filter(e => ((e.signedIn === !!user.userData) || e.signedIn === null) && (e.permission || e.permission === undefined)).map((option) => (
                         <motion.ul
                             key={option.label}
                             className="p-2 text-center flex justify-between items-center gap-2 hover:bg-gray-100 duration-300 rounded-xl cursor-pointer"

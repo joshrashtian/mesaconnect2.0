@@ -53,7 +53,6 @@ const CreateNews = () => {
 
   }
 
-    //TODO: Finish The News Editor / Allow Upload
   return (
       <section>
           <h1 className="font-bold font-eudoxus text-3xl ">Create News Article</h1>

@@ -12,7 +12,7 @@ const extensions = [
     StarterKit,
 ]
 
-const content = '<p>Write something down!</p>'
+const content = `<p>Write something down!</p>`
 
 const Tiptap = ({ json } : { json: (JSONFile: any) => void }) => {
     const editor = useEditor({

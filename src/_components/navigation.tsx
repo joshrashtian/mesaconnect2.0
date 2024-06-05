@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
 import Link from "next/link";
 import {supabase} from "../../config/mesa-config";
-import {useUser} from "@/app/AuthContext";
+import {useSettings, useUser} from "@/app/AuthContext";
 import {IoLockClosed} from "react-icons/io5";
 import {useContextMenu} from "@/app/(connect)/InfoContext";
 import {useRouter} from "next/navigation";
@@ -16,7 +16,8 @@ const Dock = () => {
   const [profID, setProfID] = useState<string | undefined>();
   const context = useContextMenu();
   const router = useRouter();
-  const [isLocked, setLocked] = useState(false);
+  const settings = useSettings()
+  const [isLocked, setLocked] = useState(settings.taskbar !== "default");
 
   const { userData } = useUser();
 
@@ -237,12 +238,14 @@ const Dock = () => {
       <section className=" absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white ">
         <h1 className="font-bold">{selected}</h1>
       </section>
+      { settings.taskbar === 'default' &&
       <button
           onClick={() => setLocked(!isLocked)}
         className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-11 -translate-y-9 transition-all duration-500  bg-white`}
       >
         <IoLockClosed />
       </button>
+      }
     </div>
   );
 };

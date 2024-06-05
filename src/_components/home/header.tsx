@@ -83,7 +83,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
         ))}
       </motion.section>
       <AnimatePresence>
-      <HeaderContext user={user} isActive={menu} disengage={() => setMenu(!menu)} />
+      <HeaderContext user={user} isActive={menu} />
       </AnimatePresence>
     </motion.div>
   );

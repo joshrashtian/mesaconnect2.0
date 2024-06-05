@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { IoPerson } from "react-icons/io5";
 import Link from "next/link";
+import {HeaderContext} from "@/_components/home/HeaderContext";
 
 const HomePageHeader = ({ title } : { title: string }) => {
   const user: ContextProps = useContext(userContext);
@@ -48,13 +49,7 @@ const HomePageHeader = ({ title } : { title: string }) => {
         </Link>
       )}
       <AnimatePresence>
-        <UserMenu
-          user={user}
-          isActive={menu}
-          disengage={() => {
-            setMenu(false);
-          }}
-        />
+          <HeaderContext user={user} isActive={menu} />
       </AnimatePresence>
     </motion.main>
   );
