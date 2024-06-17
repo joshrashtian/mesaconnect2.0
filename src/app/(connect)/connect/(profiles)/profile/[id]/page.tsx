@@ -7,7 +7,7 @@ import { supabase } from "../../../../../../../config/mesa-config";
 import Image from "next/image";
 import { Index } from "../boxTypes";
 import UserPosts from "./UserPosts";
-import { userContext } from "@/app/AuthContext";
+import {userContext, useUser} from "@/app/AuthContext";
 import ChangePfP from "./ChangePfP";
 import LoadingPage from "@/_components/LoadingPage";
 import FollowButton from "./FollowButton";
@@ -21,7 +21,9 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
   const { createContext } = useContextMenu();
   const toast = useToast();
 
-  const ActiveUser = useContext(userContext);
+  const ActiveUser = useUser();
+
+  const isActiveUser = user?.id === ActiveUser.user?.id
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,7 +85,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             onClick={() => {
               pfpRef.current.click();
             }}
-            className="hover:scale-110 rounded-full hover:shadow-lg cursor-pointer scale-100 group w-16 h-16 2xl:w-24 2xl:h-24 duration-500"
+            className="hover:scale-110 rounded-full hover:shadow-lg cursor-pointer scale-100 group w-16 h-16 lg:w-20 lg:h-20 2xl:w-24 2xl:h-24 duration-500"
           >
             <Image
               src={user.avatar_url ? user.avatar_url : UsrIcon}
@@ -116,8 +118,8 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
           />
         )}
         <ul>
-          <h1 className="font-bold text-6xl font-eudoxus">{user?.real_name}</h1>
-          <h2 className="font-light text-xl font-eudoxus text-slate-500">
+          <h1 className="font-bold text-6xl font-eudoxus dark:text-white/70">{user?.real_name}</h1>
+          <h2 className="font-light text-xl font-eudoxus text-slate-500 dark:text-slate-200/50">
             @{user?.username}
           </h2>
         </ul>
@@ -125,24 +127,24 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
       {user.id !== ActiveUser.user?.id && <FollowButton id={user.id} />}
       <section className="flex flex-row gap-3 font-eudoxus">
-        <ul className="p-1 rounded-lg w-16 bg-white shadow-sm flex justify-center items-center">
-          <h2 className="text-orange-700 font-semibold capitalize">
+        <ul className="p-1 rounded-lg w-16 bg-white dark:bg-zinc-700 shadow-sm flex justify-center items-center">
+          <h2 className="text-orange-700 dark:text-orange-500/70 font-semibold capitalize">
             {user?.role}
           </h2>
         </ul>
-        <ul className="p-1 rounded-lg w-28 bg-white shadow-sm flex justify-center items-center">
-          <h2 className="text-indigo-700 font-semibold capitalize">
+        <ul className="p-1 rounded-lg w-28 bg-white dark:bg-zinc-700 shadow-sm flex justify-center items-center">
+          <h2 className="text-indigo-700 dark:text-pink-200/50 font-semibold capitalize">
             {user?.major ? user.major : "Undecided"}
           </h2>
         </ul>
-        <ul className="p-1 px-3 rounded-lg bg-white text-nowrap shadow-sm flex justify-center items-center">
-          <h2 className="text-cyan-700 font-semibold capitalize">
+        <ul className="p-1 px-3 rounded-lg bg-white dark:bg-zinc-700 text-nowrap shadow-sm flex justify-center items-center">
+          <h2 className="text-cyan-700 dark:text-cyan-300/50 font-semibold capitalize">
             {user?.college ? user.college : "No College Set"}
           </h2>
         </ul>
       </section>
 
-      <h2>{user?.bio ? user.bio : "This user has no bio set."}</h2>
+      <h2 className="dark:text-white">{user?.bio ? user.bio : "This user has no bio set."}</h2>
 
       <section className="border-b-2" />
       {user.boxlist && (
@@ -173,19 +175,12 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         </section>
       )}
 
-      <section className="w-full bg-white font-eudoxus rounded-lg h-32 flex justify-center items-center gap-4">
-        <ul className="flex flex-col justify-center items-center">
-          <IoSchool size={40} />
-          <h1 className="text-lg">College of the Canyons</h1>
-        </ul>
-      </section>
-
       <section
         className="w-full flex flex-row gap-4 z-10"
         onContextMenu={(e) => e.preventDefault()}
       >
         <article className="w-full flex flex-col gap-3">
-          <h2 className="font-bold font-eudoxus text-3xl ">Recent Posts</h2>
+          <h2 className="font-bold font-eudoxus text-3xl dark:text-white/80 ">Recent Posts</h2>
           <UserPosts id={user.id} />
         </article>
         <article className="w-full "></article>

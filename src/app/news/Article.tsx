@@ -56,7 +56,7 @@ const Article = ({
   return (
     <main
       key={article.id}
-      className="bg-white p-10 rounded-2xl shadow-md h-full flex flex-col gap-10"
+      className="bg-white dark:bg-slate-700 p-10 rounded-2xl shadow-md h-full flex flex-col gap-10"
     >
       <header className="w-full flex flex-col justify-between">
         {image && (
@@ -78,7 +78,7 @@ const Article = ({
             {article.title}
           </h1>
           <ExpandArticle
-            className="text-3xl duration-300 hover:scale-[1.15] hover:text-orange-600"
+            className="text-3xl duration-300 hover:scale-[1.15] dark:text-white hover:text-orange-600"
             article={article}
             hasImage={image}
           />
@@ -106,14 +106,12 @@ const Article = ({
           <h2>
             {`
             ${date.getHours() <= 12 ? date.getHours() : date.getHours() - 12}:${
-              date.getMinutes() < 10
-                ? `0${date.getMinutes()}`
-                : date.getMinutes()
+                date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()
             } ${date.getHours() < 12 ? "AM" : "PM"}`}
           </h2>
         </ul>
       </header>
-      <div className="flex flex-col font-eudoxus gap-3">
+      <div className="flex flex-col dark:text-white font-eudoxus gap-3">
         {article.details.content.map((block, i) => {
           switch (block.type) {
             case "paragraph":

@@ -57,17 +57,17 @@ const Post = ({ post }: { post: PostType }) => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ ease: 'backInOut', duration: 0.2 }}
       whileHover={{ scale: 1.02 }}
-      className="h-22 p-5 -z-0 shadow-sm hover:scale-[1.01] duration-500 rounded-3xl w-full bg-gradient-to-br from-[#FFFBF6] to-[#F7F7F7]"
+      className="h-22 p-5 -z-0 shadow-sm hover:scale-[1.01] duration-500 rounded-3xl w-full bg-gradient-to-br from-[#FFFBF6] to-[#F7F7F7] dark:from-zinc-700 dark:to-slate-600"
       onContextMenu={(e) => {
         createContext(e, contextButtons)
       }}
     >
       <Link href={`/connect/social/post/${post.id}`}>
         <section className="flex flex-row justify-between">
-          <h1 className="font-bold text-slate-700">{post.title}</h1>
-          <h1 className="font-geist text-slate-700">{post.creator.realname}</h1>
+          <h1 className="font-bold text-slate-700 dark:text-white">{post.title}</h1>
+          <h1 className="font-geist text-slate-700 dark:text-white">{post.creator.realname}</h1>
         </section>
-        <h2 className="text-slate-500">{data[0].text}</h2>
+        <h2 className="text-slate-500 dark:text-slate-100/80">{data[0].text}</h2>
       </Link>
     </motion.ul>
   )

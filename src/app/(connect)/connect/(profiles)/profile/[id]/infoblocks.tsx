@@ -44,7 +44,7 @@ const Infoblocks = (props: any) => {
     return (
         <section className="w-full">
             <ul className="flex justify-between items-center">
-            <h2 className="font-bold text-3xl font-eudoxus ">
+            <h2 className="font-bold text-3xl dark:text-white font-eudoxus ">
                 Inside {props.user.real_name}
             </h2>
             <button onClick={DashboardEnable} className="relative right-0">
@@ -60,14 +60,14 @@ const Infoblocks = (props: any) => {
                             initial={{rotateX: "90deg"}}
                             animate={{rotateX: "0deg"}}
                             key={index}
-                            className="w-[49%] origin-bottom min-h-full shadow-lg p-5 rounded-xl bg-white"
+                            className="w-[49%] origin-bottom min-h-full shadow-lg p-5 rounded-xl bg-white dark:bg-slate-200/30"
                         >
                             {Index.map((d: any, i: number) => {
 
                                 if (d.title.toLowerCase() === e.type.toLowerCase()) {
                                     return (
                                         <div key={i}>
-                                            <h1 className="font-bold">{d.title}</h1>
+                                            <h1 className="font-bold dark:text-white/80">{d.title}</h1>
                                             <d.component data={e}/>
                                         </div>
                                     );

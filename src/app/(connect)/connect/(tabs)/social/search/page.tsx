@@ -9,6 +9,7 @@ import {
   IoArrowBackCircle,
   IoSearchOutline,
 } from "react-icons/io5";
+import {gradientObjectDefault, gradientTextDefault} from "@/colors";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState<string>();
@@ -56,14 +57,14 @@ const Search = () => {
 
   return (
     <motion.main className="flex flex-col w-full min-h-full gap-4 ">
-      <h1 className="font-bold text-4xl text-transparent font-eudoxus bg-clip-text inline-block bg-gradient-to-br from-orange-800 to-indigo-600">
+      <h1 className={`font-bold ${gradientTextDefault} text-3xl lg:text-4xl 2xl:text-5xl duration-500`}>
         {!searchValue
           ? "What would you like to search for?"
           : `Results for ${searchValue}`}
       </h1>
       <nav className="flex flex-row gap-1.5">
         <input
-          className="p-4 shadow-md font-eudoxus focus:outline-none hover:scale-[1.01] focus:scale-[1.01] duration-300 w-full rounded-2xl px-6"
+          className="p-4 shadow-md font-eudoxus focus:outline-none dark:bg-zinc-700 dark:text-slate-100/50 hover:scale-[1.01] focus:scale-[1.01] duration-300 w-full rounded-2xl px-6"
           type="search"
           placeholder="Search..."
           onChange={(e) => {
@@ -74,18 +75,19 @@ const Search = () => {
           onClick={() => {
             onSubmit();
           }}
-          className="p-4 w-26 scale-100 rounded-2xl font-eudoxus hover:rounded-md bg-gradient-to-br from-red-500 to-amber-600 hover:bg-indigo-700 text-white hover:scale-110 duration-300 font-bold"
+          className={`p-4 w-26 scale-100 rounded-2xl font-eudoxus hover:rounded-md ${gradientObjectDefault} text-white hover:scale-110 duration-300 font-bold`}
         >
           <IoSearchOutline size={26} />
         </button>
       </nav>
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {loading ? (
           <motion.h1
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 0, opacity: 0 }}
-            className="text-4xl text-center p-10 font-eudoxus"
+            exit={{ y: 10, opacity: 0 }}
+            key="toptext"
+            className="text-4xl dark:text-white text-center p-10 font-eudoxus"
           >
             Loading Search Results
             {Array.from(Array(3).keys()).map((e, i) => (
@@ -106,14 +108,15 @@ const Search = () => {
             ))}
           </motion.h1>
         ) : (
-          searchResult && <SearchInfo data={searchResult} />
+          searchResult &&
+          <motion.div initial={{ opacity: 0, y: 10}} animate={{ opacity: 1, y: 0}} exit={{ opacity: 0, y: 10}}><SearchInfo data={searchResult} /></motion.div>
         )}
       </AnimatePresence>
       <button
         onClick={() => {
           router.back();
         }}
-        className="absolute cursor-pointer right-9 top-12 text-orange-800 hover:text-indigo-600  w-16 h-16 flex justify-center items-center hover:scale-105 duration-300 rounded-full"
+        className={`absolute cursor-pointer right-9 top-12 text-orange-800 hover:text-indigo-600  w-16 h-16 flex justify-center items-center hover:scale-105 duration-300 rounded-full`}
       >
         <IoArrowBackCircle size="100%" />
       </button>

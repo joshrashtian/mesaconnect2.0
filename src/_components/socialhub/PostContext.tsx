@@ -33,7 +33,7 @@ const PostContext = ({
       drag
       dragMomentum={false}
       style={{ top: `${positionY + 2}px`, left: `${positionX + 2}px` }}
-      className={`fixed z-50 bg-white origin-top-left min-w-[200px] p-1.5 drop-shadow-lg flex flex-col items-center`}
+      className={`fixed z-50 bg-white dark:bg-slate-700 origin-top-left dark:text-white min-w-[200px] p-1.5 drop-shadow-lg flex flex-col items-center`}
     >
       <ul className="w-[70%] cursor-pointer active:scale-110 hover:scale-105 h-1 my-2 duration-150 rounded-full bg-slate-200" />
       {buttons.map((e: any, index: number) => {

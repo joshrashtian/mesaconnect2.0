@@ -72,26 +72,26 @@ export const Event = ({ event }: { event: EventType }) => {
       }
       className={`flex flex-col cursor-pointer w-full p-5 ${
         new Date(Date.now()).getTime() > new Date(event.start).getTime()
-          ? 'bg-gray-100'
-          : 'bg-white'
-      }  rounded-2xl hover:scale-[1.02] duration-300 shadow-md hover:shadow-lg justify-between`}
+          ? 'bg-gray-100 dark:bg-red-300/30'
+          : 'bg-white dark:bg-zinc-600'
+      }  rounded-2xl hover:scale-[1.02] drop-shadow-xl duration-300 shadow-md hover:shadow-lg justify-between`}
     >
       <section className="flex flex-row justify-between">
-        <h1 className="text-xl text-slate-600 font-semibold">{event.name}</h1>
+        <h1 className="text-xl text-slate-600 dark:text-slate-100 font-semibold">{event.name}</h1>
 
-        <ul className="px-2 p-1 bg-slate-100 rounded-full">
-          <h1 className="text-md text-slate-600 font-normal">{event.type}</h1>
+        <ul className="px-2 p-1 bg-slate-100 dark:bg-slate-700 rounded-full">
+          <h1 className="text-md text-slate-600 dark:text-white font-normal">{event.type}</h1>
         </ul>
       </section>
 
-      <h2 className="text-lg text-slate-400">
+      <h2 className="text-lg text-slate-400 dark:text-white">
         {event.desc?.length > 65 ? `${event.desc?.substring(0, 65)}  .. ` : event.desc}
-        <span className="text-slate-600">{event.desc?.length > 65 && 'read more'}</span>
+        <span className="text-slate-600 dark:text-slate-200">{event.desc?.length > 65 && 'read more'}</span>
       </h2>
 
-      <h2 className="text-lg text-slate-400">{event.location}</h2>
+      <h2 className="text-lg text-slate-400 dark:text-slate-100/60">{event.location}</h2>
       <ul className="w-full flex-row flex justify-between">
-        <h2 className="text-md text-slate-500">{`${months[date.getMonth()]} ${date.getDate()} / ${
+        <h2 className="text-md text-slate-500 dark:text-slate-50/40">{`${months[date.getMonth()]} ${date.getDate()} / ${
           date.getHours() > 12 ? date.getHours() - 12 : date.getHours()
         }:${date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()} ${
           date.getHours() >= 12 ? 'PM' : 'AM'
@@ -99,7 +99,7 @@ export const Event = ({ event }: { event: EventType }) => {
         <ul className="flex flex-row gap-x-0.5">
           {event.tags &&
             event.tags.map((tag: any) => (
-              <code className="px-2 p-0.5 bg-slate-100 " key={tag}>
+              <code className="px-2 p-0.5 bg-slate-100 dark:bg-slate-700 dark:text-white " key={tag}>
                 {tag}
               </code>
             ))}

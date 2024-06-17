@@ -43,7 +43,7 @@ const Page = async () => {
   }
 
   return (
-    <main className="flex flex-col gap-3 dark:from-slate-800 dark:to-orange-950 bg-gradient-to-b from-zinc-100 from-[40%] to-orange-100 dark:bg-gradient-to-b p-16 min-h-screen duration-700">
+    <main className="flex flex-col gap-3 dark:from-slate-800 dark:to-orange-950 bg-gradient-to-b from-zinc-100 from-[40%] to-orange-100 dark:bg-gradient-to-b p-2 pt-5 md:p-4 lg:p-12 xl:p-16 min-h-screen duration-700">
       <HomePageHeader title="News" />
       <Suspense>
           <Provider>
