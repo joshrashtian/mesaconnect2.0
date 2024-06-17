@@ -70,7 +70,7 @@ export const RecentPostsHome = () => {
       transition={{ ease: "backInOut" }}
       className="w-full h-full flex-col items-center flex gap-1"
     >
-      <h1 className="text-lg font-bold">Recent In The Community</h1>
+      <h1 className="text-lg font-bold dark:text-white">Recent In The Community</h1>
 
       <Link
         href={`/connect/social/community`}

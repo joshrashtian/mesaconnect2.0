@@ -39,7 +39,7 @@ const Wim = ({ post }: { post: PostType }) => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ ease: "backInOut", duration: 0.2 }}
       whileHover={{ scale: 1.02 }}
-      className="h-1/5 p-5 shadow-sm hover:scale-[1.01] duration-500 rounded-3xl w-full bg-gradient-to-tr from-blue-100 to-teal-50 border-2 border-slate-200"
+      className="h-1/5 p-5 shadow-sm hover:scale-[1.01] duration-500 rounded-3xl w-full bg-gradient-to-tr from-blue-100 to-teal-50 dark:from-blue-800 dark:to-slate-600 border-2 border-slate-200 dark:border-blue-400 dark:text-white "
       onContextMenu={(e) => {
         contextMenu.rightClick(e, contextButtons);
       }}

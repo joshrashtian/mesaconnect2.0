@@ -35,9 +35,9 @@ const UpcomingEvents: FC = (): JSX.Element => {
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="w-full h-full rounded-3xl gap-2 flex flex-col"
+      className="w-full h-full flex-col items-center flex gap-1"
     >
-      <h1 className="text-lg font-bold">Current Events This Week</h1>
+      <h1 className="text-lg font-bold dark:text-white">Current Events This Week</h1>
       <Link
         href={`/connect/social/events`}
         className="flex flex-col w-full h-12 p-5 bg-gradient-to-r to-blue-600 from-indigo-600 rounded-2xl hover:scale-[1.02] duration-500 drop-shadow-xl hover:shadow-lg justify-center items-center"

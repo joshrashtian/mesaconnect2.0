@@ -110,16 +110,16 @@ export const ExpandedArticle = ({
   const date = new Date(article.created_at);
 
   return (
-      <motion.ul className="fixed flex justify-center overflow-y-scroll h-full w-screen top-0 px-32 pt-32 left-0">
+      <motion.ul className="fixed flex justify-center overflow-y-scroll h-full w-screen top-0 duration-300 px-2 lg:px-32 pt-32 left-0">
         <motion.main
             initial={{ y: 800, opacity: 0}} animate={{ y: 0, opacity: 1}} transition={{ duration: 0.7, type: 'spring'}}
             exit={{ y: 800, opacity: 0}}
             key={article.id}
-            className="bg-white min-h-full h-fit z-40 p-10 rounded-t-[50px] shadow-md flex flex-col gap-10"
+            className="bg-white dark:bg-zinc-700 min-h-full h-fit z-40 p-10 dark:text-white rounded-t-[50px] shadow-md flex flex-col gap-10"
         >
           <header className="w-full flex flex-col justify-between">
             {hasImage &&
-                <ul className="relative w-full h-[600px] rounded-[42px] mb-7 bg-black">
+                <ul className="relative w-full h-48 xl:h-[600px] rounded-[42px] mb-7 bg-black">
                   <Image className="rounded-[42px] hover:shadow-2xl shadow-lg hover:scale-[1.02] duration-500"
                          src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/NewsPictures/${article.id}/context.png`}
                          alt={"Context"} fill objectFit={"cover"}/>
@@ -133,9 +133,9 @@ export const ExpandedArticle = ({
               </h1>
             </ul>
             <ul
-                className="flex flex-col font-eudoxus text-slate-600 dark:text-slate-100 text-lg font-light gap-2 p-0.5 ">
+                className="flex flex-col font-eudoxus text-slate-600 dark:text-slate-100 text-lg font-light mt-4 gap-2 p-0.5 ">
 
-              <h2 className="flex gap-1.5 items-center border-2 w-fit p-1 px-2 bg-slate-50 shadow-md rounded-lg">
+              <h2 className="flex gap-1.5 items-center border-2 w-fit p-1 px-2 bg-slate-50 dark:bg-zinc-700 shadow-md rounded-lg">
                 Author:
                 <ul className="relative w-6 h-6 rounded-full">
                   <Image className="rounded-full"
@@ -145,7 +145,7 @@ export const ExpandedArticle = ({
                 Joshua Rashtian
               </h2>
 
-              <h2 className="flex gap-1.5 items-center border-2 w-fit p-1 px-2 bg-slate-50 shadow-md rounded-lg">
+              <h2 className="flex gap-1.5 items-center border-2 w-fit p-1 px-2 bg-slate-50 dark:bg-zinc-700 shadow-md rounded-lg">
                 <IoCalendar/>
                 {`${
                     months[date.getMonth()]

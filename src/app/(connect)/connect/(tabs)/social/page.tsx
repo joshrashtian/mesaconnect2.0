@@ -4,6 +4,7 @@ import React from 'react'
 import UpcomingEvents from '../UpcomingEvents'
 import { IoSearchCircle, IoSearchCircleOutline, IoSearchSharp } from 'react-icons/io5'
 import { Metadata } from 'next'
+import {gradientTextDefault} from "@/colors";
 
 export const metadata: Metadata = {
   title: 'Recent Activity'
@@ -13,7 +14,7 @@ const Social = () => {
   return (
     <main className="min-h-full flex flex-col font-eudoxus items-center xl:items-start gap-7 pb-28 ">
       <header className="w-full flex flex-row justify-between">
-        <h1 className="text-transparent bg-clip-text font-bold font-eudoxus text-5xl bg-gradient-to-br from-orange-600 to-indigo-900 ">
+        <h1 className={`font-bold font-eudoxus text-5xl ${gradientTextDefault} drop-shadow-xl`}>
           MESA Community
         </h1>
         <Link
