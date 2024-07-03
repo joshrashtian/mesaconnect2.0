@@ -119,7 +119,7 @@ const Modal = ({ event }: { event: EventType }) => {
 
   const dates = {
     startDate: new Date(event.start),
-    endDate: event.end ? new Date(event.end) : undefined
+    endDate: event.endtime ? new Date(event.endtime) : undefined
   }
   dates.endDate && new calendar(dates.startDate, dates.endDate);
   const onInterest = async () => {

@@ -1,76 +1,77 @@
-'use client'
-import { EventType } from '@/_assets/types'
-import { userContext } from '@/app/AuthContext'
-import React, { useContext, useState } from 'react'
-import { AnimatePresence, motion } from 'framer-motion'
-import Recommendations from './EventBuilder/Recommendations'
-import { supabase } from '../../../../../../config/mesa-config'
-import { MenuContext } from '@/app/(connect)/InfoContext'
-import { useRouter } from 'next/navigation'
-import UnsplashSearch from './UnsplashSearch'
+"use client";
+import { EventType } from "@/_assets/types";
+import { userContext } from "@/app/AuthContext";
+import React, { useContext, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import Recommendations from "./EventBuilder/Recommendations";
+import { supabase } from "../../../../../../config/mesa-config";
+import { MenuContext } from "@/app/(connect)/InfoContext";
+import { useRouter } from "next/navigation";
+import UnsplashSearch from "./UnsplashSearch";
 import Input from "@/_components/Input";
-import {IoCalendar, IoPerson} from "react-icons/io5";
-import {AiFillTags} from "react-icons/ai";
-import {VscLoading} from "react-icons/vsc";
+import { IoCalendar, IoPerson } from "react-icons/io5";
+import { AiFillTags } from "react-icons/ai";
+import { VscLoading } from "react-icons/vsc";
 
 const types = [
   {
-    type: 'User Created',
-    icon: <IoPerson />
+    type: "User Created",
+    icon: <IoPerson />,
   },
   {
-    type: 'Workshop'
+    type: "Workshop",
   },
   {
-    type: 'Official MESA',
-    permissions: ['admin']
+    type: "Official MESA",
+    permissions: ["admin"],
   },
   {
-    type: 'Tutoring',
-    permissions: ['admin', 'tutor', 'moderator']
-  }
-]
+    type: "Tutoring",
+    permissions: ["admin", "tutor", "moderator"],
+  },
+];
 
-const timeTypes = ['In-Person', 'Zoom']
+const timeTypes = ["In-Person", "Zoom"];
 
 const EventBuilder = () => {
   // @ts-ignore
   const [event, setEvent] = useState<EventType>({
-    type: 'User Created'
-  })
-  const [timeType, setTimeType] = useState<string | undefined>()
-  const [submitting, setSubmitting] = useState(false)
-  const [newImage, setImage] = useState()
-  const user = useContext<any>(userContext)
-  const toast = useContext<any>(MenuContext)
-  const router = useRouter()
+    type: "User Created",
+  });
+  const [timeType, setTimeType] = useState<string | undefined>();
+  const [submitting, setSubmitting] = useState(false);
+  const [newImage, setImage] = useState();
+  const user = useContext<any>(userContext);
+  const toast = useContext<any>(MenuContext);
+  const router = useRouter();
 
   const eventSubmit = async () => {
-    setSubmitting(true)
+    setSubmitting(true);
 
-    const { error } = await supabase.from('events').insert({
-      // @ts-ignore
+    //@ts-ignore
+    const { error } = await supabase.from("events").insert({
       name: event.name,
       desc: event.desc,
       type: event.type,
       start: event.start,
-      end: event.end,
+      endtime: event.endtime,
       location: event.location,
       tags: event.tags,
       creator: user.user?.id,
-      image: newImage
-    })
+      image: newImage,
+    });
 
     if (error) {
-      toast.toast(error.message, 'Error')
-      return
+      toast.toast(error.message, "Error");
+      setSubmitting(false);
+      return;
     }
 
-    toast.toast('Successfully Posted!', 'Success')
-    router.push('/connect/social/events')
-  }
+    toast.toast("Successfully Posted!", "Success");
+    router.push("/connect/social/events");
+  };
 
-  if (!user.userData) return <h1>Loading...</h1>
+  if (!user.userData) return <h1>Loading...</h1>;
 
   return (
     <motion.main className="flex flex-col gap-10 font-eudoxus pb-20">
@@ -78,11 +79,12 @@ const EventBuilder = () => {
         <ul className="flex flex-col gap-2">
           <h1 className="font-bold text-2xl">
             {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Let's start with some basics of <span className=" text-indigo-800">your</span> event.
+            Let's start with some basics of{" "}
+            <span className=" text-indigo-800">your</span> event.
           </h1>
           <input
             onChange={(e) => {
-              setEvent({ ...event, name: e.target.value })
+              setEvent({ ...event, name: e.target.value });
             }}
             placeholder="Name Your New Event"
             maxLength={65}
@@ -90,7 +92,7 @@ const EventBuilder = () => {
           />
           <textarea
             onChange={(e) => {
-              setEvent({ ...event, desc: e.target.value })
+              setEvent({ ...event, desc: e.target.value });
             }}
             placeholder="Give Your Event A Fitting Description"
             maxLength={240}
@@ -104,26 +106,28 @@ const EventBuilder = () => {
                 exit={{ opacity: 0, y: -40 }}
                 className=" text-slate-400 text-center "
               >
-                {event.desc.length} Characters / {event.desc.split(' ').length} Words
+                {event.desc.length} Characters / {event.desc.split(" ").length}{" "}
+                Words
               </motion.h2>
             )}
           </AnimatePresence>
           <section className="flex flex-row gap-2 justify-center flex-wrap">
             {types.map((e) => {
-              if (e.permissions && !e.permissions.includes(user.userData?.role)) return null
+              if (e.permissions && !e.permissions.includes(user.userData?.role))
+                return null;
               return (
                 <button
                   key={e.type}
                   className={` ${
-                    event.type === e.type ? 'bg-indigo-500' : 'bg-slate-600'
+                    event.type === e.type ? "bg-indigo-500" : "bg-slate-600"
                   } hover:scale-105 duration-300 text-white p-2 w-[30%] rounded-full `}
                   onClick={() => {
-                    setEvent({ ...event, type: e.type })
+                    setEvent({ ...event, type: e.type });
                   }}
                 >
                   {e.type}
                 </button>
-              )
+              );
             })}
           </section>
         </ul>
@@ -138,8 +142,8 @@ const EventBuilder = () => {
           >
             <h1 className="font-bold text-2xl">
               {/* eslint-disable-next-line react/no-unescaped-entities */}
-              <span className="text-green-600">Perfect!</span> Let's learn a little more about your
-              new event... starting with timing.
+              <span className="text-green-600">Perfect!</span> Let's learn a
+              little more about your new event... starting with timing.
             </h1>
 
             <section className="w-full flex gap-3">
@@ -147,10 +151,10 @@ const EventBuilder = () => {
                 <button
                   key={e}
                   onClick={() => {
-                    setTimeType(e)
+                    setTimeType(e);
                   }}
                   className={` ${
-                    timeType === e ? 'bg-green-700' : 'bg-slate-400'
+                    timeType === e ? "bg-green-700" : "bg-slate-400"
                   } w-full ease-in-out font-semibold hover:bg-slate-500 p-3 flex text-white justify-center rounded-full duration-300`}
                 >
                   {e}
@@ -158,13 +162,13 @@ const EventBuilder = () => {
               ))}
             </section>
 
-            {timeType === 'In-Person' ? (
+            {timeType === "In-Person" ? (
               <section className="flex flex-col gap-0">
                 <input
                   onChange={(e) => {
-                    setEvent({ ...event, location: e.target.value })
+                    setEvent({ ...event, location: e.target.value });
                   }}
-                  value={event.location ? event.location : ''}
+                  value={event.location ? event.location : ""}
                   contentEditable
                   placeholder="Location..."
                   maxLength={65}
@@ -173,7 +177,7 @@ const EventBuilder = () => {
                 <Recommendations
                   input={event.location}
                   onChange={(e: any) => {
-                    setEvent({ ...event, location: e })
+                    setEvent({ ...event, location: e });
                   }}
                 />
               </section>
@@ -188,16 +192,16 @@ const EventBuilder = () => {
                 >
                   <h1 className="font-bold text-3xl">and it starts at</h1>
                   <Input
-                      icon={<IoCalendar />}
+                    icon={<IoCalendar />}
                     type="datetime-local"
                     onChange={(e: any) => {
-                      setEvent({ ...event, start: new Date(e.target.value) })
+                      setEvent({ ...event, start: new Date(e.target.value) });
                     }}
                   />
                   {event.start?.getTime() < Date.now() && (
                     <h1 className="bg-zinc-100 p-3 font-geist rounded-xl">
-                      <span className="text-orange-700 font-bold ">WARN</span> The time / date
-                      stated has already passed
+                      <span className="text-orange-700 font-bold ">WARN</span>{" "}
+                      The time / date stated has already passed
                     </h1>
                   )}
                   {event.start && (
@@ -205,44 +209,48 @@ const EventBuilder = () => {
                       <motion.section
                         initial={{ x: -20, opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}
-                        transition={{ type: 'spring ' }}
+                        transition={{ type: "spring " }}
                         className="gap-3 flex flex-col"
                       >
                         <ul className="flex flex-row justify-center items-center gap-5">
-                          <h1 className="font-bold text-2xl">...and goes until (optional)</h1>
+                          <h1 className="font-bold text-2xl">
+                            ...and goes until (optional)
+                          </h1>
 
                           <Input
-                              icon={<IoCalendar />}
+                            icon={<IoCalendar />}
                             type="datetime-local"
                             onChange={(e: any) => {
                               setEvent({
                                 ...event,
-                                end: new Date(e.target.value)
-                              })
+                                endtime: new Date(e.target.value),
+                              });
                             }}
                           />
                         </ul>
-                        {event.end?.getTime() < event.start?.getTime() && (
+                        {event.endtime?.getTime() < event.start?.getTime() && (
                           <h1 className="bg-zinc-100 p-3 font-geist rounded-xl">
-                            <span className="text-orange-700 font-bold ">WARN</span> The event starts after it ends
+                            <span className="text-orange-700 font-bold ">
+                              WARN
+                            </span>{" "}
+                            The event starts after it ends
                           </h1>
                         )}
                         <section>
                           <Input
-                              icon={<AiFillTags />}
-                              onChange={(e: any) => {
-                                setEvent({
-                                  ...event,
-                                  tags: e?.target?.value
-                                      .split(',')
+                            icon={<AiFillTags />}
+                            onChange={(e: any) => {
+                              setEvent({
+                                ...event,
+                                tags: e?.target?.value
+                                  .split(",")
 
-                                      .map((e: any) => e.trim())
-                                      .filter((e: any) => e.length > 0)
-                                })
-                              }}
-                              placeholder="Each tag ends with a ','"
-                              maxLength={65}
-
+                                  .map((e: any) => e.trim())
+                                  .filter((e: any) => e.length > 0),
+                              });
+                            }}
+                            placeholder="Each tag ends with a ','"
+                            maxLength={65}
                           />
                           <AnimatePresence>
                             {event?.tags?.length !== 0 && (
@@ -250,7 +258,7 @@ const EventBuilder = () => {
                                 initial={{ y: 10, opacity: 0 }}
                                 animate={{ y: 0, opacity: 1 }}
                                 exit={{ y: -10, opacity: 0 }}
-                                transition={{ type: 'spring ' }}
+                                transition={{ type: "spring " }}
                                 className="flex flex-row mt-3 items-center font-mono w-full gap-4"
                               >
                                 <h1 className="text-slate-400">Applied Tags</h1>
@@ -258,17 +266,20 @@ const EventBuilder = () => {
 
                                 {event?.tags?.map((e) => {
                                   return (
-                                    <ul key={e} className="bg-slate-200 p-2 px-4 rounded-full">
+                                    <ul
+                                      key={e}
+                                      className="bg-slate-200 p-2 px-4 rounded-full"
+                                    >
                                       <h1>{e}</h1>
                                     </ul>
-                                  )
+                                  );
                                 })}
                               </motion.ul>
                             )}
                           </AnimatePresence>
                           <UnsplashSearch
                             updateImage={(e) => {
-                              setImage(e)
+                              setImage(e);
                             }}
                           />
                         </section>
@@ -291,20 +302,25 @@ const EventBuilder = () => {
           >
             <button
               onClick={() => {
-                if(!submitting) eventSubmit()
+                if (!submitting) eventSubmit();
               }}
-              className={`w-1/3 h-12 hover:scale-105 duration-500 justify-center flex items-center ${ submitting ? "bg-theme-blue-2" : "bg-orange-500 hover:bg-orange-400"} shadow-lg z-40 text-white font-bold rounded-2xl`}
+              className={`w-1/3 h-12 hover:scale-105 duration-500 justify-center flex items-center ${
+                submitting
+                  ? "bg-theme-blue-2"
+                  : "bg-orange-500 hover:bg-orange-400"
+              } shadow-lg z-40 text-white font-bold rounded-2xl`}
             >
-              {
-                submitting ?
-                    <VscLoading className="animate-spin text-center" /> : "Submit"
-              }
+              {submitting ? (
+                <VscLoading className="animate-spin text-center" />
+              ) : (
+                "Submit"
+              )}
             </button>
           </motion.footer>
         )}
       </AnimatePresence>
     </motion.main>
-  )
-}
+  );
+};
 
-export default EventBuilder
+export default EventBuilder;
