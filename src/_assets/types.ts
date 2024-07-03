@@ -62,7 +62,7 @@ export type EventType = {
   name: string
   desc: string
   start: Date
-  end: Date
+  endtime: Date
   location: string
   tags: string[]
   type: string
