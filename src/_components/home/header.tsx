@@ -34,6 +34,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
         News
       </motion.h1>
     </Link>,
+    // eslint-disable-next-line react/jsx-key
     <Link
       href="/support"
       className="flex flex-row gap-2 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
