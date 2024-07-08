@@ -5,6 +5,7 @@ import { supabase } from "../../../../../../../config/mesa-config";
 import Wim from "@/_components/socialhub/Wim";
 import { PostType } from "@/_assets/types";
 import PostListItem from "@/_components/socialhub/PostListItem";
+import WimListItem from "@/_components/socialhub/WimListItem";
 
 const UserPosts = (id: { id: string }) => {
   const [data, setData] = useState<PostType[]>();
@@ -26,7 +27,7 @@ const UserPosts = (id: { id: string }) => {
         data?.map((e: PostType, index: number) => {
           switch (e.type) {
             case "wim":
-              return <Wim post={e} key={index} />;
+              return <WimListItem post={e} key={index} />;
             case "post":
               return <PostListItem post={e} index={index} key={index} />;
             default:
