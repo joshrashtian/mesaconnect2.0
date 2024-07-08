@@ -7,13 +7,14 @@ import { supabase } from "../../../../../../../config/mesa-config";
 import Image from "next/image";
 import { Index } from "../boxTypes";
 import UserPosts from "./UserPosts";
-import {userContext, useUser} from "@/app/AuthContext";
+import { userContext, useUser } from "@/app/AuthContext";
 import ChangePfP from "./ChangePfP";
 import LoadingPage from "@/_components/LoadingPage";
 import FollowButton from "./FollowButton";
 import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
 import { IoCopyOutline, IoPersonAddOutline, IoSchool } from "react-icons/io5";
 import Infoblocks from "@/app/(connect)/connect/(profiles)/profile/[id]/infoblocks";
+import YourProfile from "./YourProfile";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
@@ -23,7 +24,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
   const ActiveUser = useUser();
 
-  const isActiveUser = user?.id === ActiveUser.user?.id
+  const isActiveUser = user?.id === ActiveUser.user?.id;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,7 +119,9 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
           />
         )}
         <ul>
-          <h1 className="font-bold text-6xl font-eudoxus dark:text-white/70">{user?.real_name}</h1>
+          <h1 className="font-black text-6xl font-eudoxus dark:text-white/70">
+            {user?.real_name}
+          </h1>
           <h2 className="font-light text-xl font-eudoxus text-slate-500 dark:text-slate-200/50">
             @{user?.username}
           </h2>
@@ -144,12 +147,15 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         </ul>
       </section>
 
-      <h2 className="dark:text-white">{user?.bio ? user.bio : "This user has no bio set."}</h2>
+      <h2 className="dark:text-white">
+        {user?.bio ? user.bio : "This user has no bio set."}
+      </h2>
 
       <section className="border-b-2" />
+      {isActiveUser && <YourProfile />}
+
       {user.boxlist && (
         <section className="flex-col flex gap-3">
-
           <ul className="flex flex-row w-full h-full font-eudoxus flex-wrap gap-2">
             {user.boxlist.map((e: any) => {
               return (
@@ -180,7 +186,9 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         onContextMenu={(e) => e.preventDefault()}
       >
         <article className="w-full flex flex-col gap-3">
-          <h2 className="font-bold font-eudoxus text-3xl dark:text-white/80 ">Recent Posts</h2>
+          <h2 className="font-bold font-eudoxus text-3xl dark:text-white/80 ">
+            Recent Posts
+          </h2>
           <UserPosts id={user.id} />
         </article>
         <article className="w-full "></article>
