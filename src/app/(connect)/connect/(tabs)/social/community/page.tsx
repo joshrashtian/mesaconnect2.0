@@ -1,108 +1,109 @@
-"use client";
-import React, {useCallback, useEffect, useState} from "react";
-import { PostType } from "@/_assets/types";
-import { supabase } from "../../../../../../../config/mesa-config";
-import Post from "@/_components/socialhub/Post";
-import PostListItem from "@/_components/socialhub/PostListItem";
-import { AnimatePresence } from "framer-motion";
-import { IoNewspaper, IoPeople } from "react-icons/io5";
-import { motion } from "framer-motion";
-import { byTag, getFollowed, intfetch } from "./PostsPageQueries";
-import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
-import InterestButtons from "./InterestButtons";
-import LoadingPage from "@/_components/LoadingPage";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import WimListItem from "@/_components/socialhub/WimListItem";
-import AddPost from "./addPost";
+'use client'
+import React, { useCallback, useEffect, useState } from 'react'
+import { PostType } from '@/_assets/types'
+import { supabase } from '../../../../../../../config/mesa-config'
+import Post from '@/_components/socialhub/Post'
+import PostListItem from '@/_components/socialhub/PostListItem'
+import { AnimatePresence } from 'framer-motion'
+import { IoNewspaper, IoPeople } from 'react-icons/io5'
+import { motion } from 'framer-motion'
+import { byTag, getFollowed, intfetch } from './PostsPageQueries'
+import { useContextMenu, useToast } from '@/app/(connect)/InfoContext'
+import InterestButtons from './InterestButtons'
+import LoadingPage from '@/_components/LoadingPage'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import WimListItem from '@/_components/socialhub/WimListItem'
+import AddPost from './addPost'
+import QuickWimModal from '@/_components/socialhub/QuickWimModal'
 
 const PostsPageHome = () => {
-  const [range, setRange] = useState(0);
-  const [posts, setPosts] = useState<PostType[]>();
-  const [reload, setReload] = useState(true);
+  const [range, setRange] = useState(0)
+  const [posts, setPosts] = useState<PostType[]>()
+  const [reload, setReload] = useState(true)
 
-  const { CreateErrorToast } = useToast();
+  const { CreateErrorToast } = useToast()
 
-  const params = useSearchParams();
-  const tag = params.get("by");
-  const { replace } = useRouter();
-  const pathname = usePathname();
+  const params = useSearchParams()
+  const tag = params.get('by')
+  const { replace } = useRouter()
+  const pathname = usePathname()
 
   function handleParams(term?: string) {
-    const search = new URLSearchParams(params);
+    const search = new URLSearchParams(params)
     if (term) {
-      search.set("by", term);
+      search.set('by', term)
     } else {
-      search.delete("by");
+      search.delete('by')
     }
-    replace(`${pathname}?${search.toString()}`);
+    replace(`${pathname}?${search.toString()}`)
   }
 
-  const fet = useCallback(async() => {
-    setReload(true);
-    const { data, error } = await intfetch(range);
+  const fet = useCallback(async () => {
+    setReload(true)
+    const { data, error } = await intfetch(range)
     if (error) {
-      console.error(error);
-      return;
+      console.error(error)
+      return
     }
     //@ts-ignore
-    setPosts(data);
-    setRange((r) => r + 10);
-    setReload(false);
+    setPosts(data)
+    setRange((r) => r + 10)
+    setReload(false)
   }, [])
 
   useEffect(() => {
     const getByTag = async () => {
-      if (!tag) return;
-      const posts = await byTag(tag);
+      if (!tag) return
+      const posts = await byTag(tag)
 
-      if (posts.error) return;
-      else if (!posts.data) return;
+      if (posts.error) return
+      else if (!posts.data) return
       else {
-        setPosts(posts.data);
-        setReload(false);
+        setPosts(posts.data)
+        setReload(false)
       }
-    };
+    }
     if (tag) {
-      if (tag === "following") {
+      if (tag === 'following') {
       }
-      getByTag();
+      getByTag()
     }
     if (!tag) {
-      fet();
+      fet()
     }
-  }, [fet, tag]);
+  }, [fet, tag])
 
   useEffect(() => {
     const channel = supabase
-      .channel("posts channel")
+      .channel('posts channel')
       .on(
-        "postgres_changes",
+        'postgres_changes',
         {
-          event: "*",
-          schema: "public",
-          table: "posts",
+          event: '*',
+          schema: 'public',
+          table: 'posts'
           //filter: `userid=eq.${user.user?.id}`
         },
         (payload) => {
-          if (payload.eventType === "DELETE") {
-            console.log(payload.old.id);
-            setPosts((posts) => posts?.filter((e) => e.id !== payload.old.id));
+          if (payload.eventType === 'DELETE') {
+            console.log(payload.old.id)
+            setPosts((posts) => posts?.filter((e) => e.id !== payload.old.id))
           }
-          if (payload.eventType === "INSERT") {
-            setPosts((posts: any) => [payload.new, ...posts]);
+          if (payload.eventType === 'INSERT') {
+            setPosts((posts: any) => [payload.new, ...posts])
           }
         }
       )
-      .subscribe();
+      .subscribe()
 
     return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [supabase]);
+      supabase.removeChannel(channel)
+    }
+  }, [supabase])
 
-  const menu = useContextMenu();
+  const menu = useContextMenu()
 
-  const windowDimesions = window.screen.availHeight - 200;
+  const windowDimesions = window.screen.availHeight - 200
 
   return (
     <motion.section className="  ">
@@ -116,45 +117,45 @@ const PostsPageHome = () => {
         onContextMenu={(e) => {
           menu.createContext(e, [
             {
-              name: "Recent",
+              name: 'Recent',
               visible: true,
               function: () => {
-                setRange(0);
-                handleParams();
-                fet();
+                setRange(0)
+                handleParams()
+                fet()
               },
-              icon: <IoNewspaper />,
+              icon: <IoNewspaper />
             },
             {
-              name: "Following",
+              name: 'Following',
               visible: true,
               function: async () => {
-                handleParams("following");
-                setRange(0);
-                setReload(true);
-                setPosts([]);
-                const { data, error } = await getFollowed();
+                handleParams('following')
+                setRange(0)
+                setReload(true)
+                setPosts([])
+                const { data, error } = await getFollowed()
                 if (error) {
-                  CreateErrorToast(error.message);
+                  CreateErrorToast(error.message)
                 } else {
-                  setReload(false);
-                  setPosts(data);
+                  setReload(false)
+                  setPosts(data)
                 }
               },
-              icon: <IoPeople />,
-            },
-          ]);
+              icon: <IoPeople />
+            }
+          ])
         }}
-        whileDrag={{ backgroundColor: "#eee" }}
+        whileDrag={{ backgroundColor: '#eee' }}
         dragConstraints={{ top: 0, bottom: windowDimesions - 80 }}
         className=" p-2 md:p-4 top-20 sticky shadow-inner rounded-2xl flex gap-0.5 md:gap-1  justify-center items-center z-30 mb-5 bg-white drop-shadow-2xl "
       >
         <button
           className=" p-0.5  md:p-2 duration-300 text-xs md:text-sm xl:text-base font-eudoxus flex flex-col lg:flex-row items-center gap-2 rounded-xl px-0.5 md:px-3 lg:px-6 text-slate-800 hover:text-black hover:bg-slate-200 active:scale-95 active:bg-slate-300 "
           onClick={() => {
-            setRange(0);
-            handleParams();
-            fet();
+            setRange(0)
+            handleParams()
+            fet()
           }}
         >
           <IoNewspaper />
@@ -176,16 +177,16 @@ const PostsPageHome = () => {
         <button
           className=" p-0.5 md:p-2 duration-300 text-xs md:text-sm xl:text-base font-eudoxus flex flex-col lg:flex-row items-center  gap-2 rounded-xl px-0.5 md:px-3 lg:px-6 text-slate-800 hover:text-black hover:bg-slate-200 active:scale-95 active:bg-slate-300 "
           onClick={async () => {
-            handleParams("following");
-            setRange(0);
-            setReload(true);
-            setPosts([]);
-            const { data, error } = await getFollowed();
+            handleParams('following')
+            setRange(0)
+            setReload(true)
+            setPosts([])
+            const { data, error } = await getFollowed()
             if (error) {
-              CreateErrorToast(error.message);
+              CreateErrorToast(error.message)
             } else {
-              setReload(false);
-              setPosts(data);
+              setReload(false)
+              setPosts(data)
             }
           }}
         >
@@ -196,8 +197,8 @@ const PostsPageHome = () => {
         <InterestButtons
           reload={() => setReload(true)}
           newInfo={(e) => {
-            setPosts(e);
-            setReload(false);
+            setPosts(e)
+            setReload(false)
           }}
         />
       </motion.nav>
@@ -208,12 +209,12 @@ const PostsPageHome = () => {
           ) : (
             posts?.map((post, index) => {
               switch (post.type) {
-                case "wim":
-                  return <WimListItem key={index} post={post} />;
-                case "post":
-                  return <PostListItem key={index} index={index} post={post} />;
+                case 'wim':
+                  return <WimListItem key={index} post={post} />
+                case 'post':
+                  return <PostListItem key={index} index={index} post={post} />
                 default:
-                  return <Post key={index} post={post} />;
+                  return <Post key={index} post={post} />
               }
             })
           )}
@@ -221,7 +222,7 @@ const PostsPageHome = () => {
       </motion.article>
       <AddPost />
     </motion.section>
-  );
-};
+  )
+}
 
-export default PostsPageHome;
+export default PostsPageHome
