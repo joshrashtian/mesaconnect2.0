@@ -15,7 +15,8 @@ const UserPosts = (id: { id: string }) => {
       const { data, error }: { data: any; error: any } = await supabase
         .from("posts")
         .select()
-        .eq("userid", id.id);
+        .eq("userid", id.id)
+        .order("created_at", { ascending: false });
       setData(data);
     };
     fetchData();

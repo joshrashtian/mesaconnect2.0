@@ -1,14 +1,26 @@
 "use client";
-import React, {FC, useCallback, useEffect, useState} from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import PollBuilder from "./PollBuilder";
 import PollDashboard from "./PollDashboard";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { IoClose, IoHome, IoMenu, IoPencil } from "react-icons/io5";
 
 const options = [
   //{ name: "Lesson", type: 0, comp: () => {} },
-  { name: "Poll", type: 0, comp: () => <PollBuilder /> },
-  { name: "Edit Polls", type: 1, comp: () => <PollDashboard /> },
+  { name: "Poll", type: 0, comp: () => <PollBuilder />, icon: <IoPencil /> },
+  {
+    name: "Edit Polls",
+    type: 1,
+    comp: () => <PollDashboard />,
+    icon: <IoMenu />,
+  },
+  /*{
+    name: "Create Study Set",
+    type: 2,
+    comp: () => <div>Create Study Set</div>,
+    icon: <IoHome />, 
+  },*/
 ];
 
 const Page: FC = () => {
@@ -42,15 +54,23 @@ const Page: FC = () => {
   return (
     <main className="flex flex-col gap-10">
       <ul className="flex flex-row justify-between">
-        <h1 className="text-4xl font-bold">Lesson Builder</h1>
-        <button
-          onClick={() => {
-            setSelected(undefined);
-            router.replace("/connect/learning/creator");
-          }}
-        >
-          <h2>x</h2>
-        </button>
+        <h1 className="text-4xl font-black font-eudoxus">Lesson Builder</h1>
+        <AnimatePresence>
+          {selected && (
+            <motion.button
+              initial={{ y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -10, opacity: 0 }}
+              onClick={() => {
+                setSelected(undefined);
+                router.replace("/connect/learning/creator");
+              }}
+              className="w-16 h-16 flex justify-center items-center text-2xl bg-white rounded-full"
+            >
+              <IoHome />
+            </motion.button>
+          )}
+        </AnimatePresence>
       </ul>
       <AnimatePresence>
         {!selected && (
@@ -58,43 +78,23 @@ const Page: FC = () => {
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
-            className="flex flex-row flex-wrap font-eudoxus justify-center gap-3"
+            className="flex flex-row flex-wrap font-eudoxus gap-3"
           >
             {options.map((option, index) => {
-              switch (option.type) {
-                case 0:
-                  return (
-                    <button
-                      onClick={() => {
-                        router.replace(
-                          pathname +
-                            "?" +
-                            createQueryString("curr", option.name)
-                        );
-                      }}
-                      key={index}
-                      className="w-[32.84%] h-36  border-2 border-slate-500 border-dashed text-slate-800 font-bold rounded-3xl"
-                    >
-                      <h2 className=" text-2xl">{option.name}</h2>
-                    </button>
-                  );
-                case 1:
-                  return (
-                    <button
-                      onClick={() => {
-                        router.replace(
-                          pathname +
-                            "?" +
-                            createQueryString("curr", option.name)
-                        );
-                      }}
-                      key={index}
-                      className="w-1/2 h-24  border-2 border-slate-500 text-slate-800 font-bold rounded-3xl"
-                    >
-                      <h2 className=" text-2xl">{option.name}</h2>
-                    </button>
-                  );
-              }
+              return (
+                <button
+                  onClick={() => {
+                    router.replace(
+                      pathname + "?" + createQueryString("curr", option.name)
+                    );
+                  }}
+                  key={index}
+                  className="w-96 p-10 flex flex-col gap-2 rounded-3xl hover:scale-[1.03] active:scale-[0.99] duration-300 hover:bg-zinc-white/20 bg-white"
+                >
+                  <ul className="text-xl">{option.icon}</ul>
+                  <h2 className=" text-2xl">{option.name}</h2>
+                </button>
+              );
             })}
           </motion.section>
         )}

@@ -22,7 +22,7 @@ const MajorModal = ({
     <div>
       <h4 className="font-eudoxus font-bold text-2xl">Change Major</h4>
       <Input
-        value={major}
+        value={current}
         onChange={(e) => setMajor(e.target.value)}
         contentEditable
         icon={<IoPencil />}
