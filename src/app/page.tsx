@@ -9,8 +9,8 @@ import Link from "next/link";
 import { useContext, useRef } from "react";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
-import {IoChevronForward, IoNewspaper, IoPerson} from "react-icons/io5";
-import {BiSupport} from "react-icons/bi";
+import { IoChevronForward, IoNewspaper, IoPerson } from "react-icons/io5";
+import { BiSupport } from "react-icons/bi";
 
 export default function Home() {
   useRef();
@@ -42,23 +42,26 @@ export default function Home() {
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="w-screen rounded-b-[100px] bg-gradient-to-br from-indigo-700 to-orange-200 h-[112vh] shadow-lg items-center justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm"
+        className="w-screen rounded-b-[100px] 
+        bg-gradient-to-br from-indigo-700/20 to-orange-500/50 h-[112vh] shadow-lg items-center bg-opacity-10 justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm"
       >
         <ul className="w-full h-full 2xl:w-3/4 flex flex-col justify-center px-28 gap-10 ">
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "just" }}
-            className="text-xl cursor-default drop-shadow-xl font-eudoxus text-left font-bold md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white dark:text-white duration-300 ease-in-out"
+            className="text-xl cursor-default drop-shadow-xl font-eudoxus text-left font-black md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white/60 dark:text-white duration-300 ease-in-out"
           >
             The new way to{" "}
-            <span className=" bg-gradient-to-br from-red-300 to-orange-400 bg-clip-text text-transparent">
+            <span className=" bg-gradient-to-br from-red-600 to-orange-400/30 hover:text-black/20 duration-300 bg-clip-text text-transparent">
               MESA
             </span>
             , a place to help{" "}
-            <span className="hover:text-green-500 duration-500">connect</span>{" "}
+            <span className="hover:text-black/20 duration-500 bg-clip-text text-transparent bg-orange-600/60">
+              connect
+            </span>{" "}
             the{" "}
-            <span className=" bg-gradient-to-r hover:text-green-300 from-indigo-500 to-blue-400 dark:from-indigo-400 dark:to-pink-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
+            <span className=" bg-gradient-to-r hover:text-black/20 from-indigo-500 to-blue-400 dark:from-indigo-400 dark:to-pink-500 bg-clip-text hover:scale-105 text-transparent duration-500 ease-in-out">
               next generation.
             </span>
           </motion.h1>
@@ -77,42 +80,33 @@ export default function Home() {
             className=" w-[620px] flex flex-row mt-6 justify-center gap-2"
           >
             {!user.user ? (
-
-                <Link
-                  href="/sign-in"
-                  className=" shadow-sm gap-2 hover:shadow-xl text-white text-md lg:text-lg 2xl:text-xl cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-[1.02] bg-theme-blue hover:bg-theme-blue-2 hover:ring-2 ring-blue-700 ring-offset-1 w-full h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
-                >
-                  <IoPerson />
-                  <h2 className="   font-eudoxus duration-300">
-                    Sign In
-                  </h2>
-
-                </Link>
-
+              <Link
+                href="/sign-in"
+                className=" shadow-sm gap-2 hover:shadow-xl text-white text-md lg:text-lg 2xl:text-xl cursor-pointer rounded-3xl hover:rounded-2xl hover:scale-[1.02] bg-theme-blue hover:bg-theme-blue-2 hover:ring-2 ring-blue-700 ring-offset-1 w-full h-12 lg:h-16 flex justify-center items-center duration-500 transition-all ease-in-out"
+              >
+                <IoPerson />
+                <h2 className="   font-eudoxus duration-300">Sign In</h2>
+              </Link>
             ) : (
               <Link
                 href="/connect"
                 className=" shadow-lg cursor-pointer text-white text-md lg:text-lg 2xl:text-xl gap-3 rounded-3xl hover:rounded-2xl bg-gradient-to-tr from-red-700 to-orange-500 hover:bg-orange-700 h-12 lg:h-16 hover:ring-2 ring-orange-400 ring-offset-1 w-full flex justify-center items-center duration-500 transition-all ease-in-out"
               >
-
-                <h2 className="  font-eudoxus duration-300">
-
-                  Enter Connect
-                </h2>
+                <h2 className="  font-eudoxus duration-300">Enter Connect</h2>
                 <IoChevronForward />
               </Link>
             )}
             <Link
-                href="/news"
-                className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-indigo-600 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
+              href="/news"
+              className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-indigo-600 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
             >
               <IoNewspaper />
             </Link>
             <Link
-                href="/support"
-                className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-teal-700 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
+              href="/support"
+              className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-teal-700 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
             >
-              < BiSupport />
+              <BiSupport />
             </Link>
           </motion.section>
         </ul>

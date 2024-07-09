@@ -2,18 +2,23 @@
 
 import UsrIcon from "../../../../../../_assets/photos/UserIcon.png";
 import { UserData } from "@/_assets/types";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { supabase } from "../../../../../../../config/mesa-config";
 import Image from "next/image";
 import { Index } from "../boxTypes";
 import UserPosts from "./UserPosts";
-import {userContext, useUser} from "@/app/AuthContext";
+import { userContext, useUser } from "@/app/AuthContext";
 import ChangePfP from "./ChangePfP";
 import LoadingPage from "@/_components/LoadingPage";
 import FollowButton from "./FollowButton";
 import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
 import { IoCopyOutline, IoPersonAddOutline, IoSchool } from "react-icons/io5";
 import Infoblocks from "@/app/(connect)/connect/(profiles)/profile/[id]/infoblocks";
+import YourProfile from "./YourProfile";
+import BioModal from "./BioModal";
+import { useModal } from "../../../Modal";
+import MajorModal from "./MajorModal";
+import UserEvents from "./UserEvents";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
@@ -22,8 +27,18 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
   const toast = useToast();
 
   const ActiveUser = useUser();
+  const modal = useModal();
+  const isActiveUser = user?.id === ActiveUser.user?.id;
 
-  const isActiveUser = user?.id === ActiveUser.user?.id
+  const BioComp = useCallback(
+    () => <BioModal bio={user?.bio} user={ActiveUser.user?.id} />,
+    [user, isActiveUser, ActiveUser.user?.id]
+  );
+
+  const MajorMod = useCallback(
+    () => <MajorModal major={user?.major} user={ActiveUser.user?.id} />,
+    [user, isActiveUser, ActiveUser.user?.id]
+  );
 
   useEffect(() => {
     const fetchData = async () => {
@@ -118,7 +133,9 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
           />
         )}
         <ul>
-          <h1 className="font-bold text-6xl font-eudoxus dark:text-white/70">{user?.real_name}</h1>
+          <h1 className="font-black text-6xl font-eudoxus dark:text-white/70">
+            {user?.real_name}
+          </h1>
           <h2 className="font-light text-xl font-eudoxus text-slate-500 dark:text-slate-200/50">
             @{user?.username}
           </h2>
@@ -132,7 +149,17 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             {user?.role}
           </h2>
         </ul>
-        <ul className="p-1 rounded-lg w-28 bg-white dark:bg-zinc-700 shadow-sm flex justify-center items-center">
+        <ul
+          onClick={() => {
+            if (isActiveUser) {
+              //@ts-ignore
+              modal.CreateModal(MajorMod);
+            }
+          }}
+          className={`${
+            isActiveUser && "hover:bg-slate-200/60 duration-300 cursor-pointer"
+          } p-1 rounded-lg px-3 bg-white text-nowrap dark:bg-zinc-700 shadow-sm flex justify-center items-center`}
+        >
           <h2 className="text-indigo-700 dark:text-pink-200/50 font-semibold capitalize">
             {user?.major ? user.major : "Undecided"}
           </h2>
@@ -144,12 +171,26 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         </ul>
       </section>
 
-      <h2 className="dark:text-white">{user?.bio ? user.bio : "This user has no bio set."}</h2>
+      <h2
+        onClick={() => {
+          if (isActiveUser) {
+            //@ts-ignore
+            modal.CreateModal(BioComp);
+          }
+        }}
+        className={`dark:text-white ${
+          isActiveUser &&
+          "hover:bg-slate-200/60 p-3 duration-300 cursor-pointer"
+        }`}
+      >
+        {user?.bio ? user.bio : "This user has no bio set."}
+      </h2>
 
       <section className="border-b-2" />
+      {isActiveUser && <YourProfile />}
+
       {user.boxlist && (
         <section className="flex-col flex gap-3">
-
           <ul className="flex flex-row w-full h-full font-eudoxus flex-wrap gap-2">
             {user.boxlist.map((e: any) => {
               return (
@@ -180,10 +221,17 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         onContextMenu={(e) => e.preventDefault()}
       >
         <article className="w-full flex flex-col gap-3">
-          <h2 className="font-bold font-eudoxus text-3xl dark:text-white/80 ">Recent Posts</h2>
+          <h2 className="font-bold font-eudoxus text-3xl dark:text-white/80 ">
+            Activity
+          </h2>
           <UserPosts id={user.id} />
         </article>
-        <article className="w-full "></article>
+        <article className="w-full flex flex-col gap-3 ">
+          <h2 className="font-bold font-eudoxus text-3xl dark:text-white/80 ">
+            Created Events
+          </h2>
+          <UserEvents id={user.id} />
+        </article>
       </section>
     </main>
   );

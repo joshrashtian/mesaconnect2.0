@@ -9,6 +9,8 @@ import { userContext } from './AuthContext'
 import { calendar, months } from '../../config/calendar'
 import Image from 'next/image'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { IoMdClock } from 'react-icons/io'
+import { IoCalendarNumber, IoPricetags } from 'react-icons/io5'
 
 export const EventModalContext: any = createContext({})
 
@@ -20,12 +22,11 @@ const EventModal = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     const fetchEvent = async () => {
-
       const { data, error } = await supabase
         .from('events')
         .select('*')
-          // @ts-ignore
-          .eq('id', searchParams.get('event'))
+        // @ts-ignore
+        .eq('id', searchParams.get('event'))
         .single()
       if (error) {
         console.log(error)
@@ -79,7 +80,7 @@ const Modal = ({ event }: { event: EventType }) => {
       const { data, error } = await supabase
         .from('eventinterest')
         .select()
-          //@ts-ignore
+        //@ts-ignore
         .eq('user_id', user.user?.id)
         .eq('event_id', event.id)
 
@@ -119,9 +120,9 @@ const Modal = ({ event }: { event: EventType }) => {
 
   const dates = {
     startDate: new Date(event.start),
-    endDate: event.end ? new Date(event.end) : undefined
+    endDate: event.endtime ? new Date(event.endtime) : undefined
   }
-  dates.endDate && new calendar(dates.startDate, dates.endDate);
+  dates.endDate && new calendar(dates.startDate, dates.endDate)
   const onInterest = async () => {
     setState(1)
     toast.toast('Added to your List!', 'success')
@@ -153,7 +154,7 @@ const Modal = ({ event }: { event: EventType }) => {
   const onInterestLost = async () => {
     setState(1)
 
-    const {error } = await supabase
+    const { error } = await supabase
       .from('eventinterest')
       .delete()
       .match({ event_id: event.id, user_id: user.user?.id })
@@ -187,7 +188,7 @@ const Modal = ({ event }: { event: EventType }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-10 flex justify-center items-center overflow-y-auto"
+      className="fixed inset-0 z-50 flex justify-center font-eudoxus items-center overflow-y-auto"
     >
       <AnimatePresence>
         <motion.section
@@ -238,13 +239,16 @@ const Modal = ({ event }: { event: EventType }) => {
                 {event.desc ? event.desc : 'This event does not have a description.'}
               </h2>
               <ul className=" justify-between flex flex-row items-center ">
-                <h2>
-                  📅
-                  {` ${
-                    months[dates.startDate.getMonth()]
-                  } ${dates.startDate.getDate()}, ${dates.startDate.getFullYear()}`}
-                </h2>
-
+                <ul className="flex flex-row">
+                  <span className="px-2 p-1 bg-gradient-to-tr mr-2 from-slate-500 to-zinc-700 rounded-md text-white">
+                    <IoCalendarNumber />
+                  </span>
+                  <h2>
+                    {` ${
+                      months[dates.startDate.getMonth()]
+                    } ${dates.startDate.getDate()}, ${dates.startDate.getFullYear()}`}
+                  </h2>
+                </ul>
                 <div className="flex flex-row gap-2">
                   <ul className="p-2 px-4 bg-zinc-100 rounded-full">
                     <h2 className="text-teal-700 font-medium">{dateMessage?.toUpperCase()}</h2>
@@ -256,9 +260,9 @@ const Modal = ({ event }: { event: EventType }) => {
               </ul>
               <h2 className="font-semibold flex flex-row gap-1 items-center">
                 <span className="px-2 p-1 bg-gradient-to-tr mr-2 from-slate-500 to-zinc-700 rounded-md text-white">
-                  Time
+                  <IoMdClock />
                 </span>
-                <span className=" font-geist font-normal">
+                <span className=" font-normal">
                   {` ${
                     dates.startDate.getHours() > 12
                       ? dates.startDate.getHours() - 12
@@ -282,14 +286,17 @@ const Modal = ({ event }: { event: EventType }) => {
                   } ${dates.startDate.getHours() > 12 ? 'PM' : 'AM'}`}
                 </span>
               </h2>
-              <ul className="w-full flex flex-row mt-2 items-center font-geist gap-1">
+              <ul className="w-full flex flex-row mt-2 items-center gap-1">
                 <h1 className="px-2 p-1 bg-gradient-to-tr from-slate-500 to-zinc-700 rounded-md text-white">
-                  Tags
+                  <IoPricetags />
                 </h1>
                 {event.tags &&
-                  event.tags.map((e) => (
-                    <div key={e} className="px-2 p-1">
-                      <h1>{e}</h1>
+                  event.tags.map((e, i) => (
+                    <div key={e} className="">
+                      <h1>
+                        {e}
+                        {i !== event.tags.length - 1 && ', '}
+                      </h1>
                     </div>
                   ))}
               </ul>

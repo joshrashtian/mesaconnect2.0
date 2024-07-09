@@ -12,6 +12,8 @@ import { MenuContext } from "@/app/(connect)/InfoContext";
 import { BsPostcard } from "react-icons/bs";
 import { IoChatboxEllipsesOutline, IoPeople } from "react-icons/io5";
 import { useModal } from "@/app/(connect)/connect/Modal";
+import PostListItem from "./PostListItem";
+import WimListItem from "./WimListItem";
 
 export const RecentPostsHome = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -24,7 +26,7 @@ export const RecentPostsHome = () => {
         .from("posts")
         .select()
         .order("created_at", { ascending: false })
-        .limit(8);
+        .limit(5);
 
       if (error) {
         console.log(error);
@@ -70,7 +72,9 @@ export const RecentPostsHome = () => {
       transition={{ ease: "backInOut" }}
       className="w-full h-full flex-col items-center flex gap-1"
     >
-      <h1 className="text-lg font-bold dark:text-white">Recent In The Community</h1>
+      <h1 className="text-lg font-bold dark:text-white">
+        Recent In The Community
+      </h1>
 
       <Link
         href={`/connect/social/community`}
@@ -79,10 +83,10 @@ export const RecentPostsHome = () => {
         <IoPeople className="text-3xl" />
         <h1 className="">Community Home</h1>
       </Link>
-      <section className="flex flex-row w-4/5 justify-center items-center">
+      <section className="flex flex-row w-4/5  justify-start items-center">
         <Link
           href="/connect/builder"
-          className="h-12 p-5 hover:ring-2 hover:ring-offset-1 hover:ring-opacity-70 ring-0 ring-offset-0 ring-orange-400/45 gap-2 shadow-md text-white cursor-pointer hover:scale-[1.02] flex flex-row justify-center items-center duration-500 rounded-bl-xl hover:rounded-md w-full bg-gradient-to-br from-red-600 to-amber-600"
+          className="h-12 p-5  hover:ring-2 hover:ring-offset-1 hover:ring-opacity-70 ring-0 ring-offset-0 ring-orange-400/45 gap-2 shadow-md text-white cursor-pointer hover:scale-[1.02] flex flex-row justify-center items-center duration-500 rounded-bl-xl hover:rounded-md w-full bg-gradient-to-br from-red-600 to-amber-600"
         >
           <BsPostcard size={22} />
           <h1>Post Builder</h1>
@@ -102,11 +106,11 @@ export const RecentPostsHome = () => {
         {posts?.map((post, index) => {
           switch (post.type) {
             case "wim":
-              return <Wim key={index} post={post} />;
+              return <WimListItem key={index} post={post} />;
             case null:
-              return <Post key={index} post={post} />;
+              return <PostListItem key={index} post={post} index={index} />;
             default:
-              return <Post key={index} post={post} />;
+              return <PostListItem key={index} post={post} index={index} />;
           }
         })}
       </AnimatePresence>
