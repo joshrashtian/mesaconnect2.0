@@ -1,5 +1,5 @@
 "use client";
-import { userContext, useUser } from "@/app/AuthContext";
+import { useDarkMode, userContext, useUser } from "@/app/AuthContext";
 import {
   AnimatePresence,
   motion,
@@ -19,10 +19,16 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
     offset: ["start end", "end end"],
   });
 
+  const isDark = useDarkMode();
+
   const springedValue = useSpring(scrollYProgress);
 
   const opacity = useTransform(springedValue, [0.5, 1], [0, 1]);
-  const color = useTransform(springedValue, [0, 0.6], ["#FFF", "#444"]);
+  const color = useTransform(
+    springedValue,
+    [0, 0.6],
+    isDark ? ["#ede", "#fff"] : ["#FFF", "#444"]
+  );
 
   const headerComponents = [
     // eslint-disable-next-line react/jsx-key

@@ -17,6 +17,7 @@ export const userContext = createContext<ContextProps>({
     supabase.auth.signOut();
   },
   settings: undefined,
+  dark: false,
 });
 export interface ContextProps {
   settings: any;
@@ -41,12 +42,20 @@ export interface ContextProps {
       }
     | undefined;
   signOut: () => void;
+  dark: boolean;
 }
 
 const AuthContext = ({ children }: { children: React.ReactNode }) => {
   const [u, setUser] = useState<User>();
   const [userdata, setData] = useState();
   const [settings, setSettings] = useState();
+  const [dark, setDark] = useState(false);
+  function isDarkModeEnabled() {
+    return (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    );
+  }
 
   const value = useMemo(() => {
     return {
@@ -56,8 +65,9 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
         supabase.auth.signOut();
       },
       settings,
+      dark,
     };
-  }, [u, userdata, settings]);
+  }, [u, userdata, settings, dark]);
 
   const getUser = async () => {
     try {
@@ -117,6 +127,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     getUser();
+    setDark(isDarkModeEnabled());
   }, []);
 
   useEffect(() => {
@@ -192,6 +203,16 @@ export function useId() {
     isSignedIn: !!context.user?.id,
     id: context.user?.id,
   };
+}
+
+export function useDarkMode() {
+  const context = useContext(userContext);
+
+  if (context === undefined) {
+    throw new Error("useUser must be used within a UserProvider");
+  }
+
+  return context.dark;
 }
 
 export default AuthContext;
