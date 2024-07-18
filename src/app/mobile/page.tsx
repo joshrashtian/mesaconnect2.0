@@ -31,6 +31,7 @@ const MobileOnboarding = () => {
           transition={{ delay: 0.5, duration: 1.5, type: "spring" }}
           className="font-eudoxus font-black  inline-block text-white drop-shadow-xl text-5xl"
         >
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
           Let's Start <span>Here.</span>
         </motion.h1>
         <motion.h2
