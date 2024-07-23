@@ -1,13 +1,19 @@
 "use client";
-import React, {useEffect, useState} from "react";
-import {AnimatePresence, motion} from "framer-motion";
+import React, { useEffect, useMemo, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import {supabase} from "../../config/mesa-config";
-import {useSettings, useUser} from "@/app/AuthContext";
-import {IoLockClosed} from "react-icons/io5";
-import {useContextMenu} from "@/app/(connect)/InfoContext";
-import {useRouter} from "next/navigation";
-import {GrArticle, GrSupport, GrUserAdmin, GrUserSettings} from "react-icons/gr";
+import { supabase } from "../../config/mesa-config";
+import { useSettings, useUser } from "@/app/AuthContext";
+import { IoLockClosed } from "react-icons/io5";
+import { useContextMenu } from "@/app/(connect)/InfoContext";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  GrArticle,
+  GrSupport,
+  GrUserAdmin,
+  GrUserSettings,
+} from "react-icons/gr";
+import Image from "next/image";
 
 const Dock = () => {
   const [selected, setSelected] = useState("");
@@ -16,7 +22,7 @@ const Dock = () => {
   const [profID, setProfID] = useState<string | undefined>();
   const context = useContextMenu();
   const router = useRouter();
-  const settings = useSettings()
+  const settings = useSettings();
   const [isLocked, setLocked] = useState(settings.taskbar !== "default");
 
   const { userData } = useUser();
@@ -79,6 +85,13 @@ const Dock = () => {
     fetchURL();
   }, [userData]);
 
+  const PathnameURL = usePathname();
+
+  const pathname = useMemo(() => {
+    if (!PathnameURL.split("/").at(2)) return "home";
+    return PathnameURL.split("/").at(2);
+  }, [PathnameURL]);
+
   const tabs = [
     {
       name: "Home",
@@ -97,33 +110,36 @@ const Dock = () => {
       link: "/learning",
     },
     {
-      name: "Studio",
+      name: "Builder",
       link: "/builder",
     },
     {
       name: "Settings",
       link: "/settings",
       icon: <GrUserSettings />,
-      color: 'bg-gradient-to-tr from-orange-600 to-yellow-600 hover:text-orange-300'
+      color:
+        "bg-gradient-to-tr from-orange-600 to-yellow-600 hover:text-orange-300",
     },
     {
       name: "Admin",
       link: "/admin",
-      icon: < GrUserAdmin />,
+      icon: <GrUserAdmin />,
       permissions: ["admin"],
-      color: 'bg-gradient-to-tr from-blue-600 to-teal-600 hover:text-blue-300'
+      color: "bg-gradient-to-tr from-blue-600 to-teal-600 hover:text-blue-300",
     },
     {
       name: "News",
       sitelink: "/news",
-      icon: < GrArticle />,
-      color: 'bg-gradient-to-tr from-green-600 to-emerald-400 hover:text-lime-300'
+      icon: <GrArticle />,
+      color:
+        "bg-gradient-to-tr from-green-600 to-emerald-400 hover:text-lime-300",
     },
     {
       name: "Beta Support",
       sitelink: "/support",
-      icon: < GrSupport />,
-      color: 'bg-gradient-to-tr from-red-600 to-orange-600 hover:text-amber-300'
+      icon: <GrSupport />,
+      color:
+        "bg-gradient-to-tr from-red-600 to-orange-600 hover:text-amber-300",
     },
   ];
 
@@ -137,7 +153,11 @@ const Dock = () => {
           setIsHovered(false);
         }}
         onContextMenu={(e) => context.createContext(e, navContext)}
-        className={`group peer bg-white  origin-bottom drop-shadow-md rounded-3xl hover:-translate-y-3 h-full w-16 ${ isLocked ? '2xl:w-[60%] w-[70%]' : ' w-16 hover:2xl:w-[60%] hover:w-[70%]'}  max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-[1.15] ease-in-out`}
+        className={`group peer bg-white dark:bg-zinc-900  origin-bottom drop-shadow-md rounded-3xl hover:-translate-y-3 h-full w-16 ${
+          isLocked
+            ? "2xl:w-[60%] w-[70%]"
+            : " w-16 hover:2xl:w-[60%] hover:w-[70%]"
+        }  max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-[1.15] ease-in-out`}
       >
         <AnimatePresence>
           {profURL && !isHovered && !isLocked && (
@@ -148,9 +168,11 @@ const Dock = () => {
               transition={{ delay: 0.2, duration: 0.3 }}
               className="flex justify-center items-center w-full h-full"
             >
-              <img
+              <Image
                 src={profURL ? profURL : SamplePhoto}
                 alt="profile"
+                width={48}
+                height={48}
                 className="w-12 h-12 cursor-pointer duration-500 rounded-full"
               />
             </motion.ul>
@@ -165,87 +187,113 @@ const Dock = () => {
               transition={{ delay: 0.6, duration: 0.2 }}
               className="w-full h-full flex-row delay-500 flex justify-center  gap-2  items-center duration-200"
             >
-              {tabs.filter(e => !e.icon).map((tab, index) => {
-                if (tab.permissions) {
-
-                  if (
+              {tabs
+                .filter((e) => !e.icon)
+                .map((tab, index) => {
+                  if (tab.permissions) {
+                    if (
                       // @ts-ignore
-                    !tab.permissions.includes(userData?.role) ||
-                    !userData
-                  ) {
-                    return null;
+                      !tab.permissions.includes(userData?.role) ||
+                      !userData
+                    ) {
+                      return null;
+                    }
                   }
-                }
 
-                return (
-                  <motion.li
-                    key={index}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onHoverStart={() => setSelected(tab.name)}
-                    className={`${ isLocked ? 'opacity-100 group-hover:translate-y-0' : 'group-hover:opacity-100'} opacity-0  translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out`}
-                  >
-                    <Link
-                      href={`/connect${tab.link}`}
-                      className="flex hover:text-orange-700 flex-row p-3 justify-center items-center"
+                  return (
+                    <motion.li
+                      key={index}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onHoverStart={() => setSelected(tab.name)}
+                      className={`${
+                        isLocked
+                          ? "opacity-100 group-hover:translate-y-0"
+                          : "group-hover:opacity-100"
+                      } opacity-0 flex-col flex justify-center translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out`}
                     >
-                      <h1 className={`${ isLocked ? 'text-lg' : 'text-[12px] 2xl:text-sm group-hover:text-lg'}   font-semibold  duration-200`}>
-                        {tab.name}
-                      </h1>
-                    </Link>
-                  </motion.li>
-                );
-              })}
+                      <Link
+                        href={`/connect${tab.link}`}
+                        className="flex  flex-row p-3 justify-center items-center"
+                      >
+                        <h1
+                          className={`${
+                            isLocked
+                              ? "text-lg"
+                              : "text-[12px] 2xl:text-sm group-hover:text-lg"
+                          }   font-semibold hover:text-orange-700 focus:scale-95 dark:text-white dark:hover:text-orange-400/60 duration-200`}
+                        >
+                          {tab.name}
+                        </h1>
+                      </Link>
+                      {pathname?.toLowerCase() === tab.name.toLowerCase() && (
+                        <motion.ul
+                          initial={{ y: 12, opacity: 0, scale: 0 }}
+                          animate={{ y: 16, opacity: 1, scale: 1 }}
+                          transition={{ type: "spring" }}
+                          className="w-1 h-1 absolute rounded-sm translate-y-4 bg-orange-400 self-center"
+                        />
+                      )}
+                    </motion.li>
+                  );
+                })}
               <ul className="w-0.5 h-1/2 bg-slate-200 mr-3" />
-              {
-                tabs.filter(e => e.icon).map((tab, index) => {
-                    if (tab.permissions) {
+              {tabs
+                .filter((e) => e.icon)
+                .map((tab, index) => {
+                  if (tab.permissions) {
+                    if (
+                      // @ts-ignore
+                      !tab.permissions.includes(userData?.role) ||
+                      !userData
+                    ) {
+                      return null;
+                    }
+                  }
 
-                if (
-                // @ts-ignore
-                !tab.permissions.includes(userData?.role) ||
-                !userData
-                ) {
-                return null;
-              }
-              }
-
-                return (
-                <motion.li
-                key={index}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onHoverStart={() => setSelected(tab.name)}
-              className={`${ isLocked ? 'opacity-100 group-hover:translate-y-0' : 'group-hover:opacity-100'} opacity-0  translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out`}
-            >
-              <Link
-                  href={tab.sitelink ? tab.sitelink : `/connect${tab.link}`}
-                  className={`flex rounded-2xl ${ tab.color } text-white flex-row p-3 justify-center items-center`}
-              >
-                <h1 className="2xl:text-sm text-[12px] font-semibold group-hover:text-lg duration-200">
-                  {tab.icon}
-                </h1>
-              </Link>
-            </motion.li>
-            );
-            })
-              }
+                  return (
+                    <motion.li
+                      key={index}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      onHoverStart={() => setSelected(tab.name)}
+                      className={`${
+                        isLocked
+                          ? "opacity-100 group-hover:translate-y-0"
+                          : "group-hover:opacity-100"
+                      } opacity-0  translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out`}
+                    >
+                      <Link
+                        href={
+                          tab.sitelink ? tab.sitelink : `/connect${tab.link}`
+                        }
+                        className={`flex rounded-2xl ${tab.color} text-white flex-row p-3 justify-center items-center`}
+                      >
+                        <h1 className="2xl:text-sm text-[12px] font-semibold group-hover:text-lg duration-200">
+                          {tab.icon}
+                        </h1>
+                      </Link>
+                    </motion.li>
+                  );
+                })}
             </motion.ul>
           </AnimatePresence>
         )}
       </section>
 
-      <section className=" absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white ">
-        <h1 className="font-bold">{selected}</h1>
+      <section className=" absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white dark:bg-slate-900/70 ">
+        <motion.h1 className="font-bold dark:text-white/70">
+          {selected}
+        </motion.h1>
       </section>
-      { settings.taskbar === 'default' &&
-      <button
+      {settings.taskbar === "default" && (
+        <button
           onClick={() => setLocked(!isLocked)}
-        className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-11 -translate-y-9 transition-all duration-500  bg-white`}
-      >
-        <IoLockClosed />
-      </button>
-      }
+          className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-11 -translate-y-9 transition-all duration-500  bg-white`}
+        >
+          <IoLockClosed />
+        </button>
+      )}
     </div>
   );
 };
