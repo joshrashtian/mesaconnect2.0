@@ -101,7 +101,7 @@ const PostsPageHome = () => {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [supabase]);
+  }, []);
 
   const menu = useContextMenu();
 

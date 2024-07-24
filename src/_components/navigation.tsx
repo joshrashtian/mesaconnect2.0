@@ -14,9 +14,11 @@ import {
   GrUserSettings,
 } from "react-icons/gr";
 import Image from "next/image";
+import { VscLoading } from "react-icons/vsc";
 
 const Dock = () => {
   const [selected, setSelected] = useState("");
+  const [clicked, setClicked] = useState<string>();
   const [profURL, setProfURL] = useState<string | undefined>();
   const [isHovered, setIsHovered] = useState(false);
   const [profID, setProfID] = useState<string | undefined>();
@@ -206,6 +208,7 @@ const Dock = () => {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       onHoverStart={() => setSelected(tab.name)}
+                      onClick={() => setClicked(tab.name)}
                       className={`${
                         isLocked
                           ? "opacity-100 group-hover:translate-y-0"
@@ -221,18 +224,30 @@ const Dock = () => {
                             isLocked
                               ? "text-lg"
                               : "text-[12px] 2xl:text-sm group-hover:text-lg"
-                          }   font-semibold hover:text-orange-700 focus:scale-95 dark:text-white dark:hover:text-orange-400/60 duration-200`}
+                          }   font-semibold hover:text-orange-500/60 focus:scale-95 dark:text-white dark:hover:text-orange-400/60 duration-200`}
                         >
                           {tab.name}
                         </h1>
                       </Link>
-                      {pathname?.toLowerCase() === tab.name.toLowerCase() && (
+
+                      {pathname?.toLowerCase() === tab.name.toLowerCase() ? (
                         <motion.ul
                           initial={{ y: 12, opacity: 0, scale: 0 }}
                           animate={{ y: 16, opacity: 1, scale: 1 }}
                           transition={{ type: "spring" }}
                           className="w-1 h-1 absolute rounded-sm translate-y-4 bg-orange-400 self-center"
                         />
+                      ) : (
+                        tab.name === clicked && (
+                          <motion.ul
+                            initial={{ y: 12, opacity: 0, scale: 0 }}
+                            animate={{ y: 16, opacity: 1, scale: 1 }}
+                            transition={{ type: "spring" }}
+                            className="w-1 h-1 absolute rounded-sm translate-y-4 text-orange-400 text-[8px] self-center"
+                          >
+                            <VscLoading className="animate-spin text-center" />
+                          </motion.ul>
+                        )
                       )}
                     </motion.li>
                   );
