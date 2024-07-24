@@ -5,7 +5,7 @@ import { useUser } from "@/app/AuthContext";
 import ClassCard from "./ClassCard";
 import Link from "next/link";
 import { IoAdd } from "react-icons/io5";
-import {AiOutlineLoading} from "react-icons/ai";
+import { AiOutlineLoading } from "react-icons/ai";
 
 const ClassPicker = () => {
   const [classes, setClasses] = useState<any[]>([]);
@@ -13,7 +13,7 @@ const ClassPicker = () => {
   const { user, userData } = useUser();
 
   useEffect(() => {
-    const fetchClasses = async () => {
+    /*const fetchClasses = async () => {
       //@ts-ignore
       let { data, error } = await supabase.rpc("get_users_class", {
         usersid: user?.id,
@@ -26,11 +26,27 @@ const ClassPicker = () => {
       //@ts-ignore
       setClasses(data);
       setLoading(false);
+    };*/
+    const fetchClasses = async () => {
+      //@ts-ignore
+      let { data, error } = await supabase
+        .from("transcripts")
+        .select()
+        .eq("userid", user?.id);
+      if (error) {
+        console.error(error);
+        setLoading(false);
+        return;
+      }
+      //@ts-ignore
+      setClasses(data);
+      setLoading(false);
     };
     fetchClasses();
   }, [user?.id]);
 
-  if(loading) return <AiOutlineLoading className="animate-spin text-7xl p-4" />
+  if (loading)
+    return <AiOutlineLoading className="animate-spin text-7xl p-4" />;
 
   return (
     <section className=" flex flex-col gap-5">
