@@ -45,10 +45,10 @@ const ClassCard = ({ class: c }: { class: any }) => {
           },
         ])
       }
-      className="p-5 w-96 font-eudoxus group cursor-pointer hover:scale-[1.03] duration-300 text-slate-500 bg-white hover:bg-zinc-50 shadow-lg rounded-xl hover:rounded-md"
+      className="p-5 w-96 font-eudoxus group cursor-pointer hover:scale-[1.03] duration-300 text-slate-500 bg-white hover:bg-zinc-50 dark:bg-slate-700/50 dark:hover:bg-slate-700/70 shadow-lg rounded-xl hover:rounded-md"
     >
       <ul className="flex flex-row justify-between">
-        <h2 className="font-black flex flex-row items-center gap-2 text-slate-800">
+        <h2 className="font-black flex flex-row items-center gap-2 text-slate-800 dark:text-white">
           <p className="text-white bg-slate-600 p-1 rounded-full">
             {IconGet(c.category)}
           </p>

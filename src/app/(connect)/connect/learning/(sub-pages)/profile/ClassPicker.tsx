@@ -50,7 +50,9 @@ const ClassPicker = () => {
 
   return (
     <section className=" flex flex-col gap-5">
-      <h1 className=" font-eudoxus font-bold text-3xl">Your Courses</h1>
+      <h1 className=" font-eudoxus font-bold text-3xl dark:text-white/50">
+        Your Courses
+      </h1>
       <h2 className="font-eudoxus font-black text-2xl">{userData?.college}</h2>
       <section className="flex flex-row gap-3 p-4 overflow-x-scroll no-scrollbar w-full">
         {classes.length > 0 ? (
