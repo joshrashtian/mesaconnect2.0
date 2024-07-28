@@ -205,7 +205,7 @@ const PostsPageHome = () => {
         />
         <ul className="w-0.5 h-4 bg-slate-300 mx-4" />
         <Link
-          className=" p-0.5 md:p-2 duration-300 text-xs md:text-sm xl:text-base font-eudoxus flex flex-col lg:flex-row items-center  gap-2 rounded-xl px-0.5 md:px-2 lg:px-4 text-slate-800 hover:text-black hover:bg-slate-200 active:scale-95 active:bg-slate-300 "
+          className=" p-0.5 md:p-2 scale-0 lg:scale-100 duration-300 text-xs md:text-sm xl:text-base font-eudoxus flex flex-col lg:flex-row items-center  gap-2 rounded-xl px-0.5 md:px-2 lg:px-4 text-slate-800 hover:text-black hover:bg-slate-200 active:scale-95 active:bg-slate-300 "
           href="/connect/social/search"
         >
           <IoSearch color="rgb(30 41 59)" />

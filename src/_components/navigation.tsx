@@ -146,7 +146,7 @@ const Dock = () => {
   ];
 
   return (
-    <div className="w-full bottom-8 left-0 z-30 font-eudoxus h-16 fixed justify-center items-center flex">
+    <div className="min-w-full bottom-0 lg:bottom-8 left-0 z-30 font-eudoxus h-16 fixed justify-center items-center flex">
       <section
         onMouseEnter={() => {
           setIsHovered(true);
@@ -155,11 +155,11 @@ const Dock = () => {
           setIsHovered(false);
         }}
         onContextMenu={(e) => context.createContext(e, navContext)}
-        className={`group peer bg-white dark:bg-zinc-900  origin-bottom drop-shadow-md rounded-3xl hover:-translate-y-3 h-full w-16 ${
+        className={`group peer bg-white dark:bg-zinc-900 overflow-x-scroll no-scrollbar lg:overflow-hidden origin-bottom drop-shadow-md lg:rounded-3xl lg:hover:-translate-y-3 h-full w-16 ${
           isLocked
-            ? "2xl:w-[60%] w-[70%]"
+            ? "2xl:w-[60%] [760px]:w-[70%] lg:min-w-[70%] min-w-full"
             : " w-16 hover:2xl:w-[60%] hover:w-[70%]"
-        }  max-w-3xl justify-center items-center duration-500 2xl:duration-700 hover:scale-[1.15] ease-in-out`}
+        }  max-w-3xl justify-center items-center duration-500 2xl:duration-700 lg:hover:scale-[1.15] ease-in-out`}
       >
         <AnimatePresence>
           {profURL && !isHovered && !isLocked && (
@@ -187,7 +187,7 @@ const Dock = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ delay: 0.6, duration: 0.2 }}
-              className="w-full h-full flex-row delay-500 flex justify-center  gap-2  items-center duration-200"
+              className="w-full h-full flex-row delay-500 flex justify-center gap-0.5 lg:gap-2  items-center duration-200"
             >
               {tabs
                 .filter((e) => !e.icon)
@@ -222,9 +222,9 @@ const Dock = () => {
                         <h1
                           className={`${
                             isLocked
-                              ? "text-lg"
-                              : "text-[12px] 2xl:text-sm group-hover:text-lg"
-                          }   font-semibold hover:text-orange-500/60 focus:scale-95 dark:text-white dark:hover:text-orange-400/60 duration-200`}
+                              ? "text-[12px] sm:text-base lg:text-lg"
+                              : "text-[12px] sm:text-base 2xl:text-lg group-hover:text-lg"
+                          }   font-black hover:text-orange-500/60 focus:scale-95 dark:text-white dark:hover:text-orange-400/60 duration-200`}
                         >
                           {tab.name}
                         </h1>
@@ -296,7 +296,9 @@ const Dock = () => {
         )}
       </section>
 
-      <section className=" absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white dark:bg-slate-900/70 ">
+      <section
+        className={` absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 lg:peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white dark:bg-slate-900/70 `}
+      >
         <motion.h1 className="font-bold dark:text-white/70">
           {selected}
         </motion.h1>
