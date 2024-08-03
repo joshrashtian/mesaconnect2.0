@@ -157,7 +157,7 @@ const Dock = () => {
         onContextMenu={(e) => context.createContext(e, navContext)}
         className={`group peer bg-white dark:bg-zinc-900 overflow-x-scroll no-scrollbar lg:overflow-hidden origin-bottom drop-shadow-md lg:rounded-3xl lg:hover:-translate-y-3 h-full w-16 ${
           isLocked
-            ? "2xl:w-[60%] [760px]:w-[70%] lg:min-w-[70%] min-w-full"
+            ? "2xl:w-[60%] [760px]:w-[70%] lg:min-w-3xl w-[1000px]"
             : " w-16 hover:2xl:w-[60%] hover:w-[70%]"
         }  max-w-3xl justify-center items-center duration-500 2xl:duration-700 lg:hover:scale-[1.15] ease-in-out`}
       >
