@@ -2,6 +2,7 @@ import React from "react";
 import TitleComponent from "@/(mesaui)/title";
 import { IoSettings } from "react-icons/io5";
 import ParagraphComponent from "@/(mesaui)/Paragraph";
+
 const TermsPage: React.FC = () => {
   return (
     <main>
