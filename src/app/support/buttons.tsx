@@ -35,6 +35,7 @@ const Buttons = () => {
           icon={e.icon}
           color={e.color}
           onClick={e.onClick}
+          key={e.title}
         />
       ))}
     </ul>
