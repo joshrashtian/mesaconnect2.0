@@ -117,7 +117,7 @@ export default function Home() {
         className={`max-w-[90%] border-slate-300 mt-16 gap-10 text-slate-400  rounded-2xl w-full h-screen items-center justify-center p-10 flex flex-col text-sm`}
         ref={firstRef}
       >
-        <section className="w-full gap-12 flex flex-col bg-zinc-50 shadow-md p-10 rounded-3xl">
+        <section className="w-full gap-12 flex flex-col bg-zinc-50 dark:bg-zinc-700/30 shadow-md p-10 rounded-3xl">
           <MajorsText />
           <section className="flex flex-row justify-between ">
             <ul className="w-3/5 flex flex-col gap-5 font-eudoxus font-light md:text-lg lg:text-2xl 2xl:text-3xl">
@@ -135,8 +135,8 @@ export default function Home() {
           </section>
         </section>
         <section className="w-full gap-12 flex flex-row rounded-3xl">
-          <section className="w-full gap-12 flex flex-col bg-zinc-50 shadow-md p-10 rounded-3xl">
-            <h2 className="text-4xl font-eudoxus text-slate-500 font-semibold">
+          <section className="w-full gap-12 flex flex-col bg-zinc-50 dark:bg-zinc-700/30 shadow-md p-10 rounded-3xl">
+            <h2 className="text-4xl font-eudoxus text-slate-500 dark:text-slate-100/80 font-semibold">
               A Million Reasons To Join.
             </h2>
             <Benefits />
