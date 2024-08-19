@@ -39,7 +39,7 @@ const WimListItem = ({ post }: { post: PostType }) => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ ease: "backInOut", duration: 0.2 }}
       whileHover={{ scale: 1.02 }}
-      className="p-5 min-h-24 flex flex-col justify-between hover:shadow-lg rounded-sm hover:rounded-xl last:border-b-0 border-b-2 font-eudoxus hover:scale-[1.005] hover:bg-slate-200 duration-300 w-full bg-zinc-50"
+      className="p-5 min-h-24 flex flex-col justify-between hover:shadow-lg rounded-sm hover:rounded-xl last:border-b-0 border-b-2 dark:border-black font-eudoxus hover:scale-[1.005] hover:bg-slate-200 duration-300 w-full bg-zinc-50 dark:bg-zinc-500/40 dark:hover:bg-slate-600/60 dark:text-white"
       onContextMenu={(e) => {
         contextMenu.rightClick(e, contextButtons);
       }}

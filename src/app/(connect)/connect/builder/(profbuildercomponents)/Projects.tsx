@@ -1,10 +1,10 @@
 "use client";
 
-import {MenuContext} from "@/app/(connect)/InfoContext";
-import {useContext, useEffect, useMemo, useState} from "react";
-import {ChangeSections} from "./ChangeIndex";
-import {userContext} from "@/app/AuthContext";
-import {AnimatePresence, motion, Reorder} from "framer-motion";
+import { MenuContext } from "@/app/(connect)/InfoContext";
+import { useContext, useEffect, useMemo, useState } from "react";
+import { ChangeSections } from "./ChangeIndex";
+import { userContext } from "@/app/AuthContext";
+import { AnimatePresence, motion, Reorder } from "framer-motion";
 
 export type ProjectLinks = {
   name?: string;
@@ -90,7 +90,7 @@ const Projects = () => {
       >
         <AnimatePresence>
           {links.map((link, i) => (
-            <Reorder.Item key={link.id} value={link}>
+            <Reorder.Item key={link.name} value={link}>
               <motion.section
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.4 }}
@@ -155,7 +155,7 @@ const Projects = () => {
                 <div className="flex flex-row gap-3 justify-center">
                   {webOptions.map((e) => (
                     <button
-                        key={e.name}
+                      key={e.name}
                       className="bg-white p-2 px-3 rounded-full"
                       onClick={() => {
                         setLinks(

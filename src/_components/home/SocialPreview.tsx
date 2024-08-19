@@ -62,14 +62,14 @@ const SocialPreview = () => {
     <motion.section
       ref={scrollRef}
       style={{ opacity: opacity, y: position }}
-      className="flex flex-col font-eudoxus w-screen h-[80vh] p-16"
+      className="flex flex-col font-eudoxus w-screen h-[100vh] p-16 "
     >
       <section className="w-full flex flex-row items-center justify-between gap-3">
         <ul>
-          <h1 className="font-bold text-5xl bg-clip-text text-transparent bg-gradient-to-l from-teal-600 to-slate-500">
+          <h1 className="font-bold text-5xl bg-clip-text text-transparent bg-gradient-to-l dark:from-teal-300 dark:to-purple-300 from-teal-600 to-slate-500">
             Express Yourself.
           </h1>
-          <p className="text-lg">
+          <p className="text-lg text-slate-700 dark:text-slate-200/60 mb-5 ">
             Show off all of you talents, skills and projects within a safe,
             polished and creative environment.
           </p>
@@ -77,16 +77,18 @@ const SocialPreview = () => {
             <motion.li
               whileHover={{ rotateZ: -1, scale: 1.05 }}
               key={index}
-              className={`bg-zinc-200 hover:scale-[1.02] items-center gap-4 cursor-pointer hover:ring-offset-2 hover:ring-2 ring-teal-400 duration-500 my-2 flex flex-row p-5 rounded-2xl`}
+              className={`bg-zinc-200 dark:bg-zinc-700/60 hover:scale-[1.02] items-center gap-4 cursor-pointer hover:ring-offset-2 hover:ring-2 ring-teal-400 duration-500 my-2 flex flex-row p-5 rounded-2xl`}
             >
-              <ul className="text-teal-600 rounded-full text-2xl">{e.icon}</ul>
+              <ul className="text-teal-600 dark:text-teal-500 rounded-full text-2xl">
+                {e.icon}
+              </ul>
 
-              <p>{e.name}</p>
+              <p className="font-eudoxus dark:text-slate-200">{e.name}</p>
             </motion.li>
           ))}
         </ul>
         <video
-          className="w-[50%] h-full outline-none"
+          className="w-[50%] h-40 rounded-2xl object-cover dark:shadow-orange-500 dark:shadow-md outline-none"
           autoPlay
           muted
           loop
@@ -101,34 +103,23 @@ const SocialPreview = () => {
       </section>
       <section className="w-full flex flex-row-reverse items-center justify-between gap-3">
         <section className="w-full flex items-end flex-col">
-          <h1 className="font-bold text-5xl bg-clip-text text-transparent bg-gradient-to-l from-teal-600 to-slate-500">
+          <h1 className="font-bold mb-5 text-5xl bg-clip-text text-transparent bg-gradient-to-l dark:to-teal-300 dark:from-purple-300 from-teal-600 to-slate-500">
             Teach / Inspire Others.
           </h1>
           {TeachOthers.map((e, index) => (
             <motion.li
               whileHover={{ rotateZ: 1, scale: 1.05 }}
               key={index}
-              className={`bg-zinc-200 w-full hover:scale-[1.02] flex-row-reverse items-center gap-4 cursor-pointer hover:ring-offset-2 hover:ring-2 ring-teal-400 duration-500 my-1 flex flex-row p-5 rounded-2xl`}
+              className={`bg-zinc-200 dark:bg-zinc-700/60 w-1/2 hover:scale-[1.02] flex-row-reverse items-center gap-4 cursor-pointer hover:ring-offset-2 hover:ring-2 ring-teal-400 duration-500 my-1 flex p-5 rounded-2xl`}
             >
-              <ul className="text-teal-600 rounded-full text-2xl">{e.icon}</ul>
+              <ul className="text-teal-600 dark:text-teal-500 rounded-full text-2xl">
+                {e.icon}
+              </ul>
 
-              <p>{e.name}</p>
+              <p className="font-eudoxus dark:text-slate-200">{e.name}</p>
             </motion.li>
           ))}
         </section>
-        <video
-          className="w-[50%] h-full outline-none"
-          autoPlay
-          muted
-          loop
-          playsInline
-          disableRemotePlayback
-          disablePictureInPicture
-          onContextMenu={(e) => e.preventDefault()}
-        >
-          <source src={"ShowcasePolls.webm"} />
-          Oops! The video sadly does not work on this browser :(
-        </video>
       </section>
     </motion.section>
   );

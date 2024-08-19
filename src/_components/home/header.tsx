@@ -1,5 +1,5 @@
 "use client";
-import { userContext, useUser } from "@/app/AuthContext";
+import { useDarkMode, userContext, useUser } from "@/app/AuthContext";
 import {
   AnimatePresence,
   motion,
@@ -19,10 +19,16 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
     offset: ["start end", "end end"],
   });
 
+  const isDark = useDarkMode();
+
   const springedValue = useSpring(scrollYProgress);
 
-  const opacity = useTransform(springedValue, [0.5, 1], [0, 1]);
-  const color = useTransform(springedValue, [0, 0.6], ["#FFF", "#444"]);
+  const opacity = useTransform(springedValue, [0.98, 1], [0, 1]);
+  const color = useTransform(
+    springedValue,
+    [0, 0.6],
+    isDark ? ["#ede", "#fff"] : ["#FFF", "#444"]
+  );
 
   const headerComponents = [
     // eslint-disable-next-line react/jsx-key
@@ -30,7 +36,10 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       href="/news"
       className="flex flex-row gap-2 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
     >
-      <motion.h1 style={{ color: color }} className="text-xl drop-shadow-xl">
+      <motion.h1
+        style={{ color: color }}
+        className=" text-sm lg:text-xl drop-shadow-xl"
+      >
         News
       </motion.h1>
     </Link>,
@@ -39,7 +48,10 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       href="/support"
       className="flex flex-row gap-2 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
     >
-      <motion.h1 style={{ color: color }} className="text-xl drop-shadow-xl">
+      <motion.h1
+        style={{ color: color }}
+        className="text-sm lg:text-xl drop-shadow-xl"
+      >
         Support
       </motion.h1>
     </Link>,
@@ -48,7 +60,10 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       onClick={() => setMenu(!menu)}
       className="flex flex-row gap-1 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
     >
-      <motion.h1 style={{ color: color }} className="text-xl drop-shadow-xl">
+      <motion.h1
+        style={{ color: color }}
+        className="text-sm lg:text-xl drop-shadow-xl"
+      >
         {user.user
           ? user.user.user_metadata.full_name
             ? user.user.user_metadata.full_name
@@ -71,7 +86,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 5, type: "spring" }}
-      className="w-full h-28 px-[5%] fixed justify-between items-center flex-row flex "
+      className="w-full h-28 px-[5%] fixed top-0 justify-between items-center flex-row flex "
     >
       <motion.ul
         style={{ opacity: opacity }}
@@ -80,7 +95,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       <motion.h2
         initial="colorone"
         animate={Number(scrollYProgress.get()) < 0.5 ? "colorone" : "colortwo"}
-        className="text-orange-600 text-xl drop-shadow-xl font-black font-eudoxus "
+        className="text-orange-600 text-sm lg:text-xl drop-shadow-xl font-black font-eudoxus "
       >
         MESA
         <motion.span style={{ color: color }}>connect</motion.span>

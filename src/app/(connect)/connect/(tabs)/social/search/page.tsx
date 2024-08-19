@@ -5,11 +5,8 @@ import { SearchPosts } from "./searchData";
 import { PostType } from "@/_assets/types";
 import SearchInfo from "./SearchInfo";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  IoArrowBackCircle,
-  IoSearchOutline,
-} from "react-icons/io5";
-import {gradientObjectDefault, gradientTextDefault} from "@/colors";
+import { IoArrowBackCircle, IoSearchOutline } from "react-icons/io5";
+import { gradientObjectDefault, gradientTextDefault } from "@/colors";
 
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState<string>();
@@ -57,7 +54,9 @@ const Search = () => {
 
   return (
     <motion.main className="flex flex-col w-full min-h-full gap-4 ">
-      <h1 className={`font-bold ${gradientTextDefault} text-3xl lg:text-4xl 2xl:text-5xl duration-500`}>
+      <h1
+        className={`font-black font-eudoxus ${gradientTextDefault} text-3xl lg:text-4xl 2xl:text-5xl duration-500`}
+      >
         {!searchValue
           ? "What would you like to search for?"
           : `Results for ${searchValue}`}
@@ -108,8 +107,15 @@ const Search = () => {
             ))}
           </motion.h1>
         ) : (
-          searchResult &&
-          <motion.div initial={{ opacity: 0, y: 10}} animate={{ opacity: 1, y: 0}} exit={{ opacity: 0, y: 10}}><SearchInfo data={searchResult} /></motion.div>
+          searchResult && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+            >
+              <SearchInfo data={searchResult} />
+            </motion.div>
+          )
         )}
       </AnimatePresence>
       <button

@@ -1,45 +1,44 @@
-"use client"
-import React, {useMemo} from 'react';
-import {IoGitBranch, IoTicket} from "react-icons/io5";
-import {useModal} from "@/app/(connect)/connect/Modal";
+"use client";
+import React, { useMemo } from "react";
+import { IoDocument, IoGitBranch, IoTicket } from "react-icons/io5";
+import { useModal } from "@/app/(connect)/connect/Modal";
 import NewTicket from "@/app/support/NewTicket";
-
+import MenuButton from "@/(mesaui)/MenuButton";
+import { useRouter } from "next/navigation";
 
 const Buttons = () => {
-
-  const modal = useModal()
-
-  const categories = useMemo(() => [
-    {
-      title: 'Ticket',
-      icon: <IoTicket />,
-      color: 'bg-gradient-to-tr from-orange-500 to-red-500',
-      comp: <NewTicket />
-    },
-    {
-      title: 'Suggestions',
-      icon: <IoGitBranch />,
-      color: 'bg-gradient-to-tr from-blue-500 to-pink-500',
-      comp: <NewTicket />
-    },
-  ], [])
+  const modal = useModal();
+  const router = useRouter();
+  const categories = useMemo(
+    () => [
+      {
+        title: "Ticket",
+        icon: <IoTicket />,
+        color: "bg-gradient-to-tr from-orange-500 to-red-500",
+        onClick: () => modal.CreateModal(<NewTicket />),
+      },
+      {
+        title: "Terms of Service",
+        icon: <IoDocument />,
+        color: "bg-gradient-to-tr from-purple-500 to-red-500",
+        onClick: () => router.push("/support/terms"),
+      },
+    ],
+    []
+  );
 
   return (
-      <ul className="flex gap-2">
-        {categories.map((e) => (
-          <button
-            key={e.title}
-            onClick={() => { modal.CreateModal(e.comp) }}
-            className={`${e.color} rounded-2xl hover:opacity-80 active:scale-95 shadow-lg
-             duration-300 hover:scale-105 p-3 w-64 text-white font-eudoxus text-xl h-24 flex flex-col-reverse origin-center `}
-          >
-            <p className="">{e.title}</p>
-            <p className="text-7xl opacity-30 translate-y-7">
-              {e.icon}
-            </p>
-          </button>
-        ))}
-      </ul>
+    <ul className="flex gap-2">
+      {categories.map((e) => (
+        <MenuButton
+          title={e.title}
+          icon={e.icon}
+          color={e.color}
+          onClick={e.onClick}
+          key={e.title}
+        />
+      ))}
+    </ul>
   );
 };
 

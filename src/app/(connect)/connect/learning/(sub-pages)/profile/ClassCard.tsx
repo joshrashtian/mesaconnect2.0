@@ -1,12 +1,13 @@
 "use client";
-import React, {useState} from "react";
-import {useModal} from "../../../Modal";
+import React, { useState } from "react";
+import { useModal } from "../../../Modal";
 import EditableField from "../../_components/EditableField";
-import {useContextMenu, useToast} from "@/app/(connect)/InfoContext";
-import {IoPencil, IoTrailSignOutline} from "react-icons/io5";
-import {supabase} from "../../../../../../../config/mesa-config";
-import {updateClass} from "@/app/(connect)/connect/learning/(sub-pages)/profile/ClassFunctions";
-import {AiOutlineLoading} from "react-icons/ai";
+import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
+import { IoPencil, IoTrailSignOutline } from "react-icons/io5";
+import { supabase } from "../../../../../../../config/mesa-config";
+import { updateClass } from "@/app/(connect)/connect/learning/(sub-pages)/profile/ClassFunctions";
+import { AiOutlineLoading } from "react-icons/ai";
+import { IconGet } from "./newclass/CategoryIndex";
 
 const ClassCard = ({ class: c }: { class: any }) => {
   const modal = useModal();
@@ -44,18 +45,22 @@ const ClassCard = ({ class: c }: { class: any }) => {
           },
         ])
       }
-      className="p-5 w-96 font-eudoxus group cursor-pointer hover:scale-[1.03] duration-300 text-slate-500 bg-white hover:bg-zinc-50 shadow-lg rounded-xl hover:rounded-md"
+      className="p-5 w-96 font-eudoxus group cursor-pointer hover:scale-[1.03] duration-300 text-slate-500 bg-white hover:bg-zinc-50 dark:bg-slate-700/50 dark:hover:bg-slate-700/70 shadow-lg rounded-xl hover:rounded-md"
     >
-        <ul className="flex flex-row justify-between">
-      <h2 className="font-black text-slate-800">
-        {c.category} {c.num}
-      </h2>
-            <IoPencil className="scale-0 group-hover:scale-100 text-2xl text-black group-hover:text-orange-600 duration-300 origin-top-right" />
-        </ul>
-        <p>{c.name} - {`${c.units} ${c.units > 1 ? 'Units' : 'Unit'} `} </p>
-        <p className="font-light">Teacher: {c.teacher}</p>
-        <p className="font-light">Grade: {c.grade}</p>
-
+      <ul className="flex flex-row justify-between">
+        <h2 className="font-black flex flex-row items-center gap-2 text-slate-800 dark:text-white">
+          <p className="text-white bg-slate-600 p-1 rounded-full">
+            {IconGet(c.category)}
+          </p>
+          {c.category} {c.num}
+        </h2>
+        <IoPencil className="scale-0 group-hover:scale-100 text-2xl text-black group-hover:text-orange-600 duration-300 origin-top-right" />
+      </ul>
+      <p>
+        {c.name} - {`${c.units} ${c.units > 1 ? "Units" : "Unit"} `}{" "}
+      </p>
+      <p className="font-light">Teacher: {c.teacher}</p>
+      <p className="font-light">Grade: {c.grade}</p>
     </div>
   );
 };
@@ -77,9 +82,9 @@ const DeleteBox = ({ cla }: { cla: any }) => {
 
 const ClassModal = ({ e }: { e: any }) => {
   const [newClass, setNewClass] = useState(e);
-  const [submitting, setSubmitting] = useState(false)
-  const modal = useModal()
-  const { CreateErrorToast } = useToast()
+  const [submitting, setSubmitting] = useState(false);
+  const modal = useModal();
+  const { CreateErrorToast } = useToast();
 
   return (
     <section className="font-eudoxus flex flex-col gap-4">
@@ -113,19 +118,27 @@ const ClassModal = ({ e }: { e: any }) => {
         >
           <h2 className="text-xl text-slate-500">{newClass.grade}</h2>
         </EditableField>
-        <button onClick={async () => {
-          if (newClass === e) return;
-          setSubmitting(true)
-          let {error} = await updateClass(newClass);
-          if (error) {
-            CreateErrorToast(error.message)
-            return;
-          }
-          else modal.DisarmModal()
-        }}
-                className={`font-eudoxus p-3 px-5 ${(newClass !== e) ? 'bg-indigo-600 text-white' : 'bg-white'} rounded-xl duration-300`}
+        <button
+          onClick={async () => {
+            if (newClass === e) return;
+            setSubmitting(true);
+            let { error } = await updateClass(newClass);
+            if (error) {
+              CreateErrorToast(error.message);
+              return;
+            } else modal.DisarmModal();
+          }}
+          className={`font-eudoxus p-3 px-5 ${
+            newClass !== e ? "bg-indigo-600 text-white" : "bg-white"
+          } rounded-xl duration-300`}
         >
-          <h1>{ submitting ? <AiOutlineLoading className="animate-spin" /> : 'Submit' }</h1>
+          <h1>
+            {submitting ? (
+              <AiOutlineLoading className="animate-spin" />
+            ) : (
+              "Submit"
+            )}
+          </h1>
         </button>
       </section>
     </section>
