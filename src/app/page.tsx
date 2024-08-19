@@ -39,23 +39,20 @@ export default function Home() {
   const user = useContext(userContext);
 
   return (
-    <motion.main
-      className="no-scrollbar flex h-full flex-col items-center gap-y-24"
-      ref={mainRef}
-    >
+    <motion.main className="no-scrollbar" ref={mainRef}>
       <Header scrollRefrence={firstRef} />
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="w-screen rounded-b-[100px] 
-        bg-gradient-to-br from-indigo-700/20 to-orange-500/50 h-[112vh] shadow-lg items-center bg-opacity-10 justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm"
+        className="w-screen
+        bg-gradient-to-br from-indigo-700/50 to-orange-500/50 h-[112vh] shadow-2xl shadow-slate-500/30 items-center bg-opacity-10 justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm"
       >
-        <ul className="w-full h-full flex flex-col justify-center items-center px-28 gap-10 ">
+        <ul className="w-full h-full flex flex-col relative justify-center text-center items-center px-4 sm:px-10 md:px-28) gap-4 sm:gap-6 md:gap-10 ">
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "just" }}
-            className="text-xl cursor-default drop-shadow-xl font-eudoxus font-black md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white/60 dark:text-white duration-300 ease-in-out"
+            className="text-lg sm:text-xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl cursor-default drop-shadow-xl font-eudoxus font-black  text-white/60 dark:text-white duration-300 ease-in-out"
           >
             The new way of{" "}
             <span className=" bg-gradient-to-br from-red-600 to-orange-400/30 hover:text-black/20 duration-300 bg-clip-text text-transparent">
@@ -82,7 +79,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.3 }}
-            className=" w-[620px] flex flex-row mt-6 justify-center gap-2"
+            className=" w-[620px] flex flex-col md:flex-row mt-6 justify-center gap-2"
           >
             {!user.user ? (
               <Link
@@ -103,19 +100,19 @@ export default function Home() {
             )}
             <Link
               href="/news"
-              className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-indigo-600 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
+              className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-indigo-600 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-full md:w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
             >
               <IoNewspaper />
             </Link>
             <Link
               href="/support"
-              className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-teal-700 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
+              className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-teal-700 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-full md:w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
             >
               <BiSupport />
             </Link>
             <Link
               href="/mobile"
-              className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-gray-500 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
+              className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-gray-500 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-full md:w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
             >
               <IoPhonePortrait />
             </Link>
