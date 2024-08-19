@@ -9,7 +9,12 @@ import Link from "next/link";
 import { useContext, useRef } from "react";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
-import { IoChevronForward, IoNewspaper, IoPerson } from "react-icons/io5";
+import {
+  IoChevronForward,
+  IoNewspaper,
+  IoPerson,
+  IoPhonePortrait,
+} from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
 
 export default function Home() {
@@ -45,14 +50,14 @@ export default function Home() {
         className="w-screen rounded-b-[100px] 
         bg-gradient-to-br from-indigo-700/20 to-orange-500/50 h-[112vh] shadow-lg items-center bg-opacity-10 justify-between flex flex-col-reverse 2xl:flex-row gap-10 text-sm"
       >
-        <ul className="w-full h-full 2xl:w-3/4 flex flex-col justify-center px-28 gap-10 ">
+        <ul className="w-full h-full flex flex-col justify-center items-center px-28 gap-10 ">
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "just" }}
-            className="text-xl cursor-default drop-shadow-xl font-eudoxus text-left font-black md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white/60 dark:text-white duration-300 ease-in-out"
+            className="text-xl cursor-default drop-shadow-xl font-eudoxus font-black md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white/60 dark:text-white duration-300 ease-in-out"
           >
-            The new way to{" "}
+            The new way of{" "}
             <span className=" bg-gradient-to-br from-red-600 to-orange-400/30 hover:text-black/20 duration-300 bg-clip-text text-transparent">
               MESA
             </span>
@@ -107,6 +112,12 @@ export default function Home() {
               className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-teal-700 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
             >
               <BiSupport />
+            </Link>
+            <Link
+              href="/mobile"
+              className=" shadow-lg text-white text-2xl cursor-pointer rounded-[32px] hover:shadow-2xl hover:rounded-2xl hover:scale-105 bg-gray-500 h-12 lg:h-16 hover:ring-2 ring-indigo-500 ring-offset-1 w-24 flex justify-center items-center duration-500 transition-all ease-in-out"
+            >
+              <IoPhonePortrait />
             </Link>
           </motion.section>
         </ul>
