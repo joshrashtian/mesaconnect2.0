@@ -23,11 +23,11 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
 
   const springedValue = useSpring(scrollYProgress);
 
-  const opacity = useTransform(springedValue, [0.98, 1], [0, 1]);
+  const opacity = useTransform(springedValue, [0, 1], [0, 1]);
   const color = useTransform(
     springedValue,
-    [0, 0.6],
-    isDark ? ["#ede", "#fff"] : ["#FFF", "#444"]
+    [0.4, 1],
+    isDark ? ["#FFF", "#fff"] : ["#FFF", "#FFFF"]
   );
 
   const headerComponents = [
