@@ -86,7 +86,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 5, type: "spring" }}
-      className="w-full h-28 px-[5%] fixed top-0 justify-between items-center flex-row flex "
+      className="w-full h-28 px-[5%] fixed top-0 z-50 justify-between items-center flex-row flex "
     >
       <motion.ul
         style={{ opacity: opacity }}
@@ -94,7 +94,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       />
       <motion.h2
         initial="colorone"
-        animate={Number(scrollYProgress.get()) < 0.5 ? "colorone" : "colortwo"}
+        animate={Number(scrollYProgress.get()) < 0.9 ? "colorone" : "colortwo"}
         className="text-orange-600 text-sm lg:text-xl drop-shadow-xl font-black font-eudoxus "
       >
         MESA
