@@ -45,16 +45,18 @@ const ClassCard = ({ class: c }: { class: any }) => {
           },
         ])
       }
-      className="p-5 w-96 font-eudoxus group cursor-pointer hover:scale-[1.03] duration-300 text-slate-500 bg-white hover:bg-zinc-50 dark:bg-slate-700/50 dark:hover:bg-slate-700/70 shadow-lg rounded-xl hover:rounded-md"
+      className="group w-96 cursor-pointer rounded-xl bg-white p-5 font-eudoxus text-slate-500 shadow-lg duration-300 hover:scale-[1.03] hover:rounded-md hover:bg-zinc-50 dark:bg-slate-700/50 dark:hover:bg-slate-700/70"
     >
+      
       <ul className="flex flex-row justify-between">
-        <h2 className="font-black flex flex-row items-center gap-2 text-slate-800 dark:text-white">
-          <p className="text-white bg-slate-600 p-1 rounded-full">
+        <h2 className="flex flex-row items-center gap-2 font-black text-slate-800 dark:text-white">
+          <p className="rounded-full bg-slate-600 p-1 text-white">
             {IconGet(c.category)}
           </p>
           {c.category} {c.num}
         </h2>
-        <IoPencil className="scale-0 group-hover:scale-100 text-2xl text-black group-hover:text-orange-600 duration-300 origin-top-right" />
+        
+        <IoPencil className="origin-top-right scale-0 text-2xl text-black duration-300 group-hover:scale-100 group-hover:text-orange-600" />
       </ul>
       <p>
         {c.name} - {`${c.units} ${c.units > 1 ? "Units" : "Unit"} `}{" "}
@@ -68,7 +70,7 @@ const ClassCard = ({ class: c }: { class: any }) => {
 const DeleteBox = ({ cla }: { cla: any }) => {
   return (
     <div>
-      <h1 className="font-bold text-lg font-eudoxus">
+      <h1 className="font-eudoxus text-lg font-bold">
         Are You Sure You Would Like To Delete This Record?
       </h1>
       <h2 className="font-black text-slate-800">
@@ -87,11 +89,11 @@ const ClassModal = ({ e }: { e: any }) => {
   const { CreateErrorToast } = useToast();
 
   return (
-    <section className="font-eudoxus flex flex-col gap-4">
+    <section className="flex flex-col gap-4 font-eudoxus">
       <div>
         <h1 className="text-2xl">{e.name}</h1>
         <h2 className="text-xl text-slate-500">
-          {e.category} {e.num}
+          {e.category} {e.num} - {e.classid}
         </h2>
       </div>
 
@@ -119,6 +121,14 @@ const ClassModal = ({ e }: { e: any }) => {
           <h2 className="text-xl text-slate-500">{newClass.grade}</h2>
         </EditableField>
         <button
+          onClick={() => setNewClass({ ...newClass, grade: "IP" })}
+          className={`p-3 px-5 font-eudoxus ${
+            newClass.grade !== "IP" ? "bg-indigo-600 text-white" : "bg-white"
+          } mr-2 rounded-xl duration-300`}
+        >
+          <p>In Progress</p>
+        </button>
+        <button
           onClick={async () => {
             if (newClass === e) return;
             setSubmitting(true);
@@ -128,7 +138,7 @@ const ClassModal = ({ e }: { e: any }) => {
               return;
             } else modal.DisarmModal();
           }}
-          className={`font-eudoxus p-3 px-5 ${
+          className={`p-3 px-5 font-eudoxus ${
             newClass !== e ? "bg-indigo-600 text-white" : "bg-white"
           } rounded-xl duration-300`}
         >

@@ -6,13 +6,16 @@ import ClassCard from "./ClassCard";
 import Link from "next/link";
 import { IoAdd } from "react-icons/io5";
 import { AiOutlineLoading } from "react-icons/ai";
+import MenuButton from "@/(mesaui)/MenuButton";
+import { useRouter } from "next/navigation";
 
 const ClassPicker = () => {
   const [classes, setClasses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const { user, userData } = useUser();
-
+  const router = useRouter();
   useEffect(() => {
+    //old code
     /*const fetchClasses = async () => {
       //@ts-ignore
       let { data, error } = await supabase.rpc("get_users_class", {
@@ -46,15 +49,21 @@ const ClassPicker = () => {
   }, [user?.id]);
 
   if (loading)
-    return <AiOutlineLoading className="animate-spin text-7xl p-4" />;
+    return <AiOutlineLoading className="animate-spin p-4 text-7xl" />;
 
   return (
-    <section className=" flex flex-col gap-5">
-      <h1 className=" font-eudoxus font-bold text-3xl dark:text-white/50">
+    <section className="flex flex-col gap-5">
+      <MenuButton
+        title="Add New Class"
+        icon={<IoAdd />}
+        onClick={() => router.push("/connect/learning/profile/newclass")}
+        color="bg-gradient-to-br from-blue-600 to-teal-400"
+      />
+      <h1 className="font-eudoxus text-3xl font-bold dark:text-white/50">
         Your Courses
       </h1>
-      <h2 className="font-eudoxus font-black text-2xl">{userData?.college}</h2>
-      <section className="flex flex-row gap-3 p-4 overflow-x-scroll no-scrollbar w-full">
+      <h2 className="font-eudoxus text-2xl font-black">{userData?.college}</h2>
+      <section className="no-scrollbar flex w-full flex-row gap-3 overflow-x-scroll p-4">
         {classes.length > 0 ? (
           classes.map((c) => {
             return <ClassCard class={c} key={c.id} />;
@@ -65,15 +74,6 @@ const ClassPicker = () => {
           </h1>
         )}
       </section>
-      <Link className="w-64" href="/connect/learning/profile/newclass">
-        <div
-          className="bg-gradient-to-br p-4 text-xl text-white from-blue-600 to-teal-400 duration-500 active:scale-90 hover:scale-105 hover:bg-indigo-300 rounded-2xl hover:opacity-80 shadow-lg
-             h-24 flex flex-col-reverse "
-        >
-          <h1 className="font-eudoxus">Add New Class</h1>
-          <IoAdd />
-        </div>
-      </Link>
     </section>
   );
 };

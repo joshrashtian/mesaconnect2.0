@@ -10,13 +10,12 @@ const TitleComponent = (Props: TitleComponentProps) => {
     Props.size === "small"
       ? "text-3xl"
       : Props.size === "medium"
-      ? "text-5xl"
-      : "text-7xl";
+        ? "text-5xl"
+        : "text-7xl";
 
   return (
     <h1
-      className={`font-eudoxus font-black flex-row ${size} text-orange-700 dark:text-purple-700 items-center gap-3 
-        flex  ${Props.className}`}
+      className={`flex-row font-eudoxus font-black ${size} flex items-center gap-3 text-orange-700 dark:text-purple-700 ${Props.className}`}
       {...Props}
     >
       {Props.children}
