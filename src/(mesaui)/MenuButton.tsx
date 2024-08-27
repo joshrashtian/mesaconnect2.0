@@ -14,11 +14,10 @@ const MenuButton = (props: MenuButtonProps) => {
     <button
       key={props.title}
       onClick={props.onClick}
-      className={`${props.color} rounded-2xl hover:opacity-80 active:scale-95 shadow-lg
-             duration-300 hover:scale-105 p-3 w-64 text-white font-eudoxus text-xl h-24 flex flex-col-reverse origin-center `}
+      className={`${props.color} flex h-24 w-64 origin-center flex-col-reverse rounded-2xl p-3 font-eudoxus text-xl text-white shadow-lg duration-300 hover:scale-105 hover:opacity-80 active:scale-95`}
     >
       <p className="">{props.title}</p>
-      <p className="text-7xl opacity-30 translate-y-7">{props.icon}</p>
+      <p className="translate-y-4 text-7xl opacity-30">{props.icon}</p>
     </button>
   );
 };

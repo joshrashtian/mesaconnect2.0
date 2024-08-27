@@ -23,7 +23,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
 
   const springedValue = useSpring(scrollYProgress);
 
-  const opacity = useTransform(springedValue, [0.4, 1], [0, 1]);
+  const opacity = useTransform(springedValue, [0, 1], [0, 1]);
   const color = useTransform(
     springedValue,
     [0.4, 1],
@@ -90,12 +90,12 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
     >
       <motion.ul
         style={{ opacity: opacity }}
-        className="h-28 w-full fixed top-0 left-0 bg-gradient-to-b rounded-b-3xl -z-10 dark:from-orange-900 dark:to-zinc-800 from-orange-50 to-zinc-100 shadow-sm"
+        className="h-28 w-full fixed top-0 left-0 bg-gradient-to-br rounded-b-3xl -z-10 backdrop-blur-sm dark:from-orange-900 dark:to-zinc-800 from-purple-500/50 to-orange-500/50 drop-shadow-lg"
       />
       <motion.h2
         initial="colorone"
         animate={Number(scrollYProgress.get()) < 0.9 ? "colorone" : "colortwo"}
-        className="text-orange-600 text-sm lg:text-xl drop-shadow-xl font-black font-eudoxus "
+        className="text-red-600 text-sm lg:text-xl drop-shadow-2xl shadow-black font-eudoxus "
       >
         MESA
         <motion.span style={{ color: color }}>connect</motion.span>
