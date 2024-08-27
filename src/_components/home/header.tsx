@@ -1,5 +1,5 @@
 "use client";
-import { useDarkMode, userContext, useUser } from "@/app/AuthContext";
+import { useDarkMode, useUser } from "@/app/AuthContext";
 import {
   AnimatePresence,
   motion,
@@ -8,7 +8,7 @@ import {
   useTransform,
 } from "framer-motion";
 import Link from "next/link";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { HeaderContext } from "@/_components/home/HeaderContext";
 
 const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
@@ -23,7 +23,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
 
   const springedValue = useSpring(scrollYProgress);
 
-  const opacity = useTransform(springedValue, [0, 1], [0, 1]);
+  const opacity = useTransform(springedValue, [0.4, 1], [0, 1]);
   const color = useTransform(
     springedValue,
     [0.4, 1],

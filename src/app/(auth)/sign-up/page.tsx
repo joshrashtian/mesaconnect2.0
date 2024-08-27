@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { supabase } from "../../../../config/mesa-config";
 import ChooseCampus from "./choosecampus";
 import ChooseMajor from "./ChooseMajor";
-import {IoCheckmark, IoChevronForward, IoLogoGoogle} from "react-icons/io5";
+import { IoCheckmark, IoChevronForward, IoLogoGoogle } from "react-icons/io5";
 import { Key } from "@/app/(connect)/connect/settings/InviteKeys";
 
 const SignUp = () => {
@@ -26,37 +26,33 @@ const SignUp = () => {
       return;
     }
 
-    const {error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
         data: {
-          real_name: realname,
-          username: username,
+          //real_name: realname,
+          //username: username,
           college: college,
           major: major,
         },
       },
     });
 
-
-
     if (error) {
       console.error(error);
       setErrorMsg(error.message);
       return;
-    }
-
-    else window.location.reload()
+    } else window.location.reload();
   };
 
   const withGoogle = async () => {
-    const {error } = await supabase.auth.signInWithOAuth({
-      provider: 'google'
-    })
-  if(error) setErrorMsg(error.message);
-  else window.location.reload()
-  }
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    if (error) setErrorMsg(error.message);
+    else window.location.reload();
+  };
   return (
     <>
       <motion.section
@@ -77,9 +73,20 @@ const SignUp = () => {
         </motion.h1>
         <ul className="font-eudoxus">
           <p className="text-2xl">Quickstart - Requires Key</p>
-          <p className="text-slate-400">Note: You may have to set up profile details later.</p>
-          <button onClick={() => validKey ? withGoogle() : setErrorMsg('Requries Invite Key To Join.')} className="w-16 h-16 bg-blue-400 flex justify-center items-center text-2xl text-white
-          "><IoLogoGoogle /></button>
+          <p className="text-slate-400">
+            Note: You may have to set up profile details later.
+          </p>
+          <button
+            onClick={() =>
+              validKey
+                ? withGoogle()
+                : setErrorMsg("Requries Invite Key To Join.")
+            }
+            className="w-16 h-16 bg-blue-400 flex justify-center items-center text-2xl text-white
+          "
+          >
+            <IoLogoGoogle />
+          </button>
         </ul>
 
         <h2 className="font-eudoxus text-2xl p-2">
@@ -157,7 +164,7 @@ const SignUp = () => {
             className="bg-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-[1.02] duration-300 w-full lg:w-2/5 rounded-full px-5 p-3"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <input
+          {/*<input
             placeholder="username"
             type="text"
             className="bg-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-[1.02] duration-300 w-full lg:w-2/5 rounded-full px-5 p-3"
@@ -168,9 +175,9 @@ const SignUp = () => {
             type="text"
             className="bg-slate-100 text-xl focus:outline-none hover:shadow-sm hover:scale-[1.02] duration-300 w-full lg:w-2/5 rounded-full px-5 p-3"
             onChange={(e) => setRealname(e.target.value)}
-          />
+          /> */}
         </section>
-        {email && password && realname && username && validKey && (
+        {email && password && validKey && (
           <ChooseCampus
             onChangeSelected={(e) => {
               setCollege(e);
