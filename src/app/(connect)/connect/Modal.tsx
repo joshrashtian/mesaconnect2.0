@@ -49,7 +49,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 10, opacity: 0 }}
               transition={{ type: "spring" }}
-              className="p-10 rounded-xl z-50 flex flex-col justify-between min-w-[500px] min-h-72 bg-zinc-50"
+              className="p-10 rounded-xl z-50 flex flex-col justify-between min-w-[500px] min-h-72 bg-zinc-50 dark:bg-zinc-900"
             >
               {active}
               {type === "dialog" && (

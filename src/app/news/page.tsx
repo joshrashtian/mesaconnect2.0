@@ -50,6 +50,7 @@ const Page = async () => {
         {Posts.map((post) => {
           return <Article key={post.id} article={post} image={!!NewsPictures?.find(e => Number(e.name) === post.id)}/>;
         })}
+        
           </Provider>
       </Suspense>
     </main>

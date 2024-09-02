@@ -41,7 +41,7 @@ const InviteKeys = () => {
 
   return (
     <section>
-      <h1 className="text-transparent mb-5 inline-block bg-clip-text font-eudoxus text-3xl bg-gradient-to-br from-indigo-600 to-blue-500 ">
+      <h1 className="text-transparent mb-5 inline-block bg-clip-text font-eudoxus text-3xl bg-gradient-to-br from-indigo-600 to-blue-500 dark:from-indigo-400 dark:to-purple-400 ">
         Invite Keys
       </h1>
 
@@ -54,9 +54,9 @@ const InviteKeys = () => {
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: -20, opacity: 0 }}
                 key={key.id}
-                className="flex flex-row odd:bg-white even:bg-zinc-50 w-full p-3 text-xl justify-between gap-2 items-center"
+                className="flex flex-row odd:bg-white even:bg-zinc-50 dark:odd:bg-zinc-600/40 dark:even:bg-zinc-600/30 w-full p-3 text-xl justify-between gap-2 items-center"
               >
-                <p className=" font-geist font-light ">{key.id}</p>
+                <p className=" font-geist font-light dark:text-white ">{key.id}</p>
                 <p className="font-eudoxus text-xl">{key.redeemer}</p>
                 <li className="flex gap-2">
                   <button className="duration-300 bg-blue-400 hover:scale-105 text-white rounded-full active:scale-90 active:bg-orange-400 p-2">
@@ -66,7 +66,7 @@ const InviteKeys = () => {
                       }}
                     />
                   </button>
-                  <button className="duration-300 bg-red-400 hover:scale-105 text-white rounded-full active:scale-90 active:bg-orange-400 p-2">
+                  <button className="duration-300 bg-red-400 hover:scale-105 text-white  rounded-full active:scale-90 active:bg-orange-400 p-2">
                     <IoTrashBin
                       onClick={async () => {
                         const { error } = await supabase
@@ -90,7 +90,7 @@ const InviteKeys = () => {
                 onClick={() => {
                   CreateModal(<InviteModal />);
                 }}
-                className="flex flex-row bg-slate-100 hover:bg-slate-200 duration-300 w-full p-3 text-xl justify-between gap-2 items-center"
+                className="flex flex-row bg-slate-100 hover:bg-slate-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 dark:text-white duration-300 w-full p-3 text-xl justify-between gap-2 items-center"
               >
                 <IoKeyOutline /> Create Key
               </button>
@@ -149,11 +149,11 @@ const InviteModal = () => {
   return (
     <section className="flex flex-col h-full justify-between">
       <section>
-        <h1 className="text-2xl">Here Is Your New Key.</h1>
-        <p className="text-slate-600">It will expire in 7 days.</p>
+        <h1 className="text-2xl dark:text-white">Here Is Your New Key.</h1>
+        <p className="text-slate-600 dark:text-slate-200">It will expire in 7 days.</p>
       </section>
 
-      <p className="p-3 flex flex-row justify-between items-center bg-white shadow-sm">
+      <p className="p-3 flex flex-row justify-between items-center bg-white dark:bg-zinc-700 dark:text-white shadow-sm">
         {key ? key.id : "Loading Key..."}
         <button className="duration-300 bg-blue-400 hover:scale-105 text-white rounded-full active:scale-90 active:bg-orange-400 p-2">
           <IoCopyOutline

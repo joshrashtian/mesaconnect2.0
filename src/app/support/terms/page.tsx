@@ -11,6 +11,7 @@ const TermsPage: React.FC = () => {
         Terms and Conditions
       </TitleComponent>
       <div
+      className=" invert"
         dangerouslySetInnerHTML={{
           __html: `<style>
   [data-custom-class='body'], [data-custom-class='body'] * {

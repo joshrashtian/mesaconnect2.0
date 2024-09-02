@@ -81,19 +81,19 @@ const PostPage = ({ params }: { params: { id: string } }) => {
       transition={{ duration: 0.5, ease: "circInOut" }}
     >
       <ul
-        className="p-3 absolute hover:scale-110 shadow-md duration-500 top-6 left-6 cursor-pointer rounded-full bg-white w-16 h-16 flex justify-center items-center"
+        className="p-3 absolute dark:invert hover:scale-110 shadow-md duration-500 top-6 left-6 cursor-pointer rounded-full bg-white w-16 h-16 flex justify-center items-center"
         onClick={() => {
           router.back();
         }}
       >
-        <h1 className="text-3xl font-mono font-bold">{"<"}</h1>
+        <h1 className="text-3xl font-mono font-bold ">{"<"}</h1>
       </ul>
 
       <ul>
-        <h1 className="text-slate-600 font-bold text-3xl lg:text-6xl duration-300">
+        <h1 className="text-slate-600 dark:text-slate-200 font-bold text-3xl lg:text-6xl duration-300">
           {post?.title}
         </h1>
-        <h2 className=" text-zinc-600 z-50 text-2xl">
+        <h2 className=" text-zinc-600 dark:text-slate-300/70 z-50 text-2xl">
           by{" "}
           <span
             onClick={() => {}}
@@ -102,9 +102,9 @@ const PostPage = ({ params }: { params: { id: string } }) => {
             {post?.creator?.username}
             <motion.div
               onClick={(e) => e.preventDefault()}
-              className="w-64 cursor-default absolute text-lg text-black bg-white drop-shadow-none group-hover:drop-shadow-lg h-28 rounded-xl p-3 duration-500 origin-top group-hover:scale-100 scale-0"
+              className="w-64 cursor-default absolute text-lg text-black bg-white dark:bg-zinc-600 drop-shadow-none group-hover:drop-shadow-lg h-28 rounded-xl p-3 duration-500 origin-top group-hover:scale-100 scale-0"
             >
-              <h1>{post.creator.realname}</h1>
+              <h1 className="dark:text-white">{post.creator.realname}</h1>
               <div className="flex flex-row text-sm h-full gap-1">
                 <Link
                   href={`/connect/profile/${post.userid}`}
@@ -165,20 +165,20 @@ const PostPage = ({ params }: { params: { id: string } }) => {
       </section>
       <section className="flex flex-col gap-3">
         <RelatedTo classes={post.relations} />
-        <ul className="flex flex-col gap-3 p-5 bg-zinc-50 duration-300 rounded-xl">
+        <ul className="flex flex-col gap-3 p-5 bg-zinc-50 dark:bg-zinc-700/50 duration-300 rounded-xl">
           <div className="flex flex-row items-center gap-2">
             {/* eslint-disable-next-line jsx-a11y/alt-text,@next/next/no-img-element */}
             <img
               className="w-6 h-6 rounded-full"
               src={user.userData?.avatar_url}
              alt={user.userData?.username}/>
-            <h1 className="text-lg">Add a Comment:</h1>
+            <h1 className="text-lg dark:text-slate-200">Add a Comment:</h1>
           </div>
           <input
             onChange={(e) => {
               setReply(e.target.value);
             }}
-            className="w-full h-12 p-3 focus:outline-none hover:bg-white hover:shadow-sm hover:scale-[1.01] duration-300  px-5 rounded-xl"
+            className="w-full h-12 p-3 focus:outline-none dark:invert hover:bg-white hover:shadow-sm hover:scale-[1.01] duration-300  px-5 rounded-xl"
           />
           <AnimatePresence>
             {reply && (

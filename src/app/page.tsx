@@ -53,17 +53,17 @@ export default function Home() {
             transition={{ duration: 0.8, type: "just" }}
             className="cursor-default font-eudoxus text-lg font-black text-white/60 drop-shadow-xl duration-300 ease-in-out sm:text-xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl dark:text-white"
           >
-            The new way of{" "}
+            Join us in the new chapter of{" "}
             <span className="bg-gradient-to-br from-red-600 to-orange-400/30 bg-clip-text text-transparent duration-300 hover:text-black/20">
               MESA
             </span>
-            , a place to help{" "}
+            , where we are{" "}
             <span className="bg-orange-600/60 bg-clip-text text-transparent duration-500 hover:text-black/20">
-              connect
+              connecting
             </span>{" "}
             the{" "}
             <span className="bg-gradient-to-r from-indigo-500 to-blue-400 bg-clip-text text-transparent duration-500 ease-in-out hover:scale-105 hover:text-black/20 dark:from-indigo-400 dark:to-pink-500">
-              next generation.
+              next generation of leaders.
             </span>
           </motion.h1>
           <motion.h2

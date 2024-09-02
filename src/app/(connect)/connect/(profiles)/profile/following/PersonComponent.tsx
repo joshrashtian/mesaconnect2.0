@@ -44,7 +44,7 @@ const PersonComponent = ({ user }: { user: UserData }) => {
   return (
     <Link
       href={`/connect/profile/${user.id}`}
-      className="bg-white p-3 flex flex-row hover:scale-[1.01] duration-500 items-center font-eudoxus gap-5 rounded-lg"
+      className="bg-white dark:bg-zinc-700 p-3 flex flex-row hover:scale-[1.01] duration-500 items-center font-eudoxus gap-5 rounded-lg"
       onContextMenu={(e) => createContext(e, buttons)}
     >
       <picture className="relative w-10 h-10 rounded-full">

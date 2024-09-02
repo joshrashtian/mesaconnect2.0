@@ -90,7 +90,8 @@ const Projects = () => {
       >
         <AnimatePresence>
           {links.map((link, i) => (
-            <Reorder.Item key={link.name} value={link}>
+            //@ts-ignore
+            <Reorder.Item key={link.website} value={link}>
               <motion.section
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.4 }}

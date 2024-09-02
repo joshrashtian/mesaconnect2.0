@@ -10,6 +10,8 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import { HeaderContext } from "@/_components/home/HeaderContext";
+import { IoPerson } from "react-icons/io5";
+import Image from "next/image";
 
 const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
   const user = useUser();
@@ -70,13 +72,14 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
             : user.user.user_metadata.username
           : "Sign In"}
       </motion.h1>
-      <div className="bg-slate-300 w-8 rounded-full">
+      <div className="bg-slate-300 w-8 h-8 rounded-full relative items-center justify-center flex">
         {/* eslint-disable-next-line @next/next/no-img-element,jsx-a11y/alt-text */}
-        <img
+        { user.userData?.avatar_url ? <Image
           src={user.userData?.avatar_url}
           className="w-8 h-8 rounded-full"
+          fill
           alt={user.userData?.username}
-        />
+        /> : <IoPerson className="text-slate-400 w-4 h-4" /> }
       </div>
     </button>,
   ];

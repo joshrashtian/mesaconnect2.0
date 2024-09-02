@@ -30,7 +30,7 @@ const RelatedTo = ({ classes }: { classes: string[] }) => {
   }, [])
 
   return (
-    <main className="flex flex-row items-center">
+    <main className="flex flex-row items-center dark:text-slate-200">
       <h1 className="font-eudoxus">Related to:</h1>
       {relations.map((e) => {
         return (

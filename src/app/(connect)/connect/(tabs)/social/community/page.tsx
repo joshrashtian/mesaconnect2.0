@@ -115,7 +115,7 @@ const PostsPageHome = () => {
         </h1>
       </section>
       <motion.nav
-        drag="y"
+        //drag="y"
         onContextMenu={(e) => {
           menu.createContext(e, [
             {
@@ -148,12 +148,13 @@ const PostsPageHome = () => {
             },
           ]);
         }}
-        whileDrag={{ backgroundColor: "#eee" }}
+        //whileDrag={{ backgroundColor: "#eee" }}
         dragConstraints={{ top: 0, bottom: windowDimesions - 80 }}
-        className=" p-2 md:p-4 top-20 sticky shadow-inner rounded-2xl flex gap-0.5 md:gap-1  justify-center items-center z-30 mb-5 bg-white drop-shadow-2xl "
+        className=" p-2 md:p-4 top-20 sticky dark:bg-zinc-600/50 shadow-inner rounded-2xl flex gap-0.5 md:gap-1  justify-center items-center z-30 mb-5 bg-white drop-shadow-2xl "
+
       >
         <button
-          className=" p-0.5  md:p-2 duration-300 text-xs md:text-sm xl:text-base font-eudoxus flex flex-col lg:flex-row items-center gap-2 rounded-xl px-0.5 md:px-3 lg:px-6 text-slate-800 hover:text-black hover:bg-slate-200 active:scale-95 active:bg-slate-300 "
+          className=" p-0.5  md:p-2 duration-300 text-xs md:text-sm xl:text-base font-eudoxus flex flex-col lg:flex-row items-center gap-2 rounded-xl px-0.5 md:px-3 lg:px-6 text-slate-800 dark:text-slate-200 hover:text-black hover:bg-slate-200 active:scale-95 active:bg-slate-300 "
           onClick={() => {
             setRange(0);
             handleParams();
@@ -177,7 +178,7 @@ const PostsPageHome = () => {
         </button>
 */}
         <button
-          className=" p-0.5 md:p-2 duration-300 text-xs md:text-sm xl:text-base font-eudoxus flex flex-col lg:flex-row items-center  gap-2 rounded-xl px-0.5 md:px-3 lg:px-6 text-slate-800 hover:text-black hover:bg-slate-200 active:scale-95 active:bg-slate-300 "
+          className=" p-0.5 md:p-2 duration-300 text-xs md:text-sm xl:text-base font-eudoxus flex flex-col lg:flex-row items-center  gap-2 rounded-xl px-0.5 md:px-3 lg:px-6 text-slate-800 dark:text-slate-200 hover:text-black hover:bg-slate-200 active:scale-95 active:bg-slate-300 "
           onClick={async () => {
             handleParams("following");
             setRange(0);
@@ -192,7 +193,7 @@ const PostsPageHome = () => {
             }
           }}
         >
-          <IoPeople color="rgb(30 41 59)" />
+          <IoPeople className="text-[rgb(30 41 59)]" />
           Following
         </button>
         <ul className="w-0.5 h-4 bg-slate-300 mx-4" />
@@ -203,12 +204,12 @@ const PostsPageHome = () => {
             setReload(false);
           }}
         />
-        <ul className="w-0.5 h-4 bg-slate-300 mx-4" />
+        <ul className="w-0.5 h-4 bg-slate-300  mx-4" />
         <Link
           className=" p-0.5 md:p-2 scale-0 lg:scale-100 duration-300 text-xs md:text-sm xl:text-base font-eudoxus flex flex-col lg:flex-row items-center  gap-2 rounded-xl px-0.5 md:px-2 lg:px-4 text-slate-800 hover:text-black hover:bg-slate-200 active:scale-95 active:bg-slate-300 "
           href="/connect/social/search"
         >
-          <IoSearch color="rgb(30 41 59)" />
+          <IoSearch className="dark:text-slate-200"  />
         </Link>
       </motion.nav>
       <motion.article className="flex flex-col pb-10">
