@@ -78,12 +78,12 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.3 }}
-            className="mt-6 flex w-[620px] flex-col justify-center gap-2 md:flex-row"
+            className="mt-6 flex w-32 flex-col justify-center gap-2 md:w-[700px] md:flex-row"
           >
             {!user.user ? (
               <Link
                 href="/sign-in"
-                className="text-md flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-3xl bg-theme-blue text-white shadow-sm ring-blue-700 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-[1.02] hover:rounded-2xl hover:bg-theme-blue-2 hover:shadow-xl hover:ring-2 lg:h-16 lg:text-lg 2xl:text-xl"
+                className="text-md flex h-12 cursor-pointer items-center justify-center gap-2 rounded-3xl bg-theme-blue text-white shadow-sm ring-blue-700 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-[1.02] hover:rounded-2xl hover:bg-theme-blue-2 hover:shadow-xl hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
               >
                 <IoPerson />
                 <h2 className="font-eudoxus duration-300">Sign In</h2>
@@ -91,7 +91,7 @@ export default function Home() {
             ) : (
               <Link
                 href="/connect"
-                className="text-md flex h-12 w-full cursor-pointer items-center justify-center gap-3 rounded-3xl bg-gradient-to-tr from-red-700 to-orange-500 text-white shadow-lg ring-orange-400 ring-offset-1 transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-orange-700 hover:ring-2 lg:h-16 lg:text-lg 2xl:text-xl"
+                className="text-md flex h-12 cursor-pointer items-center justify-center gap-3 rounded-3xl bg-gradient-to-tr from-red-700 to-orange-500 text-white shadow-lg ring-orange-400 ring-offset-1 transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-orange-700 hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
               >
                 <h2 className="font-eudoxus duration-300">Enter Connect</h2>
                 <IoChevronForward />
@@ -99,19 +99,19 @@ export default function Home() {
             )}
             <Link
               href="/news"
-              className="flex h-12 w-full cursor-pointer items-center justify-center rounded-[32px] bg-indigo-600 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-105 hover:rounded-2xl hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16"
+              className="flex h-12 cursor-pointer items-center justify-center rounded-[32px] bg-indigo-600 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-105 hover:rounded-2xl hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
             >
               <IoNewspaper />
             </Link>
             <Link
               href="/support"
-              className="flex h-12 w-full cursor-pointer items-center justify-center rounded-[32px] bg-teal-700 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-105 hover:rounded-2xl hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16"
+              className="flex h-12 cursor-pointer items-center justify-center rounded-[32px] bg-teal-700 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-105 hover:rounded-2xl hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
             >
               <BiSupport />
             </Link>
             <Link
               href="/mobile"
-              className="flex h-12 w-full cursor-pointer items-center justify-center rounded-[32px] bg-gray-500 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-105 hover:rounded-2xl hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16"
+              className="flex h-12 cursor-pointer items-center justify-center rounded-[32px] bg-gray-500 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-105 hover:rounded-2xl hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
             >
               <IoPhonePortrait />
             </Link>
