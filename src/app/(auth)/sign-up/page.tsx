@@ -14,6 +14,7 @@ import {
 import { Key } from "@/app/(connect)/connect/settings/InviteKeys";
 import { useDarkMode } from "@/app/AuthContext";
 import Input from "@/_components/Input";
+import Link from "next/link";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -118,6 +119,12 @@ const SignUp = () => {
         ) : (
           email && password && <></>
         )}
+        <Link href={"/support/terms"} className="my-2 text-sm text-slate-400">
+          <h3>
+            *By signing up, you are agreeing to the Terms and Conditions. Click
+            here to view them
+          </h3>
+        </Link>
         {/*
         <section className="flex flex-col gap-1.5 rounded-2xl bg-white p-6 shadow-md dark:bg-zinc-500">
           {!validKey ? (
