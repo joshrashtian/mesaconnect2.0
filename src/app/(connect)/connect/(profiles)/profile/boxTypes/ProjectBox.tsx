@@ -13,15 +13,16 @@ const ProjectBox = (e: any) => {
           //@ts-ignore
           href={item.link}
           passHref={true}
-          className="w-1/3 hover:scale-105 hover:bg-zinc-100 duration-300 flex flex-row items-center justify-center gap-3 shadow-md rounded-full p-3"
+          className="flex w-1/3 flex-row items-center justify-center gap-3 rounded-2xl bg-zinc-100 p-3 duration-300 hover:scale-105 hover:bg-zinc-200"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            className="w-7 h-7"
+            className="h-7 w-7"
             src={item.website?.icon && item.website?.icon}
-           //@ts-ignore
-            alt={item.website}/>
-          <p className="text-lg font-bold">{item.name}</p>
+            //@ts-ignore
+            alt={item.website}
+          />
+          <p className="text-lg">{item.name}</p>
         </Link>
       ))}
     </main>
