@@ -79,6 +79,7 @@ const SignUp = () => {
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           Let's Build Your MESA Account.
         </motion.h1>
+        {/*
         <ul className="font-eudoxus">
           <p className="text-2xl dark:text-slate-200">
             Quickstart - Requires Key
@@ -97,7 +98,7 @@ const SignUp = () => {
             <IoLogoGoogle />
           </button>
         </ul>
-
+*/}
         <h2 className="p-2 font-eudoxus text-2xl dark:text-white">
           <span className="text-green-700 dark:text-green-400">First,</span>{" "}
           Starting with some basic account information:
@@ -117,6 +118,7 @@ const SignUp = () => {
         ) : (
           email && password && <></>
         )}
+        {/*
         <section className="flex flex-col gap-1.5 rounded-2xl bg-white p-6 shadow-md dark:bg-zinc-500">
           {!validKey ? (
             <>
@@ -161,7 +163,7 @@ const SignUp = () => {
             </h1>
           )}
         </section>
-
+          */}
         <section className="flex flex-col gap-2 lg:flex-row lg:flex-wrap">
           <input
             placeholder="email"
@@ -188,7 +190,7 @@ const SignUp = () => {
             onChange={(e) => setRealname(e.target.value)}
           /> */}
         </section>
-        {email && password && validKey && (
+        {email && password && (
           <ChooseCampus
             onChangeSelected={(e) => {
               setCollege(e);
