@@ -10,12 +10,22 @@ import { useContext, useRef } from "react";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
 import {
+  IoArrowForward,
   IoChevronForward,
   IoNewspaper,
   IoPerson,
   IoPhonePortrait,
 } from "react-icons/io5";
 import { BiSupport } from "react-icons/bi";
+import { Canvas } from "@react-three/fiber";
+import {
+  Center,
+  MapControls,
+  OrbitControls,
+  PresentationControls,
+  Stage,
+  useGLTF,
+} from "@react-three/drei";
 
 export default function Home() {
   useRef();
@@ -36,6 +46,13 @@ export default function Home() {
     offset: ["0 1.3", "0.5 0.67"],
   });
 
+  function Room(props: any) {
+    const { scene } = useGLTF("/mesaconnect.glb");
+
+    scene.rotation.y = Math.PI / -1.6;
+    return <primitive object={scene} {...props} />;
+  }
+
   const user = useContext(userContext);
 
   return (
@@ -44,27 +61,35 @@ export default function Home() {
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex h-[112vh] w-screen flex-col-reverse items-center justify-between gap-10 bg-opacity-10 bg-gradient-to-br from-indigo-700/50 to-orange-500/50 text-sm shadow-2xl shadow-slate-500/30 2xl:flex-row"
+        className="flex h-[105vh] w-screen flex-col items-center justify-between bg-blue-500/30 bg-gradient-to-br text-sm shadow-2xl shadow-slate-500/30 2xl:flex-row dark:bg-blue-950/40"
       >
-        <ul className="relative flex h-full w-full flex-col items-center justify-center gap-4 px-4 text-center sm:gap-6 sm:px-10 md:gap-10 md:px-28">
+        <Canvas className="absolute min-h-[60vh]">
+          <PresentationControls
+            config={{ mass: 2, tension: 100, friction: 10 }}
+            snap={{ mass: 2, tension: 100, friction: 10 }}
+          >
+            <ambientLight intensity={0.5} />
+            <directionalLight position={[0, 5, 10]} intensity={0.8} />
+            <Center position={[0, 0.3, -6]} rotation={[0, 0.4, 0]}>
+              <Room />
+            </Center>
+          </PresentationControls>
+        </Canvas>
+        <ul className="flex h-full w-full -translate-y-32 flex-col items-center justify-center gap-1 px-4 text-center sm:gap-6 sm:px-10 md:gap-2 md:px-16">
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "just" }}
-            className="cursor-default font-eudoxus text-lg font-black text-white/60 drop-shadow-xl duration-300 ease-in-out sm:text-xl md:text-3xl lg:text-5xl xl:text-6xl 2xl:text-7xl dark:text-white"
+            className="cursor-default font-eudoxus text-base font-black text-white drop-shadow-lg duration-300 ease-in-out sm:text-xl md:text-3xl lg:text-5xl xl:text-5xl 2xl:text-5xl dark:text-white"
           >
-            Join us in the new chapter of{" "}
+            It&apos;s Time To Connect{" "}
             <span className="bg-gradient-to-br from-red-600 to-orange-400/30 bg-clip-text text-transparent duration-300 hover:text-black/20">
-              MESA
-            </span>
-            , where we are{" "}
-            <span className="bg-orange-600/60 bg-clip-text text-transparent duration-500 hover:text-black/20">
-              connecting
+              STEM
             </span>{" "}
-            the{" "}
-            <span className="bg-gradient-to-r from-indigo-500 to-blue-400 bg-clip-text text-transparent duration-500 ease-in-out hover:scale-105 hover:text-black/20 dark:from-indigo-400 dark:to-pink-500">
-              next generation of leaders.
-            </span>
+            Together. Within A{" "}
+            <span className="bg-orange-600/60 bg-clip-text text-transparent duration-500 hover:text-black/20">
+              New Dimension.
+            </span>{" "}
           </motion.h1>
           <motion.h2
             initial={{ opacity: 0 }}
@@ -74,48 +99,55 @@ export default function Home() {
           >
             A community for the students, by the students.
           </motion.h2>
+
           <motion.section
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 1.3 }}
-            className="mt-6 flex w-32 flex-col justify-center gap-2 md:w-[700px] md:flex-row"
+            className="mt-6 flex w-64 flex-wrap justify-center gap-2 md:w-[700px] md:flex-row md:flex-nowrap"
           >
             {!user.user ? (
               <Link
                 href="/sign-in"
-                className="text-md flex h-12 cursor-pointer items-center justify-center gap-2 rounded-3xl bg-theme-blue text-white shadow-sm ring-blue-700 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-[1.02] hover:rounded-2xl hover:bg-theme-blue-2 hover:shadow-xl hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
+                className="text-md flex h-12 w-64 cursor-pointer items-center justify-center gap-2 rounded-3xl bg-theme-blue/50 text-white shadow-sm ring-blue-700 ring-offset-1 ring-offset-transparent transition-all duration-500 ease-in-out hover:scale-[1.02] hover:rounded-2xl hover:bg-theme-blue-2 hover:shadow-xl hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
               >
                 <IoPerson />
-                <h2 className="font-eudoxus duration-300">Sign In</h2>
+                <h2 className="font-eudoxus font-thin duration-300">Sign In</h2>
               </Link>
             ) : (
               <Link
                 href="/connect"
-                className="text-md flex h-12 cursor-pointer items-center justify-center gap-3 rounded-3xl bg-gradient-to-tr from-red-700 to-orange-500 text-white shadow-lg ring-orange-400 ring-offset-1 transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-orange-700 hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
+                className="text-md ring-offset-3 group flex h-12 w-64 cursor-pointer items-center justify-center gap-3 rounded-3xl bg-orange-600/50 text-white shadow-lg ring-orange-400 ring-offset-transparent transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-orange-700/60 hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
               >
-                <h2 className="font-eudoxus duration-300">Enter Connect</h2>
-                <IoChevronForward />
+                <h2 className="font-eudoxus font-thin duration-300">
+                  Enter Connect
+                </h2>
+
+                <IoArrowForward className="duration-300 ease-in-out group-hover:translate-x-4" />
               </Link>
             )}
             <Link
               href="/news"
-              className="flex h-12 cursor-pointer items-center justify-center rounded-[32px] bg-indigo-600 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-105 hover:rounded-2xl hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
+              className="flex h-12 w-16 cursor-pointer items-center justify-center rounded-[32px] bg-indigo-600/60 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 ring-offset-transparent transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
             >
               <IoNewspaper />
             </Link>
             <Link
               href="/support"
-              className="flex h-12 cursor-pointer items-center justify-center rounded-[32px] bg-teal-700 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-105 hover:rounded-2xl hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
+              className="flex h-12 w-16 cursor-pointer items-center justify-center rounded-[32px] bg-teal-700/60 text-2xl text-white shadow-lg ring-teal-500 ring-offset-1 ring-offset-transparent transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
             >
               <BiSupport />
             </Link>
             <Link
               href="/mobile"
-              className="flex h-12 cursor-pointer items-center justify-center rounded-[32px] bg-gray-500 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 transition-all duration-500 ease-in-out hover:scale-105 hover:rounded-2xl hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
+              className="flex h-12 w-16 cursor-pointer items-center justify-center rounded-[32px] bg-gray-500/60 text-2xl text-white shadow-lg ring-gray-500 ring-offset-1 ring-offset-transparent transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
             >
               <IoPhonePortrait />
             </Link>
           </motion.section>
+          <p className="text-sm text-white/60">
+            models by goldenspino, sellpet. all rights belong to them.
+          </p>
         </ul>
       </motion.section>
 
