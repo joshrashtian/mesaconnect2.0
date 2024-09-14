@@ -61,9 +61,9 @@ export default function Home() {
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex h-[105vh] w-screen flex-col items-center justify-between bg-blue-500/30 bg-gradient-to-br text-sm shadow-2xl shadow-slate-500/30 2xl:flex-row dark:bg-blue-950/40"
+        className="flex h-[105vh] w-screen flex-col items-center justify-between bg-blue-500/30 bg-gradient-to-br text-sm shadow-2xl shadow-slate-500/30 dark:bg-blue-950/40"
       >
-        <Canvas className="absolute min-h-[60vh]">
+        <Canvas className="absolute z-50 min-h-[60vh] w-screen">
           <PresentationControls
             config={{ mass: 2, tension: 100, friction: 10 }}
             snap={{ mass: 2, tension: 100, friction: 10 }}

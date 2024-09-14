@@ -25,22 +25,22 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
 
   const springedValue = useSpring(scrollYProgress);
 
-  const opacity = useTransform(springedValue, [0, 1], [0, 1]);
+  const opacity = useTransform(springedValue, [0.4, 1], [0, 1]);
   const color = useTransform(
     springedValue,
     [0.4, 1],
-    isDark ? ["#FFF", "#fff"] : ["#FFF", "#FFFF"]
+    isDark ? ["#FFF", "#fff"] : ["#FFF", "#FFFF"],
   );
 
   const headerComponents = [
     // eslint-disable-next-line react/jsx-key
     <Link
       href="/news"
-      className="flex flex-row gap-2 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
+      className="flex cursor-pointer flex-row items-center gap-2 rounded-full duration-300 hover:scale-105"
     >
       <motion.h1
         style={{ color: color }}
-        className=" text-sm lg:text-xl drop-shadow-xl"
+        className="text-sm drop-shadow-xl lg:text-xl"
       >
         News
       </motion.h1>
@@ -48,11 +48,11 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
     // eslint-disable-next-line react/jsx-key
     <Link
       href="/support"
-      className="flex flex-row gap-2 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
+      className="flex cursor-pointer flex-row items-center gap-2 rounded-full duration-300 hover:scale-105"
     >
       <motion.h1
         style={{ color: color }}
-        className="text-sm lg:text-xl drop-shadow-xl"
+        className="text-sm drop-shadow-xl lg:text-xl"
       >
         Support
       </motion.h1>
@@ -60,11 +60,11 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
     // eslint-disable-next-line react/jsx-key
     <button
       onClick={() => setMenu(!menu)}
-      className="flex flex-row gap-1 rounded-full items-center hover:scale-105 duration-300 cursor-pointer"
+      className="flex cursor-pointer flex-row items-center gap-1 rounded-full duration-300 hover:scale-105"
     >
       <motion.h1
         style={{ color: color }}
-        className="text-sm lg:text-xl drop-shadow-xl"
+        className="text-sm drop-shadow-xl lg:text-xl"
       >
         {user.user
           ? user.user.user_metadata.full_name
@@ -72,14 +72,18 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
             : user.user.user_metadata.username
           : "Sign In"}
       </motion.h1>
-      <div className="bg-slate-300 w-8 h-8 rounded-full relative items-center justify-center flex">
+      <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-slate-300">
         {/* eslint-disable-next-line @next/next/no-img-element,jsx-a11y/alt-text */}
-        { user.userData?.avatar_url ? <Image
-          src={user.userData?.avatar_url}
-          className="w-8 h-8 rounded-full"
-          fill
-          alt={user.userData?.username}
-        /> : <IoPerson className="text-slate-400 w-4 h-4" /> }
+        {user.userData?.avatar_url ? (
+          <Image
+            src={user.userData?.avatar_url}
+            className="h-8 w-8 rounded-full"
+            fill
+            alt={user.userData?.username}
+          />
+        ) : (
+          <IoPerson className="h-4 w-4 text-slate-400" />
+        )}
       </div>
     </button>,
   ];
@@ -89,27 +93,27 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 5, type: "spring" }}
-      className="w-full h-28 px-[5%] fixed top-0 z-50 justify-between items-center flex-row flex "
+      className="fixed top-0 z-50 flex h-28 w-full flex-row items-center justify-between px-[5%]"
     >
       <motion.ul
         style={{ opacity: opacity }}
-        className="h-28 w-full fixed top-0 left-0 bg-gradient-to-br rounded-b-3xl -z-10 backdrop-blur-sm dark:from-orange-900 dark:to-zinc-800 from-purple-500/50 to-orange-500/50 drop-shadow-lg"
+        className="fixed left-0 top-0 -z-10 h-28 w-full rounded-b-3xl bg-gradient-to-br from-purple-500/50 to-orange-500/50 drop-shadow-lg backdrop-blur-sm dark:from-orange-900 dark:to-zinc-800"
       />
       <motion.h2
         initial="colorone"
         animate={Number(scrollYProgress.get()) < 0.9 ? "colorone" : "colortwo"}
-        className="text-red-600 text-sm lg:text-xl drop-shadow-2xl shadow-black font-eudoxus "
+        className="font-eudoxus text-sm text-red-600 shadow-black drop-shadow-2xl lg:text-xl"
       >
         MESA
         <motion.span style={{ color: color }}>connect</motion.span>
       </motion.h2>
-      <motion.section className="flex flex-row gap-5 text-nowrap items-center">
+      <motion.section className="flex flex-row items-center gap-5 text-nowrap">
         {headerComponents.map((e, index) => (
           <motion.ul
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 1 + 0.5 * index, duration: 2 }}
-            className="flex h-full w-full ml-4 items-center"
+            className="ml-4 flex h-full w-full items-center"
             key={index}
           >
             {e}
