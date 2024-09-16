@@ -30,7 +30,7 @@ const SignUp = () => {
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
 
   const signUpUser = async () => {
-    if (!email || !password || !realname || !username) {
+    if (!email || !password) {
       setErrorMsg("All fields are required!");
       return;
     }
