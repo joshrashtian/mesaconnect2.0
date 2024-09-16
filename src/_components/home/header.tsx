@@ -60,7 +60,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
     // eslint-disable-next-line react/jsx-key
     <button
       onClick={() => setMenu(!menu)}
-      className="flex cursor-pointer flex-row items-center gap-1 rounded-full duration-300 hover:scale-105"
+      className="flex cursor-pointer flex-row items-center gap-1 rounded-full drop-shadow-2xl duration-300 hover:scale-105"
     >
       <motion.h1
         style={{ color: color }}
@@ -106,6 +106,9 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       >
         MESA
         <motion.span style={{ color: color }}>connect</motion.span>
+        <motion.span className="mx-2 rounded-full bg-red-400 px-2 text-xs text-black dark:bg-black dark:text-white">
+          beta
+        </motion.span>
       </motion.h2>
       <motion.section className="flex flex-row items-center gap-5 text-nowrap">
         {headerComponents.map((e, index) => (

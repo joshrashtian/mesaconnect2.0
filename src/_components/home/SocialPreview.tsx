@@ -37,7 +37,7 @@ const SocialPreview = () => {
         icon: <IoPrism />,
       },
     ],
-    []
+    [],
   );
 
   const TeachOthers = useMemo(
@@ -55,21 +55,21 @@ const SocialPreview = () => {
         icon: <IoAnalytics />,
       },
     ],
-    []
+    [],
   );
 
   return (
     <motion.section
       ref={scrollRef}
       style={{ opacity: opacity, y: position }}
-      className="flex flex-col font-eudoxus w-screen h-[100vh] p-16 "
+      className="flex h-[100vh] w-screen flex-col p-16 font-eudoxus"
     >
-      <section className="w-full flex flex-row items-center justify-between gap-3">
+      <section className="flex w-full flex-row items-center justify-between gap-3">
         <ul>
-          <h1 className="font-bold text-5xl bg-clip-text text-transparent bg-gradient-to-l dark:from-teal-300 dark:to-purple-300 from-teal-600 to-slate-500">
+          <h1 className="bg-gradient-to-l from-teal-600 to-slate-500 bg-clip-text text-5xl font-black text-transparent dark:from-teal-300 dark:to-purple-300">
             Express Yourself.
           </h1>
-          <p className="text-lg text-slate-700 dark:text-slate-200/60 mb-5 ">
+          <p className="mb-5 text-lg text-slate-700 dark:text-slate-200/60">
             Show off all of you talents, skills and projects within a safe,
             polished and creative environment.
           </p>
@@ -77,9 +77,9 @@ const SocialPreview = () => {
             <motion.li
               whileHover={{ rotateZ: -1, scale: 1.05 }}
               key={index}
-              className={`bg-zinc-200 dark:bg-zinc-700/60 hover:scale-[1.02] items-center gap-4 cursor-pointer hover:ring-offset-2 hover:ring-2 ring-teal-400 duration-500 my-2 flex flex-row p-5 rounded-2xl`}
+              className={`my-2 flex cursor-pointer flex-row items-center gap-4 rounded-2xl bg-zinc-200 p-5 ring-teal-400 duration-500 hover:scale-[1.02] hover:ring-2 hover:ring-offset-2 dark:bg-zinc-700/60`}
             >
-              <ul className="text-teal-600 dark:text-teal-500 rounded-full text-2xl">
+              <ul className="rounded-full text-2xl text-teal-600 dark:text-teal-500">
                 {e.icon}
               </ul>
 
@@ -88,7 +88,7 @@ const SocialPreview = () => {
           ))}
         </ul>
         <video
-          className="w-[50%] h-40 rounded-2xl object-cover dark:shadow-orange-500 dark:shadow-md outline-none"
+          className="h-40 w-[50%] rounded-2xl object-cover outline-none dark:shadow-md dark:shadow-orange-500"
           autoPlay
           muted
           loop
@@ -101,18 +101,18 @@ const SocialPreview = () => {
           Oops! The video sadly does not work on this browser :(
         </video>
       </section>
-      <section className="w-full flex flex-row-reverse items-center justify-between gap-3">
-        <section className="w-full flex items-end flex-col">
-          <h1 className="font-bold mb-5 text-5xl bg-clip-text text-transparent bg-gradient-to-l dark:to-teal-300 dark:from-purple-300 from-teal-600 to-slate-500">
+      <section className="flex w-full flex-row-reverse items-center justify-between gap-3">
+        <section className="flex w-full flex-col items-end">
+          <h1 className="mb-5 bg-gradient-to-l from-teal-600 to-slate-500 bg-clip-text text-5xl font-bold text-transparent dark:from-purple-300 dark:to-teal-300">
             Teach / Inspire Others.
           </h1>
           {TeachOthers.map((e, index) => (
             <motion.li
               whileHover={{ rotateZ: 1, scale: 1.05 }}
               key={index}
-              className={`bg-zinc-200 dark:bg-zinc-700/60 w-1/2 hover:scale-[1.02] flex-row-reverse items-center gap-4 cursor-pointer hover:ring-offset-2 hover:ring-2 ring-teal-400 duration-500 my-1 flex p-5 rounded-2xl`}
+              className={`my-1 flex w-1/2 cursor-pointer flex-row-reverse items-center gap-4 rounded-2xl bg-zinc-200 p-5 ring-teal-400 duration-500 hover:scale-[1.02] hover:ring-2 hover:ring-offset-2 dark:bg-zinc-700/60`}
             >
-              <ul className="text-teal-600 dark:text-teal-500 rounded-full text-2xl">
+              <ul className="rounded-full text-2xl text-teal-600 dark:text-teal-500">
                 {e.icon}
               </ul>
 
