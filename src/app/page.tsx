@@ -27,11 +27,13 @@ import {
   useGLTF,
 } from "@react-three/drei";
 import JoinNow from "@/_components/home/JoinNow";
+import OpenSource from "@/_components/home/OpenSource";
 
 export default function Home() {
-  useRef();
   const firstRef = useRef(null);
   const mainRef = useRef(null);
+  const openSourceRef = useRef(null);
+  const joinNowRef = useRef(null);
 
   const { scrollYProgress: FirstScroll } = useScroll({
     target: mainRef,
@@ -53,6 +55,21 @@ export default function Home() {
     scene.rotation.y = Math.PI / -1.6;
     return <primitive object={scene} {...props} />;
   }
+
+  const { scrollYProgress: joinScroll } = useScroll({
+    target: joinNowRef,
+    offset: ["start start", "end end"],
+  });
+  const JoinNowScroll = useSpring(joinScroll, {
+    stiffness: 100,
+    damping: 50,
+    restDelta: 0.001,
+  });
+
+  const { scrollYProgress: openSourceScroll } = useScroll({
+    target: openSourceRef,
+    offset: ["start end", "center center"],
+  });
 
   const user = useContext(userContext);
 
@@ -184,7 +201,8 @@ export default function Home() {
         </section>
       </motion.section>
       <SocialPreview />
-      <JoinNow />
+      <OpenSource ref={openSourceRef} scrolledValue={openSourceScroll} />
+      <JoinNow ref={joinNowRef} scrolledValue={JoinNowScroll} />
     </motion.main>
   );
 }
