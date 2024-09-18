@@ -4,7 +4,7 @@ import ClassPicker from "./ClassPicker";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Your Courses",
+  title: "Your Courses | MESA Connect",
 };
 
 const ProfileLearning = () => {
@@ -12,9 +12,9 @@ const ProfileLearning = () => {
     <main>
       <IoBookSharp
         size={70}
-        className=" hover:scale-105 hover:text-indigo-500 duration-300"
+        className="duration-300 hover:scale-105 hover:text-indigo-500"
       />
-      <h1 className="font-eudoxus z-10 text-3xl drop-shadow-2xl md:text-4xl lg:text-6xl font-black text-center lg:text-left gap-3 text-indigo-900 dark:text-pink-400/70 duration-300">
+      <h1 className="z-10 gap-3 text-center font-eudoxus text-3xl font-black text-indigo-900 drop-shadow-2xl duration-300 md:text-4xl lg:text-left lg:text-6xl dark:text-pink-400/70">
         Learning Profile
       </h1>
       <ClassPicker />

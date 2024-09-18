@@ -196,13 +196,13 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
               return (
                 <section
                   key={e.contents}
-                  className="w-[49%] min-h-full p-5 rounded-xl bg-white"
+                  className="w-[49%] min-h-full p-5 rounded-xl bg-white dark:bg-zinc-700"
                 >
                   {Index.map((d: any, i: number) => {
                     if (d.title.toLowerCase() === e.type.toLowerCase()) {
                       return (
                         <div key={i}>
-                          <h1 className="font-bold">{d.title}</h1>
+                          <h1 className="font-bold dark:text-slate-200">{d.title}</h1>
                           <d.component data={e} />
                         </div>
                       );

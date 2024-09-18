@@ -19,18 +19,18 @@ export const UserCheck = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <AnimatePresence>
-      {userData && settings && userData.username ? (
+      {userData && settings && userData.username && userData.real_name ? (
         children
-      ) : userData ?
-    <OnboardingFromQuick />
-        :(
+      ) : userData ? (
+        <OnboardingFromQuick />
+      ) : (
         <motion.section
-        initial={{opacity: 1, backgroundColor: "#000"}}
-      animate={{backgroundColor: "rgb(234 88 12)"}}
-      exit={{opacity: 0, backgroundColor: "#fff", scale: 0.9}}
-      key="our_first_page_please_track_and_thank_you_sir"
-      transition={{duration: 0.5}}
-      className="min-h-screen flex-col flex justify-center items-center min-w-screen"
+          initial={{ opacity: 1, backgroundColor: "#000" }}
+          animate={{ backgroundColor: "rgb(234 88 12)" }}
+          exit={{ opacity: 0, backgroundColor: "#fff", scale: 0.9 }}
+          key="our_first_page_please_track_and_thank_you_sir"
+          transition={{ duration: 0.5 }}
+          className="min-h-screen flex-col flex justify-center items-center min-w-screen"
         >
           <IoPeopleCircleOutline className=" text-white text-8xl" />
           <h1 className="bg-gradient-to-br from-white to-slate-300 bg-clip-text inline-block text-transparent text-8xl font-bold font-eudoxus">

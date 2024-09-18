@@ -4,6 +4,7 @@ import { serverside } from "../../../../../../../../config/serverside";
 import ClassesRegister from "./classes";
 import LoadingPage from "@/_components/LoadingPage";
 import { Metadata } from "next";
+import TitleComponent from "@/(mesaui)/title";
 
 export async function generateMetadata() {
   return {
@@ -19,7 +20,9 @@ const SelectClasses = async () => {
 
   return (
     <div>
-      <h1>New Classes</h1>
+      <TitleComponent style={{ marginBottom: 12 }} size="small">
+        New Classes
+      </TitleComponent>
       <section>
         {data ? <ClassesRegister classes={data} /> : <LoadingPage />}
       </section>

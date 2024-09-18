@@ -18,14 +18,14 @@ const Settings = () => {
     return (
         <div>
             <header className="flex flex-row justify-between gap-4">
-                <ul className="text-green-900 w-1/2 p-4 bg-zinc-100/60 border-2 rounded-2xl border-slate-500">
+                <ul className="text-green-900 w-1/2 p-4 bg-zinc-100/60 dark:bg-zinc-700 dark:text-green-300 border-2 rounded-2xl border-slate-500">
                     <p className="font-black">Local Settings</p>
                     <pre>
 
                 {JSON.stringify(settings, null, 2)}
             </pre>
                 </ul>
-                <ul className="text-green-700 w-1/2 p-4 bg-zinc-100/60 border-2 rounded-2xl border-slate-500">
+                <ul className="text-green-700 w-1/2 p-4 bg-zinc-100/60 dark:bg-zinc-700 dark:text-green-300 border-2 rounded-2xl border-slate-500">
                     <p className="font-black">Unaltered</p>
                     <pre>
                 {JSON.stringify(PreSettings, null, 2)}
@@ -41,7 +41,7 @@ const Settings = () => {
                 <IoSettings /> Update Settings
             </button>
             <ul>
-                <p>Constantly Locked Taskbar</p>
+                <p className='dark:text-slate-200'>Constantly Locked Taskbar</p>
                 <Switch click={() => setSettings({ ...settings, taskbar: settings.taskbar === 'default' ? "open" : "default"})} toggled={settings.taskbar !== 'default'} />
             </ul>
 

@@ -40,7 +40,7 @@ const Page = () => {
 
   if (!selected) return null;
   return (
-    <main className="w-full h-full pb-16 flex gap-4 flex-col">
+    <main className="w-full h-full pb-16 flex dark:invert gap-4 flex-col">
       <h1 className="text-4xl font-bold text-transparent bg-clip-text inline-block bg-gradient-to-tr from-orange-700 to-black font-eudoxus ">
         MESA Studio
       </h1>

@@ -8,7 +8,10 @@ const FeaturedPolls = () => {
   const [data, setData] = useState<any>([]);
   useEffect(() => {
     const fetchData = async () => {
-      const { data, error } = await supabase.from("questions").select();
+      const { data, error } = await supabase
+        .from("questions")
+        .select()
+        .limit(8);
       if (error) {
         console.error(error);
         return;
@@ -20,18 +23,18 @@ const FeaturedPolls = () => {
 
   return (
     <section className="flex flex-col gap-2">
-      <ul className="flex flex-row justify-between items-center">
-        <h2 className="font-semibold text-zinc-700 dark:text-zinc-200/70 text-3xl font-eudoxus">
+      <ul className="flex flex-row items-center justify-between">
+        <h2 className="font-eudoxus text-3xl font-semibold text-zinc-700 dark:text-zinc-200/70">
           Featured Polls
         </h2>
         <Link
           href="/connect/learning/creator"
-          className="p-2 px-4 border-2 hover:border-opacity-100 hover:scale-105 duration-300 border-dashed border-opacity-50 border-slate-600 rounded-2xl"
+          className="rounded-2xl border-2 border-dashed border-slate-600 border-opacity-50 p-2 px-4 duration-300 hover:scale-105 hover:border-opacity-100"
         >
-          <h1 className="text-slate-600 font-eudoxus">Create Question</h1>
+          <h1 className="font-eudoxus text-slate-600">Create Question</h1>
         </Link>
       </ul>
-      <div className="w-full flex flex-col md:flex-wrap lg:flex-row no-scrollbar pb-4 lg:overflow-x-scroll gap-2">
+      <div className="no-scrollbar flex w-full flex-col gap-2 pb-4 md:flex-wrap lg:flex-row lg:overflow-x-scroll">
         {data.map((poll: PollType, index: number) => (
           <PollCard key={index} index={index} data={poll} />
         ))}

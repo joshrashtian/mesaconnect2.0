@@ -56,10 +56,10 @@ const FollowingPage = () => {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-row gap-2"
+            className="flex dark:text-white flex-row gap-2"
           >
             <ul className="p-3 flex flex-col gap-1.5 w-full">
-              <h2 className="font-eudoxus text-2xl font-semibold">Following</h2>
+              <h2 className="font-eudoxus text-2xl  font-semibold">Following</h2>
               {following &&
                 following.map((e, i) => {
                   return <PersonComponent user={e} key={e.id} />;

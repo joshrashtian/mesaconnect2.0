@@ -1,16 +1,23 @@
 "use server"
 import { serverside } from "../../../../../../../config/serverside";
 
-export async function intfetch(range: number) {
-      const { data, error } = await serverside
+export async function intfetch(range: number, globalCount: number) {
+  let number = range === 0 ? range + 7 : ( range + 7 >= globalCount ? globalCount - range : range + 7 );
+  console.log({
+    range,
+    number,
+    globalCount,
+  });
+  
+      const { data, count, error } = await serverside
         .from("posts")
         .select("*", { count: "exact" })
-        .range(range, range + 10)
+        .range(range, range + number)
         .order("created_at", { ascending: false });
       if (error) {
         console.error(error);
       }
-      return { data, error }
+      return { data, count, error }
     }
 
 export async function getFollowed() {

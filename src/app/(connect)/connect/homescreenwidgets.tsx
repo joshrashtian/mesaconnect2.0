@@ -16,7 +16,7 @@ const HomeScreenWidgets = () => {
   const eventStyles = [
     {
       size: 'tall',
-      style: 'h-full gap-x-4 flex flex-row justify-between'
+      style: 'h-full gap-x-4 flex flex-row dark:bg-zinc-700/50 justify-between'
     }
   ]
 
@@ -70,8 +70,8 @@ const HomeScreenWidgets = () => {
         </h1>
       </div>
       <motion.section
-        className={`w-full min-h-[90%] flex flex-row justify-center p-10 gap-3 duration-1000 ${
-          mode === 1 && 'scale-[0.85] bg-white rounded-3xl'
+        className={`w-full min-h-[90%] dark:text-white flex flex-row justify-center p-10 gap-3 duration-1000 ${
+          mode === 1 && 'scale-[0.85] bg-white dark:bg-zinc-900/50 rounded-3xl'
         } `}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -81,7 +81,7 @@ const HomeScreenWidgets = () => {
           <motion.h1
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            className="font-light text-2xl"
+            className="font-light text-2xl "
           >
             You can edit your dashboard by clicking Edit Widgets in the top corner!
           </motion.h1>
@@ -108,7 +108,7 @@ const HomeScreenWidgets = () => {
                             animate={{ x: -30, y: -30, scale: 1, opacity: 1 }}
                             exit={{ x: -30, y: -50, scale: 0, opacity: 0 }}
                             transition={{ type: 'spring', duration: 0.6 }}
-                            className="bg-zinc-300 font-bold cursor-pointer text-xl w-12 h-12 absolute flex flex-row justify-center items-center -translate-x-10 -translate-y-10 rounded-full"
+                            className="bg-zinc-300 dark:bg-zinc-800 font-bold cursor-pointer text-xl w-12 h-12 absolute flex flex-row justify-center items-center -translate-x-10 -translate-y-10 rounded-full"
                             onClick={() => {
                               deleteWidget(e)
                             }}

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import InviteKeys from "./InviteKeys";
 import Settings from "@/app/(connect)/connect/settings/settings";
+import TitleComponent from "@/(mesaui)/title";
 
 const SettingsPage = () => {
   const user = useUser();
@@ -18,20 +19,20 @@ const SettingsPage = () => {
         <header className="">
           <IoSettingsOutline
               size={70}
-              className=" hover:animate-spin hover:text-orange-500 duration-300"
+              className=" hover:animate-spin dark:text-white hover:text-orange-500 duration-300"
           />
-          <h1 className="font-eudoxus z-10 text-3xl drop-shadow-2xl md:text-4xl lg:text-6xl font-bold text-center lg:text-left gap-3 text-indigo-900 duration-300">
+          <TitleComponent size="medium">
             User Settings
-          </h1>
+          </TitleComponent>
         </header>
         <section className="flex flex-col font-eudoxus gap-3">
-          <h1 className="font-eudoxus text-2xl">Your Settings Document</h1>
+          <h1 className="font-eudoxus dark:text-slate-200 text-2xl">Your Settings Document</h1>
           <Settings />
         </section>
         <InviteKeys/>
         <section className="flex flex-col font-eudoxus gap-3">
-            <h1 className="font-eudoxus text-2xl">Account Information</h1>
-            <ul className="p-6 bg-white flex flex-row items-center">
+            <h1 className="font-eudoxus text-2xl dark:text-white">Account Information</h1>
+            <ul className="p-6 bg-white dark:bg-zinc-700 dark:text-zinc-200 rounded-3xl flex flex-row items-center">
               <div className="flex flex-col items-center">
                 <li className="relative w-16 h-16 rounded-full">
                   {user.userData?.avatar_url && (

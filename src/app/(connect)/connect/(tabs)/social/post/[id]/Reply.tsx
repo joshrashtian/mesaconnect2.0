@@ -44,18 +44,18 @@ const Reply = ({ contents }: { contents: ReplyType }) => {
     >
       <ul
         className={`w-1 p-1 min-h-full ${
-          contents.private ? "bg-teal-600" : "bg-orange-600"
+          contents.private ? "bg-teal-600 dark:bg-teal-500" : "bg-orange-600 dark:bg-orange-400"
         }  rounded-l-2xl`}
       />
-      <ul className="p-3 bg-white w-full h-full rounded-r-2xl">
-        <section className="flex flex-row justify-between">
+      <ul className="p-3 bg-white dark:bg-zinc-900/50 w-full h-full rounded-r-2xl">
+        <section className="flex flex-row justify-between dark:text-white">
           <h1 className="font-bold">{contents.creator.realname}</h1>
           <h2>
             {months[time.getMonth()]} {time.getDate()}, {time.getFullYear()} /{" "}
             {time.getHours()}:{time.getMinutes()}
           </h2>
         </section>
-        <p className="text-slate-500">{contents.reply}</p>
+        <p className="text-slate-500 dark:text-slate-200">{contents.reply}</p>
       </ul>
     </motion.main>
   );

@@ -44,7 +44,7 @@ const Toast = ({
           transition={{ duration: 1, type: 'spring' }}
           className="fixed bottom-28 z-50 font-eudoxus origin-bottom flex flex-row justify-center items-center rounded-3xl w-full h-16"
         >
-          <motion.ul className="flex flex-row items-center gap-2.5 p-2 shadow-md rounded-3xl top-8 right-8 min-w-96 h-16 duration-500 hover:bg-slate-200 cursor-pointer bg-white">
+          <motion.ul className="flex flex-row items-center gap-2.5 p-2 shadow-md rounded-3xl top-8 right-8 min-w-96 h-16 duration-500 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-600 cursor-pointer bg-white">
             <ul className={`${ toast.type === 'success' ? "bg-green-700" : toast.type === 'error' ? "bg-red-700" : "bg-teal-700"} text-white rounded-full p-2 text-3xl`}
             >
             { toast.type === 'success' ? <IoCheckmark /> : toast.type === 'error' ? <IoWarning /> : <IoInformation />}
@@ -52,12 +52,12 @@ const Toast = ({
             <ul>
             <h1
             className={`font-bold capitalize ${
-              toast.type === 'success' ? 'text-green-800' : toast.type === "error" && 'text-red-500'
+              toast.type === 'success' ? 'text-green-800 dark:text-green-500' : toast.type === "error" && 'text-red-500'
             }`}
           >
             {toast.type}
           </h1>
-          <h1>{toast.message}</h1>
+          <h1 className='dark:text-slate-200'>{toast.message}</h1>
           </ul>
           </motion.ul>
         </motion.section>

@@ -34,20 +34,20 @@ const PersonComponent = ({ user }: { user: UserData }) => {
           if (error) console.error(error);
           else
             toast.CreateSuccessToast(
-              `Succesfully unfollowed ${user.real_name}.`
+              `Succesfully unfollowed ${user.real_name}.`,
             );
         },
       },
     ],
-    []
+    [],
   );
   return (
     <Link
       href={`/connect/profile/${user.id}`}
-      className="bg-white p-3 flex flex-row hover:scale-[1.01] duration-500 items-center font-eudoxus gap-5 rounded-lg"
+      className="flex flex-row items-center gap-5 rounded-lg bg-white p-3 font-eudoxus duration-500 hover:scale-[1.01] dark:bg-zinc-700"
       onContextMenu={(e) => createContext(e, buttons)}
     >
-      <picture className="relative w-10 h-10 rounded-full">
+      <picture className="relative h-10 w-10 rounded-full">
         <Image
           src={user.avatar_url}
           alt={user.real_name}
