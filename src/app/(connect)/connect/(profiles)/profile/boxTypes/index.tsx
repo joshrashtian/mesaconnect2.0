@@ -3,8 +3,9 @@ import Skills from "./Skills";
 import Interestsblock from "@/app/(connect)/connect/(profiles)/profile/boxTypes/interestsblock";
 import InterestsBlock from "@/app/(connect)/connect/(profiles)/profile/[id]/(infoblockscreator)/InterestsBlock";
 import React from "react";
-import {MdInterests} from "react-icons/md";
-import {IoBuildOutline} from "react-icons/io5";
+import { MdInterests } from "react-icons/md";
+import { IoBuildOutline } from "react-icons/io5";
+import { TutorBlock, TutorBlockSettings } from "./TutorBlock";
 
 export const Index = [
   {
@@ -43,13 +44,23 @@ export const Index = [
     },
     icon: <MdInterests />,
     create: <InterestsBlock />,
+    infoblock: true,
+  },
+  {
+    title: "Tutor Times",
+    icon: <MdInterests />,
+    component: (data: any) => {
+      const e = data.data;
+      return <TutorBlock data={e} />;
+    },
+    create: <TutorBlockSettings />,
+    infoblock: true,
   },
   {
     title: "Personal Project",
     icon: <IoBuildOutline />,
-    component: (data: any) => (
-      <h1>Project</h1>
-    ),
-    create: () => {}
-  }
+    component: (data: any) => <h1>Project</h1>,
+    create: () => {},
+    infoblock: true,
+  },
 ];
