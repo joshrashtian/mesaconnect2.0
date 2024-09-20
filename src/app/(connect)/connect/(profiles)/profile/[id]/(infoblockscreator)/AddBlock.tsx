@@ -2,9 +2,10 @@ import React from "react";
 import { InfoBlockType } from "../infoblocks";
 import { Index } from "@/app/(connect)/connect/(profiles)/profile/boxTypes";
 import { IoBrowsers } from "react-icons/io5";
+import { FormBlockButton } from "./InfoBlockDashboard";
 const AddBlock = ({ Blocks }: { Blocks: InfoBlockType[] | undefined }) => {
   return (
-    <div>
+    <div className="flex h-[600px] w-[800px] flex-col gap-4">
       <h1>
         <IoBrowsers /> Add Block
       </h1>
@@ -16,7 +17,15 @@ const AddBlock = ({ Blocks }: { Blocks: InfoBlockType[] | undefined }) => {
             ),
         )
         .map((block) => {
-          return <div key={block.title}>{block.title}</div>;
+          return (
+            <FormBlockButton
+              key={block.title}
+              className="w-48 bg-white capitalize"
+            >
+              {block.icon}
+              {block.title}
+            </FormBlockButton>
+          );
         })}
     </div>
   );

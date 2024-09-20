@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { supabase } from "../../../../config/mesa-config";
 import Link from "next/link";
 import { IoLogoGoogle } from "react-icons/io5";
+import { SignIn } from "./signin";
 
 const Page = () => {
   const [email, setEmail] = useState("");
@@ -22,12 +23,10 @@ const Page = () => {
   };
 
   const loginUser = async (service: any) => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: service,
-    });
+    const { data, error } = await SignIn("apple");
 
+    console.log(data);
     if (error) setErrorMsg(error.message);
-    else window.location.reload();
   };
 
   return (
@@ -76,7 +75,7 @@ const Page = () => {
             setPassword(e.target.value);
           }}
         />
-        {/*
+
         <ul className="font-eudoxus">
           <p className="mb-2 text-2xl text-slate-700">Alternative Logins</p>
 
@@ -86,7 +85,7 @@ const Page = () => {
           >
             <IoLogoGoogle className="text-2xl" />
           </button>
-        </ul>*/}
+        </ul>
       </ul>
       <ul className="xl:1/2 flex flex-col justify-center gap-2 md:w-3/4 2xl:w-2/5">
         <button
