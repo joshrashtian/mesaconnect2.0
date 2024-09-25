@@ -4,7 +4,8 @@ import React from "react";
 import { getCommunity } from "./functions";
 import { IoPeople } from "react-icons/io5";
 import { Editor } from "@monaco-editor/react";
-
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 const CommunityPage = async ({
   params,
   children,
@@ -12,7 +13,12 @@ const CommunityPage = async ({
   params: { id: string };
   children: React.ReactNode;
 }) => {
-  const { data, error } = await getCommunity(params.id);
+  const supabase = createServerComponentClient({ cookies });
+  const { data, error } = await supabase
+    .from("communities")
+    .select("*")
+    .match({ id: params.id })
+    .single();
 
   if (error) {
     return <div>Error: {error.message}</div>;
@@ -69,6 +75,7 @@ const CommunityPage = async ({
           {data.description}
         </p>
       </ul>
+
       {children}
     </main>
   );
