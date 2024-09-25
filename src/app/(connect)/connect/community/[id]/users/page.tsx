@@ -1,26 +1,32 @@
-"use server";
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import UserItem from "@/(mesaui)/UserItem";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import { supabase } from "../../../../../../../config/mesa-config";
 
-const UsersPage = async ({ params }: { params: { id: string } }) => {
-  const supabase = createServerComponentClient({ cookies });
+const UsersPage = ({ params }: { params: { id: string } }) => {
+  const [data, setData] = useState<any[] | null>(null);
+  const [userdata, setUserdata] = useState<any[] | null>(null);
 
-  const { data, error } = await supabase
-    .from("communityrelations")
-    .select("id, role, userid, joined")
-    .eq("state", "joined")
-    .eq("communityid", params.id)
-    .order("joined", { ascending: false });
+  useEffect(() => {
+    getUsers();
+  });
+  async function getUsers() {
+    const { data: newData, error } = await supabase
+      .from("communityrelations")
+      .select("id, role, userid, joined")
+      .eq("state", "joined")
+      .eq("communityid", params.id)
+      .order("joined", { ascending: false });
 
-  const { data: userdata, error: userdataerror } = await supabase
-    .from("profiles")
-    .select("id, username, real_name, avatar_url")
-    .in("id", data?.map((e) => e.userid) || []);
+    const { data: userdata, error: userdataerror } = await supabase
+      .from("profiles")
+      .select("id, username, real_name, avatar_url")
+      .in("id", newData?.map((e) => e.userid) || []);
 
-  if (error || userdataerror) {
-    return <div>Error: {error?.message || userdataerror?.message}</div>;
+    setData(newData);
+    setUserdata(userdata);
   }
 
   return (
