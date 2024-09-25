@@ -48,6 +48,14 @@ const CommunityPage = async ({ params }: { params: { id: string } }) => {
           </p>
         </ul>
       </header>
+      <ul className="mx-3 rounded-xl bg-zinc-100 p-3 dark:bg-zinc-800/50">
+        <p className="flex flex-row items-center gap-2 text-xl font-bold">
+          About This Community
+        </p>
+        <p className="flex flex-row items-center gap-2 text-xl font-light">
+          {data.description}
+        </p>
+      </ul>
     </main>
   );
 };
