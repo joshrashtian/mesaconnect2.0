@@ -36,4 +36,4 @@ export type Community = {
     }
 }
 
-export type PageContent = "location" | "text_block" | "canvas" | "meeting_time"
+export type PageContent = "location" | "text_block" | "canvas" | "meeting_time" | "text"

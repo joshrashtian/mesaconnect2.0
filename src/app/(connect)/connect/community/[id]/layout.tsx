@@ -1,12 +1,13 @@
 "use server";
 import Image from "next/image";
-import React from "react";
+import React, { Suspense } from "react";
 import { getCommunity } from "./functions";
 import { IoPeople } from "react-icons/io5";
 import { Editor } from "@monaco-editor/react";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import CommunityHeader from "./(components)/CommunityHeader";
+import LoadingObject from "@/(mesaui)/LoadingObject";
 const CommunityPage = async ({
   params,
   children,
@@ -17,11 +18,11 @@ const CommunityPage = async ({
   const supabase = createServerComponentClient({ cookies });
   const { data, error } = await supabase
     .from("communities")
-    .select("*")
+    .select("id, created_at, name, description, styles, private, members")
     .match({ id: params.id })
     .single();
 
-  if (error) {
+  if (!data || error) {
     return <div>Error: {error.message}</div>;
   }
 
@@ -63,22 +64,25 @@ const CommunityPage = async ({
         </ul>
         <ul className="mx-3 h-1 w-1 rounded-full bg-zinc-600 dark:bg-zinc-400" />
         <ul>
-          <p className="flex flex-row items-center gap-2 text-xl font-light">
+          <p className="flex flex-row items-center gap-2 text-xl font-light dark:text-slate-200">
             {data.private ? "Private" : "Public"} Community
           </p>
         </ul>
       </header>
       <CommunityHeader />
       <ul className="mx-3 rounded-xl bg-zinc-100 p-3 dark:bg-zinc-800/50">
-        <p className="flex flex-row items-center gap-2 text-xl font-bold">
+        <p className="flex flex-row items-center gap-2 text-xl font-bold dark:text-slate-100">
           About This Community
         </p>
-        <p className="flex flex-row items-center gap-2 text-xl font-light">
+        <p className="flex flex-row items-center gap-2 text-xl font-light dark:text-slate-300">
           {data.description}
         </p>
       </ul>
-
-      {children}
+      <Suspense
+        fallback={<LoadingObject size={40} className="text-orange-500" />}
+      >
+        {children}
+      </Suspense>
     </main>
   );
 };
