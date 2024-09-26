@@ -4,6 +4,7 @@ import UserItem from "@/(mesaui)/UserItem";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { supabase } from "../../../../../../../config/mesa-config";
+import LoadingObject from "@/(mesaui)/LoadingObject";
 
 const UsersPage = ({ params }: { params: { id: string } }) => {
   const [data, setData] = useState<any[] | null>(null);
@@ -29,11 +30,17 @@ const UsersPage = ({ params }: { params: { id: string } }) => {
     setUserdata(userdata);
   }
 
+  const getRole = (userid: string) => {
+    return data?.find((d) => d.userid === userid)?.role;
+  };
+
+  if (!data) return <LoadingObject size={40} color="red" />;
   return (
-    <div className="flex flex-col gap-2 p-4">
+    <div className="flex flex-col p-2.5">
       {userdata?.map((e) => (
         <UserItem key={e.id} user={e}>
           <p>{e.username}</p>
+          <p className="text-sm text-zinc-500">{getRole(e.id)}</p>
         </UserItem>
       ))}
     </div>
