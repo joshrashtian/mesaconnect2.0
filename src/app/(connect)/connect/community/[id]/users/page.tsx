@@ -34,7 +34,7 @@ const UsersPage = ({ params }: { params: { id: string } }) => {
     return data?.find((d) => d.userid === userid)?.role;
   };
 
-  if (!data) return <LoadingObject size={40} color="red" />;
+  if (!data) return <LoadingObject size={40} className="text-orange-500" />;
   return (
     <div className="flex flex-col p-2.5">
       {userdata?.map((e) => (

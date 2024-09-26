@@ -1,6 +1,7 @@
+"use client";
 import React from "react";
 import { VscLoading } from "react-icons/vsc";
-
+import { motion } from "framer-motion";
 interface LoadingObjectProps {
   size?: number;
   className?: string;
@@ -13,12 +14,16 @@ const LoadingObject: React.FC<LoadingObjectProps> = ({
   color,
 }) => {
   return (
-    <div className="flex items-center justify-center">
+    <motion.div
+      className="flex items-center justify-center"
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1, repeat: Infinity }}
+    >
       <VscLoading
         style={{ fontSize: size, color: color }}
-        className={`animate-spin text-zinc-900 ${className}`}
+        className={` ${className}`}
       />
-    </div>
+    </motion.div>
   );
 };
 
