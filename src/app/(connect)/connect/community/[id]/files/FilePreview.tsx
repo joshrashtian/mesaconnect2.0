@@ -31,7 +31,7 @@ function formatBytes(bytes: number, decimals = 2) {
 }
 
 const FilePreview = ({ file }: { file: FileObject }) => {
-  const [blob, setBlob] = useState<Blob>();
+  const [blob, setBlob] = useState<Blob | null>();
   const { id } = useParams();
   const toast = useToast();
   const download = async () => {
@@ -40,6 +40,7 @@ const FilePreview = ({ file }: { file: FileObject }) => {
       .download(`${id}/${file.name}`);
     console.log(data);
     if (error) toast.CreateErrorToast(error.message);
+
     setBlob(data);
   };
 
