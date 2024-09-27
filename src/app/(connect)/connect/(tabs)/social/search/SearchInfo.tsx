@@ -31,7 +31,8 @@ const SearchInfo = ({ data }: { data: PostType[] | EventType[] | any[] }) => {
               </UserItem>
             );
 
-          if (e.members) return <CommunityItem community={e} key={index} />;
+          if (e.primary_campus)
+            return <CommunityItem community={e} key={index} />;
           switch (e.type) {
             case "post":
               return <PostListItem index={index} post={e} key={index} />;

@@ -8,6 +8,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import CommunityHeader from "./(components)/CommunityHeader";
 import LoadingObject from "@/(mesaui)/LoadingObject";
+import JoinButton from "./(components)/JoinButton";
 const CommunityPage = async ({
   params,
   children,
@@ -18,9 +19,15 @@ const CommunityPage = async ({
   const supabase = createServerComponentClient({ cookies });
   const { data, error } = await supabase
     .from("communities")
-    .select("id, created_at, name, description, styles, private, members")
+    .select(
+      "id, created_at, name, description, styles, private, members, interests",
+    )
     .match({ id: params.id })
     .single();
+
+  const { data: CoverImage } = await supabase.storage
+    .from("communities")
+    .getPublicUrl(`${params.id}/cover.png`);
 
   if (!data || error) {
     return <div>Error: {error.message}</div>;
@@ -29,42 +36,47 @@ const CommunityPage = async ({
   return (
     <main
       style={data.styles?.container}
-      className="flex h-screen flex-col rounded-3xl bg-zinc-200 font-eudoxus dark:bg-zinc-700"
+      className="flex h-screen flex-col rounded-3xl bg-zinc-200 pb-24 font-eudoxus dark:bg-zinc-700"
     >
       <ul
         style={data.styles?.header}
         className="relative flex h-64 w-full flex-row items-center justify-center rounded-t-3xl"
       >
-        <Image
-          src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/communities/${params.id}/cover.png`}
-          alt="Community Icon"
-          fill
-          className="rounded-t-3xl object-contain"
-        />
+        {CoverImage && (
+          <Image
+            src={CoverImage.publicUrl}
+            alt="Community Icon"
+            fill
+            className="rounded-t-3xl object-contain"
+          />
+        )}
         <p className="absolute bottom-2 left-2 z-10 text-3xl font-bold">
           {data?.name}
         </p>
+        <div className="left-right absolute bottom-2 right-2 z-10 text-3xl font-bold">
+          <JoinButton id={data.id} />
+        </div>
       </ul>
 
-      <header className="m-3 flex flex-row items-center gap-2 rounded-xl bg-zinc-300 p-2 dark:bg-zinc-800/50 dark:text-gray-300">
+      <header className="m-3 flex flex-row items-center gap-2 rounded-xl bg-zinc-300 p-2 text-sm dark:bg-zinc-800/50 dark:text-gray-300">
         <IoPeople
           className="text-4xl drop-shadow-lg"
           style={data.styles?.icon}
         />
         <ul>
-          <p className="flex flex-row items-center gap-2 text-xl font-light">
+          <p className="flex flex-row items-center gap-2 font-light lg:text-xl">
             {params.id}
           </p>
         </ul>
         <ul className="mx-3 h-1 w-1 rounded-full bg-zinc-600 dark:bg-zinc-400" />
         <ul>
-          <p className="flex flex-row items-center gap-2 text-xl font-light">
+          <p className="flex flex-row items-center gap-2 font-light lg:text-xl">
             {data.members} members
           </p>
         </ul>
         <ul className="mx-3 h-1 w-1 rounded-full bg-zinc-600 dark:bg-zinc-400" />
         <ul>
-          <p className="flex flex-row items-center gap-2 text-xl font-light dark:text-slate-200">
+          <p className="flex flex-row items-center gap-2 font-light lg:text-xl dark:text-slate-200">
             {data.private ? "Private" : "Public"} Community
           </p>
         </ul>
@@ -77,6 +89,13 @@ const CommunityPage = async ({
         <p className="flex flex-row items-center gap-2 text-xl font-light dark:text-slate-300">
           {data.description}
         </p>
+        <ul className="flex flex-row gap-2 p-2 capitalize">
+          {data.interests?.map((interest: string) => (
+            <p key={interest} className="rounded-md bg-slate-200 p-1 px-2">
+              {interest}
+            </p>
+          ))}
+        </ul>
       </ul>
       <Suspense
         fallback={<LoadingObject size={40} className="text-orange-500" />}

@@ -7,6 +7,8 @@ import TextBlockComponent from "./[id]/(components)/TextBlock";
 export type CommunityBlockIndex = {
   type: PageContent;
   data: any;
+  size?: "small" | "medium" | "large";
+  className?: string;
 };
 
 export const BlockCommunityItemContext =
@@ -17,16 +19,18 @@ const BlockCommunityItemProvider = ({
   type,
   data,
   size,
+  className,
 }: {
   children: React.ReactNode;
   type: PageContent;
   data: any;
   size: "small" | "medium" | "large";
+  className?: string;
 }) => {
   return (
     <BlockCommunityItemContext.Provider value={{ type, data }}>
       <ul
-        className={`flex flex-col gap-2 rounded-md bg-slate-200 p-4 ${size === "small" ? "h-32 w-[49%]" : size === "medium" ? "h-64 w-[49%]" : "h-64 w-full"}`}
+        className={`flex flex-col gap-2 rounded-md bg-slate-200 p-4 ${size === "small" ? "h-32 w-[49%]" : size === "medium" ? "h-64 w-[49%]" : "h-64 w-full"} ${className}`}
       >
         {children}
       </ul>
