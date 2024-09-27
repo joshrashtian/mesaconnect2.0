@@ -4,6 +4,7 @@ import { serverside } from "../../../config/serverside";
 import UserItem from "@/(mesaui)/UserItem";
 import Image from "next/image";
 import { IoPerson } from "react-icons/io5";
+import TitleComponent from "@/(mesaui)/title";
 
 const MeetUsers = async () => {
   const user = await serverside.auth.getUser();
@@ -26,14 +27,12 @@ const MeetUsers = async () => {
 
   return (
     <main className="flex w-full flex-col gap-3">
-      <h1 className="font-eudoxus text-2xl font-semibold">
-        Connect With Other Users
-      </h1>
+      <TitleComponent size="small">Connect With Other Users</TitleComponent>
       <div className="flex w-full flex-col gap-2">
         {data?.map((user) => (
           <UserItem key={user.id} user={user}>
             <div className="flex flex-col gap-1">
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-zinc-300">
                 {user.major} - {user.college}
               </p>
             </div>

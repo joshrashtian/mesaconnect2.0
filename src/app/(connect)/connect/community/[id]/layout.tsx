@@ -40,9 +40,9 @@ const CommunityPage = async ({
     >
       <ul
         style={data.styles?.header}
-        className="relative flex h-64 w-full flex-row items-center justify-center rounded-t-3xl"
+        className={`relative flex h-64 w-full flex-row items-center justify-center rounded-t-3xl ${CoverImage.publicUrl && "bg-gradient-to-br from-orange-400 to-purple-500"}`}
       >
-        {CoverImage && (
+        {CoverImage.publicUrl && (
           <Image
             src={CoverImage.publicUrl}
             alt="Community Icon"

@@ -39,8 +39,8 @@ const UsersPage = ({ params }: { params: { id: string } }) => {
     <div className="flex flex-col p-2.5">
       {userdata?.map((e) => (
         <UserItem key={e.id} user={e}>
-          <p>{e.username}</p>
-          <p className="text-sm text-zinc-500">{getRole(e.id)}</p>
+          <p className="text-slate-200">{e.username}</p>
+          <p className="text-sm capitalize text-zinc-500">{getRole(e.id)}</p>
         </UserItem>
       ))}
     </div>
