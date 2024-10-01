@@ -47,17 +47,17 @@ export const Index = [
     infoblock: true,
   },
   {
-    title: "Tutor Times",
+    title: "Tutors",
     icon: <MdInterests />,
     component: (data: any) => {
       const e = data.data;
       return <TutorBlock data={e} />;
     },
-    create: <TutorBlockSettings />,
+    create: () => <TutorBlockSettings />,
     infoblock: true,
   },
   {
-    title: "Personal Project",
+    title: "Project",
     icon: <IoBuildOutline />,
     component: (data: any) => <h1>Project</h1>,
     create: () => {},

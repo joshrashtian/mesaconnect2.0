@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import { IoAdd, IoBuild } from "react-icons/io5";
 import { InfoBlockType } from "@/app/(connect)/connect/(profiles)/profile/[id]/infoblocks";
 import { Index } from "@/app/(connect)/connect/(profiles)/profile/boxTypes";
@@ -13,6 +13,7 @@ const InfoBlockDashboard = ({
 }) => {
   const [Active, setActive] = useState<any>();
   const { CreateModal } = useModal();
+  const { setData } = useInfo();
   // @ts-ignore
   return (
     <React.Fragment>
@@ -23,7 +24,6 @@ const InfoBlockDashboard = ({
         <section className="my-3 flex h-[90%] w-full flex-row bg-slate-200/20 p-2">
           <nav className="no-scrollbar flex w-72 flex-col gap-0.5 overflow-y-scroll p-2">
             {Blocks?.map((d, i: number) => {
-              console.log(d.type);
               const block = Index.find(
                 (e) => e?.title?.toLowerCase() === d.type.toLowerCase(),
               );
@@ -35,6 +35,7 @@ const InfoBlockDashboard = ({
                   key={d.id}
                   onClick={() => {
                     setActive(block.create);
+                    setData(d.data);
                   }}
                   className="w-48 bg-white capitalize"
                 >
@@ -72,3 +73,24 @@ export const FormBlockButton = React.memo((props: any) => (
 ));
 
 export default InfoBlockDashboard;
+
+export const InfoContext = createContext<any>(null);
+export const InfoProvide: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [data, setData] = useState();
+
+  return (
+    <InfoContext.Provider value={{ data, setData }}>
+      {children}
+    </InfoContext.Provider>
+  );
+};
+
+export const useInfo = () => {
+  let data = React.useContext(InfoContext);
+  if (!data) {
+    throw new Error("useInfo must be used within a InfoProvide");
+  }
+  return data;
+};
