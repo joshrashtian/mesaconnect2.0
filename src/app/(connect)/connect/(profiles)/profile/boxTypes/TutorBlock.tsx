@@ -34,11 +34,12 @@ const TutorBlockSettings = () => {
   const [times, setTimes] = React.useState<any[]>([...data.data.dates]);
   const [submitting, setSubmitting] = React.useState(false);
   const [isVisible, setVisible] = React.useState(
-    visible === "public" ? true : false,
+    data.visible === "public" ? true : false,
   );
 
   return (
     <ul className="no-scrollbar flex h-full flex-col gap-4 overflow-x-visible overflow-y-scroll p-3 pb-10">
+      <p>Public Visiblity</p>
       <Switch toggled={isVisible} setVisible={setVisible} />
 
       <Reorder.Group onReorder={setTimes} values={times} axis="y">
