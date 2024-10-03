@@ -36,7 +36,7 @@ const InterestsBlock = () => {
     const { data, error } = await supabase
       .from("infoblocks")
       .update({ visible: visible ? "private" : "public" })
-      .eq("userid", user?.id)
+      .match({ userid: user?.id, type: "interests" })
       .select();
 
     if (error) CreateErrorToast(error.message);

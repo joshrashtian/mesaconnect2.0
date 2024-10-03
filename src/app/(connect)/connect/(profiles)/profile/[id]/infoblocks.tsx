@@ -4,7 +4,7 @@ import { Index } from "@/app/(connect)/connect/(profiles)/profile/boxTypes";
 import { useEffect, useState } from "react";
 import { supabase } from "../../../../../../../config/mesa-config";
 import { motion } from "framer-motion";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoAddCircle } from "react-icons/io5";
 import { useModal } from "@/app/(connect)/connect/Modal";
 import InfoBlockDashboard from "@/app/(connect)/connect/(profiles)/profile/[id]/(infoblockscreator)/InfoBlockDashboard";
 
@@ -50,7 +50,10 @@ const Infoblocks = (props: any) => {
         <h2 className="font-eudoxus text-3xl font-bold dark:text-white">
           Inside {props.user.real_name}
         </h2>
-        <button onClick={DashboardEnable} className="relative right-0">
+        <button
+          onClick={DashboardEnable}
+          className="text-whiteshadow-lg relative right-0 rounded-full bg-orange-400 p-2 text-2xl"
+        >
           <IoAdd />
         </button>
       </ul>

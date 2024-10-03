@@ -18,10 +18,10 @@ const InfoBlockDashboard = ({
   return (
     <React.Fragment>
       <main className="h-[410px] min-w-[110ch] max-w-[120ch] pb-10 font-eudoxus">
-        <h1 className="text-4xl font-bold">
+        <h1 className="text-4xl font-bold dark:text-slate-300">
           <IoBuild /> Infoblocks
         </h1>
-        <section className="my-3 flex h-[90%] w-full flex-row bg-slate-200/20 p-2">
+        <section className="my-3 flex h-[90%] w-full flex-row bg-slate-200/20 p-2 dark:bg-zinc-600/70">
           <nav className="no-scrollbar flex w-72 flex-col gap-0.5 overflow-y-scroll p-2">
             {Blocks?.map((d, i: number) => {
               const block = Index.find(
@@ -35,9 +35,9 @@ const InfoBlockDashboard = ({
                   key={d.id}
                   onClick={() => {
                     setActive(block.create);
-                    setData(d.data);
+                    setData({ id: d.id, data: d.data, visible: d.visible });
                   }}
-                  className="w-48 bg-white capitalize"
+                  className="w-48 bg-white capitalize dark:bg-zinc-500/50"
                 >
                   {block.icon}
                   {d.type}
@@ -92,5 +92,6 @@ export const useInfo = () => {
   if (!data) {
     throw new Error("useInfo must be used within a InfoProvide");
   }
+
   return data;
 };
