@@ -8,3 +8,9 @@ export async function editBlock(block: { id: string, data: any, visible: "public
 
     return { data, error };
 }
+
+export async function deleteBlock(id: string): Promise<{ data: InfoBlockType | null, error: any }> {
+    const { data, error } = await serverside.from("infoblocks").delete().match({id, userid: (await serverside.auth.getUser()).data.user?.id});
+
+    return { data, error };
+}

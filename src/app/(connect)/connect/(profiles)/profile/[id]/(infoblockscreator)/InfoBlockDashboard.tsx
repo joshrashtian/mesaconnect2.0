@@ -45,7 +45,7 @@ const InfoBlockDashboard = ({
               );
             })}
           </nav>
-          {Active && <section className="w-full">{Active}</section>}
+          {Active && <section className="h-full w-full">{Active}</section>}
         </section>
         <ul className="flex w-full flex-row-reverse">
           <button

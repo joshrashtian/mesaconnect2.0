@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useInfo } from "../[id]/(infoblockscreator)/InfoBlockDashboard";
 import SubmitButton from "@/_components/SubmitButton";
-import { editBlock } from "./EditBox";
+import { deleteBlock, editBlock } from "./EditBox";
 import { off } from "process";
 import Input from "@/_components/Input";
 import { Reorder } from "framer-motion";
 import Switch from "../[id]/(infoblockscreator)/Switch";
+import DeleteButton from "@/(mesaui)/DeleteButton";
 
 const TutorBlock = ({ data }: { data: any }) => {
   return (
@@ -146,6 +147,14 @@ const TutorBlockSettings = () => {
               });
               console.log(error, result);
               window.location.reload();
+            }}
+          />
+          <DeleteButton
+            className="h-12 w-1/3"
+            function={async () => {
+              let { error } = await deleteBlock(data.id);
+              if (error) console.error(error);
+              else window.location.reload();
             }}
           />
         </ul>

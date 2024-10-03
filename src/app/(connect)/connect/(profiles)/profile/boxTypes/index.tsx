@@ -1,7 +1,9 @@
 import ProjectBox from "./ProjectBox";
 import Skills from "./Skills";
 import Interestsblock from "@/app/(connect)/connect/(profiles)/profile/boxTypes/interestsblock";
-import InterestsBlock from "@/app/(connect)/connect/(profiles)/profile/[id]/(infoblockscreator)/InterestsBlock";
+import InterestsBlock, {
+  CreateInterest,
+} from "@/app/(connect)/connect/(profiles)/profile/[id]/(infoblockscreator)/InterestsBlock";
 import React from "react";
 import { MdInterests } from "react-icons/md";
 import { IoBuildOutline } from "react-icons/io5";
@@ -46,6 +48,7 @@ export const Index = [
     },
     icon: <MdInterests />,
     create: <InterestsBlock />,
+    add: <CreateInterest />,
     infoblock: true,
   },
   {
@@ -56,6 +59,7 @@ export const Index = [
       return <TutorBlock data={e} />;
     },
     create: () => <TutorBlockSettings />,
+    add: () => {},
     infoblock: true,
   },
   {
@@ -63,6 +67,7 @@ export const Index = [
     icon: <IoBuildOutline />,
     component: (data: any) => <h1>Project</h1>,
     create: () => {},
+    add: () => {},
     infoblock: true,
   },
   {
@@ -70,6 +75,7 @@ export const Index = [
     icon: <IoBuildOutline />,
     component: (data: any) => <CommunityBlock data={data.data} />,
     create: () => {},
+    add: () => {},
     infoblock: true,
   },
 ];
