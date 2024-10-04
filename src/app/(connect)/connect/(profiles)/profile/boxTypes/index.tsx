@@ -1,10 +1,15 @@
 import ProjectBox from "./ProjectBox";
 import Skills from "./Skills";
 import Interestsblock from "@/app/(connect)/connect/(profiles)/profile/boxTypes/interestsblock";
-import InterestsBlock from "@/app/(connect)/connect/(profiles)/profile/[id]/(infoblockscreator)/InterestsBlock";
+import InterestsBlock, {
+  CreateInterest,
+} from "@/app/(connect)/connect/(profiles)/profile/[id]/(infoblockscreator)/InterestsBlock";
 import React from "react";
-import {MdInterests} from "react-icons/md";
-import {IoBuildOutline} from "react-icons/io5";
+import { MdInterests } from "react-icons/md";
+import { IoBuildOutline } from "react-icons/io5";
+import { CreateTutorBlock, TutorBlock, TutorBlockSettings } from "./TutorBlock";
+import { info } from "console";
+import CommunityBlock from "./CommunityBlock";
 
 export const Index = [
   {
@@ -43,13 +48,34 @@ export const Index = [
     },
     icon: <MdInterests />,
     create: <InterestsBlock />,
+    add: <CreateInterest />,
+    infoblock: true,
   },
   {
-    title: "Personal Project",
+    title: "Tutors",
+    icon: <MdInterests />,
+    component: (data: any) => {
+      const e = data.data;
+      return <TutorBlock data={e} />;
+    },
+    create: () => <TutorBlockSettings />,
+    add: <CreateTutorBlock />,
+    infoblock: true,
+  },
+  {
+    title: "Project",
     icon: <IoBuildOutline />,
-    component: (data: any) => (
-      <h1>Project</h1>
-    ),
-    create: () => {}
-  }
+    component: (data: any) => <h1>Project</h1>,
+    create: () => {},
+    add: () => {},
+    infoblock: true,
+  },
+  {
+    title: "Community",
+    icon: <IoBuildOutline />,
+    component: (data: any) => <CommunityBlock data={data.data} />,
+    create: () => {},
+    add: () => {},
+    infoblock: true,
+  },
 ];
