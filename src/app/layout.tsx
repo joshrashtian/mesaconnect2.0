@@ -39,6 +39,7 @@ export default async function RootLayout({
         <body className={`${inter.className} bg-zinc-100 dark:bg-zinc-800`}>
           {children}
           <Analytics />
+          <OneTapComponent />
         </body>
       </html>
     </AuthContext>
