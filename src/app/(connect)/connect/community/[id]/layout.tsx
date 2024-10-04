@@ -25,7 +25,7 @@ const CommunityPage = async ({
     .match({ id: params.id })
     .single();
 
-  const { data: CoverImage, error: ImageError } = await supabase.storage
+  let { data: CoverImage, error: ImageError } = await supabase.storage
     .from("communities")
     .download(`${params.id}/cover.png`);
 
@@ -42,7 +42,7 @@ const CommunityPage = async ({
         style={data.styles?.header}
         className={`relative flex h-64 w-full flex-row items-center justify-center rounded-t-3xl ${ImageError && "bg-gradient-to-br from-orange-400 to-purple-500"}`}
       >
-        {!ImageError && (
+        {CoverImage && (
           <Image
             src={URL.createObjectURL(CoverImage)}
             alt="Community Icon"

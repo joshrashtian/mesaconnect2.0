@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useInfo } from "../[id]/(infoblockscreator)/InfoBlockDashboard";
 import SubmitButton from "@/_components/SubmitButton";
 import { deleteBlock, editBlock } from "./EditBox";
@@ -7,6 +7,8 @@ import Input from "@/_components/Input";
 import { Reorder } from "framer-motion";
 import Switch from "../[id]/(infoblockscreator)/Switch";
 import DeleteButton from "@/(mesaui)/DeleteButton";
+import { supabase } from "../../../../../../../config/mesa-config";
+import { IoCalendar } from "react-icons/io5";
 
 const TutorBlock = ({ data }: { data: any }) => {
   return (
@@ -162,5 +164,67 @@ const TutorBlockSettings = () => {
     </ul>
   );
 };
+
+export function CreateTutorBlock() {
+  const [time, setTime] = useState<any[]>([0, 0]);
+  const [day, setDay] = useState<string>("monday");
+  return (
+    <>
+      <h1 className="mb-3 font-eudoxus text-3xl font-bold">
+        Create Tutor Block
+      </h1>
+      <h1 className="my-2 rounded-xl bg-zinc-50 p-2 capitalize dark:bg-zinc-600 dark:text-white">
+        {day} :
+        {` ${Math.floor(time[0] / 60) + 1 > 12 ? Math.floor(time[0] / 60) + 1 - 12 : Math.floor(time[0] / 60) + 1}:${time[0] % 60 < 10 ? `0${time[0] % 60}` : time[0] % 60} ${time[0] < 660 ? "AM" : "PM"}`}{" "}
+        -
+        {` ${Math.floor(time[1] / 60) + 1 > 12 ? Math.floor(time[1] / 60) + 1 - 12 : Math.floor(time[1] / 60) + 1}:${time[1] % 60 < 10 ? `0${time[1] % 60}` : time[1] % 60} ${time[1] < 660 ? "AM" : "PM"}`}
+      </h1>
+      <Input
+        type="text"
+        value={day}
+        icon=<IoCalendar />
+        contentEditable
+        onChange={(input) => setDay(input.target.value)}
+      />
+      <ul className="mt-2 flex flex-row gap-3">
+        <Input
+          type="number"
+          value={time[0]}
+          contentEditable
+          placeholder="Start Time (minutes from 0)"
+          onChange={(input) => setTime([parseInt(input.target.value), time[1]])}
+        />
+        <Input
+          type="number"
+          value={time[1]}
+          placeholder="End Time (minutes from 0)"
+          onChange={(input) => setTime([time[0], parseInt(input.target.value)])}
+        />
+      </ul>
+
+      <button
+        className={`mt-4 flex h-12 w-1/3 items-center justify-center rounded-2xl bg-blue-400 font-bold text-white shadow-lg duration-500 hover:scale-105`}
+        onClick={async () => {
+          const { data, error } = await supabase.from("infoblocks").insert({
+            data: {
+              dates: [
+                {
+                  day: day,
+                  times: time,
+                  id: Math.random(),
+                },
+              ],
+            },
+            type: "tutors",
+          });
+          if (error) console.error(error);
+          else window.location.reload();
+        }}
+      >
+        Create
+      </button>
+    </>
+  );
+}
 
 export { TutorBlock, TutorBlockSettings };

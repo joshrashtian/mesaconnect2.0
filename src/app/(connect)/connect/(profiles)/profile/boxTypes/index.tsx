@@ -7,7 +7,7 @@ import InterestsBlock, {
 import React from "react";
 import { MdInterests } from "react-icons/md";
 import { IoBuildOutline } from "react-icons/io5";
-import { TutorBlock, TutorBlockSettings } from "./TutorBlock";
+import { CreateTutorBlock, TutorBlock, TutorBlockSettings } from "./TutorBlock";
 import { info } from "console";
 import CommunityBlock from "./CommunityBlock";
 
@@ -59,7 +59,7 @@ export const Index = [
       return <TutorBlock data={e} />;
     },
     create: () => <TutorBlockSettings />,
-    add: () => {},
+    add: <CreateTutorBlock />,
     infoblock: true,
   },
   {
