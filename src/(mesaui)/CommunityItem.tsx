@@ -6,10 +6,11 @@ interface CommunityItem {
 }
 
 export type CommunityItemType = {
+  private: boolean;
   id: string;
   name: string;
   primary_campus: string;
-  members: string[];
+  members: number;
   description: string;
 };
 
