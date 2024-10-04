@@ -26,12 +26,15 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
             <main className="p-16 h-screen">
               <Dock />
 
-              {children}
-              <h1 className="fixed bottom-2 right-2 font-mono">{config.versionNumber}</h1>
-            </main>
-          </EventModal>
-        </ModalProvider>
-      </UserCheck>
+                {children}
+                <h1 className="fixed bottom-2 right-2 font-eudoxus dark:text-slate-200">
+                  {config.versionNumber}
+                </h1>
+              </main>
+            </EventModal>
+          </ModalProvider>
+        </UserCheck>
+      </InfoProvide>
     </InfoContextContainer>
   )
 }

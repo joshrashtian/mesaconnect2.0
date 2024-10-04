@@ -3,6 +3,8 @@ import Link from "next/link";
 import React from "react";
 import UpcomingEvents from "../UpcomingEvents";
 import {
+  IoCalendar,
+  IoPeople,
   IoSearchCircle,
   IoSearchCircleOutline,
   IoSearchSharp,
@@ -16,22 +18,51 @@ export const metadata: Metadata = {
 
 const Social = () => {
   return (
-    <main className="min-h-full flex flex-col font-eudoxus items-center xl:items-start gap-7 pb-28 ">
-      <header className="w-full flex flex-row justify-between">
+    <main className="flex min-h-full flex-col items-center gap-7 pb-28 font-eudoxus xl:items-start">
+      <header className="flex w-full flex-row justify-between">
         <h1
-          className={`font-black p-1 font-eudoxus text-5xl ${gradientTextDefault} drop-shadow-xl`}
+          className={`p-1 font-eudoxus text-5xl font-black ${gradientTextDefault} drop-shadow-xl`}
         >
           MESA Community
         </h1>
         <Link
-          className="hover:scale-105 duration-300 gap-6 px-4 absolute flex flex-row items-center justify-between right-16 top-28 bg-gradient-to-tr rounded-full text-white from-indigo-600 to-orange-600 p-2 "
+          className="absolute right-16 top-28 flex flex-row items-center justify-between gap-6 rounded-full bg-gradient-to-tr from-indigo-600 to-orange-600 p-2 px-4 text-white duration-300 hover:scale-105"
           href="/connect/social/search"
         >
           <IoSearchSharp size={30} />
           <h1 className="font-mono">Search</h1>
         </Link>
       </header>
-      <section className="w-full h-full flex flex-col gap-10 xl:flex-row justify-normal lg:justify-between">
+      <section className="flex h-fit w-full flex-row flex-wrap gap-2 rounded-lg bg-zinc-200 p-5 dark:bg-zinc-900">
+        <ul className="flex h-16 w-72 items-center justify-center rounded-2xl dark:bg-zinc-800 dark:text-white">
+          <p>Quick Access</p>
+        </ul>
+        <StandardButton
+          buttonType="link"
+          className="h-16 w-72"
+          href="/connect/community"
+          icon={<IoPeople />}
+        >
+          View Communities
+        </StandardButton>
+        <StandardButton
+          buttonType="link"
+          href="/connect/social/events"
+          className="h-16 w-72"
+          icon={<IoCalendar />}
+        >
+          View Events
+        </StandardButton>
+        <StandardButton
+          buttonType="link"
+          href="/connect/social/events"
+          className="h-16 w-72"
+          icon={<IoCalendar />}
+        >
+          View Posts
+        </StandardButton>
+      </section>
+      <section className="flex h-full w-full flex-col justify-normal gap-10 lg:justify-between xl:flex-row">
         <RecentPostsHome />
         <UpcomingEvents />
       </section>
