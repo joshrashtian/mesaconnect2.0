@@ -29,6 +29,7 @@ const CommunityPage = async ({
     .from("communities")
     .download(`${params.id}/cover.png`);
 
+  console.error(`${params.id}/cover.png`, CoverImage, ImageError);
   if (!data || error) {
     return <div>Error: {error.message}</div>;
   }
@@ -40,7 +41,7 @@ const CommunityPage = async ({
     >
       <ul
         style={data.styles?.header}
-        className={`relative flex h-64 w-full flex-row items-center justify-center rounded-t-3xl ${ImageError && "bg-gradient-to-br from-orange-400 to-purple-500"}`}
+        className={`relative flex h-64 w-full flex-row items-center justify-center rounded-t-3xl ${ImageError && "bg-gradient-to-br from-orange-400 to-red-500"}`}
       >
         {CoverImage && (
           <Image
@@ -50,10 +51,10 @@ const CommunityPage = async ({
             className="rounded-t-3xl object-contain"
           />
         )}
-        <p className="absolute bottom-2 left-2 z-10 text-3xl font-bold">
+        <p className="absolute bottom-2 left-2 z-10 text-3xl font-bold backdrop-contrast-200">
           {data?.name}
         </p>
-        cfj
+
         <div className="left-right absolute bottom-2 right-2 z-10 text-3xl font-bold">
           <JoinButton id={data.id} />
         </div>

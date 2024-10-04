@@ -8,8 +8,9 @@ const page = async () => {
   const Widgets = lazy(() => import("./homescreenwidgets"));
 
   return (
-    <div className="flex h-full w-full flex-col gap-y-2 py-36">
-      <ul className="min-h-[93vh]">
+    <div className="my-4 flex h-full w-full flex-col gap-y-2 py-36 font-eudoxus">
+      <BottomOnboarding />
+      <ul className="min-h-[95vh]">
         <TitleComponent />
         <Suspense fallback={<section className="h-full w-full bg-slate-900" />}>
           <Widgets />

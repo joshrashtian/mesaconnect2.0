@@ -44,12 +44,14 @@ const CommunityBlock = ({
   return (
     <div>
       <ul className="relative left-0 top-0 h-40 w-full">
-        <Image
-          src={URL.createObjectURL(community.CoverImage)}
-          fill
-          className="rounded-t-3xl object-contain"
-          alt="CommunityImage"
-        />
+        {community.CoverImage && (
+          <Image
+            src={URL.createObjectURL(community.CoverImage)}
+            fill
+            className="rounded-t-3xl object-contain"
+            alt="CommunityImage"
+          />
+        )}
       </ul>
       <h1>{community.name}</h1>
       <p>
