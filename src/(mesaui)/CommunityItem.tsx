@@ -5,7 +5,7 @@ interface CommunityItem {
   community: CommunityItemType;
 }
 
-type CommunityItemType = {
+export type CommunityItemType = {
   id: string;
   name: string;
   primary_campus: string;

@@ -30,7 +30,7 @@ const BlockCommunityItemProvider = ({
   return (
     <BlockCommunityItemContext.Provider value={{ type, data }}>
       <ul
-        className={`flex flex-col gap-2 rounded-md bg-slate-200 p-4 ${size === "small" ? "h-32 w-[49%]" : size === "medium" ? "h-64 w-[49%]" : "h-64 w-full"} ${className}`}
+        className={`flex flex-col gap-2 rounded-md bg-white p-4 dark:bg-zinc-600 ${size === "small" ? "h-32 w-[49%]" : size === "medium" ? "h-64 w-[49%]" : "h-64 w-full"} ${className}`}
       >
         {children}
       </ul>

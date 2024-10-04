@@ -14,8 +14,8 @@ const TitleComponent = () => {
   const springed = useSpring(scrollY, { stiffness: 400, damping: 30 });
 
   const height = useTransform(springed, [400, 500], [0, -70]);
-  const profheight = useTransform(springed, [400, 500], [0, -20]);
-  const x = useTransform(springed, [400, 500], [0, 80]);
+  const profheight = useTransform(springed, [300, 500], [0, -20]);
+  const x = useTransform(springed, [300, 500], [0, 80]);
   const yClock = useTransform(springed, [400, 500], [0, -60]);
   const scaleClock = useTransform(springed, [400, 500], [1, 0.7]);
   const opacity = useTransform(springed, [400, 500], [0, 1]);
@@ -69,7 +69,7 @@ const TitleComponent = () => {
         </motion.h1>
         <motion.ul
           style={{ y: yClock, scale: scaleClock }}
-          className="mt-2 flex w-fit origin-left flex-row items-start gap-2 rounded-2xl bg-zinc-200 px-6 py-2 text-2xl font-semibold text-slate-600 duration-500 dark:text-slate-200"
+          className="mt-2 flex w-fit origin-left flex-row items-start gap-2 rounded-2xl bg-zinc-200 px-6 py-2 text-2xl font-semibold text-slate-600 duration-500 dark:bg-zinc-900 dark:text-slate-200"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeInOut", delay: 1 }}
@@ -89,7 +89,7 @@ const TitleComponent = () => {
       </motion.main>
       <motion.ul
         style={{ opacity }}
-        className="fixed left-0 top-0 -z-0 h-40 w-full bg-white"
+        className="fixed left-0 top-0 -z-0 h-40 w-full bg-white dark:bg-slate-700"
       />
     </>
   );

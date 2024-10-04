@@ -2,14 +2,14 @@
 import StandardButton from "@/(mesaui)/StandardButton";
 import { useUser } from "@/app/AuthContext";
 import React from "react";
-import { IoAccessibility } from "react-icons/io5";
+import { IoAccessibility, IoPeople } from "react-icons/io5";
 
 const BottomOnboarding = () => {
   const { user, userData: data } = useUser();
   return (
-    <main className="h-96 w-full rounded-3xl bg-white p-12">
+    <main className="h-96 w-full rounded-3xl bg-white p-12 dark:bg-zinc-900 dark:text-slate-200">
       <p>Hello, {data?.real_name} </p>
-      <p>Let&apos;s get started with learning our service.</p>
+      <p className="mb-3">Let&apos;s get started with learning our service.</p>
       {!data?.avatar_url && (
         <>
           <p>Upload a profile picture to get started.</p>
@@ -23,11 +23,11 @@ const BottomOnboarding = () => {
         </>
       )}
       <StandardButton
-        buttonType="button"
-        icon={<IoAccessibility />}
-        onClick={() => console.log("Hello")}
+        buttonType="link"
+        icon={<IoPeople />}
+        href="/connect/community"
       >
-        Hello!
+        Join a Community
       </StandardButton>
     </main>
   );

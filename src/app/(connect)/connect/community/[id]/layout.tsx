@@ -29,6 +29,8 @@ const CommunityPage = async ({
     .from("communities")
     .download(`${params.id}/cover.png`);
 
+  const image = CoverImage ? URL.createObjectURL(CoverImage) : null;
+
   console.error(`${params.id}/cover.png`, CoverImage, ImageError);
   if (!data || error) {
     return <div>Error: {error.message}</div>;
@@ -43,15 +45,15 @@ const CommunityPage = async ({
         style={data.styles?.header}
         className={`relative flex h-64 w-full flex-row items-center justify-center rounded-t-3xl ${ImageError && "bg-gradient-to-br from-orange-400 to-red-500"}`}
       >
-        {CoverImage && (
+        {image && (
           <Image
-            src={URL.createObjectURL(CoverImage)}
-            alt="Community Icon"
+            src={image}
             fill
             className="rounded-t-3xl object-contain"
+            alt="CommunityImage"
           />
         )}
-        <p className="absolute bottom-2 left-2 z-10 text-3xl font-bold backdrop-contrast-200">
+        <p className="absolute bottom-2 left-2 z-10 text-3xl font-bold text-white mix-blend-difference">
           {data?.name}
         </p>
 
