@@ -32,12 +32,12 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
   const BioComp = useCallback(
     () => <BioModal bio={user?.bio} user={ActiveUser.user?.id} />,
-    [user, isActiveUser, ActiveUser.user?.id]
+    [user, isActiveUser, ActiveUser.user?.id],
   );
 
   const MajorMod = useCallback(
     () => <MajorModal major={user?.major} user={ActiveUser.user?.id} />,
-    [user, isActiveUser, ActiveUser.user?.id]
+    [user, isActiveUser, ActiveUser.user?.id],
   );
 
   useEffect(() => {
@@ -85,22 +85,22 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
               if (error) toast.CreateErrorToast(error.message);
               else
                 toast.CreateSuccessToast(
-                  `Follow Status Changed For ${user.real_name}`
+                  `Follow Status Changed For ${user.real_name}`,
                 );
             },
             icon: <IoPersonAddOutline />,
           },
         ])
       }
-      className="min-h-screen p-3 gap-5 pb-32 flex flex-col "
+      className="flex min-h-screen flex-col gap-5 p-3 pb-32"
     >
-      <ul className="flex flex-row items-end gap-5 ">
+      <ul className="flex flex-row items-end gap-5">
         {ActiveUser.user?.id === user.id ? (
           <picture
             onClick={() => {
               pfpRef.current.click();
             }}
-            className="hover:scale-110 rounded-full hover:shadow-lg cursor-pointer scale-100 group w-16 h-16 lg:w-20 lg:h-20 2xl:w-24 2xl:h-24 duration-500"
+            className="group h-16 w-16 scale-100 cursor-pointer rounded-full duration-500 hover:scale-110 hover:shadow-lg lg:h-20 lg:w-20 2xl:h-24 2xl:w-24"
           >
             <Image
               src={user.avatar_url ? user.avatar_url : UsrIcon}
@@ -109,8 +109,8 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
               objectFit="cover"
               className="rounded-full"
             />
-            <div className="w-full h-full absolute group-hover:opacity-80 group-hover:bg-opacity-75 duration-500 flex flex-row justify-center items-center rounded-full opacity-0 bg-black">
-              <h1 className="text-white text-sm font-mono text-center">
+            <div className="absolute flex h-full w-full flex-row items-center justify-center rounded-full bg-black opacity-0 duration-500 group-hover:bg-opacity-75 group-hover:opacity-80">
+              <h1 className="text-center font-mono text-sm text-white">
                 Change PFP
               </h1>
             </div>
@@ -133,10 +133,10 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
           />
         )}
         <ul>
-          <h1 className="font-black text-6xl font-eudoxus dark:text-white/70">
+          <h1 className="font-eudoxus text-6xl font-black dark:text-white/70">
             {user?.real_name}
           </h1>
-          <h2 className="font-light text-xl font-eudoxus text-slate-500 dark:text-slate-200/50">
+          <h2 className="font-eudoxus text-xl font-light text-slate-500 dark:text-slate-200/50">
             @{user?.username}
           </h2>
         </ul>
@@ -144,8 +144,8 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
       {user.id !== ActiveUser.user?.id && <FollowButton id={user.id} />}
       <section className="flex flex-row gap-3 font-eudoxus">
-        <ul className="p-1 rounded-lg w-16 bg-white dark:bg-zinc-700 shadow-sm flex justify-center items-center">
-          <h2 className="text-orange-700 dark:text-orange-500/70 font-semibold capitalize">
+        <ul className="flex w-16 items-center justify-center rounded-lg bg-white p-1 shadow-sm dark:bg-zinc-700">
+          <h2 className="font-semibold capitalize text-orange-700 dark:text-orange-500/70">
             {user?.role}
           </h2>
         </ul>
@@ -157,15 +157,15 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             }
           }}
           className={`${
-            isActiveUser && "hover:bg-slate-200/60 duration-300 cursor-pointer"
-          } p-1 rounded-lg px-3 bg-white text-nowrap dark:bg-zinc-700 shadow-sm flex justify-center items-center`}
+            isActiveUser && "cursor-pointer duration-300 hover:bg-slate-200/60"
+          } flex items-center justify-center text-nowrap rounded-lg bg-white p-1 px-3 shadow-sm dark:bg-zinc-700`}
         >
-          <h2 className="text-indigo-700 dark:text-pink-200/50 font-semibold capitalize">
+          <h2 className="font-semibold capitalize text-indigo-700 dark:text-pink-200/50">
             {user?.major ? user.major : "Undecided"}
           </h2>
         </ul>
-        <ul className="p-1 px-3 rounded-lg bg-white dark:bg-zinc-700 text-nowrap shadow-sm flex justify-center items-center">
-          <h2 className="text-cyan-700 dark:text-cyan-300/50 font-semibold capitalize">
+        <ul className="flex items-center justify-center text-nowrap rounded-lg bg-white p-1 px-3 shadow-sm dark:bg-zinc-700">
+          <h2 className="font-semibold capitalize text-cyan-700 dark:text-cyan-300/50">
             {user?.college ? user.college : "No College Set"}
           </h2>
         </ul>
@@ -180,7 +180,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
         }}
         className={`dark:text-white ${
           isActiveUser &&
-          "hover:bg-slate-200/60 p-3 duration-300 cursor-pointer"
+          "cursor-pointer p-3 duration-300 hover:bg-slate-200/60"
         }`}
       >
         {user?.bio ? user.bio : "This user has no bio set."}
@@ -190,19 +190,21 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       {isActiveUser && <YourProfile />}
 
       {user.boxlist && (
-        <section className="flex-col flex gap-3">
-          <ul className="flex flex-row w-full h-full font-eudoxus flex-wrap gap-2">
+        <section className="flex flex-col gap-3">
+          <ul className="flex h-full w-full flex-row flex-wrap gap-2 font-eudoxus">
             {user.boxlist.map((e: any) => {
               return (
                 <section
                   key={e.contents}
-                  className="w-[49%] min-h-full p-5 rounded-xl bg-white dark:bg-zinc-700"
+                  className="min-h-full w-[49%] rounded-xl bg-white p-5 dark:bg-zinc-700"
                 >
                   {Index.map((d: any, i: number) => {
                     if (d.title.toLowerCase() === e.type.toLowerCase()) {
                       return (
                         <div key={i}>
-                          <h1 className="font-bold dark:text-slate-200">{d.title}</h1>
+                          <h1 className="font-bold dark:text-slate-200">
+                            {d.title}
+                          </h1>
                           <d.component data={e} />
                         </div>
                       );
@@ -217,17 +219,17 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       )}
 
       <section
-        className="w-full flex flex-row gap-4 z-10"
+        className="z-10 flex w-full flex-row gap-4"
         onContextMenu={(e) => e.preventDefault()}
       >
-        <article className="w-full flex flex-col gap-3">
-          <h2 className="font-bold font-eudoxus text-3xl dark:text-white/80 ">
+        <article className="flex w-full flex-col gap-3">
+          <h2 className="font-eudoxus text-3xl font-bold dark:text-white/80">
             Activity
           </h2>
           <UserPosts id={user.id} />
         </article>
-        <article className="w-full flex flex-col gap-3 ">
-          <h2 className="font-bold font-eudoxus text-3xl dark:text-white/80 ">
+        <article className="flex w-full flex-col gap-3">
+          <h2 className="font-eudoxus text-3xl font-bold dark:text-white/80">
             Created Events
           </h2>
           <UserEvents id={user.id} />

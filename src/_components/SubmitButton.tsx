@@ -16,11 +16,11 @@ const SubmitButton = (props: SubmitProps) => {
           props.onClick();
         }
       }}
-      className={`w-1/3 h-12 hover:scale-105 duration-500 justify-center flex items-center ${
+      className={`flex h-12 w-1/3 items-center justify-center duration-500 hover:scale-105 ${
         props.submitting
           ? "bg-theme-blue-2"
           : "bg-orange-500 hover:bg-orange-400"
-      } shadow-lg z-40 text-white font-bold rounded-2xl`}
+      } z-40 rounded-2xl font-bold text-white shadow-lg`}
     >
       {props.submitting ? (
         <VscLoading className="animate-spin text-center" />
