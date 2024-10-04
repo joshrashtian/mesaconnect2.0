@@ -53,6 +53,7 @@ const CommunityPage = async ({
         <p className="absolute bottom-2 left-2 z-10 text-3xl font-bold">
           {data?.name}
         </p>
+        cfj
         <div className="left-right absolute bottom-2 right-2 z-10 text-3xl font-bold">
           <JoinButton id={data.id} />
         </div>

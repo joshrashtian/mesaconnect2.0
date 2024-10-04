@@ -22,11 +22,7 @@ export const metadata: Metadata = {
     description: "Connecting The Next Generation Together.",
     url: "https://mesaconnect.io",
     siteName: "MESAConnect",
-    images: [
-      {
-        url: "https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/seo/Messagestcon.png?t=2024-05-18T19%3A31%3A00.671Z",
-      },
-    ],
+
     locale: "en_US",
     type: "website",
   },
