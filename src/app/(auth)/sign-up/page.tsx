@@ -15,7 +15,6 @@ import { Key } from "@/app/(connect)/connect/settings/InviteKeys";
 import { useDarkMode } from "@/app/AuthContext";
 import Input from "@/_components/Input";
 import Link from "next/link";
-import React from "react";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");

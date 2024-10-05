@@ -15,8 +15,8 @@ const TitleComponent = (Props: TitleComponentProps) => {
 
   return (
     <h1
+      className={`flex-row font-eudoxus font-black ${size} flex items-center gap-3 text-orange-700 dark:text-purple-700 ${Props.className}`}
       {...Props}
-      className={`flex-row font-eudoxus font-black ${size} flex items-center gap-3 text-orange-700 dark:text-orange-300 ${Props.className}`}
     >
       {Props.children}
     </h1>

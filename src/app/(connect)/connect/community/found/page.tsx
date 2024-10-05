@@ -67,10 +67,7 @@ const FoundAGroup = () => {
         placeholder="Enter primary campus..."
         type="text"
       />
-<<<<<<< HEAD
       <p className="font-eudoxus dark:text-slate-200">Private Community</p>
-=======
->>>>>>> c5ec456f7e3cb820815c351b3c4b9b8502db3a12
       <Switch
         toggled={community.private}
         click={() => changeCommunity({ private: !community.private })}

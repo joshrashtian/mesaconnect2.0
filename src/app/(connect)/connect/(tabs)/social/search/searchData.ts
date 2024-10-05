@@ -18,10 +18,8 @@ export const SearchPosts = async (search: string) => {
   }
 
   const events = await SearchEvents(search);
-  const users = await SearchUsers(search);
-  const communities = await SearchCommunities(search);
   //@ts-ignore
-  const final = [...data, ...events, ...users, ...communities];
+  const final = [...data, ...events];
   return final;
 };
 
@@ -43,38 +41,4 @@ export const SearchEvents = async (search: string) => {
 
   const final = [...data];
   return final;
-};
-
-export const SearchUsers = async (search: string) => {
-  const { data, error } = await supabase
-    .from("profiles")
-    .select("id, username, major, real_name, avatar_url, college")
-    .textSearch("username", `${search}`, {
-      type: "websearch",
-      config: "english",
-    });
-
-  if (error) {
-    console.log(error);
-    return;
-  }
-
-  return [...data];
-};
-
-export const SearchCommunities = async (search: string) => {
-  const { data, error } = await supabase
-    .from("communities")
-    .select("id, name, primary_campus, members, description")
-    .textSearch("id", `${search}`, {
-      type: "websearch",
-      config: "english",
-    });
-
-  if (error) {
-    console.log(error);
-    return;
-  }
-
-  return [...data];
 };

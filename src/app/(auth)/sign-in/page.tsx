@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { supabase } from "../../../../config/mesa-config";
 import Link from "next/link";
-import { IoLogoApple, IoLogoGoogle, IoLogoLinkedin } from "react-icons/io5";
+import { IoLogoGoogle } from "react-icons/io5";
 
 const Page = () => {
   const [email, setEmail] = useState("");
@@ -22,14 +22,12 @@ const Page = () => {
   };
 
   const loginUser = async (service: any) => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    const { error } = await supabase.auth.signInWithOAuth({
       provider: service,
-      options: {
-        redirectTo: `https://mesaconnect.io/auth/callback`,
-      },
     });
 
     if (error) setErrorMsg(error.message);
+    else window.location.reload();
   };
 
   return (
@@ -78,31 +76,17 @@ const Page = () => {
             setPassword(e.target.value);
           }}
         />
-
+        {/*
         <ul className="font-eudoxus">
           <p className="mb-2 text-2xl text-slate-700">Alternative Logins</p>
 
-          <ul className="flex flex-row gap-3">
-            <button
-              onClick={() => loginUser("google")}
-              className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#174EA6] to-[#4285F4] text-2xl text-white duration-500 hover:scale-110"
-            >
-              <IoLogoGoogle className="text-2xl" />
-            </button>
-            <button
-              onClick={() => loginUser("apple")}
-              className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-600 to-zinc-600 text-2xl text-white duration-500 hover:scale-110"
-            >
-              <IoLogoApple className="text-2xl" />
-            </button>
-            <button
-              onClick={() => loginUser("linkedin_oidc")}
-              className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-teal-600 text-2xl text-white duration-500 hover:scale-110"
-            >
-              <IoLogoLinkedin className="text-2xl" />
-            </button>
-          </ul>
-        </ul>
+          <button
+            onClick={() => loginUser("google")}
+            className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#174EA6] to-[#4285F4] text-2xl text-white duration-500 hover:scale-110"
+          >
+            <IoLogoGoogle className="text-2xl" />
+          </button>
+        </ul>*/}
       </ul>
       <ul className="xl:1/2 flex flex-col justify-center gap-2 md:w-3/4 2xl:w-2/5">
         <button

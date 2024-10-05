@@ -28,7 +28,6 @@ import {
 } from "@react-three/drei";
 import JoinNow from "@/_components/home/JoinNow";
 import OpenSource from "@/_components/home/OpenSource";
-import OneTapComponent from "@/_components/home/OneTap";
 
 export default function Home() {
   const firstRef = useRef(null);

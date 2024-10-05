@@ -1,26 +1,19 @@
-"use server";
+'use server'
 
-import { serverside } from "../../../../../../../config/serverside";
+import { serverside } from '../../../../../../../config/serverside'
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
-  const { data, error } = await serverside
-    .from("profiles")
-    .select("real_name")
-    .eq("id", params.id);
+  const { data, error } = await serverside.from('profiles').select('real_name').eq('id', params.id)
 
   return {
-    title: data
-      ? `${data[0].real_name}`
-      : error
-        ? "Error Fetching User"
-        : "Fetching Name",
-  };
+    title: data ? `${data[0].real_name}` : error ? 'Error Fetching User' : 'Fetching Name'
+  }
 }
 
-import React from "react";
+import React from 'react'
 
 const LayoutProfile = async ({ children }: { children: React.ReactNode }) => {
-  return <div>{children}</div>;
-};
+  return <div>{children}</div>
+}
 
-export default LayoutProfile;
+export default LayoutProfile
