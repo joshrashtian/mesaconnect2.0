@@ -24,9 +24,6 @@ const Page = () => {
   const loginUser = async (service: any) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: service,
-      options: {
-        redirectTo: `https://mesaconnect.io/auth/callback`,
-      },
     });
 
     if (error) setErrorMsg(error.message);
