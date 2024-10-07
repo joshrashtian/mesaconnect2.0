@@ -1,34 +1,42 @@
 "use server";
 
+import { Metadata, ResolvingMetadata } from "next";
 import { serverside } from "../../../../../../../config/serverside";
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   const { data, error } = await serverside
     .from("profiles")
     .select("real_name, bio, avatar_url, major")
     .eq("id", params.id);
 
-  const description = () => {
-    if (!data) {
-      return "Error Fetching Bio";
-    }
-    if (data[0].bio && data[0].major) {
-      return `${data[0].major} - ${data[0].bio}`;
-    }
-    if (data[0].bio) {
-      return data[0].bio;
-    }
-    if (data[0].major) {
-      return data[0].major;
-    } else return "No Bio Set.";
-  };
+  let description: string;
+  if (!data) {
+    description = "Error Fetching Bio";
+  } else if (data[0].bio && data[0].major) {
+    description = `${data[0].major} - ${data[0].bio}`;
+  } else if (data[0].bio) {
+    description = data[0].bio;
+  } else if (data[0].major) {
+    description = data[0].major;
+  } else {
+    description = "No Bio Set.";
+  }
+
   return {
     title: data
       ? `${data[0].real_name}`
       : error
         ? "Error Fetching User"
         : "Fetching Name",
-    opengraph: {
+    openGraph: {
       title: data
         ? `${data[0].real_name}`
         : error
@@ -37,7 +45,7 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
       description,
       images: data ? (data[0].avatar_url ? data[0].avatar_url : "") : "",
       url: `https://mesaconnect.io/connect/profile/${params.id}`,
-      type: "website",
+      type: "profile",
       locale: "en_US",
     },
   };

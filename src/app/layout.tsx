@@ -19,10 +19,10 @@ export const metadata: Metadata = {
   description: config.description,
   openGraph: {
     title: "MESAConnect",
-    description: "Connecting The Next Generation Together.",
+    description: "Using STEM to Unite STEM Together.",
     url: "https://mesaconnect.io",
+    images: ["/public/mesaconnectbanner.png"],
     siteName: "MESAConnect",
-
     locale: "en_US",
     type: "website",
   },
