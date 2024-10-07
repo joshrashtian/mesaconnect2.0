@@ -3,13 +3,7 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { serverside } from "../../../../../../../config/serverside";
 
-export async function generateMetadata(
-  {
-    params,
-    searchParams,
-  }: { params: { id: string }; searchParams: URLSearchParams },
-  parent: ResolvingMetadata,
-): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: any) {
   const { data, error } = await serverside
     .from("profiles")
     .select("real_name, bio, avatar_url, major")
