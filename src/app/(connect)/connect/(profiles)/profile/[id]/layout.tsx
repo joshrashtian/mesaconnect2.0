@@ -3,13 +3,11 @@
 import { Metadata, ResolvingMetadata } from "next";
 import { serverside } from "../../../../../../../config/serverside";
 
-type Props = {
-  params: { id: string };
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
 export async function generateMetadata(
-  { params, searchParams }: Props,
+  {
+    params,
+    searchParams,
+  }: { params: { id: string }; searchParams: URLSearchParams },
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const { data, error } = await serverside
