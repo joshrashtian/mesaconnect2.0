@@ -36,6 +36,9 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
           : "Fetching Name",
       description,
       images: data ? (data[0].avatar_url ? data[0].avatar_url : "") : "",
+      url: `https://mesaconnect.io/connect/profile/${params.id}`,
+      type: "website",
+      locale: "en_US",
     },
   };
 }
