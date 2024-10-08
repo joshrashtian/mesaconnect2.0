@@ -7,6 +7,50 @@ import { type CommunityBlockIndex } from "../BlockIndex";
 import TextBlockComponent from "./(components)/TextBlock";
 import { IoLockClosed } from "react-icons/io5";
 import CanvasButton from "./(components)/CanvasButton";
+import { serverside } from "../../../../../../config/serverside";
+import { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { data, error } = await serverside
+    .from("communities")
+    .select("id, name, description")
+    .match({ id: params.id })
+    .single();
+
+  let { data: CoverImage, error: ImageError } = await serverside.storage
+    .from("communities")
+    .download(`${params.id}/cover.png`);
+
+  const previousImages = (await parent).openGraph?.images || [];
+
+  if (!data || error) {
+    return { title: "Error Fetching Community" };
+  }
+
+  return {
+    title: data?.name,
+    description: data?.description,
+
+    openGraph: {
+      title: data.name,
+      url: `https://mesaconnect.io/connect/community/${params.id}`,
+      siteName: "MESAConnect",
+      images: CoverImage
+        ? [URL.createObjectURL(CoverImage), ...previousImages]
+        : [...previousImages],
+      locale: "en_US",
+      type: "profile",
+    },
+  };
+}
 
 const CommunityPage = async ({ params }: { params: { id: string } }) => {
   if (!params.id) return null;

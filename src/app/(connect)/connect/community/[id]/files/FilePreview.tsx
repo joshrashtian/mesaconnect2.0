@@ -38,7 +38,7 @@ const FilePreview = ({ file }: { file: FileObject }) => {
     const { data, error } = await supabase.storage
       .from("communities")
       .download(`${id}/${file.name}`);
-    console.log(data);
+
     if (error) toast.CreateErrorToast(error.message);
 
     setBlob(data);
