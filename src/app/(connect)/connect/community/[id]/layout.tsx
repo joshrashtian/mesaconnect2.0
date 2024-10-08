@@ -9,6 +9,51 @@ import { cookies } from "next/headers";
 import CommunityHeader from "./(components)/CommunityHeader";
 import LoadingObject from "@/(mesaui)/LoadingObject";
 import JoinButton from "./(components)/JoinButton";
+import { serverside } from "../../../../../../config/serverside";
+import { Metadata, ResolvingMetadata } from "next";
+
+type Props = {
+  params: { id: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { data, error } = await serverside
+    .from("communities")
+    .select("id, name, description")
+    .match({ id: params.id })
+    .single();
+
+  let { data: CoverImage, error: ImageError } = await serverside.storage
+    .from("communities")
+    .download(`${params.id}/cover.png`);
+
+  const previousImages = (await parent).openGraph?.images || [];
+
+  if (!data || error) {
+    return { title: "Error Fetching Community" };
+  }
+
+  return {
+    title: data?.name,
+    description: data?.description,
+
+    openGraph: {
+      title: data.name,
+      url: `https://mesaconnect.io/connect/community/${params.id}`,
+      siteName: "MESAConnect",
+      images: CoverImage
+        ? [URL.createObjectURL(CoverImage), ...previousImages]
+        : [...previousImages],
+      locale: "en_US",
+      type: "profile",
+    },
+  };
+}
+
 const CommunityPage = async ({
   params,
   children,
@@ -29,7 +74,8 @@ const CommunityPage = async ({
     .from("communities")
     .download(`${params.id}/cover.png`);
 
-  const image = CoverImage ? URL.createObjectURL(CoverImage) : null;
+  const image =
+    CoverImage && !ImageError ? URL.createObjectURL(CoverImage) : null;
 
   console.error(`${params.id}/cover.png`, CoverImage, ImageError);
   if (!data || error) {
@@ -43,7 +89,7 @@ const CommunityPage = async ({
     >
       <ul
         style={data.styles?.header}
-        className={`relative flex h-64 w-full flex-row items-center justify-center rounded-t-3xl ${ImageError && "bg-gradient-to-br from-orange-400 to-red-500"}`}
+        className={`relative flex h-64 w-full flex-row items-center justify-center rounded-t-3xl ${!CoverImage && "bg-gradient-to-br from-orange-400 to-red-500"}`}
       >
         {image && (
           <Image

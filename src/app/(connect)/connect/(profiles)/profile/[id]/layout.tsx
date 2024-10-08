@@ -1,6 +1,5 @@
 "use server";
 
-import { Metadata, ResolvingMetadata } from "next";
 import { serverside } from "../../../../../../../config/serverside";
 
 export async function generateMetadata({ params, searchParams }: any) {
@@ -36,14 +35,12 @@ export async function generateMetadata({ params, searchParams }: any) {
           : "Fetching Name",
       description,
       images: data ? (data[0].avatar_url ? data[0].avatar_url : "") : "",
-      url: `https://mesaconnect.io/connect/profile/${params.id}`,
+      url: new URL(`https://mesaconnect.io/connect/profile/${params.id}`),
       type: "profile",
       locale: "en_US",
     },
   };
 }
-
-import React from "react";
 
 const LayoutProfile = async ({ children }: { children: React.ReactNode }) => {
   return <div>{children}</div>;

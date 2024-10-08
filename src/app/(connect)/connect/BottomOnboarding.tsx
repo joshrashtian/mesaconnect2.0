@@ -1,7 +1,7 @@
 "use client";
 import StandardButton from "@/(mesaui)/StandardButton";
 import { useUser } from "@/app/AuthContext";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IoAccessibility,
   IoBook,
@@ -15,11 +15,37 @@ import { useModal } from "./Modal";
 import BioModal from "./(profiles)/profile/[id]/BioModal";
 import MajorModal from "./(profiles)/profile/[id]/MajorModal";
 import CollegeModal from "./(profiles)/profile/[id]/CollegeModal";
+import { supabase } from "../../../../config/mesa-config";
 const BottomOnboarding = () => {
   const [open, setOpen] = useState(true);
   const { user, userData: data } = useUser();
+  const [communities, setCom] = useState(false);
   const modal = useModal();
+
+  useEffect(() => {
+    getCommunities();
+  });
+
+  const getCommunities = async () => {
+    //@ts-ignore
+    const { data: Communities, error } = await supabase.rpc("get_communities");
+
+    //@ts-ignore
+    if (Communities && Communities.length > 0) {
+      setCom(true);
+    }
+  };
   if (!open) return null;
+
+  if (
+    communities &&
+    data?.avatar_url &&
+    data?.bio &&
+    data?.college &&
+    data?.major
+  )
+    return null;
+
   return (
     <motion.main
       initial={{ opacity: 0 }}
@@ -78,13 +104,15 @@ const BottomOnboarding = () => {
           Add Your Major
         </StandardButton>
       )}
-      <StandardButton
-        buttonType="link"
-        icon={<IoPeople />}
-        href="/connect/community"
-      >
-        Join a Community
-      </StandardButton>
+      {!communities && (
+        <StandardButton
+          buttonType="link"
+          icon={<IoPeople />}
+          href="/connect/community"
+        >
+          Join a Community
+        </StandardButton>
+      )}
       <StandardButton
         buttonType="button"
         onClick={() => setOpen(false)}

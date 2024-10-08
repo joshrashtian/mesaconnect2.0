@@ -12,7 +12,9 @@ const UsersPage = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     getUsers();
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   async function getUsers() {
     const { data: newData, error } = await supabase
       .from("communityrelations")
@@ -36,7 +38,7 @@ const UsersPage = ({ params }: { params: { id: string } }) => {
 
   if (!data) return <LoadingObject size={40} className="text-orange-500" />;
   return (
-    <div className="flex flex-col p-2.5">
+    <div className="flex h-fit flex-col p-2.5">
       {userdata?.map((e) => (
         <UserItem key={e.id} user={e}>
           <p className="text-slate-200">{e.username}</p>
