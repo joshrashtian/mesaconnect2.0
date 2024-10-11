@@ -16,6 +16,7 @@ import { useDarkMode } from "@/app/AuthContext";
 import Input from "@/_components/Input";
 import Link from "next/link";
 import React from "react";
+import { SignUpUser } from "./functions";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -36,18 +37,13 @@ const SignUp = () => {
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-      options: {
-        data: {
-          //real_name: realname,
-          //username: username,
-          college: college,
-          major: major,
-        },
-      },
-    });
+    let user = { email, password, college, major };
+    const { data, error } = await SignUpUser(
+      user.email,
+      user.password,
+      user.college,
+      user.major,
+    );
 
     if (error) {
       console.error(error);
@@ -61,7 +57,7 @@ const SignUp = () => {
       provider: "google",
     });
     if (error) setErrorMsg(error.message);
-    else window.location.reload();
+    else alert("A confirmation email has been sent!");
   };
   return (
     <>
