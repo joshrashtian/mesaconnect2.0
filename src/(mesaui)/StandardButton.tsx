@@ -14,7 +14,9 @@ const StandardButton = (props: StandardButtonProps) => {
     case "link":
       return (
         <Link
+          {...props}
           //@ts-ignore
+
           href={props.href}
           passHref={true}
           className={`flex w-1/3 flex-row items-center justify-center gap-3 rounded-2xl bg-zinc-100 p-3 duration-300 hover:scale-105 hover:bg-zinc-200 dark:bg-zinc-600 dark:hover:bg-zinc-800 ${props.className}`}
@@ -28,6 +30,7 @@ const StandardButton = (props: StandardButtonProps) => {
     case "button":
       return (
         <button
+          {...props}
           onClick={props.onClick}
           className={`flex w-1/3 flex-row items-center justify-center gap-3 rounded-2xl bg-zinc-100 p-3 duration-300 hover:scale-105 hover:bg-zinc-200 dark:bg-zinc-600 dark:hover:bg-zinc-800 ${props.className}`}
         >
