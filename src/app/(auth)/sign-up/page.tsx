@@ -17,6 +17,8 @@ import Input from "@/_components/Input";
 import Link from "next/link";
 import React from "react";
 import { SignUpUser } from "./functions";
+import { redirect } from "next/navigation";
+import StandardButton from "@/(mesaui)/StandardButton";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -27,6 +29,7 @@ const SignUp = () => {
   const [major, setMajor] = useState<string>();
   const [key, setKey] = useState<string>();
   const [validKey, setValidKey] = useState<Key>();
+  const [verify, setVerify] = useState<boolean>(false);
   const dark = useDarkMode();
 
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
@@ -49,7 +52,7 @@ const SignUp = () => {
       console.error(error);
       setErrorMsg(error.message);
       return;
-    } else window.location.reload();
+    } else setVerify(true);
   };
 
   const withGoogle = async () => {
@@ -57,7 +60,6 @@ const SignUp = () => {
       provider: "google",
     });
     if (error) setErrorMsg(error.message);
-    else alert("A confirmation email has been sent!");
   };
   return (
     <>
@@ -71,7 +73,7 @@ const SignUp = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, type: "spring" }}
-        className="no-scrollbar absolute bottom-0 flex h-2/3 w-full origin-bottom flex-col gap-2 overflow-y-scroll rounded-t-3xl bg-white p-10 pb-20 shadow-md dark:bg-zinc-600"
+        className={`no-scrollbar ${verify && "translate-y-20 scale-75 rounded-b-3xl"} absolute bottom-0 flex h-2/3 w-full origin-bottom flex-col gap-2 overflow-y-scroll rounded-t-3xl bg-white p-10 pb-20 shadow-md dark:bg-zinc-600`}
       >
         <motion.h1 className="border-b-2 border-slate-200 border-opacity-65 bg-gradient-to-tr from-pink-700 to-blue-800 bg-clip-text p-6 font-eudoxus text-5xl font-bold text-transparent duration-300 dark:from-pink-400 dark:to-blue-300">
           {/* eslint-disable-next-line react/no-unescaped-entities */}
@@ -228,6 +230,37 @@ const SignUp = () => {
           </motion.ul>
         )}
       </motion.section>
+
+      {verify && (
+        <>
+          <motion.section
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="absolute left-0 top-0 min-h-full min-w-full bg-black/40"
+          />
+          <motion.section
+            initial={{ opacity: 0, y: 60 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, type: "spring", delay: 1 }}
+            className={`no-scrollbar absolute bottom-0 flex h-96 w-full origin-bottom flex-col gap-2 overflow-y-scroll rounded-t-3xl bg-white p-10 pb-20 font-eudoxus drop-shadow-lg dark:bg-zinc-600`}
+          >
+            <h1 className="text-5xl font-bold">Email Confirmation</h1>
+            <p className="flex flex-row font-light">
+              An email has been sent to{" "}
+              <code className="ml-2 w-fit rounded-md bg-slate-200 px-2 font-mono font-light">
+                {email}
+              </code>
+            </p>
+            <StandardButton
+              buttonType="button"
+              onClick={() => window.location.reload()}
+              icon={<IoCheckmark />}
+            >
+              Verified Your Account? Reload Page
+            </StandardButton>
+          </motion.section>
+        </>
+      )}
     </>
   );
 };
