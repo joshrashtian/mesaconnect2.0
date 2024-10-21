@@ -146,7 +146,7 @@ const Dock = () => {
   ];
 
   return (
-    <div className="min-w-full bottom-0 lg:bottom-8 left-0 z-30 font-eudoxus h-16 fixed justify-center items-center flex">
+    <div className="fixed bottom-0 left-0 z-30 flex h-16 min-w-full items-center justify-center font-eudoxus lg:bottom-8">
       <section
         onMouseEnter={() => {
           setIsHovered(true);
@@ -155,11 +155,11 @@ const Dock = () => {
           setIsHovered(false);
         }}
         onContextMenu={(e) => context.createContext(e, navContext)}
-        className={`group peer bg-white dark:bg-zinc-900 overflow-x-scroll no-scrollbar lg:overflow-hidden origin-bottom drop-shadow-md lg:rounded-3xl lg:hover:-translate-y-3 h-full w-16 ${
+        className={`no-scrollbar group peer h-full w-16 origin-bottom overflow-x-scroll bg-white/80 shadow-lg ring-2 hover:ring-orange-300/30 lg:overflow-hidden lg:rounded-[100px] lg:hover:-translate-y-3 dark:bg-zinc-900 ${
           isLocked
-            ? "2xl:w-[60%] [760px]:w-[70%] lg:min-w-3xl w-[1000px]"
-            : " w-16 hover:2xl:w-[60%] hover:w-[70%]"
-        }  max-w-3xl justify-center items-center duration-500 2xl:duration-700 lg:hover:scale-[1.15] ease-in-out`}
+            ? "[760px]:w-[70%] lg:min-w-3xl w-[1000px] 2xl:w-[60%]"
+            : "w-16 hover:w-[70%] hover:2xl:w-[60%]"
+        } max-w-3xl items-center justify-center backdrop-blur-xl duration-500 lg:hover:scale-[1.15] 2xl:duration-700`}
       >
         <AnimatePresence>
           {profURL && !isHovered && !isLocked && (
@@ -168,14 +168,14 @@ const Dock = () => {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ delay: 0.2, duration: 0.3 }}
-              className="flex justify-center items-center w-full h-full"
+              className="flex h-full w-full items-center justify-center"
             >
               <Image
                 src={profURL ? profURL : SamplePhoto}
                 alt="profile"
                 width={48}
                 height={48}
-                className="w-12 h-12 cursor-pointer duration-500 rounded-full"
+                className="h-12 w-12 cursor-pointer rounded-full duration-500"
               />
             </motion.ul>
           )}
@@ -187,7 +187,7 @@ const Dock = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ delay: 0.6, duration: 0.2 }}
-              className="w-full h-full flex-row delay-500 flex justify-center gap-0.5 lg:gap-2  items-center duration-200"
+              className="flex h-full w-full flex-row items-center justify-center gap-0.5 delay-500 duration-200 lg:gap-2"
             >
               {tabs
                 .filter((e) => !e.icon)
@@ -213,18 +213,18 @@ const Dock = () => {
                         isLocked
                           ? "opacity-100 group-hover:translate-y-0"
                           : "group-hover:opacity-100"
-                      } opacity-0 flex-col flex justify-center translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out`}
+                      } flex translate-y-3 flex-col justify-center rounded-lg opacity-0 duration-300 ease-in-out group-hover:translate-y-0`}
                     >
                       <Link
                         href={`/connect${tab.link}`}
-                        className="flex  flex-row p-3 justify-center items-center"
+                        className="flex flex-row items-center justify-center p-3"
                       >
                         <h1
                           className={`${
                             isLocked
                               ? "text-[12px] sm:text-base lg:text-lg"
-                              : "text-[12px] sm:text-base 2xl:text-lg group-hover:text-lg"
-                          }   font-black hover:text-orange-500/60 focus:scale-95 dark:text-white dark:hover:text-orange-400/60 duration-200`}
+                              : "text-[12px] group-hover:text-lg sm:text-base 2xl:text-lg"
+                          } font-black duration-200 hover:text-orange-500/60 focus:scale-95 dark:text-white dark:hover:text-orange-400/60`}
                         >
                           {tab.name}
                         </h1>
@@ -235,7 +235,7 @@ const Dock = () => {
                           initial={{ y: 12, opacity: 0, scale: 0 }}
                           animate={{ y: 16, opacity: 1, scale: 1 }}
                           transition={{ type: "spring" }}
-                          className="w-1 h-1 absolute rounded-sm translate-y-4 bg-orange-400 self-center"
+                          className="absolute h-1 w-1 translate-y-4 self-center rounded-sm bg-orange-400"
                         />
                       ) : (
                         tab.name === clicked && (
@@ -243,7 +243,7 @@ const Dock = () => {
                             initial={{ y: 12, opacity: 0, scale: 0 }}
                             animate={{ y: 16, opacity: 1, scale: 1 }}
                             transition={{ type: "spring" }}
-                            className="w-1 h-1 absolute rounded-sm translate-y-4 text-orange-400 text-[8px] self-center"
+                            className="absolute h-1 w-1 translate-y-4 self-center rounded-sm text-[8px] text-orange-400"
                           >
                             <VscLoading className="animate-spin text-center" />
                           </motion.ul>
@@ -252,7 +252,7 @@ const Dock = () => {
                     </motion.li>
                   );
                 })}
-              <ul className="w-0.5 h-1/2 bg-slate-200 mr-3" />
+              <ul className="mr-3 h-1/2 w-0.5 bg-slate-200" />
               {tabs
                 .filter((e) => e.icon)
                 .map((tab, index) => {
@@ -276,15 +276,15 @@ const Dock = () => {
                         isLocked
                           ? "opacity-100 group-hover:translate-y-0"
                           : "group-hover:opacity-100"
-                      } opacity-0  translate-y-3 group-hover:translate-y-0 rounded-lg duration-300 ease-in-out`}
+                      } translate-y-3 rounded-lg opacity-0 duration-300 ease-in-out group-hover:translate-y-0`}
                     >
                       <Link
                         href={
                           tab.sitelink ? tab.sitelink : `/connect${tab.link}`
                         }
-                        className={`flex rounded-2xl ${tab.color} text-white flex-row p-3 justify-center items-center`}
+                        className={`flex rounded-2xl ${tab.color} flex-row items-center justify-center p-3 text-white`}
                       >
-                        <h1 className="2xl:text-sm text-[12px] font-semibold group-hover:text-lg duration-200">
+                        <h1 className="text-[12px] font-semibold duration-200 group-hover:text-lg 2xl:text-sm">
                           {tab.icon}
                         </h1>
                       </Link>
@@ -297,7 +297,7 @@ const Dock = () => {
       </section>
 
       <section
-        className={` absolute w-[10%] h-10 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 lg:peer-hover:scale-100 rounded-full peer-hover:-translate-y-16 -translate-y-4 transition-all duration-500  bg-white dark:bg-slate-900/70 `}
+        className={`peer absolute flex h-10 w-[10%] -translate-y-4 scale-0 flex-row items-center justify-center rounded-full bg-white shadow-xl transition-all delay-150 duration-500 peer-hover:-translate-y-16 lg:peer-hover:scale-100 dark:bg-slate-900/70`}
       >
         <motion.h1 className="font-bold dark:text-white/70">
           {selected}
@@ -306,7 +306,7 @@ const Dock = () => {
       {settings.taskbar === "default" && (
         <button
           onClick={() => setLocked(!isLocked)}
-          className={`absolute w-6 h-6 flex flex-row delay-150 shadow-xl justify-center items-center peer scale-0 peer-hover:scale-100 rounded-full peer-hover:-translate-y-11 -translate-y-9 transition-all duration-500  bg-white`}
+          className={`peer absolute flex h-6 w-6 -translate-y-9 scale-0 flex-row items-center justify-center rounded-full bg-white shadow-xl transition-all delay-150 duration-500 peer-hover:-translate-y-11 peer-hover:scale-100`}
         >
           <IoLockClosed />
         </button>

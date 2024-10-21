@@ -34,8 +34,8 @@ const Social = () => {
           <IoSearchSharp size={30} />
         </Link>
       </header>
-      <section className="flex h-fit w-full flex-row flex-wrap gap-2 rounded-lg bg-zinc-200 p-5 dark:bg-zinc-900">
-        <ul className="flex h-16 w-72 items-center justify-center rounded-2xl dark:bg-zinc-800 dark:text-white">
+      <section className="flex h-fit w-full flex-row flex-wrap gap-2 rounded-3xl bg-zinc-200/30 p-5 dark:bg-zinc-900">
+        <ul className="flex h-16 w-72 items-center justify-center rounded-2xl bg-zinc-100 font-black dark:bg-zinc-800 dark:text-white">
           <p>Quick Access</p>
         </ul>
         <StandardButton
@@ -61,6 +61,14 @@ const Social = () => {
           icon={<IoCalendar />}
         >
           View Posts
+        </StandardButton>
+        <StandardButton
+          buttonType="link"
+          href="/connect/social/users"
+          className="h-16 w-72"
+          icon={<IoPeople />}
+        >
+          View Students
         </StandardButton>
       </section>
       <section className="flex h-full w-full flex-col justify-normal gap-10 lg:justify-between xl:flex-row">

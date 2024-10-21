@@ -4,7 +4,7 @@ import { Database } from "./supabasetypes";
 export const config = {
   title: "MESA Connect",
   description: "STEM, but united.",
-  versionNumber: "beta version 2",
+  versionNumber: "beta version 3 (0.3.0)",
 };
 
 //Supabase
