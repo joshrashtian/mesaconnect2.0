@@ -25,6 +25,8 @@ import { useModal } from "../../../Modal";
 import MajorModal from "./MajorModal";
 import UserEvents from "./UserEvents";
 import SideNavProfile from "./profile_sidenav";
+import Achievements from "./Achievements";
+import { useProfile } from "./ProfileContext";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
@@ -33,6 +35,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
   const toast = useToast();
 
   const ActiveUser = useUser();
+  const profile = useProfile();
   const modal = useModal();
   const isActiveUser = user?.id === ActiveUser.user?.id;
 
@@ -257,18 +260,18 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       )}
 
       <section
-        className="z-10 flex w-full flex-row gap-4"
+        className="z-10 flex w-full flex-col gap-4 lg:flex-row"
         onContextMenu={(e) => e.preventDefault()}
         ref={ActivityRef}
       >
         <article className="flex w-full flex-col gap-3">
-          <h2 className="font-eudoxus text-3xl font-bold dark:text-white/80">
+          <h2 className="font-eudoxus text-3xl font-black dark:text-white/80">
             Activity
           </h2>
           <UserPosts id={user.id} />
         </article>
         <article className="flex w-full flex-col gap-3">
-          <h2 className="font-eudoxus text-3xl font-bold dark:text-white/80">
+          <h2 className="font-eudoxus text-3xl font-black dark:text-white/80">
             Created Events
           </h2>
           <UserEvents id={user.id} />
@@ -283,6 +286,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
           <IoTrophy />
           Achievements and Certifications
         </h2>
+        <Achievements />
       </section>
       <SideNavProfile maps={refMap} />
     </main>
