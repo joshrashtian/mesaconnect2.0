@@ -12,13 +12,19 @@ import ChangePfP from "./ChangePfP";
 import LoadingPage from "@/_components/LoadingPage";
 import FollowButton from "./FollowButton";
 import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
-import { IoCopyOutline, IoPersonAddOutline, IoSchool } from "react-icons/io5";
+import {
+  IoCopyOutline,
+  IoPersonAddOutline,
+  IoSchool,
+  IoTrophy,
+} from "react-icons/io5";
 import Infoblocks from "@/app/(connect)/connect/(profiles)/profile/[id]/infoblocks";
 import YourProfile from "./YourProfile";
 import BioModal from "./BioModal";
 import { useModal } from "../../../Modal";
 import MajorModal from "./MajorModal";
 import UserEvents from "./UserEvents";
+import SideNavProfile from "./profile_sidenav";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
@@ -29,6 +35,37 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
   const ActiveUser = useUser();
   const modal = useModal();
   const isActiveUser = user?.id === ActiveUser.user?.id;
+
+  //refrences
+  const InfoBoxRef = useRef<HTMLDivElement>(null);
+  const ActivityRef = useRef<HTMLDivElement>(null);
+  const TopPageRef = useRef<HTMLUListElement>(null);
+  const CertRef = useRef<HTMLDivElement>(null);
+
+  const refMap = new Map([
+    [
+      "Top Page",
+      () => TopPageRef?.current?.scrollIntoView({ behavior: "smooth" }),
+    ],
+    [
+      "Inside",
+      () => InfoBoxRef?.current?.scrollIntoView({ behavior: "smooth" }),
+    ],
+    [
+      "activity",
+      () =>
+        ActivityRef?.current?.scrollIntoView({
+          behavior: "smooth",
+        }),
+    ],
+    [
+      "acholades",
+      () =>
+        CertRef?.current?.scrollIntoView({
+          behavior: "smooth",
+        }),
+    ],
+  ]);
 
   const BioComp = useCallback(
     () => <BioModal bio={user?.bio} user={ActiveUser.user?.id} />,
@@ -65,6 +102,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
   return (
     <main
+      ref={TopPageRef}
       onContextMenu={(e) =>
         createContext(e, [
           {
@@ -190,7 +228,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       {isActiveUser && <YourProfile />}
 
       {user.boxlist && (
-        <section className="flex flex-col gap-3">
+        <section ref={InfoBoxRef} className="flex flex-col gap-3">
           <ul className="flex h-full w-full flex-row flex-wrap gap-2 font-eudoxus">
             {user.boxlist.map((e: any) => {
               return (
@@ -221,6 +259,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       <section
         className="z-10 flex w-full flex-row gap-4"
         onContextMenu={(e) => e.preventDefault()}
+        ref={ActivityRef}
       >
         <article className="flex w-full flex-col gap-3">
           <h2 className="font-eudoxus text-3xl font-bold dark:text-white/80">
@@ -235,6 +274,17 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
           <UserEvents id={user.id} />
         </article>
       </section>
+      <section
+        className="z-10 flex w-full flex-col gap-4 rounded-3xl p-7 dark:bg-zinc-900"
+        onContextMenu={(e) => e.preventDefault()}
+        ref={CertRef}
+      >
+        <h2 className="font-eudoxus text-3xl font-bold dark:text-white/80">
+          <IoTrophy />
+          Achievements and Certifications
+        </h2>
+      </section>
+      <SideNavProfile maps={refMap} />
     </main>
   );
 };

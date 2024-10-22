@@ -29,7 +29,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
                 <Dock />
 
                 {children}
-                <h1 className="fixed bottom-2 right-2 font-mono">
+                <h1 className="fixed bottom-2 right-2 font-eudoxus font-black">
                   {config.versionNumber}
                 </h1>
               </main>
