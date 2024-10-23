@@ -7,7 +7,7 @@ const SideNavProfile = ({ maps }: { maps: Map<string, () => void> }) => {
     <motion.ol
       initial={{ x: 200 }}
       animate={{ x: 0 }}
-      className="fixed right-3 top-1/2 origin-right scale-0 rounded-2xl bg-zinc-50/60 p-4 font-eudoxus font-light shadow-lg backdrop-blur-xl duration-100 hover:ring-2 hover:ring-orange-400 lg:scale-100 dark:bg-orange-950/40"
+      className="fixed right-3 top-1/2 z-50 origin-right scale-0 rounded-2xl bg-zinc-50/60 p-4 font-eudoxus font-light shadow-lg backdrop-blur-xl duration-1000 hover:ring-2 hover:ring-orange-400 lg:scale-100 dark:bg-orange-950/40"
     >
       {Array.from(maps).map((value) => (
         <button

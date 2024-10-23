@@ -232,12 +232,12 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
       {user.boxlist && (
         <section ref={InfoBoxRef} className="flex flex-col gap-3">
-          <ul className="flex h-full w-full flex-row flex-wrap gap-2 font-eudoxus">
+          <ul className="grid h-full w-full grid-cols-2 gap-2 font-eudoxus">
             {user.boxlist.map((e: any) => {
               return (
                 <section
                   key={e.contents}
-                  className="min-h-full w-[49%] rounded-xl bg-white p-5 dark:bg-zinc-700"
+                  className="min-h-full w-full rounded-xl bg-white p-5 dark:bg-zinc-700"
                 >
                   {Index.map((d: any, i: number) => {
                     if (d.title.toLowerCase() === e.type.toLowerCase()) {
@@ -286,7 +286,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
           <IoTrophy />
           Achievements and Certifications
         </h2>
-        <Achievements />
+        {profile?.id && <Achievements />}
       </section>
       <SideNavProfile maps={refMap} />
     </main>

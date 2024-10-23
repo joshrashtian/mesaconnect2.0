@@ -25,7 +25,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
         <UserCheck>
           <ModalProvider>
             <EventModal>
-              <main className="h-screen p-16">
+              <main className="h-screen p-16 font-eudoxus">
                 <Dock />
 
                 {children}

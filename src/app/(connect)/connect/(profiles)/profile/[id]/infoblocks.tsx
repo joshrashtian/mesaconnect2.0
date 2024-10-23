@@ -57,7 +57,7 @@ const Infoblocks = (props: any) => {
           <IoAdd />
         </button>
       </ul>
-      <ul className="flex h-full w-full flex-row flex-wrap gap-2 font-eudoxus">
+      <ul className="grid h-full w-full grid-cols-2 gap-2 font-eudoxus">
         {blocks ? (
           blocks.map((e: any, index: number) => {
             return (
@@ -66,7 +66,7 @@ const Infoblocks = (props: any) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 key={index}
-                className="min-h-full w-[49%] origin-bottom rounded-xl bg-white p-5 shadow-lg dark:bg-zinc-600/30 dark:text-slate-200"
+                className="min-h-full w-full origin-bottom rounded-xl bg-white p-5 shadow-lg dark:bg-zinc-600/30 dark:text-slate-200"
               >
                 {Index.map((d: any, i: number) => {
                   if (d.title.toLowerCase() === e.type.toLowerCase()) {
