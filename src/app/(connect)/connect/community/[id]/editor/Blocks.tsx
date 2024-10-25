@@ -5,14 +5,14 @@ import BlockCommunityItemProvider from "../../BlockIndex";
 
 const BlocksEditorPreview = ({ blocks }: { blocks: InfoBlockType[] }) => {
   return (
-    <pre>
+    <section className="*: grid grid-cols-2 gap-5">
       {blocks.map((block) => {
         switch (block.type) {
           case "text":
             return (
               <BlockCommunityItemProvider
                 type="text"
-                size="medium"
+                size="large"
                 key={block.id}
                 data={block.data}
                 editor
@@ -20,9 +20,23 @@ const BlocksEditorPreview = ({ blocks }: { blocks: InfoBlockType[] }) => {
                 <BlockCommunityItemProvider.TextBlock />
               </BlockCommunityItemProvider>
             );
+          case "html":
+            return (
+              <BlockCommunityItemProvider
+                type="html"
+                size="large"
+                key={block.id}
+                data={block.data}
+                editor
+              >
+                <BlockCommunityItemProvider.HTMLEditor
+                  onChangeText={(e) => {}}
+                />
+              </BlockCommunityItemProvider>
+            );
         }
       })}
-    </pre>
+    </section>
   );
 };
 

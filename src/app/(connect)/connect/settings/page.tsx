@@ -32,7 +32,7 @@ const SettingsPage = () => {
         <h1 className="font-eudoxus text-2xl dark:text-white">
           Account Information
         </h1>
-        <ul className="flex flex-row items-center rounded-3xl bg-zinc-200/30 p-3 duration-200 hover:bg-zinc-200/70 dark:bg-zinc-700 dark:text-zinc-200">
+        <ul className="flex flex-row items-center rounded-3xl bg-zinc-200/30 p-3 duration-200 hover:bg-zinc-200/70 dark:bg-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-600/70">
           <div className="flex flex-col items-center rounded-xl p-2 py-5">
             <li className="relative h-24 w-24 rounded-full">
               {user.userData?.avatar_url && (
@@ -53,7 +53,7 @@ const SettingsPage = () => {
             </p>
           </div>
         </ul>
-        <ul className="flex flex-row items-center rounded-3xl bg-zinc-200/30 p-3 duration-200 hover:bg-zinc-200/70 dark:bg-zinc-700 dark:text-zinc-200">
+        <ul className="flex flex-row items-center rounded-3xl bg-zinc-200/30 p-3 duration-200 hover:bg-zinc-200/70 dark:bg-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-600/70">
           <p className="font-light">Current Version: {config.versionNumber}</p>
         </ul>
         <button

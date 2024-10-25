@@ -155,7 +155,7 @@ const Dock = () => {
           setIsHovered(false);
         }}
         onContextMenu={(e) => context.createContext(e, navContext)}
-        className={`no-scrollbar group peer h-full w-16 origin-bottom overflow-x-scroll bg-white/80 shadow-lg ring-2 hover:ring-orange-300/30 lg:overflow-hidden lg:rounded-[100px] lg:hover:-translate-y-3 dark:bg-zinc-900 ${
+        className={`no-scrollbar group peer h-full w-16 origin-bottom overflow-x-scroll bg-[#F1F2F6]/80 shadow-lg ring-2 hover:ring-orange-300/30 lg:overflow-hidden lg:rounded-[100px] lg:hover:-translate-y-3 dark:bg-zinc-900 ${
           isLocked
             ? "[760px]:w-[70%] lg:min-w-3xl w-[1000px] 2xl:w-[60%]"
             : "w-16 hover:w-[70%] hover:2xl:w-[60%]"
