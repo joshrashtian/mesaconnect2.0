@@ -47,12 +47,12 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
       function: () =>
         CreateDialogBox(
           <div className="h-full">
-            <h1 className=" font-eudoxus text-2xl font-bold ">
+            <h1 className="font-eudoxus text-2xl font-bold">
               Are You Sure You Would Like To Delete Post
             </h1>
             <h2>{post.title}</h2>
           </div>,
-            //@ts-ignore
+          //@ts-ignore
           async () => {
             const { error } = await supabase
               .from("posts")
@@ -64,7 +64,12 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
             }
 
             toast.CreateSuccessToast("Deleted Post!");
-          }
+          },
+          {
+            canUnmount: true,
+            confirmText: "Delete Post",
+            cancelText: "Cancel",
+          },
         ),
       icon: <IoTrashBinOutline />,
     },
@@ -82,20 +87,24 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
         duration: 0.2,
       }}
       whileHover={{ scale: 1.02 }}
-      className=" p-5 min-h-36 flex flex-col justify-between hover:shadow-lg rounded-sm hover:rounded-xl last:border-b-0 border-b-2 dark:border-black cursor-pointer font-eudoxus hover:scale-[1.0005] hover:bg-slate-50/10 dark:bg-zinc-600/40 dark:hover:bg-slate-600/60 duration-300 w-full bg-white"
+      className="flex min-h-36 w-full cursor-pointer flex-col justify-between rounded-sm border-b-2 bg-white p-5 font-eudoxus duration-300 last:border-b-0 hover:scale-[1.0005] hover:rounded-xl hover:bg-slate-50/10 hover:shadow-lg dark:border-black dark:bg-zinc-600/40 dark:hover:bg-slate-600/60"
       onContextMenu={(e) => {
         createContext(e, contextButtons);
       }}
     >
       <Link href={`/connect/social/post/${post.id}`} className=" ">
-        <div className="justify-between flex">
-          <h1 className="font-bold text-slate-700 dark:text-white/70">{post.title}</h1>
+        <div className="flex justify-between">
+          <h1 className="font-bold text-slate-700 dark:text-white/70">
+            {post.title}
+          </h1>
           <time className="font-bold text-slate-400 dark:text-white/40">
             {new Date(post.created_at).toLocaleDateString()}
           </time>
         </div>
 
-        <h1 className=" text-slate-700 dark:text-white/70">{post.creator.realname}</h1>
+        <h1 className="text-slate-700 dark:text-white/70">
+          {post.creator.realname}
+        </h1>
 
         <h2 className="text-slate-500 dark:text-white">{data[0].text}</h2>
         <h2 className="text-slate-500 dark:text-white">{data[1]?.text}</h2>
@@ -105,7 +114,7 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
         {post.tags?.map((tag) => (
           <h1
             key={tag}
-            className="first:border-l-0 border-l-2 border-dashed px-2 "
+            className="border-l-2 border-dashed px-2 first:border-l-0"
           >
             {tag}
           </h1>

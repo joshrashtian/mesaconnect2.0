@@ -13,6 +13,10 @@ import LoadingPage from "@/_components/LoadingPage";
 import FollowButton from "./FollowButton";
 import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
 import {
+  IoCheckbox,
+  IoCheckmark,
+  IoCheckmarkCircle,
+  IoCheckmarkCircleOutline,
   IoCopyOutline,
   IoPersonAddOutline,
   IoSchool,
@@ -27,12 +31,14 @@ import UserEvents from "./UserEvents";
 import SideNavProfile from "./profile_sidenav";
 import Achievements from "./Achievements";
 import { useProfile } from "./ProfileContext";
+import { useRouter } from "next/navigation";
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [user, setUser] = useState<UserData>();
   const pfpRef = useRef<any>();
   const { createContext } = useContextMenu();
   const toast = useToast();
+  const router = useRouter();
 
   const ActiveUser = useUser();
   const profile = useProfile();
@@ -135,7 +141,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       }
       className="flex min-h-screen flex-col gap-5 p-3 pb-32"
     >
-      <ul className="flex flex-row items-end gap-5">
+      <ul className="flex flex-row items-start gap-5">
         {ActiveUser.user?.id === user.id ? (
           <picture
             onClick={() => {
@@ -173,22 +179,25 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             style={{ borderRadius: "100%" }}
           />
         )}
-        <ul>
+        <ol>
           <h1 className="font-eudoxus text-6xl font-black dark:text-white/70">
             {user?.real_name}
           </h1>
           <h2 className="font-eudoxus text-xl font-light text-slate-500 dark:text-slate-200/50">
             @{user?.username}
           </h2>
-        </ul>
+        </ol>
+        {user?.verified && (
+          <IoSchool className="rounded-full bg-blue-700 p-1 text-4xl text-blue-100 dark:text-blue-300" />
+        )}
       </ul>
 
       {user.id !== ActiveUser.user?.id && <FollowButton id={user.id} />}
       <section className="flex flex-row gap-3 font-eudoxus">
         <ul className="flex w-16 items-center justify-center rounded-lg bg-white p-1 shadow-sm dark:bg-zinc-700">
-          <h2 className="font-semibold capitalize text-orange-700 dark:text-orange-500/70">
+          <p className="font-semibold capitalize text-orange-700 dark:text-orange-500/70">
             {user?.role}
-          </h2>
+          </p>
         </ul>
         <ul
           onClick={() => {
@@ -201,15 +210,49 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             isActiveUser && "cursor-pointer duration-300 hover:bg-slate-200/60"
           } flex items-center justify-center text-nowrap rounded-lg bg-white p-1 px-3 shadow-sm dark:bg-zinc-700`}
         >
-          <h2 className="font-semibold capitalize text-indigo-700 dark:text-pink-200/50">
+          <p className="font-semibold capitalize text-indigo-700 dark:text-pink-200/50">
             {user?.major ? user.major : "Undecided"}
-          </h2>
+          </p>
         </ul>
         <ul className="flex items-center justify-center text-nowrap rounded-lg bg-white p-1 px-3 shadow-sm dark:bg-zinc-700">
-          <h2 className="font-semibold capitalize text-cyan-700 dark:text-cyan-300/50">
+          <p className="font-semibold capitalize text-cyan-700 dark:text-cyan-300/50">
             {user?.college ? user.college : "No College Set"}
-          </h2>
+          </p>
         </ul>
+        <button
+          onClick={() =>
+            modal.CreateDialogBox(
+              <div className="w-96 font-eudoxus">
+                <IoCheckmarkCircleOutline className="text-4xl text-blue-600" />
+                <b className="text-2xl">This User Is Verified</b>
+                <p>
+                  This user is verified. In order to gain verification, you must
+                  prove your status in MESA. Not being Verified still allows you
+                  to use the application.
+                </p>
+              </div>,
+              () => {
+                router.push("/docs/general?a=verified");
+              },
+              {
+                confirmText: "Learn more",
+                canUnmount: true,
+                cancelText: "Close",
+              },
+            )
+          }
+          className="flex items-center justify-center text-nowrap rounded-lg bg-blue-600 p-1 px-3 shadow-sm dark:bg-zinc-700"
+        >
+          <p className="flex flex-row items-center gap-2 font-semibold capitalize text-white">
+            {user?.verified ? (
+              <>
+                <IoCheckmarkCircle /> Verified
+              </>
+            ) : (
+              "Not Verified"
+            )}
+          </p>
+        </button>
       </section>
 
       <h2

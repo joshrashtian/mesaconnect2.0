@@ -12,11 +12,13 @@ const page = async () => {
     <div className="my-4 flex h-full w-full flex-col gap-y-2 py-36 font-eudoxus">
       <BottomOnboarding />
 
-      <section className="h-[95vh]">
+      <section className="h-[95vh] min-h-fit">
         <TitleComponent />
         <Widgets />
       </section>
-      <section className="h-[70vh] w-full rounded-3xl bg-[#F78764]"></section>
+      <section className="flex min-h-[50vh] w-full flex-row items-center justify-center rounded-3xl bg-[#F78764]">
+        <h3>News For You</h3>
+      </section>
     </div>
   );
 };

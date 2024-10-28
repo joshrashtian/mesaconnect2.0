@@ -1,13 +1,13 @@
 "use client";
-import React, {createContext, useState} from "react";
-import {AnimatePresence, motion} from "framer-motion";
-import {IoChevronForward,} from "react-icons/io5";
+import React, { createContext, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { IoChevronForward, IoClose } from "react-icons/io5";
 
 export const ModalContext = createContext({
   createModal: () => {},
   createDialogBox: (
     e: React.JSX.Element | JSX.IntrinsicElements,
-    confirmed: (props: any) => void
+    confirmed: (props: any) => void,
   ) => {},
   disarmModal: () => {},
 });
@@ -16,25 +16,30 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [active, setActive] = useState<React.JSX.Element | undefined>();
   const [type, setType] = useState<"dialog" | "modal">("modal");
   const [confirmCommand, setConfirmCommand] = useState<() => Promise<void>>();
-  const [settings, setSettings] = useState<ModalSettingType | null>()
+  const [settings, setSettings] = useState<ModalSettingType | null>();
 
   const value = {
     createModal: (component: React.JSX.Element, settings: ModalSettingType) => {
       setType("modal");
       setActive(component);
-      setSettings(settings)
+      setSettings(settings);
     },
     createDialogBox: (
       e: React.JSX.Element | JSX.IntrinsicElements,
-      confirmed: { newFunction: () => Promise<void> }
+      confirmed: { newFunction: () => Promise<void> },
+      options: ModalSettingType,
     ) => {
       setType("dialog");
       //@ts-ignore
       setActive(e);
       const newFunction = () => confirmed.newFunction();
       setConfirmCommand(() => newFunction);
+      setSettings({ ...options });
     },
-    disarmModal: () => { setActive(undefined); setSettings(null) }
+    disarmModal: () => {
+      setActive(undefined);
+      setSettings(null);
+    },
   };
 
   return (
@@ -43,29 +48,45 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       {children}
       <AnimatePresence>
         {active && (
-          <motion.section className="fixed inset-0 z-50 flex justify-center items-center overflow-y-auto">
+          <motion.section className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto">
             <motion.div
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 10, opacity: 0 }}
               transition={{ type: "spring" }}
-              className="p-10 rounded-xl z-50 flex flex-col justify-between min-w-[500px] min-h-72 bg-zinc-50 dark:bg-zinc-900"
+              className="z-50 flex min-h-72 min-w-[500px] flex-col justify-between rounded-xl bg-zinc-50 p-10 dark:bg-zinc-900 dark:text-white"
             >
               {active}
+
               {type === "dialog" && (
-                <button
-                  onClick={(e) => {
-                    // @ts-ignore
-                    confirmCommand();
-                    setActive(undefined)
-                  }}
-                  className=" cursor-pointer group flex flex-row items-center justify-center text-lg gap-2 bg-gradient-to-br p-2 text-white from-theme-blue to-theme-blue-2 hover:drop-shadow-lg hover:bg-orange-400 hover:scale-105 hover:shadow-md duration-500 h-full rounded-xl hover:rounded-lg hover:w-48 w-40"
-                >
-                  <p className="group-hover:translate-x-0 translate-x-3 duration-200">
-                    Confirm
-                  </p>
-                  <IoChevronForward className="group-hover:opacity-100 opacity-0 duration-300 group-hover:translate-x-0 -translate-x-3 " />
-                </button>
+                <ul className="flex flex-row gap-2">
+                  <button
+                    onClick={(e) => {
+                      // @ts-ignore
+                      confirmCommand();
+                      setActive(undefined);
+                    }}
+                    className="group flex h-full w-40 cursor-pointer flex-row items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-theme-blue to-theme-blue-2 p-2 text-lg text-white duration-500 hover:w-48 hover:scale-105 hover:rounded-lg hover:bg-orange-400 hover:shadow-md hover:drop-shadow-lg"
+                  >
+                    <p className="translate-x-3 duration-200 group-hover:translate-x-0">
+                      {settings?.confirmText ?? "Confirm"}
+                    </p>
+                    <IoChevronForward className="-translate-x-3 opacity-0 duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+                  </button>
+                  {settings?.cancelText && (
+                    <button
+                      onClick={(e) => {
+                        value.disarmModal();
+                      }}
+                      className="group flex h-full w-40 cursor-pointer flex-row items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-theme-blue to-theme-blue-2 p-2 text-lg text-white duration-500 hover:w-48 hover:scale-105 hover:rounded-lg hover:bg-orange-400 hover:shadow-md hover:drop-shadow-lg"
+                    >
+                      <p className="translate-x-3 duration-200 group-hover:translate-x-0">
+                        {settings?.cancelText}
+                      </p>
+                      <IoClose className="-translate-x-3 opacity-0 duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+                    </button>
+                  )}
+                </ul>
               )}
             </motion.div>
             <motion.ul
@@ -74,7 +95,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
               exit={{ opacity: 0 }}
               className={`absolute inset-0 z-10 bg-gray-500 opacity-50 ${settings?.backgroundClass}`}
               onClick={() => {
-                if(!settings || settings.canUnmount) value.disarmModal();
+                if (!settings || settings.canUnmount) value.disarmModal();
               }}
             />
           </motion.section>
@@ -97,22 +118,23 @@ export const useModal = (settings?: {
 
   function CreateModal(
     component?: React.JSX.Element,
-    settings?: ModalSettingType
+    settings?: ModalSettingType,
   ) {
     if (!settings?.storedComponent && !component) return;
     if (settings?.storedComponent)
       //@ts-ignore
-      context.createModal(settings?.storedComponent,settings);
+      context.createModal(settings?.storedComponent, settings);
     //@ts-ignore
     else context.createModal(component, settings);
   }
 
   function CreateDialogBox(
     e: React.JSX.Element | JSX.IntrinsicElements,
-    confirmed: () => Promise<void>
+    confirmed: () => Promise<void> | void,
+    options?: ModalSettingType,
   ) {
     // @ts-ignore
-    context.createDialogBox(e, { newFunction: confirmed });
+    context.createDialogBox(e, { newFunction: confirmed }, options);
   }
 
   function DisarmModal() {
@@ -128,9 +150,11 @@ export const useModal = (settings?: {
 
 export type ModalSettingType = {
   storedComponent?: React.JSX.Element;
-  canUnmount?: boolean
+  canUnmount?: boolean;
   onUnmount?: (func: () => void) => void;
-  backgroundClass?: string,
-}
+  backgroundClass?: string;
+  confirmText?: string;
+  cancelText?: string;
+};
 
 export default ModalProvider;

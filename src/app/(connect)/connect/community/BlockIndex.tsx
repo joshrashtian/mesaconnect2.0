@@ -1,11 +1,12 @@
 "use client";
 import Link from "next/link";
 import { type PageContent } from "./[id]/functions";
-import { createContext, useContext, useState } from "react";
+import { createContext, use, useContext, useState } from "react";
 import TextBlockComponent from "./[id]/(components)/TextBlock";
 import { Editor } from "@monaco-editor/react";
 import parse from "html-react-parser";
 export type CommunityBlockIndex = {
+  id: number;
   type: PageContent;
   data: any;
 
@@ -37,7 +38,7 @@ const BlockCommunityItemProvider = ({
 }) => {
   return (
     <BlockCommunityItemContext.Provider
-      value={{ type, data, editor, onEdited }}
+      value={{ type, data, editor, onEdited, id: Math.random() }}
     >
       <ul
         className={`flex flex-col gap-2 rounded-md bg-white p-4 dark:bg-zinc-600 ${size === "small" ? "h-32 w-[49%]" : size === "medium" ? "h-fit w-[49%]" : "h-fit w-full"} ${className}`}
@@ -72,9 +73,10 @@ BlockCommunityItemProvider.HTMLEditor = function HTMLEditorComponent({
 }: {
   onChangeText: (value: string | undefined) => void;
 }) {
-  const [html, setHTML] = useState<string | undefined>("");
+  const data = useBlock();
   const parser = require("html-react-parser");
   const cleaner = require("dompurify");
+  const [html, setHTML] = useState<string | undefined>(data?.data);
 
   return (
     <>
@@ -87,6 +89,7 @@ BlockCommunityItemProvider.HTMLEditor = function HTMLEditorComponent({
         language="html"
         theme="vs-dark"
         className="min-h-40 border-2 border-green-400"
+        value={data?.data}
         onChange={(e) => {
           setHTML(e);
           onChangeText(e);
