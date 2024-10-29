@@ -224,24 +224,24 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             modal.CreateDialogBox(
               <div className="w-96 font-eudoxus">
                 <IoCheckmarkCircleOutline className="text-4xl text-blue-600" />
-                <b className="text-2xl">This User Is Verified</b>
+                <b className="text-2xl">This User Is Verified.</b>
                 <p>
                   This user is verified. In order to gain verification, you must
-                  prove your status in MESA. Not being Verified still allows you
-                  to use the application.
+                  prove your status in MESA. Note that being verified still
+                  allows you to use the application.
                 </p>
               </div>,
               () => {
-                router.push("/docs/general?a=verified");
+                router.push("/docs/general?a=verified&fromelse=true");
               },
               {
-                confirmText: "Learn more",
+                confirmText: "More Info",
                 canUnmount: true,
                 cancelText: "Close",
               },
             )
           }
-          className="flex items-center justify-center text-nowrap rounded-lg bg-blue-600 p-1 px-3 shadow-sm dark:bg-zinc-700"
+          className="flex items-center justify-center text-nowrap rounded-lg bg-blue-600 p-1 px-3 shadow-sm duration-300 hover:bg-blue-600/70 dark:bg-zinc-700 hover:dark:bg-zinc-700/50"
         >
           <p className="flex flex-row items-center gap-2 font-semibold capitalize text-white">
             {user?.verified ? (
@@ -275,12 +275,12 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
       {user.boxlist && (
         <section ref={InfoBoxRef} className="flex flex-col gap-3">
-          <ul className="grid h-full w-full grid-cols-2 gap-2 font-eudoxus">
+          <ul className="grid h-full w-full grid-cols-2 gap-1 font-eudoxus">
             {user.boxlist.map((e: any) => {
               return (
                 <section
                   key={e.contents}
-                  className="min-h-full w-full rounded-xl bg-white p-5 dark:bg-zinc-700"
+                  className="min-h-full w-full rounded-md bg-white p-5 dark:bg-zinc-700"
                 >
                   {Index.map((d: any, i: number) => {
                     if (d.title.toLowerCase() === e.type.toLowerCase()) {
