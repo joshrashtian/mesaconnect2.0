@@ -18,7 +18,7 @@ const Page = () => {
       <b className="text-xl">
         There are various reasons we have implimented such a feature:
       </b>
-      <ul className="rounded-3xl bg-zinc-200 p-3">
+      <ul className="rounded-3xl bg-zinc-200 p-3 dark:bg-zinc-900/40">
         <li className="flex flex-row items-center justify-end gap-3 font-light">
           <IoAdd className="text-black" /> Allow People Outside Of MESA To Join
         </li>
