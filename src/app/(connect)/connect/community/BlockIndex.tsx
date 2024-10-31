@@ -1,10 +1,12 @@
 "use client";
 import Link from "next/link";
 import { type PageContent } from "./[id]/functions";
-import { createContext, use, useContext, useState } from "react";
+import { createContext, use, useContext, useEffect, useState } from "react";
 import TextBlockComponent from "./[id]/(components)/TextBlock";
 import { Editor } from "@monaco-editor/react";
 import parse from "html-react-parser";
+import { motion } from "framer-motion";
+import Input from "@/_components/Input";
 export type CommunityBlockIndex = {
   id: number;
   type: PageContent;
@@ -17,7 +19,8 @@ export type CommunityBlockIndex = {
 };
 
 export const BlockCommunityItemContext =
-  createContext<CommunityBlockIndex | null>(null);
+  //@ts-ignore
+  createContext<CommunityBlockIndex>(null);
 
 const BlockCommunityItemProvider = ({
   children,
@@ -40,11 +43,13 @@ const BlockCommunityItemProvider = ({
     <BlockCommunityItemContext.Provider
       value={{ type, data, editor, onEdited, id: Math.random() }}
     >
-      <ul
-        className={`flex flex-col gap-2 rounded-md bg-white p-4 dark:bg-zinc-600 ${size === "small" ? "h-32 w-[49%]" : size === "medium" ? "h-fit w-[49%]" : "h-fit w-full"} ${className}`}
+      <motion.ul
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className={`flex h-fit flex-col gap-2 rounded-md bg-white p-4 dark:bg-zinc-600 ${size === "small" ? "h-32 w-[49%]" : size === "medium" ? "h-fit w-[49%]" : "h-fit w-full"} ${className}`}
       >
         {children}
-      </ul>
+      </motion.ul>
     </BlockCommunityItemContext.Provider>
   );
 };
@@ -63,10 +68,33 @@ BlockCommunityItemProvider.CanvasBlock = function CanvasBlockComponent() {
   return <Link href={`/connect/community/${block?.data}`}>{block?.data}</Link>;
 };
 
-BlockCommunityItemProvider.TextBlockEditor =
-  function TextBlockEditorComponent() {
-    return <div>TextBlockEditorComponent</div>;
-  };
+BlockCommunityItemProvider.TextBlockEditor = function TextBlockEditorComponent({
+  onChangeText,
+}: {
+  onChangeText: (value: {
+    text: string | undefined;
+    className: string | undefined;
+  }) => void;
+}) {
+  const { data } = useBlock();
+  const [text, setText] = useState<string | undefined>(data?.data);
+  const [className, setClassName] = useState<string | undefined>(
+    data?.className,
+  );
+
+  useEffect(() => {
+    onChangeText({ text, className });
+  }, [text, className]);
+  return (
+    <>
+      <h1>Text Block</h1>
+      {text}
+      <Input onChange={(e) => setText(e.target.value)} />
+      <p>Style (using TailwindCSS)</p>
+      <Input onChange={(e) => setClassName(e.target.value)} />
+    </>
+  );
+};
 
 BlockCommunityItemProvider.HTMLEditor = function HTMLEditorComponent({
   onChangeText,
@@ -80,7 +108,7 @@ BlockCommunityItemProvider.HTMLEditor = function HTMLEditorComponent({
 
   return (
     <>
-      <h1>HTML Block</h1>
+      <h1>Custom Block</h1>
       <p className="text-xs">
         * for Styling, We Recommend Using Class Objects, As Your Page May Run
         Into Style Errors As A Result.
@@ -88,7 +116,7 @@ BlockCommunityItemProvider.HTMLEditor = function HTMLEditorComponent({
       <Editor
         language="html"
         theme="vs-dark"
-        className="min-h-40 border-2 border-green-400"
+        className="b resize- min-h-52 bg-zinc-700"
         value={data?.data}
         onChange={(e) => {
           setHTML(e);

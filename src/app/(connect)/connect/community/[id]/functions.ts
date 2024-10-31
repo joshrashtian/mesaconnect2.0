@@ -14,6 +14,15 @@ export async function getCommunity(id: string) {
     return { data, error };
 }
 
+export async function updateCommunity(id: string, blocks: any) {
+    const { error } = await serverside
+        .from('communities')
+        .update({ blocks })
+        .match({ id })
+    
+    return { error };
+}
+
 export type Community = {
     id: string;
     name: string;
