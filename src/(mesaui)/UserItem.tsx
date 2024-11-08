@@ -18,7 +18,7 @@ const UserItem: React.FC<
     <userContext.Provider value={user}>
       <Link
         href={`/connect/profile/${user.id}`}
-        className={`flex ${size === "standard" ? "w-full border-2 border-gray-200" : "min-h-56 min-w-96 items-start justify-start"} flex-col rounded-xl bg-white p-3 duration-500 hover:scale-[1.02] hover:border-orange-500 dark:border-gray-800 dark:bg-zinc-800`}
+        className={`relative flex ${size === "standard" ? "w-full border-2 border-gray-200" : "min-h-56 min-w-96 items-start justify-start"} flex-col rounded-xl bg-white p-3 duration-500 hover:scale-[1.02] hover:border-orange-500 dark:border-gray-800 dark:bg-zinc-800`}
       >
         <ul className={`flex flex-row items-center gap-2`}>
           {user?.avatar_url ? (

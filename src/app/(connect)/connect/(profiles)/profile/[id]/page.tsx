@@ -219,6 +219,11 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             {user?.college ? user.college : "No College Set"}
           </p>
         </ul>
+        <ul className="flex items-center justify-center text-nowrap rounded-lg bg-white p-1 px-3 shadow-sm dark:bg-zinc-700">
+          <p className="font-semibold capitalize text-cyan-700 dark:text-cyan-300/50">
+            {user?.xp} XP
+          </p>
+        </ul>
         <button
           onClick={() =>
             modal.CreateDialogBox(

@@ -46,7 +46,7 @@ const BlockCommunityItemProvider = ({
       <motion.ul
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className={`flex h-fit flex-col gap-2 rounded-md bg-white p-4 dark:bg-zinc-600 ${size === "small" ? "h-32 w-[49%]" : size === "medium" ? "h-fit w-[49%]" : "h-fit w-full"} ${className}`}
+        className={`relative flex h-fit flex-col gap-2 rounded-md bg-white p-4 dark:bg-zinc-600 ${size === "small" ? "h-32 w-[49%]" : size === "medium" ? "h-fit w-[49%]" : "h-fit w-full"} ${className}`}
       >
         {children}
       </motion.ul>

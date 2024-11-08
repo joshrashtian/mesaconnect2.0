@@ -4,7 +4,7 @@ import { InfoBlockType } from "../../../(profiles)/profile/[id]/infoblocks";
 import BlockCommunityItemProvider, {
   CommunityBlockIndex,
 } from "../../BlockIndex";
-import { IoAdd, IoDocument } from "react-icons/io5";
+import { IoAdd, IoClose, IoDocument, IoRemove } from "react-icons/io5";
 import { useModal } from "../../../Modal";
 import CommunityBlock from "../../../(profiles)/profile/boxTypes/CommunityBlock";
 import MenuButton from "@/(mesaui)/MenuButton";
@@ -15,6 +15,11 @@ const BlocksEditorPreview = ({ blocks }: { blocks: CommunityBlockIndex[] }) => {
   const modal = useModal();
   const { id } = useParams();
   const [newBlocks, setBlocks] = useState<CommunityBlockIndex[]>(blocks);
+
+  function deleteBlock(id: number) {
+    setBlocks((blocks) => blocks.filter((b) => b.id !== id));
+  }
+
   return (
     <>
       <section className="relative grid h-fit grid-cols-2 gap-5">
@@ -29,6 +34,20 @@ const BlocksEditorPreview = ({ blocks }: { blocks: CommunityBlockIndex[] }) => {
                   data={block.data}
                   editor
                 >
+                  <button
+                    onClick={() =>
+                      modal.CreateDialogBox(
+                        <>
+                          <h1>Are You Sure You Want To Delete This Box?</h1>
+                        </>,
+                        () => deleteBlock(block.id),
+                        { cancelText: "No", confirmText: "Yes" },
+                      )
+                    }
+                    className="absolute right-4 top-4 rounded-full p-1 duration-300 hover:bg-red-500/50"
+                  >
+                    <IoClose className="text-2xl text-white" />
+                  </button>
                   <BlockCommunityItemProvider.TextBlockEditor
                     onChangeText={(e) => {
                       setBlocks((blocks) =>
@@ -51,6 +70,20 @@ const BlocksEditorPreview = ({ blocks }: { blocks: CommunityBlockIndex[] }) => {
                   data={block.data}
                   editor
                 >
+                  <button
+                    onClick={() =>
+                      modal.CreateDialogBox(
+                        <>
+                          <h1>Are You Sure You Want To Delete This Box?</h1>
+                        </>,
+                        () => deleteBlock(block.id),
+                        { cancelText: "No", confirmText: "Yes" },
+                      )
+                    }
+                    className="absolute right-4 top-4 rounded-full p-1 duration-300 hover:bg-red-500/50"
+                  >
+                    <IoClose className="text-2xl text-white" />
+                  </button>
                   <BlockCommunityItemProvider.HTMLEditor
                     onChangeText={(e) => {
                       setBlocks((blocks) =>
@@ -64,9 +97,25 @@ const BlocksEditorPreview = ({ blocks }: { blocks: CommunityBlockIndex[] }) => {
               );
           }
         })}
-
+      </section>
+      <footer className="flex flex-row gap-3">
+        <MenuButton
+          title="Save"
+          color="mt-5 bg-gradient-to-r from-theme-blue to-theme-blue-2"
+          icon={<IoDocument />}
+          onClick={async () => {
+            //@ts-ignore
+            const { error } = await updateCommunity(id, newBlocks);
+            if (error) {
+              alert(error.message);
+            }
+          }}
+        />
         {newBlocks.length < 4 && (
-          <button
+          <MenuButton
+            title="Add Block"
+            color="mt-5 bg-gradient-to-r from-orange-500 to-yellow-600"
+            icon={<IoAdd />}
             onClick={() => {
               modal.CreateModal(
                 <div className="flex flex-col gap-3">
@@ -86,24 +135,9 @@ const BlocksEditorPreview = ({ blocks }: { blocks: CommunityBlockIndex[] }) => {
                 </div>,
               );
             }}
-            className="absolute right-4 top-4 rounded-full bg-orange-500 p-1"
-          >
-            <IoAdd className="text-2xl text-white" />
-          </button>
+          />
         )}
-      </section>
-      <MenuButton
-        title="Save"
-        color="mt-5 bg-gradient-to-r from-theme-blue to-theme-blue-2"
-        icon={<IoDocument />}
-        onClick={async () => {
-          //@ts-ignore
-          const { error } = await updateCommunity(id, newBlocks);
-          if (error) {
-            alert(error.message);
-          }
-        }}
-      />
+      </footer>
     </>
   );
 };

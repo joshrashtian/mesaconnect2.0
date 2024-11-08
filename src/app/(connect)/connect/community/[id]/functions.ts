@@ -45,4 +45,13 @@ export type Community = {
     }
 }
 
+export async function DeleteUserFromCommunity(id: string) {
+    const { error } = await serverside
+        .from("communityrelations")
+        .delete()
+        .eq("userid", id);
+
+        return error;
+}
+
 export type PageContent = "location" | "html" | "canvas" | "meeting_time" | "text"
