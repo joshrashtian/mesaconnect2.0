@@ -4,7 +4,7 @@ import { IoPencil } from "react-icons/io5";
 import { useMultiStep } from "../../../MutliStepContext";
 
 const CreatePost = () => {
-  const { create } = useMultiStep();
+  const { create, incrementStep } = useMultiStep();
 
   const post = useCallback(() => {
     create({
@@ -16,7 +16,17 @@ const CreatePost = () => {
         <div key="2">
           <p>Numbero Dos</p>
         </div>,
+        <div key="3">
+          <p>Numbero Tres</p>
+          <button onClick={incrementStep}>okay</button>
+        </div>,
+        <div key="4">
+          <p>Numbero Quarto</p>
+        </div>,
       ],
+      options: {
+        indexsWithNotskip: [2],
+      },
     });
   }, []);
 
