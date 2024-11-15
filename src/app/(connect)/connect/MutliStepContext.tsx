@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, use, useContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IoArrowForward } from "react-icons/io5";
 export type MultiStepContextType = {
@@ -10,6 +10,9 @@ export type MultiStepContextType = {
   components: React.ReactNode[] | undefined;
   options?: StepOptions | undefined;
   create: (options: MultiStepObject) => void;
+  setState: (state: any) => void;
+  state: any;
+  alterState: (newState: any) => void;
 };
 
 export type MultiStepObject = {
@@ -31,17 +34,22 @@ export const MultiStepContext = createContext<MultiStepContextType>({
   create: () => {},
   options: undefined,
   components: [],
+  setState: () => {},
+  state: undefined,
+  alterState: () => {},
 });
 
 const MultiStepProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [components, setComponents] = useState<React.ReactNode[]>();
   const [details, setDetails] = useState<StepOptions>();
+  const [state, setState] = useState<any>();
 
   function clean() {
     setComponents(undefined);
     setCurrentStep(0);
     setDetails(undefined);
+    setState(undefined);
   }
   function incrementStep() {
     //@ts-ignore
@@ -50,6 +58,8 @@ const MultiStepProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
     setCurrentStep((prev) => prev + 1);
+
+    console.log(state);
   }
   function decrementStep() {
     setCurrentStep((prev) => prev - 1);
@@ -58,6 +68,10 @@ const MultiStepProvider = ({ children }: { children: React.ReactNode }) => {
   function create({ title, components, options }: MultiStepObject) {
     setComponents(components);
     setDetails({ title, ...options });
+  }
+
+  function alterState(newState: any) {
+    setState((prev: any) => ({ ...prev, ...newState }));
   }
 
   return (
@@ -70,6 +84,9 @@ const MultiStepProvider = ({ children }: { children: React.ReactNode }) => {
         options: details,
         setCurrentStep,
         components,
+        setState,
+        state,
+        alterState,
       }}
     >
       {children}
@@ -109,12 +126,7 @@ function MultiStepComponent() {
       {context.components[context.currentStep]}
 
       {!context.options?.indexsWithNotskip?.includes(context.currentStep) && (
-        <button
-          onClick={context.incrementStep}
-          className="absolute bottom-20 right-1/2 flex flex-row items-center justify-center gap-4 self-center rounded-lg bg-slate-500 p-2 px-5 text-white ring-2 ring-transparent duration-500 hover:bg-slate-700/80 hover:ring-blue-500/30"
-        >
-          Next <IoArrowForward />
-        </button>
+        <MultiStepNextButton />
       )}
 
       <Indexes />
@@ -143,4 +155,21 @@ function useMultiStep() {
   return useContext(MultiStepContext);
 }
 
-export { MultiStepProvider, useMultiStep };
+function useMultiStepState() {
+  let context = useContext(MultiStepContext);
+  return [context.state, context.setState];
+}
+
+export function MultiStepNextButton() {
+  const { incrementStep } = useMultiStep();
+  return (
+    <button
+      onClick={incrementStep}
+      className="absolute bottom-20 right-1/2 flex flex-row items-center justify-center gap-4 self-center rounded-lg bg-slate-500 p-2 px-5 text-white ring-2 ring-transparent duration-500 hover:bg-slate-700/80 hover:ring-blue-500/30"
+    >
+      Next <IoArrowForward />
+    </button>
+  );
+}
+
+export { MultiStepProvider, useMultiStep, useMultiStepState };
