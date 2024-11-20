@@ -7,6 +7,7 @@ const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="px-4 py-20 dark:text-slate-300">
       <DocsHeader />
+
       <article className="flex flex-row justify-end text-right">
         {children}
       </article>
