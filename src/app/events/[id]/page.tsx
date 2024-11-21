@@ -30,11 +30,14 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
         <ol className="absolute bottom-12 right-4 flex h-12 w-[500px] origin-bottom-right flex-row items-center justify-center rounded-3xl bg-white font-eudoxus shadow-2xl shadow-black/90 drop-shadow-2xl">
           <ul
             className={`mx-2 h-4 w-4 rounded-full ${
-              (data.end && new Date(data.end) < new Date(Date.now())) ||
-              (!data.end && new Date(data.start) < new Date(Date.now()))
+              new Date(data.end).getTime() < new Date(Date.now()).getTime() ||
+              (!data.end &&
+                new Date(data.start).getTime() < new Date(Date.now()).getTime())
                 ? "bg-red-500"
-                : new Date(data.end) > new Date(Date.now()) &&
-                    new Date(data.start) < new Date(Date.now())
+                : new Date(data.end).getTime() >
+                      new Date(Date.now()).getTime() &&
+                    new Date(data.start).getTime() <
+                      new Date(Date.now()).getTime()
                   ? "animate-pulse bg-green-500"
                   : "bg-yellow-500"
             } `}
