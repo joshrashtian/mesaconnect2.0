@@ -10,6 +10,7 @@ import {
   IoPersonRemoveOutline,
 } from "react-icons/io5";
 import { supabase } from "../../../../../../../config/mesa-config";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const PersonComponent = ({ user }: { user: UserData }) => {
   const { createContext } = useContextMenu();
@@ -48,16 +49,14 @@ const PersonComponent = ({ user }: { user: UserData }) => {
       onContextMenu={(e) => createContext(e, buttons)}
     >
       <picture className="relative h-10 w-10 rounded-full">
-        <Image
-          src={user.avatar_url}
-          alt={user.real_name}
-          fill
-          className="rounded-full"
-        />
+        <Avatar>
+          <AvatarImage src={user?.avatar_url} />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
       </picture>
       <ul>
-        <h4 className="font-bold">{user.real_name}</h4>
-        <h5 className="font-light">@{user.username}</h5>
+        <h4 className="font-bold">{user?.real_name}</h4>
+        <h5 className="font-light">@{user?.username}</h5>
       </ul>
     </Link>
   );

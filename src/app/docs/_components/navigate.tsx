@@ -17,7 +17,7 @@ const Navigate = () => {
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 3 }}
-        className="fixed top-24 flex h-16 w-56 origin-center flex-row items-center justify-center gap-2 self-center rounded-3xl bg-white font-eudoxus shadow-md duration-300 hover:bg-slate-100 dark:bg-zinc-700 dark:hover:bg-slate-800"
+        className="fixed top-24 z-50 flex h-16 w-56 origin-center flex-row items-center justify-center gap-2 self-center rounded-3xl bg-white font-eudoxus shadow-md duration-300 hover:bg-slate-100 dark:bg-zinc-700 dark:hover:bg-slate-800"
       >
         <IoChevronBack className="text-3xl" />
         <p>Return To Connect</p>

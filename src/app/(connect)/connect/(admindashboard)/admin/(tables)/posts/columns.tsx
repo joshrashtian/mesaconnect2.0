@@ -38,7 +38,7 @@ export const columns: ColumnDef<PostType>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const user = row.original;
+      const post = row.original;
 
       return (
         <DropdownMenu>
@@ -48,16 +48,27 @@ export const columns: ColumnDef<PostType>[] = [
               <MoreHorizontal className="h-4 w-4 cursor-pointer rounded-3xl p-0.5 hover:bg-zinc-200" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="h-fit w-48">
+          <DropdownMenuContent className="h-fit w-48 font-eudoxus">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user.id)}
+              onClick={() => navigator.clipboard.writeText(post.id)}
             >
-              Copy payment ID
+              Copy Post ID
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  `mesaconnect.io/connect/social/post/${post.id}`,
+                )
+              }
+            >
+              Copy Post URL
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(post.userid)}
+            >
+              Copy User ID
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
@@ -111,7 +122,7 @@ export const UserColums: ColumnDef<UserData>[] = [
   {
     id: "actions",
     cell: ({ row }) => {
-      const user = row.original;
+      const post = row.original;
 
       return (
         <DropdownMenu>
@@ -124,9 +135,21 @@ export const UserColums: ColumnDef<UserData>[] = [
           <DropdownMenuContent className="h-fit w-48">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user.id)}
+              onClick={() => navigator.clipboard.writeText(post.id)}
             >
-              Copy payment ID
+              Copy Post ID
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  `mesaconnect.io/connect/social/post/${post.id}`,
+                )
+              }
+            >
+              Copy Post ID
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => navigator.clipboard.writeText("")}>
+              Copy User ID
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

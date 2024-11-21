@@ -9,7 +9,6 @@ const config: Config = {
 	"./src/components/**/*.{ts,tsx}",
   ],
   theme: {
-  	
   	extend: {
   		animation: {
   			'loop-scroll': 'loop-scroll 50s linear infinite'
@@ -24,12 +23,12 @@ const config: Config = {
   				}
   			}
   		},
-		fontFamily: {
-  		eudoxus: ["Eudoxus"],
-  		eudoxusBlack: ["EudoxusBlack"],
-  		geist: ["Geist"],
-  		mono: ["JetBrains", "monospace"]
-  	},
+  		fontFamily: {
+  			eudoxus: ["Eudoxus"],
+  			eudoxusBlack: ["EudoxusBlack"],
+  			geist: ["Geist"],
+  			mono: ["JetBrains", "monospace"]
+  		},
   		colors: {
   			'theme-blue': '#23F',
   			'theme-blue-2': '#56F',

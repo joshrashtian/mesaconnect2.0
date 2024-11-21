@@ -5,7 +5,7 @@ import Border from "../_components/border";
 
 const Page = () => {
   return (
-    <div className="flex w-10/12 flex-col gap-3 font-eudoxus">
+    <div className="flex flex-col gap-3 font-eudoxus">
       <h1 className="text-5xl font-bold">Verification</h1>
       <p>
         <b>Verification</b> is a system introduced inside of Beta Version 3.

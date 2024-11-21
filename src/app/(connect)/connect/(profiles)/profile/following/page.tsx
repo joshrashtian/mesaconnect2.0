@@ -25,7 +25,7 @@ const FollowingPage = () => {
       "get_followers",
       {
         userid: user?.id,
-      }
+      },
     );
 
     if (error || seconderror) {
@@ -47,7 +47,7 @@ const FollowingPage = () => {
   return (
     <main>
       <h1
-        className={`${gradientTextDefault} font-black font-eudoxus text-5xl p-2`}
+        className={`${gradientTextDefault} p-2 font-eudoxus text-5xl font-black`}
       >
         Relations
       </h1>
@@ -56,16 +56,16 @@ const FollowingPage = () => {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex dark:text-white flex-row gap-2"
+            className="flex flex-row gap-2 dark:text-white"
           >
-            <ul className="p-3 flex flex-col gap-1.5 w-full">
-              <h2 className="font-eudoxus text-2xl  font-semibold">Following</h2>
+            <ul className="flex w-full flex-col gap-1.5 p-3">
+              <h2 className="font-eudoxus text-2xl font-semibold">Following</h2>
               {following &&
                 following.map((e, i) => {
                   return <PersonComponent user={e} key={e.id} />;
                 })}
             </ul>
-            <ul className="p-3 flex flex-col gap-1.5 w-full">
+            <ul className="flex w-full flex-col gap-1.5 p-3">
               <h2 className="font-eudoxus text-2xl font-semibold">Followers</h2>
               {followers &&
                 followers.map((e, i) => {

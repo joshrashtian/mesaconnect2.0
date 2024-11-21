@@ -16,7 +16,7 @@ const page = () => {
 
   return (
     <motion.main initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
-      <h1 className="font-bold">Admin Dashboard</h1>
+      <h1 className="text-2xl font-black">Admin Dashboard</h1>
       <ul className="my-4 h-1 w-full bg-orange-500" />
       <section className="flex w-full flex-row gap-4">
         <section className="w-48">
