@@ -1,5 +1,12 @@
 "use client";
-import React, { createContext, use, useContext, useState } from "react";
+import React, {
+  createContext,
+  use,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { IoArrowForward } from "react-icons/io5";
 export type MultiStepContextType = {
@@ -13,6 +20,7 @@ export type MultiStepContextType = {
   setState: (state: any) => void;
   state: any;
   alterState: (newState: any) => void;
+  close: () => void;
 };
 
 export type MultiStepObject = {
@@ -31,12 +39,15 @@ export const MultiStepContext = createContext<MultiStepContextType>({
   setCurrentStep: () => {},
   incrementStep: () => {},
   decrementStep: () => {},
-  create: () => {},
+  create: () => {
+    console.log("Error: MultiStepProvider not found");
+  },
   options: undefined,
   components: [],
   setState: () => {},
   state: undefined,
   alterState: () => {},
+  close: () => {},
 });
 
 const MultiStepProvider = ({ children }: { children: React.ReactNode }) => {
@@ -87,6 +98,7 @@ const MultiStepProvider = ({ children }: { children: React.ReactNode }) => {
         setState,
         state,
         alterState,
+        close: clean,
       }}
     >
       {children}
@@ -152,7 +164,12 @@ function Indexes() {
   );
 }
 function useMultiStep() {
-  return useContext(MultiStepContext);
+  let context = useContext(MultiStepContext);
+
+  if (!context) {
+    throw new Error("useMultiStep must be used within a MultiStepProvider");
+  }
+  return context;
 }
 
 function useMultiStepState() {
