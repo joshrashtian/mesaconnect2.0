@@ -7,10 +7,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 const DocsLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="px-4 py-20 dark:text-slate-300">
+    <div className="p-4 dark:text-slate-300">
       <SidebarProvider>
-        <DocsHeader />
-
         <DocsSidebar />
 
         <article className="flex flex-row justify-end text-right">

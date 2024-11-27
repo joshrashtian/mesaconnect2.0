@@ -11,7 +11,7 @@ const TabsForEvent = ({ data }: { data: EventType }) => {
       defaultValue="information"
       className="flex w-full flex-col items-center"
     >
-      <TabsList className="w-1/3">
+      <TabsList className="w-1/3 min-w-64">
         <TabsTrigger className="w-full" value="information">
           Information
         </TabsTrigger>

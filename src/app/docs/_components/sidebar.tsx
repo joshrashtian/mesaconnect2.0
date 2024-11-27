@@ -11,7 +11,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { IoPerson } from "react-icons/io5";
+import { IoPeople, IoPerson } from "react-icons/io5";
 
 const items = [
   {
@@ -23,15 +23,15 @@ const items = [
 
 export async function DocsSidebar() {
   return (
-    <Sidebar
-      variant="floating"
-      collapsible="icon"
-      className="z-40 font-eudoxus"
-    >
+    <Sidebar className="fixed z-40 font-eudoxus">
       <SidebarHeader>
-        <SidebarGroupLabel className="text-center text-3xl font-black">
-          MESADocs
-        </SidebarGroupLabel>
+        <h2 className="font-eudoxus text-sm text-slate-800 shadow-black lg:text-xl">
+          MESA
+          <span className="text text-black drop-shadow-xl">Docs</span>
+          <span className="mx-2 rounded-full bg-red-400 px-2 text-xs text-black dark:bg-black dark:text-white">
+            beta
+          </span>
+        </h2>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -50,7 +50,15 @@ export async function DocsSidebar() {
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <SidebarMenuButton>
+          <IoPeople />
+          <Link href="/connect">
+            <p>Connect Home</p>
+          </Link>
+        </SidebarMenuButton>
+        <SidebarGroupLabel>© 2024 MESA</SidebarGroupLabel>
+      </SidebarFooter>
     </Sidebar>
   );
 }
