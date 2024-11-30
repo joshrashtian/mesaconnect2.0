@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { ConsoleSidebar } from "./(components)/sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { SelectedProvider } from "./[id]/page";
+import { SelectedProvider } from "./SelectedEventContext";
 
 async function EventDashboard({ children }: { children: React.ReactNode }) {
   const supabase = createServerComponentClient({ cookies });

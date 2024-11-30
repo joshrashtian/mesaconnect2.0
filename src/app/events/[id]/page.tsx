@@ -55,7 +55,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
           {user.data.user?.id === data?.creator && (
             <Button className="absolute bottom-12 left-4">
               <Link
-                href={"/events/console"}
+                href={`/events/console/${params.id}`}
                 className="group flex flex-row items-center gap-3"
               >
                 <IoPencil className="origin-bottom duration-300 group-hover:scale-110" />

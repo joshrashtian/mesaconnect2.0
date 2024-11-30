@@ -16,50 +16,7 @@ import LoadingObject from "@/(mesaui)/LoadingObject";
 import Input from "@/_components/Input";
 import { AnimatePresence, motion } from "framer-motion";
 import MenuButton from "@/(mesaui)/MenuButton";
-
-const SelectedContext = createContext<EventType | null>(null);
-
-export const SelectedProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-  const params = useParams();
-
-  const [event, setEvent] = useState<EventType | null>(null);
-
-  async function fetchEvent() {
-    const { data, error } = await supabase
-      .from("events")
-      .select("*")
-      .eq("id", params.id)
-      .single();
-
-    if (error) {
-      console.log(error.message);
-    } else {
-      //@ts-ignore
-      setEvent(data);
-    }
-  }
-  useEffect(() => {
-    if (params.id) fetchEvent();
-  }, [params.id]);
-
-  return (
-    <SelectedContext.Provider value={event}>
-      {children}
-    </SelectedContext.Provider>
-  );
-};
-
-const useSelectedEvent = () => {
-  const context = React.useContext(SelectedContext);
-  if (context === undefined) {
-    throw new Error("useSelectedEvent must be used within a SelectedProvider");
-  }
-  return context;
-};
+import { useSelectedEvent } from "../SelectedEventContext";
 
 const EventMenu = () => {
   const event = useSelectedEvent();
