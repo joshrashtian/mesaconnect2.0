@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import {
   IoAtCircle,
+  IoCheckmarkCircle,
   IoLocate,
   IoLocation,
   IoPencil,
@@ -62,7 +63,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
               </Link>
             </Button>
           )}
-          <ol className="absolute bottom-12 right-4 flex h-12 w-[500px] origin-bottom-right flex-row items-center justify-center rounded-3xl bg-white font-eudoxus shadow-2xl shadow-black/90 drop-shadow-2xl">
+          <ol className="absolute bottom-12 right-4 flex h-12 w-fit origin-bottom-right flex-row items-center justify-center rounded-3xl bg-white px-2 font-eudoxus text-sm shadow-2xl shadow-black/90 drop-shadow-2xl lg:w-[500px] lg:text-base">
             <ul
               className={`mx-2 h-4 w-4 rounded-full ${
                 new Date(data.start) > new Date(Date.now())
@@ -89,7 +90,10 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
           {!CurrentInterest ? (
             <RegisterFor event={data} />
           ) : (
-            <p>Already Registered!</p>
+            <div className="m-3 flex flex-row items-center gap-1.5 rounded-2xl bg-zinc-100 p-3 lg:px-6">
+              <IoCheckmarkCircle className="text-xl text-green-500" />
+              <p>Already Registered!</p>
+            </div>
           )}
           <TabsForEvent data={data} />
         </article>
