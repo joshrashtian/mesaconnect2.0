@@ -30,9 +30,12 @@ const UserEvents = ({ id }: { id: string }) => {
 
   return (
     <section className="flex flex-col gap-2">
-      {events?.map((event, i) => (
-        <Event event={event} key={event.id} />
-      ))}
+      {events?.map((event, i) => <Event event={event} key={event.id} />)}
+      {events?.length === 0 && (
+        <p className="font-eudoxus text-slate-400">
+          No Upcoming Events To Show.
+        </p>
+      )}
     </section>
   );
 };

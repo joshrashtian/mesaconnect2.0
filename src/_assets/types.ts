@@ -11,6 +11,8 @@ export type Box = {
 }
 
 export type UserData = {
+  xp: number
+  verified: boolean
   id: string
   created_at: Date
   username: string

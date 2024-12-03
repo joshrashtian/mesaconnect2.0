@@ -19,7 +19,7 @@ const CommunityPage = async () => {
       <TitleComponent size="medium">Communities</TitleComponent>
       <section className="flex flex-col gap-3 font-eudoxus">
         <ul className="flex flex-col rounded-3xl bg-white p-6 dark:bg-zinc-700 dark:text-zinc-200">
-          <div className="no-scrollbar flex flex-row items-center gap-2 overflow-x-scroll px-5">
+          <div className="no-scrollbar flex h-32 flex-row items-center gap-2 overflow-x-scroll px-5">
             {Communities?.map((community: CommunityItemType) => (
               <HorizontalCommunityItem
                 key={community.id}

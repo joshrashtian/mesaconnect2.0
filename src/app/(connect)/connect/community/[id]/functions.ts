@@ -14,6 +14,15 @@ export async function getCommunity(id: string) {
     return { data, error };
 }
 
+export async function updateCommunity(id: string, blocks: any) {
+    const { error } = await serverside
+        .from('communities')
+        .update({ blocks })
+        .match({ id })
+    
+    return { error };
+}
+
 export type Community = {
     id: string;
     name: string;
@@ -34,6 +43,15 @@ export type Community = {
             data: any;
         }
     }
+}
+
+export async function DeleteUserFromCommunity(id: string) {
+    const { error } = await serverside
+        .from("communityrelations")
+        .delete()
+        .eq("userid", id);
+
+        return error;
 }
 
 export type PageContent = "location" | "html" | "canvas" | "meeting_time" | "text"

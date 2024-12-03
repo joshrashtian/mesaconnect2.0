@@ -22,19 +22,19 @@ const HorizontalCommunityItem = async ({
   return (
     <Link
       href={`/connect/community/${community.id}`}
-      className={`flex h-36 w-72 flex-col items-start justify-end rounded-2xl bg-zinc-100 p-3 duration-300 hover:scale-105 hover:bg-zinc-200 dark:bg-zinc-600 dark:hover:bg-zinc-800 ${props.className}`}
+      className={`flex h-full w-fit min-w-72 flex-col items-start justify-end rounded-2xl bg-zinc-100 p-3 duration-300 hover:scale-105 hover:bg-zinc-200 dark:bg-zinc-600 dark:hover:bg-zinc-800 ${props.className}`}
     >
       {!error && data && (
         <Image
           src={URL.createObjectURL(data)}
           width={56}
           height={56}
-          alt={community.id}
+          alt={""}
         />
       )}
 
-      <p className="text-lg">{community.name}</p>
-      <p>{community.id}</p>
+      <p className="text-nowrap text-lg font-black">{community.name}</p>
+      <p className="font-light">{community.id}</p>
     </Link>
   );
 };

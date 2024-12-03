@@ -27,7 +27,7 @@ const Interestsblock = ({ data }: { data: any }) => {
       {interests?.map((interest, index) => (
         <ul
           key={index}
-          className="flex w-[49%] items-center gap-2 rounded-full bg-zinc-50 p-2 px-4"
+          className="flex w-[49%] items-center gap-2 rounded-full bg-zinc-50 p-2 px-4 dark:bg-zinc-700"
         >
           {icons.find((e) => interest.fieldtype === e.name)?.icon}
           <h1>{interest.interest}</h1>

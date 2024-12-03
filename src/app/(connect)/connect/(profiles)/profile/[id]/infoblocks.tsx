@@ -45,9 +45,9 @@ const Infoblocks = (props: any) => {
   };
 
   return (
-    <section className="w-full">
+    <section className="w-full rounded-3xl bg-zinc-200/30 p-5 px-10 dark:bg-zinc-900/60">
       <ul className="flex items-center justify-between">
-        <h2 className="font-eudoxus text-3xl font-bold dark:text-white">
+        <h2 className="mb-3 font-eudoxus text-3xl font-bold dark:text-white">
           Inside {props.user.real_name}
         </h2>
         <button
@@ -57,7 +57,7 @@ const Infoblocks = (props: any) => {
           <IoAdd />
         </button>
       </ul>
-      <ul className="flex h-full w-full flex-row flex-wrap gap-2 font-eudoxus">
+      <ul className="grid h-full w-full grid-cols-2 gap-2 font-eudoxus">
         {blocks ? (
           blocks.map((e: any, index: number) => {
             return (
@@ -66,13 +66,13 @@ const Infoblocks = (props: any) => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 key={index}
-                className="min-h-full w-[49%] origin-bottom rounded-xl bg-white p-5 shadow-lg dark:bg-slate-200/30"
+                className="min-h-full w-full origin-bottom rounded-xl bg-white p-5 shadow-lg dark:bg-zinc-600/30 dark:text-slate-200"
               >
                 {Index.map((d: any, i: number) => {
                   if (d.title.toLowerCase() === e.type.toLowerCase()) {
                     return (
                       <div key={i}>
-                        <h1 className="font-bold dark:text-white/80">
+                        <h1 className="mb-2 font-bold dark:text-white/80">
                           {d.title}
                         </h1>
                         <d.component data={e} />

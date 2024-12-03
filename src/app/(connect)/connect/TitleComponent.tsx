@@ -16,7 +16,7 @@ const TitleComponent = () => {
   const height = useTransform(springed, [400, 500], [0, -70]);
   const profheight = useTransform(springed, [300, 500], [0, -20]);
   const x = useTransform(springed, [300, 500], [0, 80]);
-  const yClock = useTransform(springed, [400, 500], [0, -60]);
+  const yClock = useTransform(springed, [400, 500], [0, -90]);
   const scaleClock = useTransform(springed, [400, 500], [1, 0.7]);
   const opacity = useTransform(springed, [400, 500], [0, 1]);
 
@@ -38,14 +38,14 @@ const TitleComponent = () => {
 
   return (
     <>
-      <motion.main className="fixed top-12 z-40 flex w-full flex-col gap-5 text-center font-eudoxus duration-300 xl:gap-0 xl:text-left">
+      <motion.main className="fixed top-12 z-40 flex w-full flex-col gap-5 font-eudoxus duration-300 xl:gap-0 xl:text-left">
         {userData?.avatar_url && (
           <motion.ul
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 1, ease: "easeInOut" }}
             style={{ y: profheight }}
-            className="relative mx-auto h-16 w-16 overflow-hidden rounded-full shadow-lg xl:mx-0"
+            className="relative h-16 w-16 overflow-hidden rounded-full shadow-lg xl:mx-0"
           >
             <Image
               src={userData?.avatar_url}

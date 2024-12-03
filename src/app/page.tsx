@@ -82,7 +82,7 @@ export default function Home() {
         animate={{ opacity: 1 }}
         className="flex h-[105vh] w-screen flex-col items-center justify-between bg-blue-500/30 bg-gradient-to-br text-sm shadow-2xl shadow-slate-500/30 dark:bg-blue-950/40"
       >
-        <Canvas className="absolute z-40 min-h-[60vh] w-screen">
+        <Canvas className="absolute z-40 min-h-[20vh] w-screen scale-75 md:min-h-[35vh] lg:min-h-[50vh] lg:scale-100">
           <PresentationControls
             config={{ mass: 2, tension: 100, friction: 10 }}
             snap={{ mass: 2, tension: 100, friction: 10 }}
@@ -99,7 +99,7 @@ export default function Home() {
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "just" }}
-            className="cursor-default font-eudoxus text-base font-black text-white drop-shadow-lg duration-300 ease-in-out sm:text-xl md:text-3xl lg:text-5xl xl:text-5xl 2xl:text-5xl dark:text-white"
+            className="cursor-default font-eudoxus text-base font-black text-white drop-shadow-lg duration-300 ease-in-out dark:text-white sm:text-xl md:text-3xl lg:text-5xl xl:text-5xl 2xl:text-5xl"
           >
             It&apos;s Time To Connect{" "}
             <span className="bg-gradient-to-br from-red-600 to-orange-400/30 bg-clip-text text-transparent duration-300 hover:text-black/20">

@@ -5,10 +5,11 @@ import { cookies } from "next/headers";
 import BlockCommunityItemProvider from "../BlockIndex";
 import { type CommunityBlockIndex } from "../BlockIndex";
 import TextBlockComponent from "./(components)/TextBlock";
-import { IoLockClosed } from "react-icons/io5";
+import { IoLockClosed, IoPencil } from "react-icons/io5";
 import CanvasButton from "./(components)/CanvasButton";
 import { serverside } from "../../../../../../config/serverside";
 import { Metadata, ResolvingMetadata } from "next";
+import CreatePost from "./(components)/CreatePost";
 
 type Props = {
   params: { id: string };
@@ -88,7 +89,8 @@ const CommunityPage = async ({ params }: { params: { id: string } }) => {
 
   if (!data || error) return null;
   return (
-    <section className="flex flex-row flex-wrap gap-2 p-4">
+    <section className="relative flex flex-row flex-wrap gap-2 p-4">
+      <CreatePost />
       {data?.blocks?.map((block: CommunityBlockIndex) => {
         switch (block.type) {
           case "text":

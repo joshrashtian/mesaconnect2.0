@@ -11,6 +11,7 @@ import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { IoMdClock } from "react-icons/io";
 import { IoCalendarNumber, IoPricetags } from "react-icons/io5";
+import Link from "next/link";
 
 export const EventModalContext: any = createContext({});
 
@@ -42,6 +43,7 @@ const EventModal = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   function handleParams(term?: string) {
+    //@ts-ignore
     const params = new URLSearchParams(searchParams);
     if (term) {
       params.set("event", term);
@@ -188,7 +190,7 @@ const Modal = ({ event }: { event: EventType }) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex justify-center font-eudoxus items-center overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto font-eudoxus"
     >
       <AnimatePresence>
         <motion.section
@@ -196,31 +198,30 @@ const Modal = ({ event }: { event: EventType }) => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 20, opacity: 0 }}
           transition={{ duration: 0.5, type: "spring" }}
-          className="bg-white dark:bg-slate-700 shadow-lg flex flex-col z-50 min-h-1/2 min-w-[50%] rounded-3xl"
+          className="min-h-1/2 z-50 flex min-w-[50%] flex-col rounded-3xl bg-white shadow-lg dark:bg-slate-700"
           drag
           onClick={(e) => e.preventDefault()}
           dragMomentum={false}
           whileDrag={{ scale: 0.95 }}
         >
           <ul
-            className={`min-w-full h-6 z-10 right-0 flex ${
+            className={`right-0 z-10 flex h-6 min-w-full ${
               event.image
-                ? "bg-white hover:opacity-75 opacity-0 -mb-6 "
+                ? "-mb-6 bg-white opacity-0 hover:opacity-75"
                 : "bg-gray-50"
-            }  items-center rounded-t-full rounded-bl-2xl duration-300 px-5 flex-row-reverse
-            relative`}
+            } relative flex-row-reverse items-center rounded-t-full rounded-bl-2xl px-5 duration-300`}
           >
             <p
               onClick={() => {
                 disarm.disarmModal();
               }}
-              className="font-medium cursor-pointer hover:text-red-600  duration-300  font-mono text-lg "
+              className="cursor-pointer font-mono text-lg font-medium duration-300 hover:text-red-600"
             >
               x
             </p>
           </ul>
           {event.image && (
-            <motion.section className="w-full relative h-48">
+            <motion.section className="relative h-48 w-full">
               <Image
                 fill={true}
                 objectFit="cover"
@@ -230,10 +231,10 @@ const Modal = ({ event }: { event: EventType }) => {
               />
             </motion.section>
           )}
-          <main className="p-5 px-10 justify-between gap-10 flex flex-col h-full">
+          <main className="flex h-full flex-col justify-between gap-10 p-5 px-10">
             <header>
-              <ul className=" justify-between flex flex-row items-center ">
-                <h1 className="font-bold text-4xl bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
+              <ul className="flex flex-row items-center justify-between">
+                <h1 className="bg-gradient-to-r from-blue-500 to-teal-400 bg-clip-text text-4xl font-bold text-transparent">
                   {event.name}
                 </h1>
               </ul>
@@ -242,9 +243,9 @@ const Modal = ({ event }: { event: EventType }) => {
                   ? event.desc
                   : "This event does not have a description."}
               </h2>
-              <ul className=" justify-between flex flex-row items-center ">
+              <ul className="flex flex-row items-center justify-between">
                 <ul className="flex flex-row">
-                  <span className="px-2 p-1 bg-gradient-to-tr mr-2 from-slate-500 to-zinc-700 rounded-md text-white">
+                  <span className="mr-2 rounded-md bg-gradient-to-tr from-slate-500 to-zinc-700 p-1 px-2 text-white">
                     <IoCalendarNumber />
                   </span>
                   <h2>
@@ -254,23 +255,23 @@ const Modal = ({ event }: { event: EventType }) => {
                   </h2>
                 </ul>
                 <div className="flex flex-row gap-2">
-                  <ul className="p-2 px-4 bg-zinc-100 rounded-full">
-                    <h2 className="text-teal-700 font-medium">
+                  <ul className="rounded-full bg-zinc-100 p-2 px-4">
+                    <h2 className="font-medium text-teal-700">
                       {dateMessage?.toUpperCase()}
                     </h2>
                   </ul>
-                  <ul className="p-2 px-4 bg-zinc-100 rounded-full">
-                    <h2 className="text-orange-700 font-medium">
+                  <ul className="rounded-full bg-zinc-100 p-2 px-4">
+                    <h2 className="font-medium text-orange-700">
                       {event.type.toUpperCase()}
                     </h2>
                   </ul>
                 </div>
               </ul>
-              <h2 className="font-semibold flex flex-row gap-1 items-center">
-                <span className="px-2 p-1 bg-gradient-to-tr mr-2 from-slate-500 to-zinc-700 rounded-md text-white">
+              <h2 className="flex flex-row items-center gap-1 font-semibold">
+                <span className="mr-2 rounded-md bg-gradient-to-tr from-slate-500 to-zinc-700 p-1 px-2 text-white">
                   <IoMdClock />
                 </span>
-                <span className=" font-normal">
+                <span className="font-normal">
                   {` ${
                     dates.startDate.getHours() > 12
                       ? dates.startDate.getHours() - 12
@@ -294,8 +295,8 @@ const Modal = ({ event }: { event: EventType }) => {
                   } ${dates.startDate.getHours() > 12 ? "PM" : "AM"}`}
                 </span>
               </h2>
-              <ul className="w-full flex flex-row mt-2 items-center gap-1">
-                <h1 className="px-2 p-1 bg-gradient-to-tr from-slate-500 to-zinc-700 rounded-md text-white">
+              <ul className="mt-2 flex w-full flex-row items-center gap-1">
+                <h1 className="rounded-md bg-gradient-to-tr from-slate-500 to-zinc-700 p-1 px-2 text-white">
                   <IoPricetags />
                 </h1>
                 {event.tags &&
@@ -309,34 +310,42 @@ const Modal = ({ event }: { event: EventType }) => {
                   ))}
               </ul>
             </header>
-            <motion.footer className="pb-6 gap-3">
+            <motion.footer className="flex flex-row gap-3 pb-6">
               <button
                 onClick={() => {
                   state === 0 ? onInterest() : onInterestLost();
                 }}
                 className={`p-3 ${
                   state === 0
-                    ? "from-blue-600 to-indigo-700 animate-none"
+                    ? "animate-none from-blue-600 to-indigo-700"
                     : state === 1
-                    ? "from-green-600 to-emerald-800  scale-110 animate-bounce"
-                    : "from-red-600 animate-none to-amber-700 "
-                } bg-gradient-to-br w-full xl:w-1/2 3xl:w-1/4 hover:scale-105 focus:scale-95 shadow-md hover:shadow-lg rounded-full transition-all duration-500`}
+                      ? "scale-110 animate-bounce from-green-600 to-emerald-800"
+                      : "animate-none from-red-600 to-amber-700"
+                } 3xl:w-1/4 w-full rounded-full bg-gradient-to-br shadow-md transition-all duration-500 hover:scale-105 hover:shadow-lg focus:scale-95 xl:w-1/2`}
               >
-                <p className=" font-semibold text-xl flex flex-row items-center justify-center gap-3 text-white">
-                  <span className="text-2xl font-medium w-8 h-8 border-[2px] items-center flex justify-center rounded-full">
+                <p className="flex flex-row items-center justify-center gap-3 text-xl font-semibold text-white">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full border-[2px] text-2xl font-medium">
                     {InterestedContext[state].precursor}
                   </span>
 
                   {InterestedContext[state].text.toUpperCase()}
                 </p>
               </button>
+              <Link
+                href={`/events/${event.id}`}
+                className={`3xl:w-1/4 w-full rounded-full bg-zinc-600 bg-gradient-to-br p-3 shadow-md transition-all duration-500 hover:scale-105 hover:shadow-lg focus:scale-95 xl:w-1/2`}
+              >
+                <p className="flex flex-row items-center justify-center gap-3 text-xl font-semibold text-white">
+                  EVENT PAGE
+                </p>
+              </Link>
             </motion.footer>
           </main>
         </motion.section>
       </AnimatePresence>
 
       <ul
-        className="absolute inset-0 bg-gray-500 opacity-50 "
+        className="absolute inset-0 bg-gray-500 opacity-50"
         onClick={() => {
           disarm.disarmModal();
         }}

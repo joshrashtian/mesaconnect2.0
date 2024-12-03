@@ -3,6 +3,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { supabase } from "../../../../../../config/mesa-config";
 import { PostType } from "@/_assets/types";
 import { AdminModal } from "../AdminModal";
+import { DataTable } from "./(tables)/posts/datatable";
+import { columns } from "./(tables)/posts/columns";
+import StandardButton from "@/(mesaui)/StandardButton";
+import { IoDocument } from "react-icons/io5";
 
 const Viewposts = () => {
   const [data, setData] = useState<PostType[]>();
@@ -31,8 +35,30 @@ const Viewposts = () => {
   if (!data) return;
 
   return (
-    <main className=" w-full flex flex-col ">
-      <div className="bg-slate-100 font-eudoxus no-scrollbar rounded-t-2xl flex-row text-center justify-between text-nowrap rounded-md w-full h-16 overflow-x-scroll p-4 gap-5 flex  items-center">
+    <main className="flex w-full flex-col">
+      <StandardButton
+        icon={<IoDocument />}
+        buttonType="button"
+        onClick={async () => {
+          const { data: CSV, error } = await supabase
+            .from("posts")
+            .select()
+            .csv();
+          if (error) alert(error.message);
+          if (!CSV) return;
+
+          const blob = new Blob([CSV], { type: "text/csv" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = `postsat${new Date(Date.now()).getTime()}.csv`;
+          a.click();
+        }}
+      >
+        Download as CSV
+      </StandardButton>
+      <DataTable columns={columns} data={data} />
+      {/* <div className="bg-slate-100 font-eudoxus no-scrollbar rounded-t-2xl flex-row text-center justify-between text-nowrap rounded-md w-full h-16 overflow-x-scroll p-4 gap-5 flex  items-center">
         <h1>Title</h1>
         <h1>Post ID</h1>
         <h1>Creator</h1>
@@ -59,7 +85,7 @@ const Viewposts = () => {
             <h1>{post.created_at.toString().slice(0, 10)}</h1>
           </div>
         ))}
-      </section>
+      </section> */}
     </main>
   );
 };

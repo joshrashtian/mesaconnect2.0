@@ -43,7 +43,7 @@ const CommunityPage = async ({
   return (
     <main
       style={data.styles?.container}
-      className="flex h-screen flex-col rounded-3xl bg-zinc-200 pb-24 font-eudoxus dark:bg-zinc-700"
+      className="flex h-fit flex-col rounded-3xl bg-zinc-200 pb-24 font-eudoxus dark:bg-zinc-700"
     >
       <ul
         style={data.styles?.header}

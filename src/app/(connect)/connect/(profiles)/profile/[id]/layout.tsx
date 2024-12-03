@@ -1,6 +1,7 @@
 "use server";
 
 import { serverside } from "../../../../../../../config/serverside";
+import ProfileContextProvider from "./ProfileContext";
 
 export async function generateMetadata({ params, searchParams }: any) {
   const { data, error } = await serverside
@@ -43,7 +44,7 @@ export async function generateMetadata({ params, searchParams }: any) {
 }
 
 const LayoutProfile = async ({ children }: { children: React.ReactNode }) => {
-  return <div>{children}</div>;
+  return <ProfileContextProvider>{children}</ProfileContextProvider>;
 };
 
 export default LayoutProfile;

@@ -37,8 +37,9 @@ export interface ContextProps {
         widgets?: [
           {
             name: string;
-          }
+          },
         ];
+        xp: number;
       }
     | undefined;
   signOut: () => void;
@@ -145,7 +146,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
           console.log(payload.new);
           //@ts-ignore
           setData(payload.new);
-        }
+        },
       )
       .subscribe();
 

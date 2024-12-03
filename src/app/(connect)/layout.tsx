@@ -9,6 +9,7 @@ import ModalProvider from "./connect/Modal";
 import { UserCheck } from "./UserCheck";
 import { serverside } from "../../../config/serverside";
 import { InfoProvide } from "./connect/(profiles)/profile/[id]/(infoblockscreator)/InfoBlockDashboard";
+import { MultiStepProvider } from "./connect/MutliStepContext";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   //TIP: UseSession Hook can only be used in Async Functions, since it returns a promise.
@@ -24,16 +25,18 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
       <InfoProvide>
         <UserCheck>
           <ModalProvider>
-            <EventModal>
-              <main className="h-screen p-16">
-                <Dock />
+            <MultiStepProvider>
+              <EventModal>
+                <main className="h-screen p-16 font-eudoxus">
+                  <Dock />
 
-                {children}
-                <h1 className="fixed bottom-2 right-2 font-mono">
-                  {config.versionNumber}
-                </h1>
-              </main>
-            </EventModal>
+                  {children}
+                  <h1 className="fixed bottom-2 right-2 font-eudoxus font-black">
+                    {config.versionNumber}
+                  </h1>
+                </main>
+              </EventModal>
+            </MultiStepProvider>
           </ModalProvider>
         </UserCheck>
       </InfoProvide>
