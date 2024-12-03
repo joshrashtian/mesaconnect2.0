@@ -12,7 +12,6 @@ const EventUsers = ({ event }: { event: EventType }) => {
   const toast = useToast();
   useEffect(() => {
     async function getUsers() {
-      console.log(event);
       const { data, error } = await supabase
         //@ts-ignore
         .rpc("get_users_by_event", { event: event.id });

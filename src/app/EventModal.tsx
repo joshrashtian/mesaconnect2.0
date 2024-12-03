@@ -11,6 +11,7 @@ import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { IoMdClock } from "react-icons/io";
 import { IoCalendarNumber, IoPricetags } from "react-icons/io5";
+import Link from "next/link";
 
 export const EventModalContext: any = createContext({});
 
@@ -309,7 +310,7 @@ const Modal = ({ event }: { event: EventType }) => {
                   ))}
               </ul>
             </header>
-            <motion.footer className="gap-3 pb-6">
+            <motion.footer className="flex flex-row gap-3 pb-6">
               <button
                 onClick={() => {
                   state === 0 ? onInterest() : onInterestLost();
@@ -330,6 +331,14 @@ const Modal = ({ event }: { event: EventType }) => {
                   {InterestedContext[state].text.toUpperCase()}
                 </p>
               </button>
+              <Link
+                href={`/events/${event.id}`}
+                className={`3xl:w-1/4 w-full rounded-full bg-zinc-600 bg-gradient-to-br p-3 shadow-md transition-all duration-500 hover:scale-105 hover:shadow-lg focus:scale-95 xl:w-1/2`}
+              >
+                <p className="flex flex-row items-center justify-center gap-3 text-xl font-semibold text-white">
+                  EVENT PAGE
+                </p>
+              </Link>
             </motion.footer>
           </main>
         </motion.section>

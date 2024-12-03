@@ -6,6 +6,7 @@ import { supabase } from "../../../../../config/mesa-config";
 import {
   IoCalendar,
   IoCloud,
+  IoLink,
   IoLocate,
   IoLocation,
   IoText,
@@ -126,6 +127,14 @@ const EventMenu = () => {
           }}
         />
       </form>
+      <MenuButton
+        title="Visit Event Page"
+        icon={<IoLink />}
+        color="bg-blue-500 mt-3"
+        onClick={() => {
+          window.open(`/events/${event.id}`);
+        }}
+      />
     </motion.section>
   );
 };

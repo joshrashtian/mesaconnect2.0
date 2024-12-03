@@ -12,8 +12,9 @@ import {
 } from "@/components/ui/sidebar";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
-import { IoPeople, IoPerson } from "react-icons/io5";
+import { IoDocument, IoPeople, IoPerson } from "react-icons/io5";
 import { cookies } from "next/headers";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export async function ConsoleSidebar() {
   const supabase = createServerComponentClient({ cookies });
@@ -28,6 +29,20 @@ export async function ConsoleSidebar() {
   return (
     <Sidebar className="fixed z-40 font-eudoxus">
       <SidebarContent>
+        <SidebarHeader className="flex flex-row items-center gap-2 pl-3 pt-5">
+          <Avatar>
+            <AvatarImage
+              src={user.data.session?.user.user_metadata.avatar_url}
+            />
+            <AvatarFallback>
+              {user.data.session?.user.user_metadata.real_name?.at(0)}
+            </AvatarFallback>
+          </Avatar>
+          <ul className="text-sm font-bold">
+            <p>Console</p>
+            <p>{user.data.session?.user.user_metadata.real_name}</p>
+          </ul>
+        </SidebarHeader>
         <SidebarGroup>
           <SidebarMenu>
             {data?.map((item) => (
@@ -43,6 +58,12 @@ export async function ConsoleSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
+        <SidebarMenuButton>
+          <IoDocument />
+          <Link href="/docs">
+            <p>Documentation</p>
+          </Link>
+        </SidebarMenuButton>
         <SidebarMenuButton>
           <IoPeople />
           <Link href="/connect">

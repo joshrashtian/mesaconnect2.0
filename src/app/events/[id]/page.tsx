@@ -10,6 +10,7 @@ import {
   IoLocation,
   IoPencil,
   IoPin,
+  IoTabletPortrait,
   IoVideocam,
 } from "react-icons/io5";
 import RegisterFor from "./RegisterFor";
@@ -28,6 +29,13 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
     .eq("id", params.id)
     .single();
   const user = await supabase.auth.getUser();
+
+  const { data: user_data } = await supabase
+    .from("profiles")
+    .select()
+    .eq("id", user.data.user?.id)
+    .single();
+
   const { data: CurrentInterest, error: UserError } = await supabase
     .from("eventinterest")
     .select()
@@ -87,13 +95,28 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
           <h4 className="mt-2 text-2xl font-light text-slate-500">
             {data.desc}
           </h4>
-          {!CurrentInterest ? (
-            <RegisterFor event={data} />
+          {["admin", "tutor"].includes(user_data?.role) && (
+            <Button>
+              <Link
+                className="flex flex-row items-center gap-3"
+                href={`/events/${params.id}/kiosk`}
+              >
+                <IoTabletPortrait />
+                <p>Kiosk Mode</p>
+              </Link>
+            </Button>
+          )}
+          {data.creator !== user.data.user?.id ? (
+            CurrentInterest ? (
+              <RegisterFor event={data} />
+            ) : (
+              <div className="m-3 flex flex-row items-center gap-1.5 rounded-2xl bg-zinc-100 p-3 lg:px-6">
+                <IoCheckmarkCircle className="text-xl text-green-500" />
+                <p>Already Registered!</p>
+              </div>
+            )
           ) : (
-            <div className="m-3 flex flex-row items-center gap-1.5 rounded-2xl bg-zinc-100 p-3 lg:px-6">
-              <IoCheckmarkCircle className="text-xl text-green-500" />
-              <p>Already Registered!</p>
-            </div>
+            <p>You are the owner of this event.</p>
           )}
           <TabsForEvent data={data} />
         </article>
