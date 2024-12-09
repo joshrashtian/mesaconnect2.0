@@ -19,7 +19,9 @@ const page = async () => {
       </section>
       <section className="flex h-[300px] w-full flex-col justify-center gap-5 rounded-3xl bg-white p-3">
         <ProfileStats />
-        <h3 className="text-2xl font-bold">Events in Clubs You Are In</h3>
+      </section>
+      <section className="flex h-[300px] w-full flex-col justify-center gap-5 rounded-3xl bg-white p-3">
+        <ProfileStats />
       </section>
     </div>
   );

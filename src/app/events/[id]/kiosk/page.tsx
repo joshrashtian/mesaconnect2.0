@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../../config/mesa-config";
 import { EventType } from "@/_assets/types";
 import {
+  IoCloudUpload,
+  IoPeople,
   IoPerson,
   IoPersonAdd,
   IoPersonRemove,
@@ -12,6 +14,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useMultiStep } from "@/app/(connect)/connect/MutliStepContext";
 import Input from "@/_components/Input";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 type EventUserRecord = {
   event_id: string;
   id: string;
@@ -88,9 +91,9 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
         </article>
         <QRCodeSVG value={`https://mesaconnect.io/events/${event?.id}`} />
       </header>
-      <nav className="flex h-36 w-full flex-row items-center bg-zinc-200 p-5">
+      <nav className="flex h-36 w-full flex-row items-center gap-3 overflow-x-scroll bg-zinc-200 p-5">
         <button
-          className="flex h-full w-64 flex-col justify-end rounded-md bg-zinc-100/50 p-4 shadow-lg"
+          className="flex h-full w-64 flex-col justify-end rounded-md bg-zinc-100/50 p-4 shadow-lg duration-300 hover:scale-105 hover:bg-zinc-50/80 hover:shadow-xl"
           onClick={() => {
             mutliStep.create({
               title: "Sign In via Kiosk",
@@ -101,6 +104,25 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
           <IoPersonAdd className="text-4xl" />
           <h5 className="text-wrap text-2xl">Sign In via Kiosk </h5>
         </button>
+        <button
+          className="flex h-full w-64 flex-col justify-end rounded-md bg-zinc-100/50 p-4 shadow-lg duration-300 hover:scale-105 hover:bg-zinc-50/80 hover:shadow-xl"
+          onClick={() => {
+            mutliStep.create({
+              title: "Submit Event",
+              components: [<div key={1}></div>],
+            });
+          }}
+        >
+          <IoCloudUpload className="text-4xl" />
+          <h5 className="text-wrap text-2xl">Submit Event </h5>
+        </button>
+        <Link
+          href={`/events/${event?.id}`}
+          className="flex h-full w-64 flex-col justify-end rounded-md bg-zinc-100/50 p-4 shadow-lg duration-300 hover:scale-105 hover:bg-zinc-50/80 hover:shadow-xl"
+        >
+          <IoPeople className="text-4xl" />
+          <h5 className="text-wrap text-2xl">Event Page </h5>
+        </Link>
       </nav>
 
       <ul className="mt-10 flex h-96 flex-col gap-3 overflow-y-scroll px-12">

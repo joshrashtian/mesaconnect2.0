@@ -63,7 +63,7 @@ const ClassPicker = () => {
         Your Courses
       </h1>
       <h2 className="font-eudoxus text-2xl font-black">{userData?.college}</h2>
-      <section className="no-scrollbar flex w-full flex-row gap-3 overflow-x-scroll p-4">
+      <section className="no-scrollbar flex w-full flex-col gap-3 p-4">
         {classes.length > 0 ? (
           classes.map((c) => {
             return <ClassCard class={c} key={c.id} />;
