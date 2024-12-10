@@ -31,14 +31,13 @@ const ClassCard = ({ class: c }: { class: any }) => {
                   .match({
                     userid: (await supabase.auth.getUser()).data.user?.id,
                     classid: c.id,
+                    transactionid: c.transactionid,
                   });
 
                 if (error) {
                   console.error(error);
                   return;
                 }
-
-                console.log("Success!");
               });
             },
             icon: <IoTrailSignOutline />,
@@ -92,8 +91,11 @@ const ClassModal = ({ e }: { e: any }) => {
       <div>
         <h1 className="text-2xl">{e.name}</h1>
         <h2 className="text-xl text-slate-500">
-          {e.category} {e.num} - {e.classid}
+          {e.category} {e.num}
         </h2>
+        <p className="text-xl text-slate-500">
+          {`${e.units} ${e.units > 1 ? "Units" : "Unit"} `}{" "}
+        </p>
       </div>
 
       <section>

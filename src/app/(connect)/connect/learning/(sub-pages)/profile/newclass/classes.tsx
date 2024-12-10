@@ -7,10 +7,12 @@ import { useToast } from "@/app/(connect)/InfoContext";
 import { useRouter } from "next/navigation";
 import { IoBook, IoSearchOutline } from "react-icons/io5";
 import { IconGet } from "./CategoryIndex";
+import { Button } from "@/components/ui/button";
 
 const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
   const [filter, setFilter] = useState(classes);
   const [newSearch, setSearch] = useState<string>();
+  const [selected, setSelected] = useState<string>("");
   const { CreateModal } = useModal();
 
   const search = async (query: string | undefined) => {
@@ -37,9 +39,9 @@ const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
 
   return (
     <div>
-      <ul className="flex flex-row mb-5 gap-3 w-full">
+      <ul className="mb-5 flex w-full flex-row gap-3">
         <input
-          className="p-4 shadow-md font-eudoxus focus:outline-none hover:scale-[1.01] focus:scale-[1.01] duration-300 w-full rounded-2xl px-6"
+          className="w-full rounded-2xl p-4 px-6 font-eudoxus shadow-md duration-300 hover:scale-[1.01] focus:scale-[1.01] focus:outline-none"
           placeholder="Enter Class Name..."
           onChange={(e) => {
             setSearch(e.target.value);
@@ -50,34 +52,50 @@ const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
           onClick={() => {
             search(newSearch);
           }}
-          className="p-4 w-26 scale-100 rounded-2xl font-eudoxus hover:rounded-md bg-gradient-to-br from-red-500 to-amber-600 hover:bg-indigo-700 text-white hover:scale-110 duration-300 font-bold"
+          className="w-26 scale-100 rounded-2xl bg-gradient-to-br from-red-500 to-amber-600 p-4 font-eudoxus font-bold text-white duration-300 hover:scale-110 hover:rounded-md hover:bg-indigo-700"
         >
-          <IoSearchOutline
-            size={26}
-            color="#FFF"
-            className="drop-shadow-2xl
-          "
-          />
+          <IoSearchOutline size={26} color="#FFF" className="drop-shadow-2xl" />
         </button>
       </ul>
       <article className="flex flex-col gap-2">
-        {filter.map((e) => (
-          <div
-            className={`p-4 flex-row flex items-center gap-3 cursor-pointer bg-white font-eudoxus hover:scale-[1.01] active:scale-[0.99] rounded-2xl duration-300`}
-            onClick={() => CreateModal(<ClassModal c={e} />)}
-            key={e.id}
-          >
-            <ul className="text-2xl p-2 bg-slate-100 rounded-full">
-              {IconGet(e.category)}
-            </ul>
-            <ul>
-              <h1 className="font-black">
-                {e.category}-{e.num}
-              </h1>
-              <h2 className="font-light text-slate-700">{e.name}</h2>
-            </ul>
-          </div>
-        ))}
+        <ol className="flex flex-row gap-1 rounded-lg bg-zinc-200/80 p-2 px-6">
+          {["CMPSCI", "MATH", "ENG", "PHYSIC", "BIOSCI"].map((classType) => (
+            <Button
+              key={classType}
+              className={`${selected === classType && "bg-zinc-600"}`}
+              onClick={() => {
+                if (selected === classType) {
+                  setSelected("");
+                  return;
+                }
+                setSelected(classType);
+              }}
+            >
+              {classType}
+            </Button>
+          ))}
+        </ol>
+        {filter
+          .filter((e) =>
+            e.category.toLowerCase().includes(selected?.toLowerCase()),
+          )
+          .map((e) => (
+            <div
+              className={`flex cursor-pointer flex-row items-center gap-3 rounded-2xl bg-white p-4 font-eudoxus duration-300 hover:scale-[1.01] active:scale-[0.99]`}
+              onClick={() => CreateModal(<ClassModal c={e} />)}
+              key={e.id}
+            >
+              <ul className="rounded-full bg-slate-100 p-2 text-2xl">
+                {IconGet(e.category)}
+              </ul>
+              <ul>
+                <h1 className="font-black">
+                  {e.category}-{e.num}
+                </h1>
+                <h2 className="font-light text-slate-700">{e.name}</h2>
+              </ul>
+            </div>
+          ))}
       </article>
     </div>
   );
@@ -114,34 +132,34 @@ const ClassModal = ({ c }: { c: ClassType }) => {
   };
 
   return (
-    <section className="flex flex-col h-full justify-between">
+    <section className="flex h-full flex-col justify-between">
       <header>
-        <h1 className="font-eudoxus font-bold text-2xl">{c.name}</h1>
-        <h2 className="font-eudoxus text-lg  text-slate-400">
+        <h1 className="font-eudoxus text-2xl font-bold">{c.name}</h1>
+        <h2 className="font-eudoxus text-lg text-slate-400">
           {c.category}-{c.num}
         </h2>
       </header>
-      <section className="flex flex-col gap-1.5 my-3">
+      <section className="my-3 flex flex-col gap-1.5">
         <input
-          className="p-3 w-full bg-zinc-50 border-slate-200 outline-slate-400 rounded-2xl border-2 font-eudoxus "
+          className="w-full rounded-2xl border-2 border-slate-200 bg-zinc-50 p-3 font-eudoxus outline-slate-400"
           onChange={(e) => {
             setRecord({ ...record, teacher: e.target.value });
           }}
         />
-        <div className="w-full flex flex-row gap-2">
+        <div className="flex w-full flex-row gap-2">
           {["A", "B", "C", "D", "F", "P", "IP", "W"].map((value) => (
             <button
               key={value}
               onClick={() => {
                 setRecord({ ...record, grade: value });
               }}
-              className="bg-slate-200 hover:bg-slate-300 font-geist font-light p-1 px-3 rounded-full hover:scale-105 duration-300"
+              className="rounded-full bg-slate-200 p-1 px-3 font-geist font-light duration-300 hover:scale-105 hover:bg-slate-300"
             >
               <h1>{value}</h1>
             </button>
           ))}
         </div>
-        <div className="w-full flex flex-row gap-2">
+        <div className="flex w-full flex-row gap-2">
           {["Spring", "Fall", "Summer", "Winter"].map((value) => (
             <button
               key={value}
@@ -151,7 +169,7 @@ const ClassModal = ({ c }: { c: ClassType }) => {
                   semester: { ...record?.semester, a: value },
                 });
               }}
-              className="bg-slate-200 hover:bg-slate-300 font-geist font-light p-1 px-3 rounded-full hover:scale-105 duration-300"
+              className="rounded-full bg-slate-200 p-1 px-3 font-geist font-light duration-300 hover:scale-105 hover:bg-slate-300"
             >
               <h1>{value}</h1>
             </button>
@@ -169,12 +187,12 @@ const ClassModal = ({ c }: { c: ClassType }) => {
                 },
               });
             }}
-            className="p-1 px-3 w-full bg-zinc-50 border-slate-200 outline-slate-400 rounded-2xl border-2 font-eudoxus "
+            className="w-full rounded-2xl border-2 border-slate-200 bg-zinc-50 p-1 px-3 font-eudoxus outline-slate-400"
           />
         </div>
       </section>
-      <footer className="font-mono flex flex-col gap-3">
-        <section className="p-2 px-5 bg-slate-200 rounded-xl">
+      <footer className="flex flex-col gap-3 font-mono">
+        <section className="rounded-xl bg-slate-200 p-2 px-5">
           <p>{record?.teacher}</p> <p>{record?.grade}</p>{" "}
           <p>
             {record?.semester?.a} {record?.semester?.b?.toString()}
@@ -188,9 +206,9 @@ const ClassModal = ({ c }: { c: ClassType }) => {
               onClick={() => {
                 submit();
               }}
-              className=" cursor-pointer bg-gradient-to-br p-2 from-theme-blue to-theme-blue-2 hover:drop-shadow-lg hover:bg-orange-400 hover:scale-105 hover:shadow-md duration-500 h-full rounded-xl hover:rounded-lg w-32"
+              className="h-full w-32 cursor-pointer rounded-xl bg-gradient-to-br from-theme-blue to-theme-blue-2 p-2 duration-500 hover:scale-105 hover:rounded-lg hover:bg-orange-400 hover:shadow-md hover:drop-shadow-lg"
             >
-              <h2 className="font-bold font-eudoxus text-white">Submit</h2>
+              <h2 className="font-eudoxus font-bold text-white">Submit</h2>
             </button>
           )}
       </footer>
