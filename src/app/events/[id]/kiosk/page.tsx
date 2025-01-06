@@ -15,7 +15,8 @@ import { useMultiStep } from "@/app/(connect)/connect/MutliStepContext";
 import Input from "@/_components/Input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-type EventUserRecord = {
+import KioskSubmit from "./KioskSubmit";
+export type EventUserRecord = {
   event_id: string;
   id: string;
   data: {
@@ -109,7 +110,9 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
           onClick={() => {
             mutliStep.create({
               title: "Submit Event",
-              components: [<div key={1}></div>],
+              components: [
+                <KioskSubmit key="a" attendees={attendees} event={event} />,
+              ],
             });
           }}
         >
@@ -172,7 +175,7 @@ function KioskSignIn({ event }: { event: string | undefined }) {
     const { error } = await supabase
       .from("eventinterest")
       //@ts-ignore
-      .insert({ event_id: event, data: data });
+      .insert({ event_id: event, data: data, student_id: data.student_id });
 
     if (error) {
       alert(error.message);
