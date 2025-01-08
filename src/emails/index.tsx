@@ -28,6 +28,15 @@ export default function Email() {
         </Row>
       </Section>
       <Hr />
+      <Section className="m-4 rounded-xl bg-zinc-200/40 p-10">
+        <Row>
+          <Column>
+            <Text className="font-sans text-2xl font-bold">
+              Thank you for submitting your information to MESAConnect!
+            </Text>
+          </Column>
+        </Row>
+      </Section>
     </Tailwind>
   );
 }

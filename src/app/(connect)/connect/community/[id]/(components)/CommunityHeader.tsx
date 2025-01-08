@@ -27,6 +27,11 @@ const navitems = [
     href: `/editor`,
     permission: ["founder", "admin"],
   },
+  {
+    name: "Settings",
+    href: `/settings`,
+    permission: ["founder", "admin"],
+  },
 ];
 
 const CommunityHeader = () => {
