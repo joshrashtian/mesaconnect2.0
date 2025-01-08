@@ -1,15 +1,33 @@
-import {Button, Html} from "@react-email/components";
+import {
+  Button,
+  Column,
+  Heading,
+  Hr,
+  Html,
+  Img,
+  Row,
+  Section,
+  Tailwind,
+  Text,
+} from "@react-email/components";
 import * as React from "react";
 
 export default function Email() {
   return (
-    <Html>
-      <Button
-        href="https://example.com"
-        style={{ background: "#000", color: "#fff", padding: "12px 20px" }}
-      >
-        Click me
-      </Button>
-    </Html>
+    <Tailwind>
+      <Section>
+        <Row className="flex flex-row items-center">
+          <Column>
+            <Img src="https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/seo/mesalogo.png" />
+          </Column>
+          <Column>
+            <Heading className="p-3 font-sans text-4xl font-extrabold">
+              MESAConnect
+            </Heading>
+          </Column>
+        </Row>
+      </Section>
+      <Hr />
+    </Tailwind>
   );
 }
