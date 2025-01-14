@@ -6,7 +6,7 @@ import { ClassType } from "../../../builder/(buildercomponents)/ClassRelations";
 export async function updateClass(newClass: any) {
   const class2 = { ...newClass, category: undefined, name: undefined, 
     classid: newClass.id, id: undefined,
-    num: undefined, units: undefined };
+    num: undefined, units: undefined, college: undefined };
 
   const { error } = await serverside.from('userclasses').update({...class2}).match({classid: newClass.id, userid: (await serverside.auth.getUser()).data.user?.id, transactionid: class2.transactionid})
 
