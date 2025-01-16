@@ -9,8 +9,14 @@ import { MdInterests } from "react-icons/md";
 import { IoBuildOutline } from "react-icons/io5";
 import { CreateTutorBlock, TutorBlock, TutorBlockSettings } from "./TutorBlock";
 import { info } from "console";
-import CommunityBlock from "./CommunityBlock";
+import CommunityBlock, {
+  CommunityEdit,
+  CreateCommunityBlock,
+} from "./CommunityBlock";
 import ClassBox from "./ClassBlack";
+import InProgClassBlock, {
+  CreateInProg,
+} from "../[id]/(infoblockscreator)/InProgClassesEdit";
 
 export const Index = [
   {
@@ -75,16 +81,16 @@ export const Index = [
     title: "Community",
     icon: <IoBuildOutline />,
     component: (data: any) => <CommunityBlock data={data.data} />,
-    create: () => {},
-    add: () => {},
+    create: () => <CommunityEdit />,
+    add: () => <CreateCommunityBlock />,
     infoblock: true,
   },
   {
     title: "In Progress Classes",
     icon: <IoBuildOutline />,
     component: (data: any) => <ClassBox data={data} />,
-    create: () => {},
-    add: () => {},
+    create: () => <InProgClassBlock />,
+    add: () => <CreateInProg />,
     infoblock: true,
   },
 ];

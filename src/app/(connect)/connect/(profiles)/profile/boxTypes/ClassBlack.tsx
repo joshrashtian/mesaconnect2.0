@@ -5,6 +5,7 @@ import { supabase } from "../../../../../../../config/mesa-config";
 import Image from "next/image";
 import Link from "next/link";
 import { IoLink } from "react-icons/io5";
+import { IconGet } from "../../../learning/(sub-pages)/profile/newclass/CategoryIndex";
 
 const ClassBox = ({ data }: { data: { data: { userid: string } } }) => {
   const [c, setC] = useState<any>();
@@ -26,10 +27,19 @@ const ClassBox = ({ data }: { data: { data: { userid: string } } }) => {
 
   if (!c) return null;
   return (
-    <div>
+    <div className="flex flex-col gap-2">
       {c.map((a: any) => (
-        <ul key={a.id} className="flex flex-col items-center justify-between">
-          <p>{a.name}</p>
+        <ul
+          key={a.id}
+          className="flex flex-col items-center justify-center gap-3 rounded-2xl bg-zinc-200/40 p-3"
+        >
+          <p className="flex flex-row items-center gap-3 font-semibold">
+            {IconGet(a.category)}
+            {a?.name} | {a?.category} {a.num}
+          </p>
+          <p className="text-sm">
+            {a?.teacher} - {a?.units} {a.units > 1 ? "Units" : "Unit"}
+          </p>
         </ul>
       ))}
     </div>
