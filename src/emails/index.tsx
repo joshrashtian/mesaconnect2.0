@@ -1,3 +1,4 @@
+import { EventResults } from "@/_functions/sendEventKioskResults";
 import {
   Button,
   Column,
@@ -12,7 +13,7 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-export default function Email() {
+export default function Email({ event, attendees }: EventResults) {
   return (
     <Tailwind>
       <Section>
@@ -22,7 +23,7 @@ export default function Email() {
           </Column>
           <Column>
             <Heading className="p-3 font-sans text-4xl font-extrabold">
-              MESAConnect
+              Information for {event.name}
             </Heading>
           </Column>
         </Row>

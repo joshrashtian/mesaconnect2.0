@@ -98,7 +98,7 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
     <div className="font-eudoxus">
       <header className="flex flex-row justify-between p-12">
         <article>
-          <h1 className="text-5xl font-extrabold">{event?.name}</h1>
+          <h1 className="text-5xl font-black drop-shadow-xl">{event?.name}</h1>
           <p className="text-2xl">{event?.desc}</p>
           <p className="text-2xl font-light">Located at {event?.location}</p>
         </article>
@@ -140,37 +140,42 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
         </Link>
       </nav>
 
-      <ul className="mt-10 flex h-96 flex-col gap-3 overflow-y-scroll px-12">
-        <h4 className="text-xl font-semibold">Attendees</h4>
-        {attendees?.map((attendee: EventUserRecord) => (
-          <li
-            className="text-md relative flex flex-row gap-3 bg-zinc-200/60 p-7"
-            key={attendee.id}
-          >
-            {attendee.data.temporary ? (
-              <IoTabletPortrait className="text-2xl" />
-            ) : (
-              <IoPerson className="text-2xl" />
-            )}
-            <h4 className="font-bold">{attendee.data.name}</h4>
-            <button>
-              <IoPersonRemove
-                onClick={async () => {
-                  const { error } = await supabase
-                    .from("eventinterest")
-                    .delete()
-                    .match({ id: attendee.id });
+      <section className="grid grid-cols-2">
+        <ol className="mt-10 flex h-96 w-full flex-col gap-3 overflow-y-scroll px-12">
+          <h4 className="text-xl font-semibold">Attendees</h4>
+          {attendees?.map((attendee: EventUserRecord) => (
+            <li
+              className="text-md relative flex flex-row gap-3 bg-zinc-200/60 p-7"
+              key={attendee.id}
+            >
+              {attendee.data.temporary ? (
+                <IoTabletPortrait className="text-2xl" />
+              ) : (
+                <IoPerson className="text-2xl" />
+              )}
+              <h4 className="font-bold">{attendee.data.name}</h4>
+              <button>
+                <IoPersonRemove
+                  onClick={async () => {
+                    const { error } = await supabase
+                      .from("eventinterest")
+                      .delete()
+                      .match({ id: attendee.id });
 
-                  if (error) {
-                    alert(error.message);
-                  }
-                }}
-                className="absolute right-4"
-              />
-            </button>
-          </li>
-        ))}
-      </ul>
+                    if (error) {
+                      alert(error.message);
+                    }
+                  }}
+                  className="absolute right-4"
+                />
+              </button>
+            </li>
+          ))}
+        </ol>
+        <ol className="mt-10 flex h-96 w-full flex-col gap-3 overflow-y-scroll px-12">
+          <h4 className="text-xl font-semibold">Event Details</h4>
+        </ol>
+      </section>
     </div>
   );
 };

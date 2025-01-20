@@ -7,6 +7,7 @@ import StandardButton from "@/(mesaui)/StandardButton";
 import { supabase } from "../../../../../config/mesa-config";
 import { BsFileExcel, BsFileExcelFill } from "react-icons/bs";
 import { AiFillFileExcel } from "react-icons/ai";
+import { sendEventResults } from "@/_functions/sendEventKioskResults";
 
 const KioskSubmit = ({
   event,
@@ -48,7 +49,7 @@ const KioskSubmit = ({
       <StandardButton
         buttonType="button"
         onClick={async () => {
-          const { data: CSV, error } = await supabase
+          /*const { data: CSV, error } = await supabase
             .from("eventinterest")
             .select()
             .eq("event_id", event.id)
@@ -63,6 +64,10 @@ const KioskSubmit = ({
           a.href = url;
           a.download = `${event.name}${new Date(Date.now()).getTime()}.csv`;
           a.click();
+        
+        */
+          const info = await sendEventResults({ event, attendees });
+          console.log(info);
         }}
         icon={<AiFillFileExcel />}
       >
