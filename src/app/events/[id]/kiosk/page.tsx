@@ -63,7 +63,7 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     let channel = supabase
-      .channel("room1")
+      .channel(params.id)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "eventinterest" },
@@ -77,7 +77,18 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
           }
         },
       )
-      .subscribe();
+      .on("broadcast", { event: "testing" }, (payload) => {
+        console.log("Cursor position received!", payload);
+      })
+      .subscribe((status) => {
+        if (status === "SUBSCRIBED") {
+          channel.send({
+            type: "broadcast",
+            event: "testing",
+            payload: { message: "Hello World!" },
+          });
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
@@ -89,6 +100,7 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
         <article>
           <h1 className="text-5xl font-extrabold">{event?.name}</h1>
           <p className="text-2xl">{event?.desc}</p>
+          <p className="text-2xl font-light">Located at {event?.location}</p>
         </article>
         <QRCodeSVG value={`https://mesaconnect.io/events/${event?.id}`} />
       </header>
