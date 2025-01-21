@@ -8,6 +8,8 @@ import { supabase } from "../../../../../config/mesa-config";
 import { BsFileExcel, BsFileExcelFill } from "react-icons/bs";
 import { AiFillFileExcel } from "react-icons/ai";
 import { sendEventResults } from "@/_functions/sendEventKioskResults";
+import { useToast } from "@/app/(connect)/InfoContext";
+import { useMultiStep } from "@/app/(connect)/connect/MutliStepContext";
 
 const KioskSubmit = ({
   event,
@@ -16,6 +18,7 @@ const KioskSubmit = ({
   event: EventType | null;
   attendees: EventUserRecord[] | undefined;
 }) => {
+  const modal = useMultiStep();
   if (!event || !attendees) return <div>Loading...</div>;
 
   return (
@@ -67,7 +70,9 @@ const KioskSubmit = ({
         
         */
           const info = await sendEventResults({ event, attendees });
-          console.log(info);
+          if (info.error) {
+            alert(info.error.message);
+          } else modal.close();
         }}
         icon={<AiFillFileExcel />}
       >
