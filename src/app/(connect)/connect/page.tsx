@@ -5,6 +5,7 @@ import { Metadata } from "next";
 import BottomOnboarding from "./BottomOnboarding";
 import { AnimatePresence } from "framer-motion";
 import ProfileStats from "@/_components/home/ProfileStats";
+import { ComingUpEvent } from "@/_components/home/ComingUpEvent";
 
 const page = async () => {
   const Widgets = lazy(() => import("./homescreenwidgets"));
@@ -19,7 +20,10 @@ const page = async () => {
       </section>
       <section className="flex h-[300px] w-full flex-col justify-center gap-5 rounded-3xl bg-white p-3">
         <ProfileStats />
-        <h3 className="text-2xl font-bold">Events in Clubs You Are In</h3>
+      </section>
+      <section className="flex h-[300px] w-full flex-col justify-center gap-5 rounded-3xl bg-white p-3 px-6">
+        <h3 className="text-2xl font-bold">Coming Up</h3>
+        <ComingUpEvent />
       </section>
     </div>
   );

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../../config/mesa-config";
 import { EventType } from "@/_assets/types";
 import {
+  IoCloudUpload,
+  IoPeople,
   IoPerson,
   IoPersonAdd,
   IoPersonRemove,
@@ -12,7 +14,9 @@ import { QRCodeSVG } from "qrcode.react";
 import { useMultiStep } from "@/app/(connect)/connect/MutliStepContext";
 import Input from "@/_components/Input";
 import { Button } from "@/components/ui/button";
-type EventUserRecord = {
+import Link from "next/link";
+import KioskSubmit from "./KioskSubmit";
+export type EventUserRecord = {
   event_id: string;
   id: string;
   data: {
@@ -59,7 +63,7 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     let channel = supabase
-      .channel("room1")
+      .channel(params.id)
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "eventinterest" },
@@ -73,7 +77,18 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
           }
         },
       )
-      .subscribe();
+      .on("broadcast", { event: "testing" }, (payload) => {
+        console.log("Cursor position received!", payload);
+      })
+      .subscribe((status) => {
+        if (status === "SUBSCRIBED") {
+          channel.send({
+            type: "broadcast",
+            event: "testing",
+            payload: { message: "Hello World!" },
+          });
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
@@ -83,14 +98,15 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
     <div className="font-eudoxus">
       <header className="flex flex-row justify-between p-12">
         <article>
-          <h1 className="text-5xl font-extrabold">{event?.name}</h1>
+          <h1 className="text-5xl font-black drop-shadow-xl">{event?.name}</h1>
           <p className="text-2xl">{event?.desc}</p>
+          <p className="text-2xl font-light">Located at {event?.location}</p>
         </article>
         <QRCodeSVG value={`https://mesaconnect.io/events/${event?.id}`} />
       </header>
-      <nav className="flex h-36 w-full flex-row items-center bg-zinc-200 p-5">
+      <nav className="flex h-36 w-full flex-row items-center gap-3 overflow-x-scroll bg-zinc-200 p-5">
         <button
-          className="flex h-full w-64 flex-col justify-end rounded-md bg-zinc-100/50 p-4 shadow-lg"
+          className="flex h-full w-64 flex-col justify-end rounded-md bg-zinc-100/50 p-4 shadow-lg duration-300 hover:scale-105 hover:bg-zinc-50/80 hover:shadow-xl"
           onClick={() => {
             mutliStep.create({
               title: "Sign In via Kiosk",
@@ -101,39 +117,65 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
           <IoPersonAdd className="text-4xl" />
           <h5 className="text-wrap text-2xl">Sign In via Kiosk </h5>
         </button>
+        <button
+          className="flex h-full w-64 flex-col justify-end rounded-md bg-zinc-100/50 p-4 shadow-lg duration-300 hover:scale-105 hover:bg-zinc-50/80 hover:shadow-xl"
+          onClick={() => {
+            mutliStep.create({
+              title: "Submit Event",
+              components: [
+                <KioskSubmit key="a" attendees={attendees} event={event} />,
+              ],
+            });
+          }}
+        >
+          <IoCloudUpload className="text-4xl" />
+          <h5 className="text-wrap text-2xl">Submit Event </h5>
+        </button>
+        <Link
+          href={`/events/${event?.id}`}
+          className="flex h-full w-64 flex-col justify-end rounded-md bg-zinc-100/50 p-4 shadow-lg duration-300 hover:scale-105 hover:bg-zinc-50/80 hover:shadow-xl"
+        >
+          <IoPeople className="text-4xl" />
+          <h5 className="text-wrap text-2xl">Event Page </h5>
+        </Link>
       </nav>
 
-      <ul className="mt-10 flex h-96 flex-col gap-3 overflow-y-scroll px-12">
-        <h4 className="text-xl font-semibold">Attendees</h4>
-        {attendees?.map((attendee: EventUserRecord) => (
-          <li
-            className="text-md relative flex flex-row gap-3 bg-zinc-200/60 p-7"
-            key={attendee.id}
-          >
-            {attendee.data.temporary ? (
-              <IoTabletPortrait className="text-2xl" />
-            ) : (
-              <IoPerson className="text-2xl" />
-            )}
-            <h4 className="font-bold">{attendee.data.name}</h4>
-            <button>
-              <IoPersonRemove
-                onClick={async () => {
-                  const { error } = await supabase
-                    .from("eventinterest")
-                    .delete()
-                    .match({ id: attendee.id });
+      <section className="grid grid-cols-2">
+        <ol className="mt-10 flex h-96 w-full flex-col gap-3 overflow-y-scroll px-12">
+          <h4 className="text-xl font-semibold">Attendees</h4>
+          {attendees?.map((attendee: EventUserRecord) => (
+            <li
+              className="text-md relative flex flex-row gap-3 bg-zinc-200/60 p-7"
+              key={attendee.id}
+            >
+              {attendee.data.temporary ? (
+                <IoTabletPortrait className="text-2xl" />
+              ) : (
+                <IoPerson className="text-2xl" />
+              )}
+              <h4 className="font-bold">{attendee.data.name}</h4>
+              <button>
+                <IoPersonRemove
+                  onClick={async () => {
+                    const { error } = await supabase
+                      .from("eventinterest")
+                      .delete()
+                      .match({ id: attendee.id });
 
-                  if (error) {
-                    alert(error.message);
-                  }
-                }}
-                className="absolute right-4"
-              />
-            </button>
-          </li>
-        ))}
-      </ul>
+                    if (error) {
+                      alert(error.message);
+                    }
+                  }}
+                  className="absolute right-4"
+                />
+              </button>
+            </li>
+          ))}
+        </ol>
+        <ol className="mt-10 flex h-96 w-full flex-col gap-3 overflow-y-scroll px-12">
+          <h4 className="text-xl font-semibold">Event Details</h4>
+        </ol>
+      </section>
     </div>
   );
 };
@@ -150,7 +192,7 @@ function KioskSignIn({ event }: { event: string | undefined }) {
     const { error } = await supabase
       .from("eventinterest")
       //@ts-ignore
-      .insert({ event_id: event, data: data });
+      .insert({ event_id: event, data: data, student_id: data.student_id });
 
     if (error) {
       alert(error.message);

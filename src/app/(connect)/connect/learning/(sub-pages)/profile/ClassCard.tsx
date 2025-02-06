@@ -31,23 +31,21 @@ const ClassCard = ({ class: c }: { class: any }) => {
                   .match({
                     userid: (await supabase.auth.getUser()).data.user?.id,
                     classid: c.id,
+                    transactionid: c.transactionid,
                   });
 
                 if (error) {
                   console.error(error);
                   return;
                 }
-
-                console.log("Success!");
               });
             },
             icon: <IoTrailSignOutline />,
           },
         ])
       }
-      className="group w-96 cursor-pointer rounded-xl bg-white p-5 font-eudoxus text-slate-500 shadow-lg duration-300 hover:scale-[1.03] hover:rounded-md hover:bg-zinc-50 dark:bg-slate-700/50 dark:hover:bg-slate-700/70"
+      className="group w-full cursor-pointer rounded-xl bg-white p-3.5 px-5 font-eudoxus text-slate-500 shadow-lg duration-300 hover:scale-[1.005] hover:rounded-md hover:bg-zinc-50 dark:bg-slate-700/50 dark:hover:bg-slate-700/70"
     >
-      
       <ul className="flex flex-row justify-between">
         <h2 className="flex flex-row items-center gap-2 font-black text-slate-800 dark:text-white">
           <p className="rounded-full bg-slate-600 p-1 text-white">
@@ -55,7 +53,7 @@ const ClassCard = ({ class: c }: { class: any }) => {
           </p>
           {c.category} {c.num}
         </h2>
-        
+
         <IoPencil className="origin-top-right scale-0 text-2xl text-black duration-300 group-hover:scale-100 group-hover:text-orange-600" />
       </ul>
       <p>
@@ -93,8 +91,11 @@ const ClassModal = ({ e }: { e: any }) => {
       <div>
         <h1 className="text-2xl">{e.name}</h1>
         <h2 className="text-xl text-slate-500">
-          {e.category} {e.num} - {e.classid}
+          {e.category} {e.num}
         </h2>
+        <p className="text-xl text-slate-500">
+          {`${e.units} ${e.units > 1 ? "Units" : "Unit"} `}{" "}
+        </p>
       </div>
 
       <section>

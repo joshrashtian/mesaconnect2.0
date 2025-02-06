@@ -8,10 +8,12 @@ import { IoAdd } from "react-icons/io5";
 import { AiOutlineLoading } from "react-icons/ai";
 import MenuButton from "@/(mesaui)/MenuButton";
 import { useRouter } from "next/navigation";
+import { sortClasses } from "./ClassFunctions";
 
 const ClassPicker = () => {
   const [classes, setClasses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [semesters, setSemesters] = useState<Set<string>>(new Set());
   const { user, userData } = useUser();
   const router = useRouter();
   useEffect(() => {
@@ -42,8 +44,12 @@ const ClassPicker = () => {
         return;
       }
       //@ts-ignore
-      setClasses(data);
+      let newClasses = await sortClasses(data);
+      setClasses(newClasses);
       setLoading(false);
+      newClasses?.map((c: any) => {
+        setSemesters((s) => s.add(c.semester));
+      });
     };
     fetchClasses();
   }, [user?.id]);
@@ -63,10 +69,19 @@ const ClassPicker = () => {
         Your Courses
       </h1>
       <h2 className="font-eudoxus text-2xl font-black">{userData?.college}</h2>
-      <section className="no-scrollbar flex w-full flex-row gap-3 overflow-x-scroll p-4">
+      <section className="no-scrollbar flex w-full flex-col gap-3 pb-32">
         {classes.length > 0 ? (
-          classes.map((c) => {
-            return <ClassCard class={c} key={c.id} />;
+          Array.from(semesters).map((s) => {
+            return (
+              <>
+                <h3 className="text-xl font-semibold">{s}</h3>
+                {classes
+                  .filter((c) => c.semester === s)
+                  .map((classItem: any) => {
+                    return <ClassCard class={classItem} key={classItem.id} />;
+                  })}
+              </>
+            );
           })
         ) : (
           <h1 className="text-2xl font-light">

@@ -20,6 +20,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Panels from "./Panels";
 import TabsForEvent from "./Tabs";
+import { Separator } from "@/components/ui/separator";
+import { Input } from "@/components/ui/input";
 
 async function DecidatedEventPage({ params }: { params: { id: string } }) {
   let supabase = createServerComponentClient({ cookies });
@@ -50,7 +52,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
     <MultiStepProvider>
       <main className="h-screen">
         <header
-          className={`relative -z-0 ${data?.image?.url ? "h-96" : "backdrop: h-48 bg-gradient-to-br from-purple-400 to-teal-500 backdrop-blur-xl"} w-full shadow-inner`}
+          className={`relative -z-0 ${data?.image?.url ? "h-60 xl:h-96" : "backdrop: h-48 bg-gradient-to-br from-purple-400 to-teal-500 backdrop-blur-xl"} w-full shadow-inner`}
         >
           {data?.image?.url && (
             <Image
@@ -91,20 +93,23 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
           </ol>
         </header>
         <article className="relative z-0 h-full max-h-screen -translate-y-10 rounded-t-3xl bg-white p-7">
-          <h2 className="text-5xl font-black">{data.name}</h2>
-          <h4 className="mt-2 text-2xl font-light text-slate-500">
+          <h2 className="text-3xl font-black xl:text-5xl">{data.name}</h2>
+          <h4 className="mt-2 text-xl font-light text-slate-500 xl:text-2xl">
             {data.desc}
           </h4>
+          <Separator className="my-4" />
           {["admin", "tutor"].includes(user_data?.role) && (
-            <Button>
-              <Link
-                className="flex flex-row items-center gap-3"
-                href={`/events/${params.id}/kiosk`}
-              >
-                <IoTabletPortrait />
-                <p>Kiosk Mode</p>
-              </Link>
-            </Button>
+            <>
+              <Button className="my-3">
+                <Link
+                  className="flex flex-row items-center gap-3"
+                  href={`/events/${params.id}/kiosk`}
+                >
+                  <IoTabletPortrait />
+                  <p>Kiosk Mode</p>
+                </Link>
+              </Button>
+            </>
           )}
           {data.creator !== user.data.user?.id ? (
             CurrentInterest ? (
@@ -118,6 +123,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
           ) : (
             <p>You are the owner of this event.</p>
           )}
+          <Separator className="my-4" />
           <TabsForEvent data={data} />
         </article>
       </main>
