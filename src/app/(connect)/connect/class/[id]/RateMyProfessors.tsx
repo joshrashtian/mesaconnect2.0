@@ -22,6 +22,10 @@ const RateMyProfessors = async ({ classInfo }: { classInfo: any }) => {
     return <div>School not found</div>;
   }
 
+  if (!classInfo.recommended_professors) {
+    return null;
+  }
+
   let teachers: any[] = [];
 
   await Promise.all(
