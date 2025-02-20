@@ -40,12 +40,13 @@ const RateMyProfessors = async ({ classInfo }: { classInfo: any }) => {
   }
 
   return (
-    <div className="relative bg-zinc-50 p-4">
+    <div className="relative mb-32 bg-zinc-50 p-4">
       <svg
         width="289"
         height="39"
         viewBox="0 0 289 39"
         fill="none"
+        className="mb-5 drop-shadow-lg"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
@@ -158,7 +159,7 @@ const RateMyProfessors = async ({ classInfo }: { classInfo: any }) => {
         />
       </svg>
       <InformationButton />
-      <h1 className="text-2xl font-bold">Recommended Professors</h1>
+
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {teachers.map((teacher, index) => (
           <li

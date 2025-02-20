@@ -69,6 +69,7 @@ const ClassPage = async ({ params }: { params: { id: string } }) => {
         </div>
       </div>
       <RateMyProfessors classInfo={classInfo} />
+      
     </main>
   );
 };

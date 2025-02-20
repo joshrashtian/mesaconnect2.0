@@ -194,6 +194,7 @@ function KioskSignIn({ event }: { event: string | undefined }) {
       //@ts-ignore
       .insert({ event_id: event, data: data, student_id: data.student_id });
 
+    console.log(error);
     if (error) {
       alert(error.message);
     } else {
