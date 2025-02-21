@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import React from "react";
 import { motion } from "framer-motion";
 import { useRoomContext } from "../RoomContext";
-
+import RoomUsers from "./(components)/users";
 const Loading = () => {
   const pathname = usePathname();
   const { data } = useRoomContext();
@@ -37,6 +37,7 @@ const Loading = () => {
       >
         Room ID: {pathname.split("/").pop()}
       </motion.p>
+      <RoomUsers />
     </div>
   );
 };
