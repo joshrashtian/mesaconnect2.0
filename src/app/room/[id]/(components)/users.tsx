@@ -31,7 +31,7 @@ const RoomUsers = () => {
               G
             </AvatarFallback>
           </Avatar>
-          {user.user} / {user.presence_ref}
+          {user.user}
         </div>
       ))}
     </div>
