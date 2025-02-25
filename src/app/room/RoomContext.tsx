@@ -15,6 +15,9 @@ type Room = {
   messages: any;
   users: unknown[];
   id: string;
+  room: any;
+  error: any;
+  isAdmin: boolean;
 };
 
 type RoomContextType = {
@@ -27,7 +30,11 @@ const RoomContext = createContext<RoomContextType>({
     users: [],
     id: "",
     messages: [],
+    room: null,
+    error: null,
+    isAdmin: false,
   },
+
   setData: function (value: React.SetStateAction<Room>): void {
     throw new Error("Function not implemented.");
   },
@@ -40,9 +47,30 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
     users: [],
     id: pathname.split("/").pop()!,
     messages: [],
+    room: null,
+    error: null,
+    isAdmin: false,
   });
 
+  const getData = async () => {
+    const { data: room, error } = await supabase
+      .from("room")
+      .select("*")
+      .eq("id", pathname.split("/").pop()!)
+      .single();
+
+    setData({
+      ...data,
+      room: room,
+      error: error,
+      isAdmin: room?.admin.includes(
+        (await supabase.auth.getUser()).data.user?.id,
+      ),
+    });
+  };
+
   useEffect(() => {
+    getData();
     const channel = supabase.channel(pathname.split("/").pop()!);
 
     channel
