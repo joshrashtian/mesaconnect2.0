@@ -13,7 +13,10 @@ import {
   IoArrowUp,
   IoMoon,
   IoPencilOutline,
+  IoCloseOutline,
+  IoArrowDown,
 } from "react-icons/io5";
+import Menu from "./(components)/Menu";
 const Room = () => {
   const { data } = useRoomContext();
   const supabase = createClientComponentClient();
@@ -22,7 +25,7 @@ const Room = () => {
   const user = useUser();
   return (
     <motion.div
-      className="relative flex max-h-screen min-h-full w-full flex-col justify-end gap-2 py-10"
+      className="relative flex max-h-screen min-h-full w-full flex-col justify-end gap-2"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
@@ -38,7 +41,7 @@ const Room = () => {
       </div>
 
       <motion.div className="flex flex-col gap-2">
-        <motion.section className="flex flex-col gap-2">
+        <motion.section className="flex flex-col gap-2 pb-10">
           {data.messages.map(({ payload }: { payload: any }) => (
             <motion.div
               className="flex flex-row gap-0.5 rounded-md bg-zinc-200 p-2"
@@ -66,55 +69,20 @@ const Room = () => {
         <AnimatePresence mode="wait">
           {open && (
             <motion.div
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 500 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.3 }}
-              className="z-10 flex flex-col gap-2"
+              exit={{ opacity: 0, y: 500 }}
+              transition={{ duration: 0.5, type: "spring", bounce: 0 }}
+              className="absolute bottom-0 z-10 flex h-3/4 w-full flex-col gap-2 rounded-3xl bg-white p-4"
               key="containerBox"
             >
-              <form className="group flex w-full flex-row gap-2 rounded-md bg-zinc-300 p-2">
-                <input
-                  type="text"
-                  value={message}
-                  required
-                  minLength={5}
-                  maxLength={100}
-                  placeholder="Message..."
-                  className="z-30 w-full rounded-md bg-transparent p-2"
-                  onChange={(e) => setMessage(e.target.value)}
-                />
-                <button
-                  type="submit"
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    if (message.length < 5) return;
-                    await supabase.channel(data.id).send({
-                      type: "broadcast",
-                      event: "message",
-                      payload: {
-                        type: "text",
-                        message,
-                        user_id: user?.user?.id,
-                        user:
-                          user?.user?.user_metadata.real_name ??
-                          user?.user?.user_metadata.full_name ??
-                          user?.user?.user_metadata.name ??
-                          "Guest",
-                        room_id: data.id,
-                        created_at: new Date().toISOString(),
-                      },
-                    });
-                    setMessage("");
-                    setOpen(false);
-                  }}
-                  className={`z-20 flex h-10 w-10 items-center justify-center rounded-full border-none bg-blue-500 text-lg duration-500 hover:cursor-pointer hover:bg-blue-600 focus:outline-none ${
-                    message.length < 5 ? "opacity-50" : "opacity-100"
-                  }`}
-                >
-                  <IoArrowUp className="text-zinc-100 duration-300 group-hover:text-zinc-300" />
-                </button>
-              </form>
+              <button
+                onClick={() => setOpen(!open)}
+                className="flex h-10 w-full items-center justify-center rounded-md duration-500 hover:bg-zinc-600/20"
+              >
+                <IoChevronDown className="h-10 w-10 text-zinc-800" />
+              </button>
+              <Menu />
             </motion.div>
           )}
           <button
