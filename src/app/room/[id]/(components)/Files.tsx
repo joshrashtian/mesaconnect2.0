@@ -15,6 +15,7 @@ const Files = () => {
       if (error) {
         console.error(error);
       } else {
+        //@ts-ignore
         setFiles(FileData);
       }
     };
@@ -30,7 +31,7 @@ const Files = () => {
         </div>
       ) : (
         <div className="grid grid-cols-4 gap-2 overflow-y-scroll p-12">
-          {files.slice(1, 12).map((file: any) => (
+          {(files as any[]).slice(1, 12).map((file: any) => (
             <Image
               key={file.id}
               src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${file.name}`}
