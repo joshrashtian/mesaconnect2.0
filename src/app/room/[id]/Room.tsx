@@ -17,6 +17,7 @@ import {
   IoArrowDown,
 } from "react-icons/io5";
 import Menu from "./(components)/Menu";
+import Image from "next/image";
 const Room = () => {
   const { data } = useRoomContext();
   const supabase = createClientComponentClient();
@@ -42,29 +43,52 @@ const Room = () => {
 
       <motion.div className="flex flex-col gap-2">
         <motion.section className="flex flex-col gap-2 pb-10">
-          {data.messages.map(({ payload }: { payload: any }) => (
-            <motion.div
-              className="flex flex-row gap-0.5 rounded-md bg-zinc-200 p-2"
-              key={payload.created_at}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.3, delay: 0.5 }}
-            >
-              <Avatar className="h-10 w-10">
-                <AvatarImage
-                  src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/avatars//${payload.user_id}`}
-                />
-                <AvatarFallback>{payload.user.slice(0, 2)}</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col gap-0.5">
-                <p className="text-sm font-bold text-zinc-500">
-                  {payload.user}
-                </p>
-                <p className="text-sm">{payload.message}</p>
-              </div>
-            </motion.div>
-          ))}
+          {data.messages.map(({ payload }: { payload: any }) => {
+            switch (payload.type) {
+              case "text":
+                return (
+                  <motion.div
+                    className="flex flex-row gap-0.5 rounded-md bg-zinc-200 p-2"
+                    key={payload.created_at}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -10 }}
+                    transition={{ duration: 0.3, delay: 0.5 }}
+                  >
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage
+                        src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/avatars//${payload.user_id}`}
+                      />
+                      <AvatarFallback>
+                        {payload.user.slice(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col gap-0.5">
+                      <p className="text-sm font-bold text-zinc-500">
+                        {payload.user}
+                      </p>
+                      <p className="text-sm">{payload.message}</p>
+                    </div>
+                  </motion.div>
+                );
+              case "image":
+                return (
+                  <motion.div
+                    className="flex flex-row gap-0.5 rounded-md bg-zinc-200 p-2"
+                    key={payload.created_at}
+                  >
+                    <Image
+                      src={payload.image}
+                      alt={payload.image}
+                      width={40}
+                      height={40}
+                    />
+                  </motion.div>
+                );
+              default:
+                return null;
+            }
+          })}
         </motion.section>
         <AnimatePresence mode="wait">
           {open && (

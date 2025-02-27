@@ -54,7 +54,8 @@
     "supabase": "^1.226.4",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
-    "three": "^0.163.0"
+    "three": "^0.163.0",
+    "use-sound": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",

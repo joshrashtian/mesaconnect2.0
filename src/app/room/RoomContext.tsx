@@ -23,6 +23,8 @@ type Room = {
 type RoomContextType = {
   data: Room;
   setData: Dispatch<SetStateAction<Room>>;
+  color: string[];
+  setColor: Dispatch<SetStateAction<string[]>>;
 };
 
 const RoomContext = createContext<RoomContextType>({
@@ -38,6 +40,10 @@ const RoomContext = createContext<RoomContextType>({
   setData: function (value: React.SetStateAction<Room>): void {
     throw new Error("Function not implemented.");
   },
+  color: ["text-blue-600", "bg-blue-600/10 text-blue-600"],
+  setColor: function (value: React.SetStateAction<string[]>): void {
+    throw new Error("Function not implemented.");
+  },
 });
 
 const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -51,6 +57,10 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
     error: null,
     isAdmin: false,
   });
+  const [color, setColor] = useState<string[]>([
+    "text-blue-600",
+    "bg-blue-600/10 text-blue-600",
+  ]);
 
   const getData = async () => {
     const { data: room, error } = await supabase
@@ -122,7 +132,7 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
   }, [supabase]);
 
   return (
-    <RoomContext.Provider value={{ data, setData }}>
+    <RoomContext.Provider value={{ data, setData, color, setColor }}>
       {children}
     </RoomContext.Provider>
   );
@@ -131,6 +141,6 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
 export default RoomContextProvider;
 
 export const useRoomContext = () => {
-  const { data, setData } = useContext(RoomContext);
-  return { data, setData };
+  const { data, setData, color, setColor } = useContext(RoomContext);
+  return { data, setData, color, setColor };
 };
