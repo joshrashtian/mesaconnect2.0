@@ -34,7 +34,7 @@ const Room = () => {
     >
       <div className="absolute left-0 top-0 flex h-full w-full flex-row justify-between gap-2">
         <h1 className="left-0 top-0 text-4xl font-bold text-white">
-          Room {data.id} {data.room.name}{" "}
+          Room {data.id} {data?.room?.name}{" "}
           {data.isAdmin ? <IoPencilOutline className="text-zinc-100" /> : null}
         </h1>
 

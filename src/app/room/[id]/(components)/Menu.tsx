@@ -13,6 +13,8 @@ import {
   IoImageOutline,
   IoInformation,
   IoInformationOutline,
+  IoMenuOutline,
+  IoCardOutline,
 } from "react-icons/io5";
 import { useRoomContext } from "../../RoomContext";
 import { useRef, useState } from "react";
@@ -21,6 +23,7 @@ import { supabase } from "../../../../../config/mesa-config";
 import { DM_Serif_Text, Golos_Text, Koh_Santepheap } from "next/font/google";
 import RoomSettings from "./RoomSettings";
 import Files from "./Files";
+import RoomMenu from "./RoomMenu";
 const font = Golos_Text({
   subsets: ["latin"],
   weight: ["400"],
@@ -33,6 +36,7 @@ const Menu = () => {
   const [category, setCategory] = useState("message");
 
   const imageUploadRef = useRef<HTMLInputElement>(null);
+  const PDFUploadRef = useRef<HTMLInputElement>(null);
   function handleCategory(category: string) {
     const audio = new Audio("/ui_button.mp3");
     audio.play();
@@ -46,6 +50,17 @@ const Menu = () => {
         className={`${font.className} grid h-24 w-4/5 grid-cols-5 gap-2 self-center`}
       >
         <button
+          onClick={() => handleCategory("room")}
+          className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
+            category === "room" ? color[1] : "text-zinc-500"
+          }`}
+        >
+          <IoCardOutline
+            className={`${category === "room" ? color[0] : "text-zinc-500"} text-4xl duration-500`}
+          />
+          ROOM
+        </button>
+        <button
           onClick={() => handleCategory("message")}
           className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
             category === "message" ? color[1] : "text-zinc-500"
@@ -56,17 +71,7 @@ const Menu = () => {
           />
           BROADCAST
         </button>
-        <button
-          onClick={() => handleCategory("music")}
-          className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
-            category === "music" ? color[1] : "text-zinc-500"
-          }`}
-        >
-          <IoMusicalNotesOutline
-            className={`${category === "music" ? color[0] : "text-zinc-500"} text-4xl duration-500`}
-          />
-          MUSIC
-        </button>
+
         <button
           onClick={() => handleCategory("environment")}
           className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
@@ -152,6 +157,13 @@ const Menu = () => {
               <IoImageOutline />
               IMAGE UPLOAD
             </button>
+            <button
+              onClick={() => PDFUploadRef.current?.click()}
+              className="flex h-full flex-col items-center justify-center rounded-md bg-zinc-300 p-2"
+            >
+              <IoFileTrayStackedOutline />
+              PDF UPLOAD
+            </button>
             <input
               type="file"
               accept="image/*"
@@ -187,11 +199,47 @@ const Menu = () => {
                 }
               }}
             />
+            <input
+              type="file"
+              accept="application/pdf"
+              className="hidden"
+              ref={PDFUploadRef}
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+                const { data: FileData, error } = await supabase.storage
+                  .from(`rooms/${data.id}`)
+                  .upload(file.name, file);
+                if (error) {
+                  alert("Error uploading image: " + error.message);
+                } else {
+                  console.log(FileData);
+                  let url = FileData.path;
+                  await supabase.channel(data.id).send({
+                    type: "broadcast",
+                    event: "message",
+                    payload: {
+                      type: "PDF",
+                      pdf: `https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${file.name}`,
+                      user_id: user?.user?.id,
+                      user:
+                        user?.user?.user_metadata.real_name ??
+                        user?.user?.user_metadata.full_name ??
+                        user?.user?.user_metadata.name ??
+                        "Guest",
+                      room_id: data.id,
+                      created_at: new Date().toISOString(),
+                    },
+                  });
+                }
+              }}
+            />
           </div>
         </>
       )}
       {category === "settings" && <RoomSettings />}
       {category === "files" && <Files />}
+      {category === "room" && <RoomMenu />}
     </>
   );
 };

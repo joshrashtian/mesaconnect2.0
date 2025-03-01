@@ -10,14 +10,24 @@ import React, {
 } from "react";
 import { supabase } from "../../../config/mesa-config";
 import { useUser } from "../AuthContext";
+import { EventType } from "@/_assets/types";
 
-type Room = {
+export type Room = {
   messages: any;
   users: unknown[];
   id: string;
-  room: any;
+  room: {
+    name: string;
+    location: string;
+    active: boolean;
+    admin: string[];
+    created_at: string;
+    id: string;
+    event_connection?: string;
+  } | null;
   error: any;
   isAdmin: boolean;
+  event?: EventType;
 };
 
 type RoomContextType = {
@@ -25,6 +35,8 @@ type RoomContextType = {
   setData: Dispatch<SetStateAction<Room>>;
   color: string[];
   setColor: Dispatch<SetStateAction<string[]>>;
+  focused: Object | null;
+  setFocused: Dispatch<SetStateAction<Object | null>>;
 };
 
 const RoomContext = createContext<RoomContextType>({
@@ -44,6 +56,10 @@ const RoomContext = createContext<RoomContextType>({
   setColor: function (value: React.SetStateAction<string[]>): void {
     throw new Error("Function not implemented.");
   },
+  focused: null,
+  setFocused: function (value: React.SetStateAction<Object | null>): void {
+    throw new Error("Function not implemented.");
+  },
 });
 
 const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -61,6 +77,7 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
     "text-blue-600",
     "bg-blue-600/10 text-blue-600",
   ]);
+  const [focused, setFocused] = useState<Object | null>(null);
 
   const getData = async () => {
     const { data: room, error } = await supabase
@@ -77,6 +94,28 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
         (await supabase.auth.getUser()).data.user?.id,
       ),
     });
+
+    if (room?.event_connection) {
+      getEvent(room?.event_connection);
+    }
+  };
+
+  const getEvent = async (eventId: string) => {
+    const { data: event, error } = await supabase
+      .from("events")
+      .select("*")
+      .eq("id", eventId)
+      .single();
+
+    if (error) {
+      console.error(error);
+    } else {
+      //@ts-ignore
+      setData((prev) => ({
+        ...prev,
+        event: event,
+      }));
+    }
   };
 
   useEffect(() => {
@@ -109,6 +148,22 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
           messages: [...prev.messages, payload],
         }));
       })
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "room" },
+        (payload) => {
+          console.log(payload);
+          //@ts-ignore
+          setData((prev) => ({
+            ...prev,
+            room: payload.new,
+          }));
+
+          if (payload.new.event_connection) {
+            getEvent(payload.new.event_connection);
+          }
+        },
+      )
       .subscribe(async (status) => {
         if (status === "SUBSCRIBED") {
           const userinfo = (await supabase.auth.getUser()).data;
@@ -132,7 +187,9 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
   }, [supabase]);
 
   return (
-    <RoomContext.Provider value={{ data, setData, color, setColor }}>
+    <RoomContext.Provider
+      value={{ data, setData, color, setColor, focused, setFocused }}
+    >
       {children}
     </RoomContext.Provider>
   );
@@ -141,6 +198,7 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
 export default RoomContextProvider;
 
 export const useRoomContext = () => {
-  const { data, setData, color, setColor } = useContext(RoomContext);
-  return { data, setData, color, setColor };
+  const { data, setData, color, setColor, focused, setFocused } =
+    useContext(RoomContext);
+  return { data, setData, color, setColor, focused, setFocused };
 };
