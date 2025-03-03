@@ -11,6 +11,15 @@ import React, {
 import { supabase } from "../../../config/mesa-config";
 import { useUser } from "../AuthContext";
 import { EventType } from "@/_assets/types";
+import Image from "next/image";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+  IoCloseOutline,
+  IoDownloadOutline,
+  IoLinkOutline,
+} from "react-icons/io5";
+import LoadingObject from "@/(mesaui)/LoadingObject";
+import Link from "next/link";
 
 export type Room = {
   messages: any;
@@ -35,8 +44,10 @@ type RoomContextType = {
   setData: Dispatch<SetStateAction<Room>>;
   color: string[];
   setColor: Dispatch<SetStateAction<string[]>>;
-  focused: Object | null;
-  setFocused: Dispatch<SetStateAction<Object | null>>;
+  focused: { name: string; type: string } | null;
+  setFocused: Dispatch<SetStateAction<{ name: string; type: string } | null>>;
+  open: boolean;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 const RoomContext = createContext<RoomContextType>({
@@ -60,6 +71,10 @@ const RoomContext = createContext<RoomContextType>({
   setFocused: function (value: React.SetStateAction<Object | null>): void {
     throw new Error("Function not implemented.");
   },
+  open: false,
+  setOpen: function (value: React.SetStateAction<boolean>): void {
+    throw new Error("Function not implemented.");
+  },
 });
 
 const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -77,7 +92,10 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
     "text-blue-600",
     "bg-blue-600/10 text-blue-600",
   ]);
-  const [focused, setFocused] = useState<Object | null>(null);
+  const [focused, setFocused] = useState<{ name: string; type: string } | null>(
+    null,
+  );
+  const [open, setOpen] = useState(false);
 
   const getData = async () => {
     const { data: room, error } = await supabase
@@ -188,9 +206,76 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <RoomContext.Provider
-      value={{ data, setData, color, setColor, focused, setFocused }}
+      value={{
+        data,
+        setData,
+        color,
+        setColor,
+        focused,
+        setFocused,
+        open,
+        setOpen,
+      }}
     >
       {children}
+      <AnimatePresence>
+        {focused && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="absolute left-0 top-0 h-screen w-screen bg-black/50"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.6 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              transition={{ duration: 0.5, type: "spring", bounce: 0 }}
+              className="relative flex h-full w-full flex-col items-center justify-center p-10"
+            >
+              {focused.name.includes(".png") ||
+              focused.name.includes(".jpeg") ||
+              focused.name.includes(".jpg") ? (
+                <div className="relative flex h-full w-full items-center justify-center">
+                  <Image
+                    src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${focused.name}`}
+                    alt={"focused"}
+                    fill
+                    placeholder="blur"
+                    blurDataURL={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${focused.name}`}
+                    className="z-20 object-contain"
+                  />
+                  <LoadingObject size={100} className="z-10" color="orange" />
+                </div>
+              ) : (
+                <div className="relative h-full w-full">
+                  <iframe
+                    src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${focused.name}`}
+                    className="h-full w-full rounded-md"
+                  />
+                </div>
+              )}
+            </motion.div>
+            <ul className="absolute right-3 top-3 flex flex-row gap-2">
+              {focused.name.includes(".pdf") && (
+                <Link
+                  href={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${focused.name}`}
+                  className="rounded-full bg-zinc-200 p-2 duration-300 hover:bg-zinc-200/50"
+                >
+                  <IoLinkOutline />
+                </Link>
+              )}
+              <button
+                onClick={() => setFocused(null)}
+                className="rounded-full bg-zinc-200 p-2 duration-300 hover:bg-zinc-200/50"
+              >
+                <IoCloseOutline />
+              </button>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </RoomContext.Provider>
   );
 };
@@ -198,7 +283,7 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
 export default RoomContextProvider;
 
 export const useRoomContext = () => {
-  const { data, setData, color, setColor, focused, setFocused } =
+  const { data, setData, color, setColor, focused, setFocused, open, setOpen } =
     useContext(RoomContext);
-  return { data, setData, color, setColor, focused, setFocused };
+  return { data, setData, color, setColor, focused, setFocused, open, setOpen };
 };

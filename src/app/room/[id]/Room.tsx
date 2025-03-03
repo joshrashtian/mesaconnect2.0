@@ -19,10 +19,10 @@ import {
 import Menu from "./(components)/Menu";
 import Image from "next/image";
 const Room = () => {
-  const { data } = useRoomContext();
+  const { data, open, setOpen } = useRoomContext();
   const supabase = createClientComponentClient();
   const [message, setMessage] = useState("");
-  const [open, setOpen] = useState(false);
+
   const user = useUser();
   return (
     <motion.div

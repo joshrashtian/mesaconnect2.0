@@ -6,7 +6,7 @@ import { Loader } from "lucide-react";
 import LoadingObject from "@/(mesaui)/LoadingObject";
 import Link from "next/link";
 const Files = () => {
-  const { data, setFocused } = useRoomContext();
+  const { data, setFocused, setOpen } = useRoomContext();
   const [files, setFiles] = useState(null);
   useEffect(() => {
     const fetchFiles = async () => {
@@ -41,14 +41,22 @@ const Files = () => {
                 file.name.includes(".jpeg")
               )
                 return (
-                  <Image
+                  <button
+                    onClick={() => {
+                      setFocused(file);
+                      setOpen(false);
+                    }}
                     key={file.id}
-                    src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${file.name}`}
-                    alt={file.name}
-                    width={200}
-                    height={200}
-                    className="w-fit rounded-md object-contain duration-300 hover:scale-105 hover:opacity-80"
-                  />
+                    className="h-[270px] w-[270px] rounded-md bg-zinc-100"
+                  >
+                    <Image
+                      src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${file.name}`}
+                      alt={file.name}
+                      width={200}
+                      height={200}
+                      className="w-fit rounded-md object-contain duration-300 hover:scale-105 hover:opacity-80"
+                    />
+                  </button>
                 );
             })}
           </div>
@@ -59,7 +67,10 @@ const Files = () => {
                 return (
                   <button
                     key={file.id}
-                    onClick={() => setFocused(file)}
+                    onClick={() => {
+                      setFocused(file);
+                      setOpen(false);
+                    }}
                     // href={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${file.name}`}
                     className="h-56 rounded-md bg-zinc-100 p-2"
                   >

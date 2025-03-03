@@ -5,12 +5,13 @@ import { useUser } from "@/app/AuthContext";
 import { EventType } from "@/_assets/types";
 import { updateRoom } from "./RoomFunction";
 import { useRoomContext } from "../../RoomContext";
+import { useModal } from "@/app/(connect)/connect/Modal";
 
 const SelectEvent = () => {
   const { user } = useUser();
   const [events, setEvents] = useState<EventType[] | null>(null);
   const { data } = useRoomContext();
-
+  const modal = useModal();
   useEffect(() => {
     const fetchEvents = async () => {
       const { data: events, error } = await supabase
@@ -42,6 +43,7 @@ const SelectEvent = () => {
               console.error(error);
             } else {
               console.log(updateData);
+              modal.DisarmModal();
             }
           }}
           className="flex flex-col gap-2 rounded-md bg-zinc-200/40 p-2"
