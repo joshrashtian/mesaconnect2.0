@@ -27,7 +27,8 @@ const config: Config = {
   			eudoxus: ["Eudoxus"],
   			eudoxusBlack: ["EudoxusBlack"],
   			geist: ["Geist"],
-  			mono: ["JetBrains", "monospace"]
+  			mono: ["JetBrains", "monospace"],
+  			nenue: ["Nenue"],
   		},
   		colors: {
   			'theme-blue': '#23F',
