@@ -31,7 +31,7 @@ const EventCreatorKiosk = () => {
         <IoHammer />
         New Event
       </h1>
-      <p>{device}</p>
+      <p>{device.name}</p>
       <div className="mt-5 flex w-4/5 flex-col items-center justify-center gap-4">
         <KioskInput
           icon={<Tag className="text-white" />}

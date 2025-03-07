@@ -10,7 +10,7 @@ import Image from "next/image";
 import Tilt from "react-parallax-tilt";
 import Link from "next/link";
 import { RefreshCcw } from "lucide-react";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoSettings } from "react-icons/io5";
 
 const KioskMenu = () => {
   const { user, signOut } = useUser();
@@ -66,11 +66,11 @@ const KioskMenu = () => {
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="snap-point no-scrollbar relative flex w-full snap-x snap-always flex-row gap-2 space-x-3 overflow-y-visible overflow-x-scroll scroll-smooth whitespace-nowrap px-3 py-3"
+            className="snap-point no-scrollbar relative flex w-full snap-x snap-always flex-row space-x-3 overflow-y-visible overflow-x-scroll scroll-smooth whitespace-nowrap px-3 py-3"
           >
             {events?.map((event, index) => (
               <motion.div
-                className="group flex h-60 min-w-[400px] snap-start rounded-md bg-white shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40"
+                className="group flex h-60 min-w-[400px] snap-start rounded-md bg-white shadow-sm ring-2 ring-transparent transition-all duration-300 hover:bg-gray-100 hover:ring-white/40"
                 key={event.id}
                 initial={{ opacity: 0, y: -200 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -82,6 +82,16 @@ const KioskMenu = () => {
               >
                 <Link
                   href={`/kioskhandler/event/${event.id}`}
+                  onMouseEnter={() => {
+                    const audio = new Audio("/ui_button.mp3");
+                    audio.play();
+                    audio.volume = 0.5;
+                  }}
+                  onClick={() => {
+                    const audio = new Audio("/click2.mp3");
+                    audio.play();
+                    audio.volume = 0.5;
+                  }}
                   className="flex h-full w-full flex-col items-start justify-between gap-2"
                 >
                   <div
@@ -118,24 +128,51 @@ const KioskMenu = () => {
                 </Link>
               </motion.div>
             ))}
-            <button
-              className="flex h-full w-full gap-2"
-              onClick={() => fetchEvents()}
-            >
-              <div className="flex h-60 min-w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40">
-                <RefreshCcw className="h-10 w-10" />
-                <p className="text-lg font-bold">Refresh</p>
-              </div>
-            </button>
+
             <Link
               href="/kioskhandler/event_create"
               className="flex h-full w-full gap-2"
+              onMouseEnter={() => {
+                const audio = new Audio("/ui_button.mp3");
+                audio.play();
+                audio.volume = 0.5;
+              }}
             >
               <div className="flex h-60 min-w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40">
                 <IoAdd className="h-10 w-10" />
                 <p className="text-lg font-bold">Create New Event</p>
               </div>
             </Link>
+            <div className="flex h-full w-full flex-col gap-2">
+              <Link
+                href="/kioskhandler/settings"
+                className="flex w-full gap-2"
+                onMouseEnter={() => {
+                  const audio = new Audio("/ui_button.mp3");
+                  audio.play();
+                  audio.volume = 0.5;
+                }}
+              >
+                <div className="flex min-w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40">
+                  <IoSettings className="h-10 w-10" />
+                  <p className="text-lg font-bold">Settings</p>
+                </div>
+              </Link>
+              <button
+                className="flex h-full w-full gap-2"
+                onClick={() => fetchEvents()}
+                onMouseEnter={() => {
+                  const audio = new Audio("/ui_button.mp3");
+                  audio.play();
+                  audio.volume = 0.5;
+                }}
+              >
+                <div className="flex min-w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40">
+                  <RefreshCcw className="h-10 w-10" />
+                  <p className="text-lg font-bold">Refresh</p>
+                </div>
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

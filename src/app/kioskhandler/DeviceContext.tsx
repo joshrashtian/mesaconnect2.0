@@ -3,25 +3,31 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface DeviceContextType {
-  device: string;
-  setDevice: (device: string) => void;
+  device: { name: string };
+  setDevice: (device: { name: string }) => void;
 }
 
 const DeviceContext = createContext<DeviceContextType>({
-  device: "",
+  device: { name: "" },
   setDevice: () => {},
 });
 
 const DeviceContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [device, setDevice] = useState<string>("");
+  const [device, setDevice] = useState<{ name: string }>({ name: "" });
 
   useEffect(() => {
-    const a = localStorage.getItem("user");
-    setDevice(a || "");
+    const a = localStorage.getItem("settings");
+    if (a) {
+      setDevice(JSON.parse(a));
+    }
   }, []);
 
+  const updateDevice = (device: { name: string }) => {
+    setDevice(device);
+    localStorage.setItem("settings", JSON.stringify(device));
+  };
   return (
-    <DeviceContext.Provider value={{ device, setDevice }}>
+    <DeviceContext.Provider value={{ device, setDevice: updateDevice }}>
       {children}
     </DeviceContext.Provider>
   );
