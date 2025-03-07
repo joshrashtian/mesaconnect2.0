@@ -29,7 +29,8 @@ const ClassBox = ({ data }: { data: { data: { userid: string } } }) => {
   return (
     <div className="flex flex-col gap-2">
       {c.map((a: any) => (
-        <ul
+        <Link
+          href={`/connect/class/${a.id}`}
           key={a.id}
           className="flex flex-col items-center justify-center gap-3 rounded-2xl bg-zinc-200/40 p-3"
         >
@@ -40,7 +41,7 @@ const ClassBox = ({ data }: { data: { data: { userid: string } } }) => {
           <p className="text-sm">
             {a?.teacher} - {a?.units} {a.units > 1 ? "Units" : "Unit"}
           </p>
-        </ul>
+        </Link>
       ))}
     </div>
   );

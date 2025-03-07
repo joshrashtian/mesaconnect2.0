@@ -1,11 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FeaturedPolls from "./_components/FeaturedPolls";
 import Link from "next/link";
 import { IoIosBook } from "react-icons/io";
 import { IoList, IoPerson } from "react-icons/io5";
+import { supabase } from "../../../../../config/mesa-config";
 
 const Learning = () => {
+  const [classes, setClasses] = useState([]);
   const categories = [
     {
       color: "bg-gradient-to-br from-orange-500 to-red-800 hover:bg-indigo-300",
@@ -27,6 +29,26 @@ const Learning = () => {
       icon: <IoList size={26} />,
     },
   ];
+
+  useEffect(() => {
+    const fetchClasses = async () => {
+      const { data, error } = await supabase
+        //@ts-ignore
+        .schema("information")
+        .from("classes")
+        .select("*")
+        .order("popularity", { ascending: false })
+        .limit(5);
+      if (error) {
+        console.error(error);
+      } else {
+        //@ts-ignore
+        setClasses(data);
+      }
+    };
+    fetchClasses();
+  }, []);
+
   return (
     <>
       <main className="flex h-full flex-col gap-10 pb-20">
@@ -50,6 +72,20 @@ const Learning = () => {
         <section className="w-full gap-16">
           {/*<FeaturedLessons />*/}
           <FeaturedPolls />
+        </section>
+        <section className="w-full gap-16 rounded-3xl bg-zinc-200/40 p-5">
+          <h2 className="text-2xl font-bold">Popular Classes</h2>
+          <div className="flex flex-row gap-4 overflow-y-visible overflow-x-scroll p-3">
+            {classes.map((e: any) => (
+              <Link
+                href={`/connect/class/${e.id}`}
+                className="flex h-24 w-[900px] flex-col gap-2 rounded-2xl bg-white p-3 shadow-lg duration-300 hover:scale-105 hover:opacity-80 active:scale-95"
+                key={e.id}
+              >
+                <h3 className="text-xl font-bold">{e.name}</h3>
+              </Link>
+            ))}
+          </div>
         </section>
         <footer></footer>
       </main>
