@@ -4,6 +4,7 @@ import RoomContextProvider from "./RoomContext";
 import { serverside } from "../../../config/serverside";
 import { redirect } from "next/navigation";
 import ModalProvider from "../(connect)/connect/Modal";
+import HeaderMenu from "../kioskhandler/header";
 
 const RoomLayout = async ({ children }: { children: React.ReactNode }) => {
   const user = await serverside.auth.getUser();

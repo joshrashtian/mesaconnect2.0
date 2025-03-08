@@ -33,7 +33,7 @@ const KioskHandler = () => {
 
   return (
     <div
-      className={`font-nenue flex h-screen w-screen flex-col items-start justify-end p-12`}
+      className={`flex h-screen w-screen flex-col items-start justify-end p-12 font-nenue`}
     >
       <h1 className={`${font.className} text-9xl font-black text-orange-300`}>
         MESA<span className="text-white">Kiosk</span>
@@ -44,10 +44,7 @@ const KioskHandler = () => {
             Welcome,{" "}
             {user.user_metadata.real_name || user.user_metadata.full_name}
           </h1>
-          <ol className="flex flex-row gap-2">
-            <Button variant="outline">Events</Button>
-            <Button variant="outline">Rooms</Button>
-          </ol>
+
           <KioskMenu />
         </div>
       ) : (

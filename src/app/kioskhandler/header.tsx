@@ -15,19 +15,50 @@ const HeaderMenu = () => {
   const router = useRouter();
   const pathname = usePathname();
   const { signOut } = useUser();
+
   return (
     <div className="absolute left-0 top-0 flex w-full flex-row items-center justify-between bg-zinc-700/20 p-2.5">
       <h1 className="font-geist text-lg text-white">{pathname}</h1>
       <div className="flex flex-row items-center justify-center gap-2">
-        <Button variant="outline" size="icon" onClick={() => router.back()}>
+        <Button
+          variant="outline"
+          className="h-12 w-12"
+          size="icon"
+          onClick={() => {
+            const audio = new Audio("/click2.mp3");
+            audio.volume = 1;
+            audio.play();
+
+            router.back();
+          }}
+        >
           <ArrowLeft />
         </Button>
-        <Button variant="outline" size="icon" onClick={() => signOut()}>
+        <Button
+          variant="outline"
+          className="h-12 w-12"
+          size="icon"
+          onClick={() => {
+            const audio = new Audio("/ui_button.mp3");
+            audio.volume = 1;
+            audio.play();
+
+            signOut();
+            router.push("/kioskhandler");
+          }}
+        >
           <IoPersonRemove />
         </Button>
         <Button
           variant="outline"
-          onClick={() => window.location.reload()}
+          className="h-12 w-12"
+          onClick={() => {
+            const audio = new Audio("/ui_button.mp3");
+            audio.volume = 1;
+            audio.play();
+
+            window.location.reload();
+          }}
           size="icon"
         >
           <RefreshCcw />

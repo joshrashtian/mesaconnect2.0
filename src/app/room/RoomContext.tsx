@@ -21,19 +21,21 @@ import {
 import LoadingObject from "@/(mesaui)/LoadingObject";
 import Link from "next/link";
 
+export type RoomData = {
+  name: string;
+  location: string;
+  active: boolean;
+  admin: string[];
+  created_at: string;
+  id: string;
+  event_connection?: string;
+};
+
 export type Room = {
   messages: any;
   users: unknown[];
   id: string;
-  room: {
-    name: string;
-    location: string;
-    active: boolean;
-    admin: string[];
-    created_at: string;
-    id: string;
-    event_connection?: string;
-  } | null;
+  room: RoomData | null;
   error: any;
   isAdmin: boolean;
   event?: EventType;
