@@ -1,13 +1,16 @@
 "use client";
 import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { supabase } from "../../../../config/mesa-config";
+
 import { Room, RoomData } from "@/app/room/RoomContext";
 import LoadingObject from "@/(mesaui)/LoadingObject";
 import { motion } from "framer-motion";
 import { EventType } from "@/_assets/types";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 const RoomKioskPage = () => {
+  const supabase = createClientComponentClient();
+
   const params = useSearchParams();
   const roomId = params.get("roomId");
   const [room, setRoom] = useState<RoomData | null>(null);
