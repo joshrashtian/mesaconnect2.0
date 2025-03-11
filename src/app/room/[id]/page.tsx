@@ -28,6 +28,13 @@ const RoomPage = ({ params }: { params: { id: string } }) => {
           ) : (
             <Loading />
           )
+        ) : data.error ? (
+          <div className="flex h-screen w-screen flex-col items-start justify-end">
+            <h1 className="flex flex-row items-center gap-2 text-6xl text-red-500">
+              <IoWarningOutline className="text-6xl text-red-500" /> Error
+            </h1>
+            <h2 className="text-2xl font-bold text-white">{data.error}</h2>
+          </div>
         ) : (
           <Room />
         )}

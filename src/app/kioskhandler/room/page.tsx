@@ -7,6 +7,11 @@ import LoadingObject from "@/(mesaui)/LoadingObject";
 import { motion } from "framer-motion";
 import { EventType } from "@/_assets/types";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { Button } from "@/components/ui/button";
+import { IoIosArrowForward } from "react-icons/io";
+import Link from "next/link";
+import { IoReturnDownBack, IoReturnDownForward } from "react-icons/io5";
+import { ClassType } from "@/app/(connect)/connect/builder/(buildercomponents)/ClassRelations";
 
 const RoomKioskPage = () => {
   const supabase = createClientComponentClient();
@@ -16,6 +21,7 @@ const RoomKioskPage = () => {
   const [room, setRoom] = useState<RoomData | null>(null);
   const [loading, setLoading] = useState(true);
   const [event, setEvent] = useState<EventType | null>(null);
+  const [Class, setClass] = useState<ClassType | null>(null);
   useEffect(() => {
     const fetchRoom = async () => {
       const room = await supabase
@@ -45,6 +51,24 @@ const RoomKioskPage = () => {
 
         //@ts-ignore
         setEvent(eventConnection.data);
+      }
+
+      if (room.data.class_connection) {
+        const classConnection = await supabase
+          .schema("information")
+          .from("classes")
+          .select("*")
+          .eq("id", room.data.class_connection)
+          .single();
+
+        if (classConnection.error) {
+          console.error(classConnection.error);
+          setLoading(false);
+          return;
+        }
+
+        //@ts-ignore
+        setClass(classConnection.data);
       }
 
       setRoom(room.data);
@@ -91,13 +115,69 @@ const RoomKioskPage = () => {
       >
         <div className="flex items-center gap-2">
           <div
-            className={`h-5 w-5 rounded-full ${room?.active ? "bg-green-500" : "bg-red-500"}`}
+            className={`h-5 w-5 rounded-full ${
+              room?.expiration_date
+                ? new Date(room?.expiration_date) > new Date()
+                  ? "bg-green-500"
+                  : "bg-red-500"
+                : room?.active
+                  ? "bg-green-500"
+                  : "bg-red-500"
+            }`}
           />
           <p className="text-2xl text-white">
-            {room?.active ? "Active" : "Inactive"}
+            {room?.expiration_date
+              ? new Date(room?.expiration_date) > new Date()
+                ? "Active"
+                : "Inactive"
+              : room?.active
+                ? "Active"
+                : "Inactive"}
           </p>
         </div>
       </motion.p>
+      {(event || Class) && (
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{
+            duration: 1,
+            delay: 1,
+          }}
+          className="flex w-full flex-row items-center justify-start gap-2 text-lg text-white"
+        >
+          <IoReturnDownForward />
+          <p>
+            In Relation To {event?.name}
+            {Class && (
+              <>
+                {event?.name && ", "}
+                {`${Class?.category}-${Class?.num}`}
+              </>
+            )}
+          </p>
+        </motion.div>
+      )}
+      <motion.div
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 1, type: "spring", stiffness: 100 }}
+        className="flex w-full flex-col items-center justify-center"
+      >
+        <Link
+          href={`/room/${roomId}?kiosk=true`}
+          onMouseEnter={() => {
+            const audio = new Audio("/ui_button.mp3");
+            audio.play();
+          }}
+          className="group mt-10 flex h-16 w-full flex-row items-center gap-2 rounded-md border-0 border-orange-500 border-opacity-0 bg-zinc-700 p-2 text-lg font-bold text-white hover:border-2 group-hover:border-opacity-100"
+        >
+          <p className="transition-all duration-300 group-hover:translate-x-1 group-hover:text-orange-300">
+            <IoIosArrowForward />
+            Join Room
+          </p>
+        </Link>
+      </motion.div>
     </div>
   );
 };

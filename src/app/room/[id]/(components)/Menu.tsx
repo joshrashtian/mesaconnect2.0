@@ -26,6 +26,7 @@ import RoomSettings from "./RoomSettings";
 import Files from "./Files";
 import RoomMenu from "./RoomMenu";
 import { FileUp } from "lucide-react";
+import { QRCodeCanvas, QRCodeSVG } from "qrcode.react";
 
 const font = Golos_Text({
   subsets: ["latin"],
@@ -239,6 +240,9 @@ const Menu = () => {
                   }
                 }}
               />
+              <div className="flex h-full w-full items-center justify-center">
+                <QRCodeSVG size={128} value={`MESA:/room/${data.id}`} />
+              </div>
             </div>
           ) : (
             <ol className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-md p-2 text-center text-2xl">

@@ -29,6 +29,7 @@ export type RoomData = {
   created_at: string;
   id: string;
   event_connection?: string;
+  expiration_date?: string;
 };
 
 export type Room = {
@@ -106,14 +107,29 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
       .eq("id", pathname.split("/").pop()!)
       .single();
 
-    setData({
-      ...data,
-      room: room,
-      error: error,
-      isAdmin: room?.admin.includes(
-        (await supabase.auth.getUser()).data.user?.id,
-      ),
-    });
+    if (
+      room?.expiration_date &&
+      new Date(room?.expiration_date) < new Date(Date.now())
+    ) {
+      console.log("Room has expired");
+      setData({
+        ...data,
+        room: room,
+        error: "Room has expired. Please check in with MESA.",
+        isAdmin: room?.admin.includes(
+          (await supabase.auth.getUser()).data.user?.id,
+        ),
+      });
+    } else {
+      setData({
+        ...data,
+        room: room,
+        error: error,
+        isAdmin: room?.admin.includes(
+          (await supabase.auth.getUser()).data.user?.id,
+        ),
+      });
+    }
 
     if (room?.event_connection) {
       getEvent(room?.event_connection);

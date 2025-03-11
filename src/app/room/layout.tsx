@@ -7,8 +7,6 @@ import ModalProvider from "../(connect)/connect/Modal";
 import HeaderMenu from "../kioskhandler/header";
 
 const RoomLayout = async ({ children }: { children: React.ReactNode }) => {
-  const user = await serverside.auth.getUser();
-
   return (
     <RoomContextProvider>
       <ModalProvider>{children}</ModalProvider>
