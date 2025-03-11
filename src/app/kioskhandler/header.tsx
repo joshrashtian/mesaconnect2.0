@@ -16,9 +16,12 @@ const HeaderMenu = () => {
   const pathname = usePathname();
   const { signOut } = useUser();
 
+  const pathnameIds = pathname.split("/").filter((item) => item !== "");
   return (
     <div className="absolute left-0 top-0 flex w-full flex-row items-center justify-between bg-zinc-700/20 p-2.5">
-      <h1 className="font-geist text-lg text-white">{pathname}</h1>
+      <h1 className="font-geist text-lg text-white">
+        {pathnameIds.map((e) => `/${e}`)}
+      </h1>
       <div className="flex flex-row items-center justify-center gap-2">
         <Button
           variant="outline"

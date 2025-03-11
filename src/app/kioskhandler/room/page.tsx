@@ -10,7 +10,12 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Button } from "@/components/ui/button";
 import { IoIosArrowForward } from "react-icons/io";
 import Link from "next/link";
-import { IoReturnDownBack, IoReturnDownForward } from "react-icons/io5";
+import {
+  IoEarth,
+  IoLocate,
+  IoReturnDownBack,
+  IoReturnDownForward,
+} from "react-icons/io5";
 import { ClassType } from "@/app/(connect)/connect/builder/(buildercomponents)/ClassRelations";
 
 const RoomKioskPage = () => {
@@ -21,7 +26,7 @@ const RoomKioskPage = () => {
   const [room, setRoom] = useState<RoomData | null>(null);
   const [loading, setLoading] = useState(true);
   const [event, setEvent] = useState<EventType | null>(null);
-  const [Class, setClass] = useState<ClassType | null>(null);
+  const [classdata, setClass] = useState<ClassType | null>(null);
   useEffect(() => {
     const fetchRoom = async () => {
       const room = await supabase
@@ -136,7 +141,13 @@ const RoomKioskPage = () => {
           </p>
         </div>
       </motion.p>
-      {(event || Class) && (
+      <motion.div>
+        <motion.p className="flex flex-row items-center gap-2 text-lg text-white">
+          <IoEarth />
+          {room?.location}
+        </motion.p>
+      </motion.div>
+      {(event || classdata) && (
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -149,10 +160,10 @@ const RoomKioskPage = () => {
           <IoReturnDownForward />
           <p>
             In Relation To {event?.name}
-            {Class && (
+            {classdata && (
               <>
                 {event?.name && ", "}
-                {`${Class?.category}-${Class?.num}`}
+                {`${classdata?.category}-${classdata?.num}`}
               </>
             )}
           </p>

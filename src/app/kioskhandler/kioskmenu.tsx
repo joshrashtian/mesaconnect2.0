@@ -80,21 +80,27 @@ const KioskMenu = () => {
       transition={{ duration: 0.5 }}
       className="flex h-full min-w-full max-w-full flex-col items-center justify-center gap-4"
     >
-      <ol className="flex w-full flex-row gap-2">
-        <Button
-          variant="outline"
-          onClick={() => setIndex(0)}
-          className={`${index === 0 ? "bg-white text-black" : "bg-zinc-700 text-white"}`}
+      <ol className="flex w-full flex-row gap-2 text-2xl font-bold">
+        <button
+          onClick={() => {
+            const audio = new Audio("/click2.mp3");
+            audio.play();
+            setIndex(0);
+          }}
+          className={`${index === 0 ? "bg-zinc-700 text-white" : "text-zinc-700"} rounded-md px-4 py-1`}
         >
           Events
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() => setIndex(1)}
-          className={`${index === 1 ? "bg-white text-black" : "bg-zinc-700 text-white"}`}
+        </button>
+        <button
+          onClick={() => {
+            const audio = new Audio("/click2.mp3");
+            audio.play();
+            setIndex(1);
+          }}
+          className={`${index === 1 ? "bg-zinc-700 text-white" : "text-zinc-700"} rounded-md px-4 py-1`}
         >
           Rooms
-        </Button>
+        </button>
       </ol>
       <AnimatePresence mode="wait">
         {loading ? (
@@ -121,7 +127,7 @@ const KioskMenu = () => {
                 }}
               >
                 <Link
-                  href={`/kioskhandler/event/${event.id}`}
+                  href={`/kioskhandler/event?eventId=${event.id}`}
                   onMouseEnter={() => {
                     const audio = new Audio("/ui_button.mp3");
                     audio.play();

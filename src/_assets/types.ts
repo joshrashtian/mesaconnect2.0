@@ -69,7 +69,7 @@ export type EventType = {
   tags: string[]
   type: string
   creator: string
-  image: {
+  image?: {
     url: string
     creator: string
     type: string

@@ -30,11 +30,12 @@ const RoomCreate = () => {
       setError("Please fill in all fields");
       return;
     }
+    let locationSettings = JSON.parse(localStorage.getItem("settings") ?? "{}");
 
     const { data, error } = await supabase.from("room").insert({
       id: roomId,
       name: roomName,
-      location: location ?? device.name,
+      location: location ?? locationSettings.name,
       creator: user?.id,
       admin: [user?.id],
       expiration_date: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
@@ -46,7 +47,7 @@ const RoomCreate = () => {
       modal.CreateDialogBox(
         <p>Room Created Successfully!</p>,
         () => {
-          router.push(`/kioskhandler/room/${roomId}`);
+          router.push(`/room/${roomId}`);
         },
         { confirmText: "Go to Room" },
       );
