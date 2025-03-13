@@ -33,6 +33,7 @@ const ZoomMeeting = ({ params }: { params: { id: string } }) => {
         meetingNumber: id,
         password: userDetails.password,
         userName: userDetails.username,
+        tk: userDetails.token,
       });
     } catch (error) {
       console.error(error);
@@ -73,7 +74,7 @@ const ZoomMeeting = ({ params }: { params: { id: string } }) => {
           />
           <KioskInput
             icon={<LockIcon />}
-            placeholder="Password"
+            placeholder="Meeting Passcode..."
             type="password"
             name="password"
             onChange={(e) =>

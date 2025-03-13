@@ -197,6 +197,11 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
 
           if (payload.new.event_connection) {
             getEvent(payload.new.event_connection);
+          } else {
+            setData((prev) => ({
+              ...prev,
+              event: undefined,
+            }));
           }
         },
       )

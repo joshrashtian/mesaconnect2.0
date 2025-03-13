@@ -240,9 +240,6 @@ const Menu = () => {
                   }
                 }}
               />
-              <div className="flex h-full w-full items-center justify-center">
-                <QRCodeSVG size={128} value={`MESA:/room/${data.id}`} />
-              </div>
             </div>
           ) : (
             <ol className="flex h-full w-full flex-col items-center justify-center gap-2 rounded-md p-2 text-center text-2xl">
