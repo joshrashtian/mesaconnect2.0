@@ -7,32 +7,19 @@ import { useUser } from "@/app/AuthContext";
 import SignInViaKiosk from "./SignInViaKiosk";
 import EventUsersKiosk from "./EventUsers";
 const RoomMenu = () => {
-  const { data } = useRoomContext();
-  const { user } = useUser();
+  const { data, color } = useRoomContext();
   const modal = useModal();
   return (
     <div className="flex flex-col gap-2 overflow-y-scroll pb-12">
       <h1 className="text-2xl font-bold">Room Menu</h1>
       {data?.event && (
-        <ul className="flex flex-col gap-2 rounded-md bg-gradient-to-tr from-blue-500 to-blue-600 p-2 text-white">
+        <ul
+          className={`flex flex-col gap-2 rounded-md ${color[2]} p-2 text-white`}
+        >
           <h3 className="text-2xl font-bold">Event</h3>
           <p className="text-md font-bold text-zinc-100">{data?.event?.name}</p>
           <p className="text-sm text-zinc-100">{data?.event?.desc}</p>
-          <ol className="grid grid-cols-2 gap-2">
-            <button className="rounded-md bg-zinc-100/20 p-2 text-zinc-100">
-              <p>Record User Data</p>
-            </button>
-            <button
-              onClick={() =>
-                modal.CreateModal(<SignInViaKiosk />, {
-                  canUnmount: true,
-                })
-              }
-              className="rounded-md bg-zinc-100/20 p-2 text-zinc-100"
-            >
-              <p>Add User From Kiosk</p>
-            </button>
-          </ol>
+
           <EventUsersKiosk />
         </ul>
       )}

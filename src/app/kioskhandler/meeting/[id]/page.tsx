@@ -13,6 +13,7 @@ const ZoomMeeting = ({ params }: { params: { id: string } }) => {
   const zoom = ZoomMtgEmbedded.createClient();
 
   async function joinMeeting() {
+    console.log(userDetails);
     try {
       setLoading(true);
 
