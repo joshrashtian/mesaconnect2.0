@@ -1,11 +1,12 @@
 import React from "react";
-import { IoMenuOutline } from "react-icons/io5";
+import { IoAddCircle, IoMenuOutline } from "react-icons/io5";
 import { useRoomContext } from "../../RoomContext";
 import { useModal } from "@/app/(connect)/connect/Modal";
 import SelectEvent from "./SelectEvent";
 import { useUser } from "@/app/AuthContext";
 import SignInViaKiosk from "./SignInViaKiosk";
 import EventUsersKiosk from "./EventUsers";
+import PomodoroTimer from "./PomodoroTimer";
 const RoomMenu = () => {
   const { data, color } = useRoomContext();
   const modal = useModal();
@@ -50,6 +51,31 @@ const RoomMenu = () => {
             </button>
           </ul>
         )}
+      </div>
+      <h1 className="text-2xl font-bold">Toolbox</h1>
+
+      <div className="grid grid-cols-2 gap-2 rounded-md p-2">
+        <PomodoroTimer />
+        <button
+          onClick={() => {
+            modal.CreateModal(
+              <div className="flex flex-col gap-2 text-white">
+                <h1 className="text-2xl font-bold">Add Tool</h1>
+                <p className="text-sm">
+                  We are slowly working on adding more tools to the room.
+                </p>
+                <button className="rounded-md bg-zinc-500 p-2 text-white">
+                  Add
+                </button>
+              </div>,
+              { backgroundClass: "bg-zinc-900", canUnmount: true },
+            );
+          }}
+          className="flex flex-col items-start justify-end gap-2 rounded-md bg-zinc-200/40 p-4 text-3xl"
+        >
+          <IoAddCircle className="text-2xl" />
+          <p>Add Tool</p>
+        </button>
       </div>
     </div>
   );

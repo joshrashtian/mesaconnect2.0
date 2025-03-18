@@ -57,7 +57,8 @@ const KioskMenu = () => {
     const { data: roomData, error: roomError } = await supabase
       .from("room")
       .select("*")
-      .eq("creator", user?.id ?? "");
+      .eq("creator", user?.id ?? "")
+      .gte("expiration_date", new Date(Date.now()).toISOString());
 
     if (roomError) {
       toast.CreateErrorToast(roomError.message);
@@ -202,7 +203,7 @@ const KioskMenu = () => {
 
             <Link
               href="/kioskhandler/event_create"
-              className="flex h-full w-full gap-2"
+              className="flex h-full gap-2"
               onMouseEnter={() => {
                 const audio = new Audio("/ui_button.mp3");
                 audio.play();
@@ -303,19 +304,19 @@ const KioskMenu = () => {
                 audio.volume = 1;
 
                 modal.CreateModal(
-                  <div className="flex h-full w-[1000px] flex-col items-center justify-center">
+                  <div className="flex h-full w-[2000px] flex-col items-center justify-center">
                     <RoomCreate />
                   </div>,
                 );
               }}
-              className="flex h-full w-full gap-2"
+              className="flex h-full gap-2"
               onMouseEnter={() => {
                 const audio = new Audio("/ui_button.mp3");
                 audio.play();
                 audio.volume = 0.5;
               }}
             >
-              <div className="flex h-60 min-w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40">
+              <div className="flex h-60 w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40">
                 <IoFlag className="h-10 w-10" />
                 <p className="text-lg font-bold">Create New Room</p>
               </div>
@@ -330,7 +331,7 @@ const KioskMenu = () => {
                   audio.volume = 0.5;
                 }}
               >
-                <div className="flex min-w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40">
+                <div className="flex w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40">
                   <IoSettings className="h-10 w-10" />
                   <p className="text-lg font-bold">Settings</p>
                 </div>
@@ -384,7 +385,7 @@ const KioskMenu = () => {
             <JoinMeeting />
             <Link
               href="/kioskhandler/settings"
-              className="flex h-60 min-w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40"
+              className="flex h-60 w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40"
               onMouseEnter={() => {
                 const audio = new Audio("/ui_button.mp3");
                 audio.play();

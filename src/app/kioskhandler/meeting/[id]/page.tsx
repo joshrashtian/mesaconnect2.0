@@ -21,6 +21,7 @@ const ZoomMeeting = ({ params }: { params: { id: string } }) => {
       if (!meetingSDKElement) {
         throw new Error("Meeting SDK element not found");
       }
+
       await zoom.init({
         zoomAppRoot: meetingSDKElement,
         language: "en-US",

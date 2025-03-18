@@ -18,19 +18,6 @@ const KioskHandler = () => {
 
   const modal = useModal();
 
-  useEffect(() => {
-    modal.CreateModal(
-      <div className="flex flex-col items-center justify-center gap-4">
-        <p>
-          Hello! Welcome to our MESAKiosk, a branch and part of the MESAConnect
-          Exprience! Please be aware we are currently in pre-alpha and new
-          features are being added frequently!{" "}
-        </p>
-        <Button onClick={() => modal.DisarmModal()}>Close</Button>
-      </div>,
-    );
-  }, []);
-
   return (
     <div
       className={`flex h-screen w-screen flex-col items-start justify-end p-12 font-nenue`}

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Loader } from "lucide-react";
 import LoadingObject from "@/(mesaui)/LoadingObject";
 import Link from "next/link";
+import { IoDocument, IoDocumentOutline, IoImageOutline } from "react-icons/io5";
 const Files = () => {
   const { data, setFocused, setOpen } = useRoomContext();
   const [files, setFiles] = useState(null);
@@ -82,6 +83,32 @@ const Files = () => {
                   </button>
                 );
             })}
+          </div>
+          <div className="flex flex-col gap-2">
+            <h1 className="text-2xl font-bold">All Files</h1>
+            <ul className="flex flex-col gap-2">
+              {(files as any[]).map((file: any) => {
+                return (
+                  <button
+                    onClick={() => {
+                      setFocused(file);
+                      setOpen(false);
+                    }}
+                    key={file.id}
+                    className="flex flex-row items-center gap-2 rounded-md bg-zinc-100 p-2 hover:bg-zinc-200"
+                  >
+                    {file.name.includes(".png") ||
+                    file.name.includes(".jpg") ||
+                    file.name.includes(".jpeg") ? (
+                      <IoImageOutline />
+                    ) : (
+                      <IoDocument />
+                    )}
+                    {file.name}
+                  </button>
+                );
+              })}
+            </ul>
           </div>
         </div>
       )}
