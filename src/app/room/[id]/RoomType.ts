@@ -9,3 +9,14 @@ export type RoomAdditionalData = {
   }[];
   
 };  
+
+export type Environment = {
+  name: string;
+  type: EnvironmentType;
+  content: EnvironmentContent;
+  audio?: string;
+} 
+
+export type EnvironmentType = "environment" | "color" | "image" 
+
+export type EnvironmentContent = string 

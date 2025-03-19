@@ -20,7 +20,8 @@ import {
 } from "react-icons/io5";
 import LoadingObject from "@/(mesaui)/LoadingObject";
 import Link from "next/link";
-import { RoomAdditionalData } from "./[id]/RoomType";
+import { Environment, RoomAdditionalData } from "./[id]/RoomType";
+import EnvironmentComponent from "./[id]/EnvironmentComponent";
 
 export type RoomData = {
   name: string;
@@ -60,6 +61,8 @@ type RoomContextType = {
   setOpen: Dispatch<SetStateAction<boolean>>;
   expanded: boolean;
   setExpanded: Dispatch<SetStateAction<boolean>>;
+  environment: Environment | null;
+  setEnvironment: Dispatch<SetStateAction<Environment | null>>;
 };
 
 const RoomContext = createContext<RoomContextType>({
@@ -100,6 +103,12 @@ const RoomContext = createContext<RoomContextType>({
   setExpanded: function (value: React.SetStateAction<boolean>): void {
     throw new Error("Function not implemented.");
   },
+  environment: null,
+  setEnvironment: function (
+    value: React.SetStateAction<Environment | null>,
+  ): void {
+    throw new Error("Function not implemented.");
+  },
 });
 
 const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -128,6 +137,7 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
   );
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [environment, setEnvironment] = useState<Environment | null>(null);
 
   const getData = async () => {
     const { data: room, error } = await supabase
@@ -306,8 +316,13 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
         setOpen,
         expanded,
         setExpanded,
+        environment,
+        setEnvironment,
       }}
     >
+      <AnimatePresence mode="wait">
+        {environment && <EnvironmentComponent />}
+      </AnimatePresence>
       {children}
       <AnimatePresence>
         {focused && (
@@ -385,6 +400,8 @@ export const useRoomContext = () => {
     setOpen,
     expanded,
     setExpanded,
+    environment,
+    setEnvironment,
   } = useContext(RoomContext);
   return {
     data,
@@ -397,5 +414,7 @@ export const useRoomContext = () => {
     setOpen,
     expanded,
     setExpanded,
+    environment,
+    setEnvironment,
   };
 };

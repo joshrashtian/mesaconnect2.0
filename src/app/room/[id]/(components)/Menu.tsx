@@ -27,6 +27,7 @@ import Files from "./Files";
 import RoomMenu from "./RoomMenu";
 import { FileUp } from "lucide-react";
 import { QRCodeCanvas, QRCodeSVG } from "qrcode.react";
+import EnvironmentSettings from "./EnvironmentSettings";
 
 const font = Golos_Text({
   subsets: ["latin"],
@@ -250,6 +251,7 @@ const Menu = () => {
           )}
         </>
       )}
+      {category === "environment" && <EnvironmentSettings />}
       {category === "settings" && <RoomSettings />}
       {category === "files" && <Files />}
       {category === "room" && <RoomMenu />}
