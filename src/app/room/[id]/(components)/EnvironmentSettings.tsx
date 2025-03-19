@@ -32,6 +32,14 @@ const EnvironmentSettings = () => {
       content:
         "https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/environments/clouds/backdrop.mp4",
     },
+    {
+      name: "Ocean",
+      type: "environment",
+      content:
+        "https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/environments/ocean/backdrop.mp4",
+      audio:
+        "https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/environments/ocean/ambient.mp3",
+    },
   ];
 
   return (

@@ -1,9 +1,32 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRoomContext } from "../RoomContext";
 import { motion } from "framer-motion";
 const EnvironmentComponent = () => {
   const { environment } = useRoomContext();
+
+  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audio?.pause();
+    if (environment?.audio) {
+      const audio = new Audio(environment.audio);
+      setAudio(audio);
+    } else {
+      setAudio(null);
+    }
+  }, [environment]);
+
+  useEffect(() => {
+    if (audio) {
+      audio.play();
+      audio.volume = 0.5;
+      audio.loop = true;
+    }
+    return () => {
+      audio?.pause();
+    };
+  }, [audio]);
 
   switch (environment?.type) {
     case "color":
