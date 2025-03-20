@@ -15,6 +15,7 @@ export type Environment = {
   type: EnvironmentType;
   content: EnvironmentContent;
   audio?: string;
+  icon?: React.ReactNode;
 } 
 
 export type EnvironmentType = "environment" | "color" | "image" 

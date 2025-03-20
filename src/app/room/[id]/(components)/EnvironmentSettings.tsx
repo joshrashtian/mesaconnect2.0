@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useRoomContext } from "@/app/room/RoomContext";
 import { Input } from "@/components/ui/input";
 import CreateEnvironment from "./CreateEnvironment";
+import { IoCloud } from "react-icons/io5";
 
 const EnvironmentSettings = () => {
   const { setEnvironment } = useRoomContext();
@@ -31,6 +32,7 @@ const EnvironmentSettings = () => {
       type: "environment",
       content:
         "https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/environments/clouds/backdrop.mp4",
+      icon: <IoCloud />,
     },
     {
       name: "Ocean",
@@ -45,9 +47,19 @@ const EnvironmentSettings = () => {
   return (
     <div className="flex h-full w-full flex-col gap-2 overflow-y-scroll">
       <h1 className="text-2xl font-bold">Environment Settings</h1>
-      <ol className="flex flex-row gap-2">
-        <Button onClick={() => setMode(0)}>Select Environment</Button>
-        <Button onClick={() => setMode(1)}>Custom Environment</Button>
+      <ol className="flex flex-row gap-2 font-nenue font-bold">
+        <button
+          className="rounded-md bg-zinc-200/50 p-2 duration-300 hover:bg-zinc-200/30 active:bg-zinc-200/70"
+          onClick={() => setMode(0)}
+        >
+          Select Environment
+        </button>
+        <button
+          className="rounded-md bg-zinc-200/50 p-2 duration-300 hover:bg-zinc-200/30 active:bg-zinc-200/70"
+          onClick={() => setMode(1)}
+        >
+          Custom Environment
+        </button>
       </ol>
       {mode === 0 && (
         <div className="flex flex-row gap-2">
@@ -55,14 +67,18 @@ const EnvironmentSettings = () => {
             {samples.map((sample) => (
               <button
                 onClick={() => {
+                  const sfx = new Audio("/ui_button.mp3");
+                  sfx.play();
+                  sfx.volume = 0.5;
                   setSelected(sample);
                 }}
                 key={sample.name}
-                className="flex h-16 w-full flex-row items-center justify-start gap-3 rounded-md bg-zinc-200/50 p-3"
+                className="flex h-16 w-full flex-row items-center justify-start gap-3 rounded-md bg-zinc-200/50 p-3 duration-300 hover:bg-zinc-200/30 active:bg-zinc-200/70"
               >
                 {sample.type === "color" && (
                   <div className={`h-7 w-7 rounded-md ${sample.content}`} />
                 )}
+                {sample?.icon}
                 {sample.type === "image" && (
                   <img src={sample.content} className="h-7 w-7 rounded-md" />
                 )}
@@ -87,7 +103,7 @@ const EnvironmentSettings = () => {
                 )}
 
                 <pre className="mt-3 rounded-2xl bg-zinc-100 p-3 text-zinc-500">
-                  {JSON.stringify(selected, null, 2)}
+                  {`{\n   name: ${selected.name};\n   type: ${selected.type};\n}`}
                 </pre>
                 <Button
                   onClick={() => {

@@ -33,10 +33,10 @@ const Room = () => {
       exit={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="absolute left-0 top-0 flex h-full w-full flex-row justify-between gap-2">
+      <div className="absolute left-0 top-0 flex h-full w-full flex-row justify-between gap-2 font-nenue">
         <h1 className="left-0 top-0 text-4xl font-bold text-white">
-          Room {data.id} {data?.room?.name}{" "}
-          {data.isAdmin ? <IoPencilOutline className="text-zinc-100" /> : null}
+          {data?.room?.name}
+          <h2 className="text-5xl text-zinc-300/80">{data?.id}</h2>
         </h1>
 
         <RoomUsers />
@@ -49,7 +49,7 @@ const Room = () => {
               case "text":
                 return (
                   <motion.div
-                    className="flex flex-row gap-0.5 rounded-md bg-zinc-200 p-2"
+                    className="flex flex-row gap-0.5 rounded-md bg-zinc-200/20 p-2"
                     key={payload.created_at}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -65,10 +65,8 @@ const Room = () => {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col gap-0.5">
-                      <p className="text-sm font-bold text-zinc-500">
-                        {payload.user}
-                      </p>
-                      <p className="text-sm">{payload.message}</p>
+                      <p className="text-sm font-bold invert">{payload.user}</p>
+                      <p className="text-sm text-white">{payload.message}</p>
                     </div>
                   </motion.div>
                 );

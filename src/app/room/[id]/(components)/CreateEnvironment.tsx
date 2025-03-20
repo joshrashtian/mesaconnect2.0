@@ -17,6 +17,7 @@ const CreateEnvironment = () => {
       //@ts-ignore
       {
         ...newEnvironment,
+        type: "color",
         [e.target.name]: e.target.value,
       },
     );

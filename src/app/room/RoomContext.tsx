@@ -254,7 +254,6 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
         }));
       })
       .on("broadcast", { event: "message" }, (payload) => {
-        console.log(payload);
         setData((prev) => ({
           ...prev,
           messages: [...prev.messages, payload],
