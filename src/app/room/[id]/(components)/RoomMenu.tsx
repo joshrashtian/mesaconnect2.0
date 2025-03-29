@@ -7,6 +7,8 @@ import { useUser } from "@/app/AuthContext";
 import SignInViaKiosk from "./SignInViaKiosk";
 import EventUsersKiosk from "./EventUsers";
 import PomodoroTimer from "./PomodoroTimer";
+
+import { QRCodeSVG } from "qrcode.react";
 const RoomMenu = () => {
   const { data, color } = useRoomContext();
   const modal = useModal();
@@ -56,6 +58,11 @@ const RoomMenu = () => {
 
       <div className="grid grid-cols-2 gap-2 rounded-md p-2">
         <PomodoroTimer />
+        <ul className="flex flex-col items-center justify-center gap-2 rounded-md bg-zinc-200/40 p-2">
+          <h3 className="text-lg font-bold">MESAMobile QR Code</h3>
+          <p>{data?.room?.id}</p>
+          {data?.room?.id && <QRCodeSVG value={`${data?.room?.id}`} />}
+        </ul>
         <button
           onClick={() => {
             modal.CreateModal(

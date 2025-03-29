@@ -141,20 +141,25 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   const getData = async () => {
     const { data: room, error } = await supabase
+      //@ts-ignore
       .from("room")
       .select("*")
       .eq("id", pathname.split("/").pop()!)
       .single();
 
     if (
+      //@ts-ignore
       room?.expiration_date &&
+      //@ts-ignore
       new Date(room?.expiration_date) < new Date(Date.now())
     ) {
       console.log("Room has expired");
       setData({
         ...data,
+        //@ts-ignore
         room: room,
         error: "Room has expired. Please check in with MESA.",
+        //@ts-ignore
         isAdmin: room?.admin.includes(
           (await supabase.auth.getUser()).data.user?.id,
         ),
@@ -167,8 +172,10 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
     } else {
       setData({
         ...data,
+        //@ts-ignore
         room: room,
         error: error,
+        //@ts-ignore
         isAdmin: room?.admin.includes(
           (await supabase.auth.getUser()).data.user?.id,
         ),
@@ -180,7 +187,9 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
       });
     }
 
+    //@ts-ignore
     if (room?.event_connection) {
+      //@ts-ignore
       getEvent(room?.event_connection);
     }
   };

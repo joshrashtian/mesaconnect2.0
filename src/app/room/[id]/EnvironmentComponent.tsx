@@ -1,18 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRoomContext } from "../RoomContext";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { IoPause, IoPlay, IoStop } from "react-icons/io5";
 const EnvironmentComponent = () => {
   const { environment } = useRoomContext();
 
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
-
+  const [playing, setPlaying] = useState<boolean>(false);
   useEffect(() => {
-    audio?.pause();
     if (environment?.audio) {
       const audio = new Audio(environment.audio);
       setAudio(audio);
+      setPlaying(true);
     } else {
+      audio?.pause();
+      setPlaying(false);
       setAudio(null);
     }
   }, [environment]);
@@ -22,10 +25,10 @@ const EnvironmentComponent = () => {
       audio.play();
       audio.volume = 0.5;
       audio.loop = true;
+    } else {
+      setPlaying(false);
+      setAudio(null);
     }
-    return () => {
-      audio?.pause();
-    };
   }, [audio]);
 
   switch (environment?.type) {
@@ -68,6 +71,49 @@ const EnvironmentComponent = () => {
             loop
             playsInline
           />
+          <AnimatePresence>
+            {audio && (
+              <motion.div
+                initial={{ y: 100 }}
+                animate={{ y: 0 }}
+                exit={{ y: 100 }}
+                transition={{ duration: 1.5 }}
+                className="absolute bottom-0 left-0 z-10 flex h-16 w-full flex-row items-center justify-center gap-3"
+              >
+                {!playing ? (
+                  <IoPlay
+                    onClick={() => {
+                      audio?.play();
+                      setPlaying(true);
+                    }}
+                    className="text-4xl text-white duration-300 hover:text-zinc-300"
+                  />
+                ) : (
+                  <IoPause
+                    onClick={() => {
+                      audio?.pause();
+                      setPlaying(false);
+                    }}
+                    className="text-4xl text-white duration-300 hover:text-zinc-300"
+                  />
+                )}
+                <IoStop
+                  onClick={() => {
+                    audio?.pause();
+                    setAudio(null);
+                    setPlaying(false);
+                  }}
+                  className="text-4xl text-white duration-300 hover:text-zinc-300"
+                />
+                <ul className="flex flex-col">
+                  <p className="font-nenue font-bold text-white">
+                    Ambient Noise
+                  </p>
+                  <p className="font-nenue text-white">{environment?.name}</p>
+                </ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       );
   }
