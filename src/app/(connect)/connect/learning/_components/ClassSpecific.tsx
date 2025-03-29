@@ -12,6 +12,7 @@ const ClassPollList = ({ classid }: { classid: string }) => {
       const { data, error } = await supabase
         //@ts-ignore
         .schema("information")
+          //@ts-ignore
         .from("classes")
         .select("name")
         .eq("id", classid)
@@ -22,6 +23,7 @@ const ClassPollList = ({ classid }: { classid: string }) => {
         return null;
       }
 
+      //@ts-ignore
       setName(`For ${data.name} `);
     };
     const fetchData = async () => {

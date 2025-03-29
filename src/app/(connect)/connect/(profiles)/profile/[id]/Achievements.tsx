@@ -23,16 +23,19 @@ const Achievements = () => {
   useEffect(() => {
     async function get() {
       const { data, error } = await supabase
+
         .from("userawards")
         .select()
-        .eq("userid", profile?.id);
+
+        .eq("userid", profile?.id ?? "");
 
       if (error) {
+        //@ts-ignore
         toast.CreateErrorToast(error.message);
         return;
       }
 
-      setData(data);
+      setData(data as unknown as Achievement[]);
     }
     get();
   }, [profile?.id]);

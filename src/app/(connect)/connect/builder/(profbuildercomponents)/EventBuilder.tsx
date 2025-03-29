@@ -50,6 +50,7 @@ const EventBuilder = () => {
 
     //@ts-ignore
     const { error } = await supabase.from("events").insert({
+      //@ts-ignore
       name: event.name,
       desc: event.desc,
       type: event.type,

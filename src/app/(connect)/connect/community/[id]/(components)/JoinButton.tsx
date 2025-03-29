@@ -15,7 +15,7 @@ const JoinButton = ({ id }: { id: string }) => {
         .select("state")
         .eq(
           "userid",
-          await supabase.auth.getUser().then((user) => user?.data.user?.id),
+          await supabase.auth.getUser().then((user) => user?.data.user?.id) as string,
         )
         .eq("communityid", id)
         .single();

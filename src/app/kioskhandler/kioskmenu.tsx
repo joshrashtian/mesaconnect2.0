@@ -63,6 +63,7 @@ const KioskMenu = () => {
     if (roomError) {
       toast.CreateErrorToast(roomError.message);
     } else {
+      //@ts-ignore
       setRooms(roomData);
     }
 

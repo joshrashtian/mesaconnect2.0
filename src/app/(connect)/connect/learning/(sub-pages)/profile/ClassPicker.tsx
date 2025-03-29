@@ -37,7 +37,7 @@ const ClassPicker = () => {
       let { data, error } = await supabase
         .from("transcripts")
         .select()
-        .eq("userid", user?.id);
+        .eq("userid", user?.id as string);
       if (error) {
         console.error(error);
         setLoading(false);

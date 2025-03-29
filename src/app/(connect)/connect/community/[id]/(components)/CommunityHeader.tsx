@@ -45,11 +45,11 @@ const CommunityHeader = () => {
     const { data, error } = await supabase
       .from("communityrelations")
       .select("role")
-      .eq("userid", user.user?.id)
-      .eq("communityid", id)
+      .eq("userid", user.user?.id as string)
+      .eq("communityid", id as string)
       .single();
 
-    setRole(data?.role);
+    setRole(data?.role as string);
   }
 
   useEffect(() => {

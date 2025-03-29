@@ -17,7 +17,7 @@ const Interestsblock = ({ data }: { data: any }) => {
       if (error) {
         console.error(error);
         return;
-      } else setInterests(NewData?.splice(0, data.data.length));
+      } else setInterests(NewData?.splice(0, data.data.length) as Interest[]);
     }
     getInterests();
   }, []);

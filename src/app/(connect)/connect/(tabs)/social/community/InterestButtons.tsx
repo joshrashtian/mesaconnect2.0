@@ -76,14 +76,14 @@ const InterestButtons = ({
       const { data, error } = await supabase
         .from("interests")
         .select("*")
-        .eq("userid", user?.id)
+        .eq("userid", user?.id as string)
         .limit(4);
 
       if (error) {
         console.log(error);
         return;
       }
-      setInterests(data);
+      setInterests(data as Interest[]);
     };
 
     getInterests();

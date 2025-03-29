@@ -144,7 +144,7 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
       //@ts-ignore
       .from("room")
       .select("*")
-      .eq("id", pathname.split("/").pop()!)
+      .eq("id", parseInt(pathname.split("/").pop()!))
       .single();
 
     if (
@@ -161,7 +161,7 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
         error: "Room has expired. Please check in with MESA.",
         //@ts-ignore
         isAdmin: room?.admin.includes(
-          (await supabase.auth.getUser()).data.user?.id,
+          (await supabase.auth.getUser()).data.user?.id as string,
         ),
         pomodoro: {
           active: false,
@@ -177,7 +177,7 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
         error: error,
         //@ts-ignore
         isAdmin: room?.admin.includes(
-          (await supabase.auth.getUser()).data.user?.id,
+          (await supabase.auth.getUser()).data.user?.id as string,
         ),
         pomodoro: {
           active: false,
