@@ -26,6 +26,7 @@ const EventUsersKiosk = () => {
       //@ts-ignore
       .eq("event_id", data?.event?.id);
 
+    console.log(eventdata);
     if (error) alert(error.message);
     //@ts-ignore
     setUsers(eventdata);
