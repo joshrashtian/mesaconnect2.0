@@ -15,7 +15,10 @@ import {
   SidebarProvider,
   SidebarMenuItem,
   SidebarMenu,
+  SidebarFooter,
+  SidebarMenuButton,
 } from "@/components/ui/sidebar";
+import { LogOutIcon } from "lucide-react";
 
 const page = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -36,19 +39,25 @@ const page = () => {
           <SidebarMenu>
             {AdminIndex.map((e, i) => {
               return (
-                <SidebarMenuItem
+                <SidebarMenuButton
                   onClick={() => {
                     setSelected(e);
                   }}
                   key={i}
-                  className={`${selected === e ? "bg-orange-200" : "hover:bg-zinc-100"} cursor-pointer p-3 duration-300`}
+                  className={`${selected === e ? "bg-orange-200" : "hover:bg-zinc-100"} flex cursor-pointer flex-row items-center gap-2 p-3 duration-300`}
                 >
+                  {e.icon}
                   <h3 className="text-md font-semibold">{e.displayname}</h3>
-                </SidebarMenuItem>
+                </SidebarMenuButton>
               );
             })}
           </SidebarMenu>
         </SidebarContent>
+        <SidebarFooter>
+          <SidebarMenu>
+            <p className="text-md font-semibold">{user?.user?.email}</p>
+          </SidebarMenu>
+        </SidebarFooter>
       </Sidebar>
       <motion.main
         initial={{ y: 20, opacity: 0 }}
