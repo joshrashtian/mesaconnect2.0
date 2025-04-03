@@ -46,13 +46,23 @@ const CollegeSettings = () => {
     <div className="flex flex-col gap-4 pb-32">
       <h1 className="font-eudoxus text-3xl font-bold">College Settings</h1>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
+        <p className="text-sm font-bold">College Website URL</p>
         <Input
           className=""
           contentEditable={true}
           value={changes?.website}
           onChange={(e) => {
             setChanges({ ...changes, website: e.target.value });
+          }}
+        />
+        <p className="text-sm font-bold">MESA URL for your College</p>
+        <Input
+          className=""
+          contentEditable={true}
+          value={changes?.mesa_website}
+          onChange={(e) => {
+            setChanges({ ...changes, mesa_website: e.target.value });
           }}
         />
         {changes !== college && <Button>Save</Button>}
@@ -90,11 +100,17 @@ const CollegeSettings = () => {
                     : `${(item.metadata.size / 1000).toFixed(2)} KB`}
                 </p>
                 <p className="flex items-center gap-2 text-sm">
-                  <Lightbulb className="h-4 w-4 text-yellow-500" />
-                  {
-                    importantFiles.find((file) => file.name === item.name)
-                      ?.usage
-                  }
+                  {importantFiles.find((file) => file.name === item.name) && (
+                    <>
+                      <Lightbulb className="h-4 w-4 text-yellow-500" />
+                      <p className="text-sm">
+                        {
+                          importantFiles.find((file) => file.name === item.name)
+                            ?.usage
+                        }
+                      </p>
+                    </>
+                  )}
                 </p>
               </li>
             ))}

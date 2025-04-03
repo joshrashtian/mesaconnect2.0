@@ -73,12 +73,9 @@ const Files = () => {
                       setOpen(false);
                     }}
                     // href={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${file.name}`}
-                    className="h-56 rounded-md bg-zinc-100 p-2"
+                    className="flex h-24 flex-col items-center justify-center rounded-md bg-zinc-100 p-2"
                   >
-                    <iframe
-                      src={`https://gnmpzioggytlqzekuyuo.supabase.co/storage/v1/object/public/rooms/${data.id}/${file.name}`}
-                      className="rounded-md"
-                    />
+                    <IoDocumentOutline className="h-12 w-12" />
                     {file.name}
                   </button>
                 );

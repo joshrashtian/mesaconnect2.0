@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import KioskInput from "../../(kioskui)/input";
 import LoadingObject from "@/(mesaui)/LoadingObject";
 import ZoomMtgEmbedded from "@zoom/meetingsdk/embedded";
-import generateSignature from "./getSignature";
+import { generateSignature } from "./getSignature";
 import { LockIcon, MailIcon, UserIcon } from "lucide-react";
 const ZoomMeeting = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -31,7 +31,7 @@ const ZoomMeeting = ({ params }: { params: { id: string } }) => {
 
       zoom.join({
         sdkKey: process.env.NEXT_PUBLIC_ZOOM_CLIENT_ID!,
-        signature: await generateSignature(id, 0),
+        signature: await generateSignature(id, 1),
         meetingNumber: id,
         password: userDetails.password,
         userName: userDetails.username,
