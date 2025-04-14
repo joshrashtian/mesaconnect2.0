@@ -1,6 +1,7 @@
 "use client";
 
 import { PostType, UserData } from "@/_assets/types";
+import { ClassType } from "@/app/(connect)/connect/builder/(buildercomponents)/ClassRelations";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { type ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import { Pathway } from "../../PathwayBuilder";
 
 export const columns: ColumnDef<PostType>[] = [
   {
@@ -155,5 +157,51 @@ export const UserColums: ColumnDef<UserData>[] = [
         </DropdownMenu>
       );
     },
+  },
+];
+
+export const ClassesColumns: ColumnDef<ClassType>[] = [
+  {
+    header: "Class Number",
+    accessorKey: "num",
+  },
+  {
+    header: "Class Category",
+    accessorKey: "category",
+  },
+  {
+    header: "Class Name",
+    accessorKey: "name",
+  },
+  {
+    header: "Units",
+    accessorKey: "units",
+  },
+  {
+    header: "Description",
+    accessorKey: "about",
+  },
+];
+
+export const PathwayColumns: ColumnDef<Pathway>[] = [
+  {
+    header: "ID",
+    accessorKey: "id",
+  },
+  {
+    header: "Taggable",
+    accessorKey: "tag",
+  },
+  {
+    header: "College",
+    accessorKey: "college",
+  },
+  {
+    header: "University",
+    accessorKey: "university",
+  },
+  {
+    header: "Major",
+    accessorKey: "major",
   },
 ];

@@ -19,7 +19,7 @@ import {
   SidebarMenuButton,
 } from "@/components/ui/sidebar";
 import { LogOutIcon } from "lucide-react";
-
+import { Separator } from "@/components/ui/separator";
 const page = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const user = useUser();
@@ -53,6 +53,7 @@ const page = () => {
             })}
           </SidebarMenu>
         </SidebarContent>
+
         <SidebarFooter>
           <SidebarMenu>
             <p className="text-md font-semibold">{user?.user?.email}</p>

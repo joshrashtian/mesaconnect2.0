@@ -3,9 +3,11 @@ import Viewposts from "./viewposts";
 import ViewUsers from "./ViewUsers";
 import CreateNews from "./createnewspost";
 import { AdminHome } from "@/app/(connect)/connect/(admindashboard)/admin/AdminHome";
-import { HomeIcon, PlusIcon } from "lucide-react";
+import { HomeIcon, PlusIcon, UserIcon } from "lucide-react";
 import CollegeSettings from "./CollegeSettings";
-import { IoSchoolOutline } from "react-icons/io5";
+import { IoSchoolOutline, IoChatboxOutline, IoMap } from "react-icons/io5";
+import ClassesEditor from "./ClassesEditor";
+import PathwayBuilder from "./PathwayBuilder";
 export interface AdminPanel {
   name: string;
   displayname: string;
@@ -25,12 +27,14 @@ const AdminIndex: AdminPanel[] = [
     name: "posts",
     displayname: "View Posts",
     permissions: ["admin"],
+    icon: <IoChatboxOutline className="h-5 w-5" />,
     component: () => <Viewposts />,
   },
   {
     name: "users",
     displayname: "View Users",
     permissions: ["admin"],
+    icon: <UserIcon className="h-5 w-5" />,
     component: () => <ViewUsers />,
   },
   {
@@ -46,6 +50,20 @@ const AdminIndex: AdminPanel[] = [
     permissions: ["admin"],
     icon: <IoSchoolOutline className="h-5 w-5" />,
     component: () => <CollegeSettings />,
+  },
+  {
+    name: "classeseditor",
+    displayname: "Classes",
+    permissions: ["admin"],
+    icon: <IoSchoolOutline className="h-5 w-5" />,
+    component: () => <ClassesEditor />,
+  },
+  {
+    name: "pathwaybuilder",
+    displayname: "College Pathways",
+    permissions: ["admin"],
+    icon: <IoMap className="h-5 w-5" />,
+    component: () => <PathwayBuilder />,
   },
 ];
 
