@@ -12,8 +12,9 @@ const GeneralInfo = ({ pathway }: { pathway: Pathway }) => {
   const [newColor, setNewColor] = useState<string>("");
   const toast = useToast();
   useEffect(() => {
-    setColors(pathway.colors);
+    setColors(pathway.colors || ["#FFF"]);
   }, [pathway]);
+  if (!pathway) return <div>Loading...</div>;
   return (
     <div className="flex w-full flex-col gap-2">
       <ol className="flex flex-row gap-2">
