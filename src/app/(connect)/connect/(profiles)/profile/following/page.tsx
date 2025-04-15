@@ -17,6 +17,7 @@ const FollowingPage = () => {
   async function get() {
     //@ts-ignore
     const { data, error } = await supabase.rpc("get_followers_by_user", {
+      //@ts-ignore
       userid: user?.id,
     });
 
@@ -24,6 +25,7 @@ const FollowingPage = () => {
       //@ts-ignore
       "get_followers",
       {
+        //@ts-ignore
         userid: user?.id,
       },
     );

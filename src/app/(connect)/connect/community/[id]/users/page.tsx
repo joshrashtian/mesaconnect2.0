@@ -38,6 +38,7 @@ const UsersPage = ({ params }: { params: { id: string } }) => {
       .in("id", newData?.map((e) => e.userid) || []);
 
     setPersonal(
+        //@ts-ignore
       newData && newData.filter((e) => e.userid === user?.id).at(0)?.role,
     );
     setData(newData);

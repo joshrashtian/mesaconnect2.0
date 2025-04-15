@@ -51,14 +51,14 @@ const Interests = () => {
       const { data, error } = await supabase
         .from("interests")
         .select("*")
-        .eq("userid", user?.id)
+        .eq("userid", user?.id as string)
         .limit(4);
 
       if (error) {
         console.log(error);
         return;
       }
-      setInterests(data);
+      setInterests(data as Interest[]);
     };
 
     getInterests();
@@ -82,7 +82,7 @@ const Interests = () => {
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: -20, opacity: 0 }}
                 value={interest}
-                onContextMenu={(e) => createContext(e, [{
+                onContextMenu={(e: any) => createContext(e, [{
                   name: "Delete Interest",
                   visible: true,
                   function: async () => {

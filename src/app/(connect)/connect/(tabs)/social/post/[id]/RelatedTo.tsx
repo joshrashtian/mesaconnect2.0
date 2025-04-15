@@ -15,6 +15,7 @@ const RelatedTo = ({ classes }: { classes: string[] }) => {
       const { data: Posts, error } = await supabase
           // @ts-ignore
           .schema('information')
+          //@ts-ignore
         .from('classes')
         .select()
         .in('id', classes)
@@ -24,6 +25,7 @@ const RelatedTo = ({ classes }: { classes: string[] }) => {
         console.error(error)
         return null
       }
+      //@ts-ignore
       setRelations(Posts)
     }
     Get()

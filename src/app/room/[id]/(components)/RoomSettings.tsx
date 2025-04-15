@@ -3,23 +3,70 @@ import React from "react";
 import { useRoomContext } from "../../RoomContext";
 
 const colorOptions = [
-  { color: ["text-blue-500", "bg-blue-500/10 text-blue-500"], name: "Blue" },
-  { color: ["text-red-500", "bg-red-500/10 text-red-500"], name: "Red" },
   {
-    color: ["text-green-500", "bg-green-500/10 text-green-500"],
+    color: [
+      "text-blue-500",
+      "bg-blue-500/10 text-blue-500",
+      "bg-gradient-to-tr from-blue-500 to-blue-700",
+    ],
+    name: "Blue",
+  },
+  {
+    color: [
+      "text-red-500",
+      "bg-red-500/10 text-red-500",
+      "bg-gradient-to-tr from-red-500 to-red-700",
+    ],
+    name: "Red",
+  },
+  {
+    color: [
+      "text-green-500",
+      "bg-green-500/10 text-green-500",
+      "bg-gradient-to-tr from-green-500 to-green-700",
+    ],
     name: "Green",
   },
   {
-    color: ["text-yellow-500", "bg-yellow-500/10 text-yellow-500"],
+    color: [
+      "text-yellow-500",
+      "bg-yellow-500/10 text-yellow-500",
+      "bg-gradient-to-tr from-yellow-500 to-yellow-700",
+    ],
     name: "Yellow",
   },
   {
-    color: ["text-purple-500", "bg-purple-500/10 text-purple-500"],
+    color: [
+      "text-purple-500",
+      "bg-purple-500/10 text-purple-500",
+      "bg-gradient-to-tr from-purple-500 to-purple-700",
+    ],
     name: "Purple",
   },
-  { color: ["text-pink-500", "bg-pink-500/10 text-pink-500"], name: "Pink" },
-  { color: ["text-zinc-500", "bg-zinc-500/10 text-zinc-500"], name: "Gray" },
-  { color: ["text-cyan-500", "bg-cyan-500/10 text-cyan-500"], name: "Cyan" },
+  {
+    color: [
+      "text-pink-500",
+      "bg-pink-500/10 text-pink-500",
+      "bg-gradient-to-tr from-pink-500 to-pink-700",
+    ],
+    name: "Pink",
+  },
+  {
+    color: [
+      "text-zinc-500",
+      "bg-zinc-500/10 text-zinc-500",
+      "bg-gradient-to-tr from-zinc-500 to-zinc-700",
+    ],
+    name: "Gray",
+  },
+  {
+    color: [
+      "text-cyan-500",
+      "bg-cyan-500/10 text-cyan-500",
+      "bg-gradient-to-tr from-cyan-500 to-cyan-700",
+    ],
+    name: "Cyan",
+  },
 ];
 
 const RoomSettings = () => {

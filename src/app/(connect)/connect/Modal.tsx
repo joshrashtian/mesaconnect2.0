@@ -54,7 +54,7 @@ const ModalProvider = ({ children }: { children: React.ReactNode }) => {
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 10, opacity: 0 }}
               transition={{ type: "spring" }}
-              className="z-50 flex min-h-72 min-w-[500px] flex-col justify-between rounded-xl bg-zinc-50 p-10 dark:bg-zinc-900 dark:text-white"
+              className={`z-50 flex min-h-72 min-w-[500px] flex-col justify-between rounded-xl bg-zinc-50 p-10 dark:bg-zinc-900 dark:text-white ${settings?.backgroundClass}`}
             >
               {active}
 

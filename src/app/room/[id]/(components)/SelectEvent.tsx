@@ -52,6 +52,23 @@ const SelectEvent = () => {
           <h2>{event.name}</h2>
         </button>
       ))}
+      <button
+        onClick={async () => {
+          const { data: updateData, error } = await updateRoom(data?.id, {
+            event_connection: null,
+          });
+
+          if (error) {
+            console.error(error);
+          } else {
+            console.log(updateData);
+            modal.DisarmModal();
+          }
+        }}
+        className="flex flex-col gap-2 rounded-md bg-zinc-200/40 p-2"
+      >
+        <h2>Remove Event</h2>
+      </button>
     </div>
   );
 };

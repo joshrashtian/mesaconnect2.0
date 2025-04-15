@@ -112,7 +112,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
     const { data, error } = await supabase
       .from("settings")
       .select()
-      .eq("id", userId)
+      .eq("id", userId as string)
       .single();
 
     if (error) {

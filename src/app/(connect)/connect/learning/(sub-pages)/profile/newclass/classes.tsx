@@ -23,6 +23,7 @@ const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
     const { data, error } = await supabase
       //@ts-ignore
       .schema("information")
+        //@ts-ignore
       .from("classes")
       .select()
       .limit(3)
@@ -34,7 +35,7 @@ const ClassesRegister = ({ classes }: { classes: ClassType[] }) => {
       console.log(error);
       return;
     }
-    setFilter(data);
+    setFilter(data as any);
   };
 
   return (

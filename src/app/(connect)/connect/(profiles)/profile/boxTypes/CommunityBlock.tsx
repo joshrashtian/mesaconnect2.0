@@ -102,7 +102,7 @@ export const CommunityEdit = () => {
       if (!data) {
         setExists(false);
       } else {
-        setVisible(data.visible);
+        setVisible(data.visible as any);
         setExists(true);
       }
     }
@@ -148,7 +148,7 @@ export function CreateCommunityBlock() {
       const { data, error } = await supabase
         .from("communityrelations")
         .select("id, communityid")
-        .eq("userid", user?.id);
+        .eq("userid", user?.id as string);
 
       if (error) {
         console.error(error);

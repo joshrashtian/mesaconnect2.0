@@ -35,6 +35,7 @@ const Learning = () => {
       const { data, error } = await supabase
         //@ts-ignore
         .schema("information")
+          //@ts-ignore
         .from("classes")
         .select("*")
         .order("popularity", { ascending: false })

@@ -15,11 +15,12 @@ import {
   IoPencilOutline,
   IoCloseOutline,
   IoArrowDown,
+  IoExpand,
 } from "react-icons/io5";
 import Menu from "./(components)/Menu";
 import Image from "next/image";
 const Room = () => {
-  const { data, open, setOpen } = useRoomContext();
+  const { data, open, setOpen, expanded, setExpanded } = useRoomContext();
   const supabase = createClientComponentClient();
   const [message, setMessage] = useState("");
 
@@ -32,10 +33,10 @@ const Room = () => {
       exit={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="absolute left-0 top-0 flex h-full w-full flex-row justify-between gap-2">
+      <div className="absolute left-0 top-0 flex h-full w-full flex-row justify-between gap-2 font-nenue">
         <h1 className="left-0 top-0 text-4xl font-bold text-white">
-          Room {data.id} {data?.room?.name}{" "}
-          {data.isAdmin ? <IoPencilOutline className="text-zinc-100" /> : null}
+          {data?.room?.name}
+          <h2 className="text-5xl text-zinc-300/80">{data?.id}</h2>
         </h1>
 
         <RoomUsers />
@@ -48,7 +49,7 @@ const Room = () => {
               case "text":
                 return (
                   <motion.div
-                    className="flex flex-row gap-0.5 rounded-md bg-zinc-200 p-2"
+                    className="flex flex-row gap-0.5 rounded-md bg-zinc-200/20 p-2"
                     key={payload.created_at}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
@@ -64,10 +65,8 @@ const Room = () => {
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col gap-0.5">
-                      <p className="text-sm font-bold text-zinc-500">
-                        {payload.user}
-                      </p>
-                      <p className="text-sm">{payload.message}</p>
+                      <p className="text-sm font-bold invert">{payload.user}</p>
+                      <p className="text-sm text-white">{payload.message}</p>
                     </div>
                   </motion.div>
                 );
@@ -90,22 +89,32 @@ const Room = () => {
             }
           })}
         </motion.section>
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
           {open && (
             <motion.div
               initial={{ opacity: 0, y: 500 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 500 }}
               transition={{ duration: 0.5, type: "spring", bounce: 0 }}
-              className="absolute bottom-0 z-10 flex h-3/4 w-full flex-col gap-2 rounded-3xl bg-white p-4"
+              className={`absolute bottom-0 z-10 flex w-full flex-col gap-2 rounded-3xl bg-white p-4 duration-300 ${
+                expanded ? "h-full" : "h-3/4"
+              }`}
               key="containerBox"
             >
-              <button
-                onClick={() => setOpen(!open)}
-                className="flex h-10 w-full items-center justify-center rounded-md duration-500 hover:bg-zinc-600/20"
-              >
-                <IoChevronDown className="h-10 w-10 text-zinc-800" />
-              </button>
+              <ol className="flex flex-row gap-2">
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="flex h-10 w-4/5 items-center justify-center rounded-md duration-500 hover:bg-zinc-600/20"
+                >
+                  <IoChevronDown className="h-10 w-10 text-zinc-800" />
+                </button>
+                <button
+                  onClick={() => setExpanded(!expanded)}
+                  className="flex h-10 w-1/5 items-center justify-center rounded-md duration-500 hover:bg-zinc-600/20"
+                >
+                  <IoExpand className="h-10 w-10 text-zinc-800" />
+                </button>
+              </ol>
               <Menu />
             </motion.div>
           )}

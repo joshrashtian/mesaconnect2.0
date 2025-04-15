@@ -79,15 +79,6 @@ const KioskPage = ({ params }: { params: { id: string } }) => {
       )
       .on("broadcast", { event: "testing" }, (payload) => {
         console.log("Cursor position received!", payload);
-      })
-      .subscribe((status) => {
-        if (status === "SUBSCRIBED") {
-          channel.send({
-            type: "broadcast",
-            event: "testing",
-            payload: { message: "Hello World!" },
-          });
-        }
       });
 
     return () => {

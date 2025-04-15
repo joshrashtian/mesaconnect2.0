@@ -1,9 +1,11 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { useRoomContext } from "../../RoomContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CrownIcon, Trash2 } from "lucide-react";
-
+import { IoMdPhonePortrait } from "react-icons/io";
 const RoomUsers = () => {
+  const [open, setOpen] = useState(false);
   const { data } = useRoomContext();
 
   const colors = [
@@ -19,7 +21,7 @@ const RoomUsers = () => {
     <div className="flex flex-col gap-2">
       {data.users.map((user: any, index: number) => (
         <div
-          className="flex flex-row items-center gap-4 rounded-md bg-zinc-200 p-2 font-geist"
+          className="flex flex-row items-center gap-4 rounded-md bg-zinc-600/30 p-2 font-nenue text-white"
           key={user.presence_ref}
         >
           <Avatar className="h-10 w-10">
@@ -36,6 +38,7 @@ const RoomUsers = () => {
           {data.room?.admin?.includes(user.user_id) && (
             <CrownIcon className="text-yellow-500" />
           )}
+          {user.mobile && <IoMdPhonePortrait className="text-blue-200" />}
         </div>
       ))}
     </div>

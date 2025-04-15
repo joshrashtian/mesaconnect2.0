@@ -20,6 +20,8 @@ import {
 } from "react-icons/io5";
 import LoadingObject from "@/(mesaui)/LoadingObject";
 import Link from "next/link";
+import { Environment, RoomAdditionalData } from "./[id]/RoomType";
+import EnvironmentComponent from "./[id]/EnvironmentComponent";
 
 export type RoomData = {
   name: string;
@@ -30,6 +32,7 @@ export type RoomData = {
   id: string;
   event_connection?: string;
   expiration_date?: string;
+  additional_data?: RoomAdditionalData;
 };
 
 export type Room = {
@@ -40,6 +43,11 @@ export type Room = {
   error: any;
   isAdmin: boolean;
   event?: EventType;
+  pomodoro: {
+    active: boolean;
+    time: number;
+    break: boolean;
+  };
 };
 
 type RoomContextType = {
@@ -51,6 +59,10 @@ type RoomContextType = {
   setFocused: Dispatch<SetStateAction<{ name: string; type: string } | null>>;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  expanded: boolean;
+  setExpanded: Dispatch<SetStateAction<boolean>>;
+  environment: Environment | null;
+  setEnvironment: Dispatch<SetStateAction<Environment | null>>;
 };
 
 const RoomContext = createContext<RoomContextType>({
@@ -61,12 +73,21 @@ const RoomContext = createContext<RoomContextType>({
     room: null,
     error: null,
     isAdmin: false,
+    pomodoro: {
+      active: false,
+      time: 0,
+      break: false,
+    },
   },
 
   setData: function (value: React.SetStateAction<Room>): void {
     throw new Error("Function not implemented.");
   },
-  color: ["text-blue-600", "bg-blue-600/10 text-blue-600"],
+  color: [
+    "text-blue-600",
+    "bg-blue-600/10 text-blue-600",
+    "bg-gradient-to-r from-blue-600 to-blue-400",
+  ],
   setColor: function (value: React.SetStateAction<string[]>): void {
     throw new Error("Function not implemented.");
   },
@@ -76,6 +97,16 @@ const RoomContext = createContext<RoomContextType>({
   },
   open: false,
   setOpen: function (value: React.SetStateAction<boolean>): void {
+    throw new Error("Function not implemented.");
+  },
+  expanded: false,
+  setExpanded: function (value: React.SetStateAction<boolean>): void {
+    throw new Error("Function not implemented.");
+  },
+  environment: null,
+  setEnvironment: function (
+    value: React.SetStateAction<Environment | null>,
+  ): void {
     throw new Error("Function not implemented.");
   },
 });
@@ -90,51 +121,105 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
     room: null,
     error: null,
     isAdmin: false,
+    pomodoro: {
+      active: false,
+      time: 0,
+      break: false,
+    },
   });
   const [color, setColor] = useState<string[]>([
     "text-blue-600",
     "bg-blue-600/10 text-blue-600",
+    "bg-gradient-to-r from-blue-600 to-blue-400",
   ]);
   const [focused, setFocused] = useState<{ name: string; type: string } | null>(
     null,
   );
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const [environment, setEnvironment] = useState<Environment | null>(null);
 
   const getData = async () => {
     const { data: room, error } = await supabase
+      //@ts-ignore
       .from("room")
       .select("*")
-      .eq("id", pathname.split("/").pop()!)
+      .eq("id", parseInt(pathname.split("/").pop()!))
       .single();
 
     if (
+      //@ts-ignore
       room?.expiration_date &&
+      //@ts-ignore
       new Date(room?.expiration_date) < new Date(Date.now())
     ) {
       console.log("Room has expired");
       setData({
         ...data,
+        //@ts-ignore
         room: room,
         error: "Room has expired. Please check in with MESA.",
+        //@ts-ignore
         isAdmin: room?.admin.includes(
-          (await supabase.auth.getUser()).data.user?.id,
+          (await supabase.auth.getUser()).data.user?.id as string,
         ),
+        pomodoro: {
+          active: false,
+          time: 0,
+          break: false,
+        },
       });
     } else {
       setData({
         ...data,
+        //@ts-ignore
         room: room,
         error: error,
+        //@ts-ignore
         isAdmin: room?.admin.includes(
-          (await supabase.auth.getUser()).data.user?.id,
+          (await supabase.auth.getUser()).data.user?.id as string,
         ),
+        pomodoro: {
+          active: false,
+          time: 0,
+          break: false,
+        },
       });
     }
 
+    //@ts-ignore
     if (room?.event_connection) {
+      //@ts-ignore
       getEvent(room?.event_connection);
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (data.pomodoro.active) {
+        if (data.pomodoro.time <= 0) {
+          setData({
+            ...data,
+            pomodoro: {
+              ...data.pomodoro,
+              active: false,
+              break: !data.pomodoro.break,
+              time: !data.pomodoro.break ? 5 * 60 : 25 * 60,
+            },
+          });
+          const sound = new Audio("/timerdone.mp3");
+          sound.volume = 1;
+          sound.play();
+        } else {
+          setData((prev) => ({
+            ...prev,
+            pomodoro: { ...prev.pomodoro, time: prev.pomodoro.time - 1 },
+          }));
+        }
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [data.pomodoro.active, data.pomodoro.time, data.pomodoro.break]);
 
   const getEvent = async (eventId: string) => {
     const { data: event, error } = await supabase
@@ -178,7 +263,6 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
         }));
       })
       .on("broadcast", { event: "message" }, (payload) => {
-        console.log(payload);
         setData((prev) => ({
           ...prev,
           messages: [...prev.messages, payload],
@@ -197,6 +281,11 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
 
           if (payload.new.event_connection) {
             getEvent(payload.new.event_connection);
+          } else {
+            setData((prev) => ({
+              ...prev,
+              event: undefined,
+            }));
           }
         },
       )
@@ -233,8 +322,15 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
         setFocused,
         open,
         setOpen,
+        expanded,
+        setExpanded,
+        environment,
+        setEnvironment,
       }}
     >
+      <AnimatePresence mode="wait">
+        {environment && <EnvironmentComponent />}
+      </AnimatePresence>
       {children}
       <AnimatePresence>
         {focused && (
@@ -301,7 +397,32 @@ const RoomContextProvider = ({ children }: { children: React.ReactNode }) => {
 export default RoomContextProvider;
 
 export const useRoomContext = () => {
-  const { data, setData, color, setColor, focused, setFocused, open, setOpen } =
-    useContext(RoomContext);
-  return { data, setData, color, setColor, focused, setFocused, open, setOpen };
+  const {
+    data,
+    setData,
+    color,
+    setColor,
+    focused,
+    setFocused,
+    open,
+    setOpen,
+    expanded,
+    setExpanded,
+    environment,
+    setEnvironment,
+  } = useContext(RoomContext);
+  return {
+    data,
+    setData,
+    color,
+    setColor,
+    focused,
+    setFocused,
+    open,
+    setOpen,
+    expanded,
+    setExpanded,
+    environment,
+    setEnvironment,
+  };
 };

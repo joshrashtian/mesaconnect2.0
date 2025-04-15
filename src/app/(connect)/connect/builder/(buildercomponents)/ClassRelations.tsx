@@ -37,13 +37,14 @@ const ClassRelations = ({
     const { data, error } = await supabase
       // @ts-ignore
       .schema("information")
+        //@ts-ignore
       .from("classes")
       .select();
 
     if (error) {
       console.log(error);
       return;
-    } else setClasses(data);
+    } else setClasses(data as any[]);
   }
 
   const search = async (query: string | undefined) => {
@@ -55,6 +56,7 @@ const ClassRelations = ({
     const { data, error } = await supabase
       // @ts-ignore
       .schema("information")
+        //@ts-ignore
       .from("classes")
       .select()
       .limit(3)
@@ -66,6 +68,7 @@ const ClassRelations = ({
       console.log(error);
       return;
     }
+    //@ts-ignore
     setClasses(data);
   };
 

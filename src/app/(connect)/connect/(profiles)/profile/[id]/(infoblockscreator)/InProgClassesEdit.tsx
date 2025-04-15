@@ -20,6 +20,7 @@ const InProgClassBlock = () => {
   useEffect(() => {
     async function get() {
       const { data, error } = await supabase
+        //@ts-ignore
         .from("infoblocks")
         .select("id, visible")
         .match({ userid: user?.id, type: "In Progress Classes" })
@@ -31,6 +32,7 @@ const InProgClassBlock = () => {
       if (!data) {
         setExists(false);
       } else {
+        //@ts-ignore
         setVisible(data.visible);
         setExists(true);
       }
@@ -40,7 +42,9 @@ const InProgClassBlock = () => {
 
   const changeVisibiity = async () => {
     const { data, error } = await supabase
+      //@ts-ignore
       .from("infoblocks")
+      //@ts-ignore
       .update({ visible: visible ? "private" : "public" })
       .match({ userid: user?.id, type: "In Progress Classes" })
       .select();
@@ -67,30 +71,27 @@ const InProgClassBlock = () => {
 };
 
 export function CreateInProg() {
-
   return (
     <>
       <h1 className="mb-3 font-eudoxus text-3xl font-bold">
         Show Your In Progress Classes
       </h1>
-   
-    
-        <button
-          className={`mt-4 flex h-12 w-1/3 items-center justify-center rounded-2xl bg-blue-400 font-bold text-white shadow-lg duration-500 hover:scale-105`}
-          onClick={async () => {
-            const { data, error } = await supabase.from("infoblocks").insert({
-              data: {
-                
-              },
-              type: "In Progress Classes",
-            });
-            if (error) console.error(error);
-            else window.location.reload();
-          }}
-        >
-          Create
-        </button>
-      
+
+      <button
+        className={`mt-4 flex h-12 w-1/3 items-center justify-center rounded-2xl bg-blue-400 font-bold text-white shadow-lg duration-500 hover:scale-105`}
+        onClick={async () => {
+          //@ts-ignore
+          const { data, error } = await supabase.from("infoblocks").insert({
+            //@ts-ignore
+            data: {},
+            type: "In Progress Classes",
+          });
+          if (error) console.error(error);
+          else window.location.reload();
+        }}
+      >
+        Create
+      </button>
     </>
   );
 }
