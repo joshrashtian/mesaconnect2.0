@@ -15,6 +15,7 @@ import {
 import { type ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import { Pathway } from "../../PathwayBuilder";
+import PathwayLink from "./PathwayLink";
 
 export const columns: ColumnDef<PostType>[] = [
   {
@@ -203,5 +204,26 @@ export const PathwayColumns: ColumnDef<Pathway>[] = [
   {
     header: "Major",
     accessorKey: "major",
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const post = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="cursor-pointer rounded-3xl hover:bg-zinc-200" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="h-fit w-48">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <PathwayLink link={`/connect/admin/pathway/${post.id}`} />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
   },
 ];
