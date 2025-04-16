@@ -1,6 +1,7 @@
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
+//Might be deprecated.
 
 export const serverside = createServerClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
