@@ -48,13 +48,13 @@ const Page: FC = () => {
 
       return params.toString();
     },
-    [searchParams]
+    [searchParams],
   );
 
   return (
     <main className="flex flex-col gap-10">
       <ul className="flex flex-row justify-between">
-        <h1 className="text-4xl font-black font-eudoxus">Lesson Builder</h1>
+        <h1 className="font-eudoxus text-4xl font-black">Lesson Builder</h1>
         <AnimatePresence>
           {selected && (
             <motion.button
@@ -65,7 +65,7 @@ const Page: FC = () => {
                 setSelected(undefined);
                 router.replace("/connect/learning/creator");
               }}
-              className="w-16 h-16 flex justify-center items-center text-2xl bg-white rounded-full"
+              className="flex h-16 w-16 items-center justify-center rounded-full bg-white text-2xl"
             >
               <IoHome />
             </motion.button>
@@ -78,21 +78,21 @@ const Page: FC = () => {
             initial={{ y: -10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -10, opacity: 0 }}
-            className="flex flex-row flex-wrap font-eudoxus gap-3"
+            className="flex flex-row flex-wrap gap-3 font-eudoxus"
           >
             {options.map((option, index) => {
               return (
                 <button
                   onClick={() => {
                     router.replace(
-                      pathname + "?" + createQueryString("curr", option.name)
+                      pathname + "?" + createQueryString("curr", option.name),
                     );
                   }}
                   key={index}
-                  className="w-96 p-10 flex flex-col gap-2 rounded-3xl hover:scale-[1.03] active:scale-[0.99] duration-300 hover:bg-zinc-white/20 bg-white"
+                  className="hover:bg-zinc-white/20 flex w-96 flex-col gap-2 rounded-3xl bg-white p-10 duration-300 hover:scale-[1.03] active:scale-[0.99]"
                 >
                   <ul className="text-xl">{option.icon}</ul>
-                  <h2 className=" text-2xl">{option.name}</h2>
+                  <h2 className="text-2xl">{option.name}</h2>
                 </button>
               );
             })}

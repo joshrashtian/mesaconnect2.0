@@ -26,7 +26,7 @@ const Search = () => {
 
       return params.toString();
     },
-    [searchParams]
+    [searchParams],
   );
 
   const searchPosts = async () => {
@@ -48,14 +48,14 @@ const Search = () => {
   const onSubmit = () => {
     if (!searchQuery) return;
     router.replace(
-      `/connect/social/search/?${createQueryString("search", searchQuery)}`
+      `/connect/social/search/?${createQueryString("search", searchQuery)}`,
     );
   };
 
   return (
-    <motion.main className="flex flex-col w-full min-h-full gap-4 ">
+    <motion.main className="flex min-h-full w-full flex-col gap-4">
       <h1
-        className={`font-black font-eudoxus ${gradientTextDefault} text-3xl lg:text-4xl 2xl:text-5xl duration-500`}
+        className={`font-eudoxus font-black ${gradientTextDefault} text-3xl duration-500 lg:text-4xl 2xl:text-5xl`}
       >
         {!searchValue
           ? "What would you like to search for?"
@@ -63,7 +63,7 @@ const Search = () => {
       </h1>
       <nav className="flex flex-row gap-1.5">
         <input
-          className="p-4 shadow-md font-eudoxus focus:outline-none dark:bg-zinc-700 dark:text-slate-100/50 hover:scale-[1.01] focus:scale-[1.01] duration-300 w-full rounded-2xl px-6"
+          className="w-full rounded-2xl p-4 px-6 font-eudoxus shadow-md duration-300 hover:scale-[1.01] focus:scale-[1.01] focus:outline-none dark:bg-zinc-700 dark:text-slate-100/50"
           type="search"
           placeholder="Search..."
           onChange={(e) => {
@@ -74,7 +74,7 @@ const Search = () => {
           onClick={() => {
             onSubmit();
           }}
-          className={`p-4 w-26 scale-100 rounded-2xl font-eudoxus hover:rounded-md ${gradientObjectDefault} text-white hover:scale-110 duration-300 font-bold`}
+          className={`w-26 scale-100 rounded-2xl p-4 font-eudoxus hover:rounded-md ${gradientObjectDefault} font-bold text-white duration-300 hover:scale-110`}
         >
           <IoSearchOutline size={26} />
         </button>
@@ -86,7 +86,7 @@ const Search = () => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 10, opacity: 0 }}
             key="toptext"
-            className="text-4xl dark:text-white text-center p-10 font-eudoxus"
+            className="p-10 text-center font-eudoxus text-4xl dark:text-white"
           >
             Loading Search Results
             {Array.from(Array(3).keys()).map((e, i) => (
@@ -122,7 +122,7 @@ const Search = () => {
         onClick={() => {
           router.back();
         }}
-        className={`absolute cursor-pointer right-9 top-12 text-orange-800 hover:text-indigo-600  w-16 h-16 flex justify-center items-center hover:scale-105 duration-300 rounded-full`}
+        className={`absolute right-9 top-12 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full text-orange-800 duration-300 hover:scale-105 hover:text-indigo-600`}
       >
         <IoArrowBackCircle size="100%" />
       </button>
