@@ -10,10 +10,12 @@ import { UserCheck } from "./UserCheck";
 import { serverside } from "../../../config/serverside";
 import { InfoProvide } from "./connect/(profiles)/profile/[id]/(infoblockscreator)/InfoBlockDashboard";
 import { MultiStepProvider } from "./connect/MutliStepContext";
+import { createClient } from "@supabase/supabase-js";
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  //TIP: UseSession Hook can only be used in Async Functions, since it returns a promise.
-
+  const serverside = createServerComponentClient({ cookies: () => cookies() });
   const { data, error } = await serverside.auth.getUser();
 
   if (!data.user) {
