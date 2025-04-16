@@ -48,7 +48,7 @@ export const icons = [
 
 const InterestButtons = ({
   newInfo,
-                         }: {
+}: {
   newInfo: (e: PostType[]) => void;
   reload: () => void;
 }) => {
@@ -62,7 +62,7 @@ const InterestButtons = ({
   const { replace, push } = useRouter();
 
   function handleParams(term?: string) {
-    const search = new URLSearchParams(params);
+    const search = new URLSearchParams(params as any);
     if (term) {
       search.set("by", term);
     } else {
@@ -100,9 +100,9 @@ const InterestButtons = ({
           <button
             className={`p-2 ${
               selected === interest.interest
-                ? "text-orange-800 hover:text-orange-900 bg-orange-100 hover:bg-orange-200 active:bg-orange-300"
-                : "text-slate-800 hover:text-black dark:text-slate-200 hover:bg-slate-200 active:bg-slate-300"
-            } duration-300 font-eudoxus text-sm xl:text-base flex flex-col lg:flex-row items-center gap-2 rounded-xl px-0.5 md:px-3 lg:px-6 active:scale-95`}
+                ? "bg-orange-100 text-orange-800 hover:bg-orange-200 hover:text-orange-900 active:bg-orange-300"
+                : "text-slate-800 hover:bg-slate-200 hover:text-black active:bg-slate-300 dark:text-slate-200"
+            } flex flex-col items-center gap-2 rounded-xl px-0.5 font-eudoxus text-sm duration-300 active:scale-95 md:px-3 lg:flex-row lg:px-6 xl:text-base`}
             onClick={async () => {
               const posts = await byTag(interest.interest);
 
@@ -120,7 +120,7 @@ const InterestButtons = ({
           </button>
         </Reorder.Item>
       ))}
-      <ul className="text-slate-800 dark:text-slate-200 p-2 rounded-full duration-300 hover:text-black hover:bg-slate-200 active:bg-slate-300">
+      <ul className="rounded-full p-2 text-slate-800 duration-300 hover:bg-slate-200 hover:text-black active:bg-slate-300 dark:text-slate-200">
         {interests && interests.length < 3 ? (
           <IoChevronDown />
         ) : (
