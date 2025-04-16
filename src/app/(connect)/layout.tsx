@@ -10,15 +10,12 @@ import { UserCheck } from "./UserCheck";
 import { serverside } from "../../../config/serverside";
 import { InfoProvide } from "./connect/(profiles)/profile/[id]/(infoblockscreator)/InfoBlockDashboard";
 import { MultiStepProvider } from "./connect/MutliStepContext";
-import { createClient } from "@supabase/supabase-js";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { createClient } from "../../../config/server";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
-  const serverside = createServerComponentClient({ cookies: () => cookies() });
-  const { data, error } = await serverside.auth.getUser();
+  const serverside = await createClient();
 
-  if (!data.user) {
+  if (await !serverside.auth.getUser()) {
     redirect("/sign-in");
   }
 
