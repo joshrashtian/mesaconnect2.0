@@ -21,6 +21,14 @@ const items = [
   },
 ];
 
+const mobileItems = [
+  {
+    title: "Getting Started",
+    link: "/docs/mobile/getting-started",
+    icon: IoPerson,
+  },
+];
+
 export async function DocsSidebar() {
   return (
     <Sidebar className="fixed z-40 font-eudoxus">
@@ -43,6 +51,21 @@ export async function DocsSidebar() {
                   <item.icon />
                   <Link href={item.link}>
                     <p>Verification and Roles</p>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Mobile App</SidebarGroupLabel>
+          <SidebarMenu>
+            {mobileItems.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton>
+                  <item.icon />
+                  <Link href={item.link}>
+                    <p>{item.title}</p>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
