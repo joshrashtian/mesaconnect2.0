@@ -7,7 +7,7 @@ const MobileLayout: React.FC<any> = async ({
 }) => {
   // Implement your component logic here
 
-  return <main className="p-10 bg-black/70 min-h-screen">{children}</main>;
+  return <main className="min-h-screen bg-black/70">{children}</main>;
 };
 
 export default MobileLayout;

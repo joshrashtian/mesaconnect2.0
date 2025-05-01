@@ -2,15 +2,15 @@
 import { MotionValue, motion, useTransform } from "framer-motion";
 import React from "react";
 import Image from "next/image";
-const PanelThree = ({ posY }: { posY: MotionValue }) => {
-  const opacity = useTransform(posY, [1400, 1700], [0, 1]);
+const PanelFive = ({ posY }: { posY: MotionValue }) => {
+  const opacity = useTransform(posY, [2500, 3000], [0, 1]);
   return (
-    <motion.section className="mt-24 flex h-screen items-center justify-center p-10">
+    <motion.section className="mt-24 flex h-screen w-full items-center justify-center">
       <motion.ul style={{ opacity }} className="flex flex-col items-center">
-        <h1 className="font-eudoxus text-4xl font-black text-white">
+        <h1 className="text-center font-eudoxus text-xl font-black text-white xl:text-4xl">
           Track your progress on the go.
         </h1>
-        <ol className="flex flex-row justify-center">
+        <ol className="mt-5 flex w-full flex-row justify-center overflow-x-hidden">
           <Image
             src={require("@/_assets/photos/Onboarding2.png")}
             alt="Mobile App Mockup"
@@ -24,4 +24,4 @@ const PanelThree = ({ posY }: { posY: MotionValue }) => {
   );
 };
 
-export default PanelThree;
+export default PanelFive;

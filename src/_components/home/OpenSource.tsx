@@ -7,16 +7,8 @@ import { IoGitBranch, IoGlobe, IoLockClosed } from "react-icons/io5";
 const OpenSource = forwardRef<HTMLDivElement, { scrolledValue: MotionValue }>(
   (props, ref) => {
     return (
-      <>
-        <motion.div
-          ref={ref}
-          style={{ opacity: props.scrolledValue }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex h-[500px] flex-col items-start justify-center rounded-3xl border-4 bg-zinc-300/30 px-8 font-eudoxus duration-1000 hover:border-orange-500/40 lg:mx-12 dark:bg-zinc-700/30 dark:text-slate-200 dark:hover:border-orange-400"
-        >
+      <div className="relative flex h-screen flex-row items-center justify-center">
+        <div className="flex h-[500px] w-full flex-col items-start justify-center rounded-3xl border-4 bg-zinc-300/30 px-8 font-eudoxus duration-1000 hover:border-orange-500/40 dark:bg-zinc-700/30 dark:text-slate-200 dark:hover:border-orange-400 lg:mx-12">
           <ul className="flex flex-row items-center gap-2">
             <ul className="mb-5 flex flex-row items-center gap-2 rounded-2xl bg-gradient-to-br from-blue-700 to-orange-500 p-4 text-6xl text-white">
               <IoGitBranch />
@@ -39,16 +31,8 @@ const OpenSource = forwardRef<HTMLDivElement, { scrolledValue: MotionValue }>(
             privacy reasons. the open source version will be a mock database for
             testing purposes.
           </p>
-        </motion.div>
-        <motion.div
-          ref={ref}
-          style={{ opacity: props.scrolledValue }}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mt-12 flex h-[300px] flex-col items-end justify-center rounded-3xl border-4 bg-zinc-300/30 px-8 font-eudoxus duration-1000 hover:border-orange-500/40 lg:mx-12 dark:bg-zinc-700/30 dark:text-slate-200 dark:hover:border-orange-400"
-        >
+        </div>
+        <motion.div className="mt-12 flex h-[500px] w-full flex-col items-end justify-center rounded-3xl border-4 bg-zinc-300/30 px-8 font-eudoxus duration-1000 hover:border-orange-500/40 dark:bg-zinc-700/30 dark:text-slate-200 dark:hover:border-orange-400 lg:mx-12">
           <ul className="flex flex-row items-center gap-2">
             <ul className="mb-5 flex flex-row items-center gap-2 rounded-2xl bg-gradient-to-br from-green-700 to-orange-500 p-4 text-6xl text-white">
               <IoLockClosed />
@@ -62,7 +46,7 @@ const OpenSource = forwardRef<HTMLDivElement, { scrolledValue: MotionValue }>(
             and are always going to remain a free to use service for students.
           </p>
         </motion.div>
-      </>
+      </div>
     );
   },
 );

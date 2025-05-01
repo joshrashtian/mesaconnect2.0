@@ -69,7 +69,7 @@ export default function Home() {
 
   const { scrollYProgress: openSourceScroll } = useScroll({
     target: openSourceRef,
-    offset: ["start end", "center center"],
+    offset: ["start end", "end start"],
   });
 
   const user = useContext(userContext);
