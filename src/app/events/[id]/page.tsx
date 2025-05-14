@@ -6,6 +6,7 @@ import Image from "next/image";
 import {
   IoAtCircle,
   IoCheckmarkCircle,
+  IoCloseCircle,
   IoLocate,
   IoLocation,
   IoPencil,
@@ -22,6 +23,7 @@ import Panels from "./Panels";
 import TabsForEvent from "./Tabs";
 import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input";
+import { IoIosClock, IoMdClock } from "react-icons/io";
 
 async function DecidatedEventPage({ params }: { params: { id: string } }) {
   let supabase = createServerComponentClient({ cookies });
@@ -30,6 +32,13 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
     .select("*")
     .eq("id", params.id)
     .single();
+
+  const { data: occurences, error: occurencesError } = await supabase
+    .from("event_occurrences")
+    .select("*")
+    .eq("event_id", params.id)
+    .order("occurrence_time", { ascending: true });
+
   const user = await supabase.auth.getUser();
 
   const { data: user_data } = await supabase
@@ -48,6 +57,31 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
   if (error) {
     return <p>{error.message}</p>;
   }
+
+  const start = new Date(data.start);
+
+  let duration = data.duration.split(":").reverse();
+  let end = data.duration ? new Date(data.start) : null;
+
+  if (end) {
+    end.setHours(start.getHours() + parseInt(duration[2]));
+    end.setMinutes(start.getMinutes() + parseInt(duration[1]));
+    end.setSeconds(start.getSeconds() + parseInt(duration[0]));
+  }
+
+  duration = duration.map((item: string) => parseInt(item));
+
+  let nextOccurence = occurences?.[0]?.occurrence_time
+    ? new Date(occurences?.[0]?.occurrence_time)
+    : null;
+
+  let state =
+    start > new Date(Date.now())
+      ? "upcoming"
+      : nextOccurence && nextOccurence < new Date(Date.now())
+        ? "ongoing"
+        : "ended";
+
   return (
     <MultiStepProvider>
       <main className="h-screen">
@@ -76,17 +110,17 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
           <ol className="absolute bottom-12 right-4 flex h-12 w-fit origin-bottom-right flex-row items-center justify-center rounded-3xl bg-white px-2 font-eudoxus text-sm shadow-2xl shadow-black/90 drop-shadow-2xl lg:w-[500px] lg:text-base">
             <ul
               className={`mx-2 h-4 w-4 rounded-full ${
-                new Date(data.start) > new Date(Date.now())
+                state === "upcoming"
                   ? "bg-yellow-500"
-                  : new Date(data.endtime) > new Date(Date.now())
+                  : state === "ongoing"
                     ? "animate-pulse bg-green-700"
                     : "bg-red-500"
               } `}
             />
             <p>
-              {new Date(data.endtime) < new Date(Date.now())
+              {state === "ended"
                 ? `Ended on ${new Date(data.end ?? data.start).toLocaleDateString()}`
-                : new Date(data.endtime) > new Date(Date.now())
+                : state === "ongoing"
                   ? "Ongoing Event"
                   : "Upcoming Event"}
             </p>
@@ -97,6 +131,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
           <h4 className="mt-2 text-xl font-light text-slate-500 xl:text-2xl">
             {data.desc}
           </h4>
+
           <Separator className="my-4" />
           {["admin", "tutor"].includes(user_data?.role) && (
             <>
@@ -111,18 +146,67 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
               </Button>
             </>
           )}
-          {data.creator !== user.data.user?.id ? (
-            CurrentInterest ? (
-              <RegisterFor event={data} />
+          <div className="flex w-full flex-row gap-2">
+            {data.creator !== user.data.user?.id ? (
+              <RegisterFor event={data} active={CurrentInterest} />
             ) : (
-              <div className="m-3 flex flex-row items-center gap-1.5 rounded-2xl bg-zinc-100 p-3 lg:px-6">
-                <IoCheckmarkCircle className="text-xl text-green-500" />
-                <p>Already Registered!</p>
+              <p>You are the owner of this event.</p>
+            )}
+          </div>
+          <Separator className="my-4" />
+          <div className="flex flex-row gap-2">
+            <div className="flex flex-col rounded-2xl bg-zinc-100 p-3">
+              <h4 className="flex flex-row items-center gap-1 text-xl font-bold">
+                <IoIosClock className="text-xl" /> Time
+              </h4>
+              <p>
+                {duration[2] !== 0 &&
+                  `${duration[2]} hour${duration[2] > 1 ? "s" : ""} `}
+                {duration[1] !== 0 &&
+                  `${duration[1]} minute${duration[1] > 1 ? "s" : ""} `}
+                {duration[0] !== 0 &&
+                  `${duration[0]} second${duration[0] > 1 ? "s" : ""}`}
+              </p>
+              <p className="text-sm font-light text-slate-500">
+                {start.toLocaleString().split(",")[1]} -{" "}
+                {end?.toLocaleString().split(",")[1]}
+              </p>
+              {data.repeat_type && (
+                <p className="text-sm font-light capitalize text-slate-500">
+                  {data.repeat_type}
+                </p>
+              )}
+            </div>
+
+            {occurences?.map((occurence, index) => (
+              <div
+                className="flex flex-col rounded-2xl bg-zinc-100 p-3 pr-8 duration-300 hover:bg-zinc-200"
+                key={occurence.id}
+              >
+                <p
+                  className={` ${
+                    new Date(occurence.occurrence_time) < new Date(Date.now())
+                      ? "text-red-500"
+                      : "text-slate-500"
+                  } ${index === 0 ? "text-xl" : "text-base"}`}
+                >
+                  {index === 0 ? "Next Occurence" : `Occurence ${index + 1}`}
+                </p>
+                <p className="font-mono text-xl font-bold">
+                  {new Date(occurence.occurrence_time).toLocaleDateString()}
+                </p>
               </div>
-            )
-          ) : (
-            <p>You are the owner of this event.</p>
-          )}
+            ))}
+            <div className="flex flex-col rounded-2xl bg-zinc-100 p-3 pr-8 duration-300 hover:bg-zinc-200">
+              <p className="text-xl text-slate-500">Event Expires</p>
+              <p className="font-mono text-xl font-bold">
+                {data.repeat_until
+                  ? new Date(data.repeat_until).toLocaleDateString()
+                  : "Does Not Repeat"}
+              </p>
+            </div>
+          </div>
+
           <Separator className="my-4" />
           <TabsForEvent data={data} />
         </article>
