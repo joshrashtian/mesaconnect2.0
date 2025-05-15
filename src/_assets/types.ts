@@ -74,6 +74,7 @@ export type EventType = {
     creator: string
     type: string
   }
+  duration: string
 }
 
 export type Lesson = {
