@@ -84,7 +84,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
 
   return (
     <MultiStepProvider>
-      <main className="h-screen">
+      <main className="h-screen font-eudoxus">
         <header
           className={`relative -z-0 ${data?.image?.url ? "h-60 xl:h-96" : "backdrop: h-48 bg-gradient-to-br from-purple-400 to-teal-500 backdrop-blur-xl"} w-full shadow-inner`}
         >
