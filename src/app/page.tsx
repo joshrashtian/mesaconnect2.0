@@ -29,6 +29,12 @@ import {
 import JoinNow from "@/_components/home/JoinNow";
 import OpenSource from "@/_components/home/OpenSource";
 import OneTapComponent from "@/_components/home/OneTap";
+import { Outfit, Slabo_13px } from "next/font/google";
+
+const font = Outfit({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export default function Home() {
   const firstRef = useRef(null);
@@ -76,13 +82,44 @@ export default function Home() {
 
   return (
     <motion.main className="no-scrollbar" ref={mainRef}>
-      <Header scrollRefrence={firstRef} />
+      <Header />
+      <motion.div className="fixed bottom-12 left-0 z-50 flex h-24 w-full flex-row items-center justify-center">
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 1.3 }}
+          className="absolute z-50 mt-6 flex w-64 flex-wrap justify-center gap-2 font-eudoxus md:flex-row md:flex-nowrap"
+        >
+          {!user.user ? (
+            <Link
+              href="/sign-in"
+              className="text-md group flex h-12 w-64 cursor-pointer items-center justify-between gap-2 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-400 px-8 text-white shadow-lg ring-blue-400 ring-offset-transparent transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-blue-700/60 hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
+            >
+              <div className="flex flex-row items-center justify-center">
+                <IoPerson className="text-2xl" />
+                <IoPerson className="-translate-x-6 translate-y-0 text-2xl opacity-50 duration-500 group-hover:-translate-x-7 group-hover:translate-y-1" />
+              </div>
+              <h2 className="text-xl duration-300">Sign In</h2>
+            </Link>
+          ) : (
+            <Link
+              href="/connect"
+              className="text-md ring-offset-3 group flex h-12 w-64 cursor-pointer items-center justify-between gap-3 rounded-3xl bg-gradient-to-r from-orange-600 to-orange-400 px-8 text-white shadow-lg ring-orange-400 ring-offset-transparent transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-orange-700/60 hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
+            >
+              <h2 className="text-xl duration-300">Enter Connect</h2>
+
+              <IoArrowForward className="duration-300 ease-in-out group-hover:translate-x-4" />
+            </Link>
+          )}
+        </motion.section>
+      </motion.div>
+
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex h-[105vh] w-screen flex-col items-center justify-between bg-blue-500/30 bg-gradient-to-br text-sm shadow-2xl shadow-slate-500/30 dark:bg-blue-950/40"
+        className="flex h-[100vh] w-screen flex-col items-center justify-between bg-gradient-to-br from-slate-900 to-slate-700 text-sm shadow-2xl shadow-slate-500/30"
       >
-        <Canvas className="absolute z-40 min-h-[20vh] w-screen scale-75 md:min-h-[35vh] lg:min-h-[50vh] lg:scale-100">
+        <Canvas className="absolute z-40 min-h-[20vh] w-screen scale-75 md:min-h-[35vh] lg:min-h-[70vh] lg:scale-100">
           <PresentationControls
             config={{ mass: 2, tension: 100, friction: 10 }}
             snap={{ mass: 2, tension: 100, friction: 10 }}
@@ -94,12 +131,12 @@ export default function Home() {
             </Center>
           </PresentationControls>
         </Canvas>
-        <ul className="flex h-full w-full -translate-y-32 flex-col items-center justify-center gap-1 px-4 text-center sm:gap-6 sm:px-10 md:gap-2 md:px-16">
+        <ul className="flex h-full w-full flex-col items-start justify-start gap-1 px-4 text-center sm:gap-6 sm:px-10 md:gap-2 md:px-16">
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "just" }}
-            className="cursor-default font-eudoxus text-base font-black text-white drop-shadow-lg duration-300 ease-in-out dark:text-white sm:text-xl md:text-3xl lg:text-5xl xl:text-5xl 2xl:text-5xl"
+            className={`cursor-default text-left font-nenue text-base text-white drop-shadow-lg duration-300 ease-in-out dark:text-white sm:text-xl md:text-3xl lg:text-5xl xl:text-5xl 2xl:text-5xl`}
           >
             It&apos;s Time To Connect{" "}
             <span className="bg-gradient-to-br from-red-600 to-orange-400/30 bg-clip-text text-transparent duration-300 hover:text-black/20">
@@ -118,52 +155,6 @@ export default function Home() {
           >
             A community for the students, by the students.
           </motion.h2>
-
-          <motion.section
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.3 }}
-            className="mt-6 flex w-64 flex-wrap justify-center gap-2 md:w-[700px] md:flex-row md:flex-nowrap"
-          >
-            {!user.user ? (
-              <Link
-                href="/sign-in"
-                className="text-md flex h-12 w-64 cursor-pointer items-center justify-center gap-2 rounded-3xl bg-theme-blue/50 text-white shadow-sm ring-blue-700 ring-offset-1 ring-offset-transparent transition-all duration-500 ease-in-out hover:scale-[1.02] hover:rounded-2xl hover:bg-theme-blue-2 hover:shadow-xl hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
-              >
-                <IoPerson />
-                <h2 className="font-eudoxus font-thin duration-300">Sign In</h2>
-              </Link>
-            ) : (
-              <Link
-                href="/connect"
-                className="text-md ring-offset-3 group flex h-12 w-64 cursor-pointer items-center justify-center gap-3 rounded-3xl bg-orange-600/50 text-white shadow-lg ring-orange-400 ring-offset-transparent transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-orange-700/60 hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
-              >
-                <h2 className="font-eudoxus font-thin duration-300">
-                  Enter Connect
-                </h2>
-
-                <IoArrowForward className="duration-300 ease-in-out group-hover:translate-x-4" />
-              </Link>
-            )}
-            <Link
-              href="/news"
-              className="flex h-12 w-16 cursor-pointer items-center justify-center rounded-[32px] bg-indigo-600/60 text-2xl text-white shadow-lg ring-indigo-500 ring-offset-1 ring-offset-transparent transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
-            >
-              <IoNewspaper />
-            </Link>
-            <Link
-              href="/support"
-              className="flex h-12 w-16 cursor-pointer items-center justify-center rounded-[32px] bg-teal-700/60 text-2xl text-white shadow-lg ring-teal-500 ring-offset-1 ring-offset-transparent transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
-            >
-              <BiSupport />
-            </Link>
-            <Link
-              href="/mobile"
-              className="flex h-12 w-16 cursor-pointer items-center justify-center rounded-[32px] bg-gray-500/60 text-2xl text-white shadow-lg ring-gray-500 ring-offset-1 ring-offset-transparent transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-2xl hover:ring-2 md:w-24 lg:h-16 lg:w-24"
-            >
-              <IoPhonePortrait />
-            </Link>
-          </motion.section>
           <p className="text-sm text-white/60">
             models by goldenspino, sellpet. all rights belong to them.
           </p>

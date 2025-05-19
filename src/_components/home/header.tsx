@@ -3,6 +3,7 @@ import { useDarkMode, useUser } from "@/app/AuthContext";
 import {
   AnimatePresence,
   motion,
+  useAnimation,
   useScroll,
   useSpring,
   useTransform,
@@ -19,37 +20,26 @@ import {
   IoPhonePortrait,
 } from "react-icons/io5";
 import Image from "next/image";
-
-const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
+import { usePathname } from "next/navigation";
+const Header = () => {
   const user = useUser();
+  const pathname = usePathname();
   const [menu, setMenu] = useState(false);
-  const { scrollYProgress } = useScroll({
-    target: scrollRefrence,
-    offset: ["start end", "end end"],
-  });
 
   const isDark = useDarkMode();
 
-  const springedValue = useSpring(scrollYProgress);
-
-  const opacity = useTransform(springedValue, [0.4, 1], [0, 1]);
-  const color = useTransform(
-    springedValue,
-    [0.4, 1],
-    isDark ? ["#FFF", "#fff"] : ["#FFF", "#FFFF"],
-  );
-
   const headerComponents = [
+    {
+      name: "Connect",
+      href: "/connect",
+      icon: <IoPhonePortrait />,
+    },
     {
       name: "News",
       href: "/news",
       icon: <IoNewspaper />,
     },
-    {
-      name: "Support",
-      href: "/support",
-      icon: <IoHelpCircle />,
-    },
+
     {
       name: "Events",
       href: "/events",
@@ -66,6 +56,17 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
       icon: <IoPhonePortrait />,
     },
   ];
+  const controls = useAnimation();
+
+  const handleDragEnd = () => {
+    // Animate back to origin (x: 0, y: 0)
+    controls.start({
+      x: 0,
+      y: 0,
+      transition: { type: "spring", stiffness: 300, damping: 20 },
+    });
+  };
+
   return (
     <motion.div
       initial={{ y: -30, opacity: 0 }}
@@ -83,25 +84,39 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 5, type: "spring" }}
-        className="flex flex-row items-center gap-3 self-center rounded-3xl bg-white px-4 py-2 shadow-2xl shadow-black/50"
+        className="flex flex-row items-center gap-3 rounded-3xl bg-white px-4 py-2 opacity-0 shadow-2xl shadow-black/50 xl:opacity-100"
       >
-        <Image
-          src={require("../../../public/mesalogo.png")}
-          alt="logo"
-          width={100}
-          height={100}
-          className="h-10 w-10 rounded-xl border shadow-lg"
-        />
+        <motion.div
+          drag
+          draggable
+          whileHover={{
+            borderColor: "#777",
+          }}
+          className={`relative h-12 w-12 min-w-12 overflow-hidden rounded-xl border ${
+            pathname === "/"
+              ? "bg-white"
+              : "bg-gradient-to-r from-white to-orange-100"
+          } shadow-lg`}
+          onDragEnd={handleDragEnd}
+          animate={controls}
+          transition={{ duration: 0.5 }}
+        >
+          <Image
+            src={require("../../../public/mesalogo.png")}
+            alt="logo"
+            fill
+            className="pointer-events-none object-contain"
+          />
+        </motion.div>
         <motion.h2
           initial="colorone"
-          animate={
-            Number(scrollYProgress.get()) < 0.9 ? "colorone" : "colortwo"
-          }
           className="font-eudoxus text-sm font-black text-red-600 shadow-black drop-shadow-2xl lg:text-xl"
         >
           MESA
-          <motion.span className="text-zinc-500">connect</motion.span>
-          <motion.span className="rounded-full text-xs">beta</motion.span>
+          <motion.span className="text-zinc-500">
+            {pathname.includes("mobile") ? "mobile" : "connect"}
+          </motion.span>
+          <motion.span className="ml-1 rounded-full text-xs">beta</motion.span>
         </motion.h2>
         <ul className="mx-4 h-12 w-0.5 bg-zinc-200 dark:bg-white" />
         {headerComponents.map((e, index) => (
@@ -114,7 +129,7 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
           >
             <Link
               href={e.href}
-              className="flex flex-row items-center gap-2 text-lg font-light duration-300 hover:scale-105 hover:cursor-pointer hover:font-medium"
+              className="flex flex-row items-center gap-2 text-lg duration-300 hover:scale-105 hover:cursor-pointer hover:font-medium"
             >
               {e.name}
             </Link>
@@ -124,15 +139,12 @@ const Header = ({ scrollRefrence }: { scrollRefrence: any }) => {
           </motion.ul>
         ))}
       </motion.div>
-      <motion.section className="absolute right-[5%] flex flex-row items-center gap-5 text-nowrap">
+      <motion.section className="absolute right-[5%] flex flex-row items-center gap-5 text-nowrap text-white">
         <button
           onClick={() => setMenu(!menu)}
           className="flex cursor-pointer flex-row items-center gap-1 rounded-full drop-shadow-2xl duration-300 hover:scale-105"
         >
-          <motion.h1
-            style={{ color: color }}
-            className="text-sm drop-shadow-xl lg:text-xl"
-          >
+          <motion.h1 className="text-sm drop-shadow-xl lg:text-xl">
             {user.user
               ? user.user.user_metadata.full_name
                 ? user.user.user_metadata.full_name

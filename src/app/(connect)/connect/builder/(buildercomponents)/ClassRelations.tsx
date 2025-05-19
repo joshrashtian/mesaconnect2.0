@@ -6,6 +6,10 @@ export type ClassType = {
   num: number;
   category: string;
   name: string;
+  units: number;
+  semester: string;
+  influence?: number;
+  grade: "A" | "B" | "C" | "D" | "F" | "P" | "NP" | "W" | "IP";
 };
 
 const ClassRelations = ({
@@ -37,7 +41,7 @@ const ClassRelations = ({
     const { data, error } = await supabase
       // @ts-ignore
       .schema("information")
-        //@ts-ignore
+      //@ts-ignore
       .from("classes")
       .select();
 
@@ -56,7 +60,7 @@ const ClassRelations = ({
     const { data, error } = await supabase
       // @ts-ignore
       .schema("information")
-        //@ts-ignore
+      //@ts-ignore
       .from("classes")
       .select()
       .limit(3)

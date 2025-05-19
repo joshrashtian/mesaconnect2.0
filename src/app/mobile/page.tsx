@@ -25,7 +25,7 @@ const MobileOnboarding = () => {
   const barScale = useTransform(springedScale, [500, 1100], [0, 1]);
 
   return (
-    <main className="flex flex-col items-center justify-center py-20">
+    <main className="flex flex-col items-center justify-center py-32">
       <header ref={ScrollRef} className="flex h-screen flex-col items-center">
         <motion.h1
           initial={{ y: -30, opacity: 0 }}
