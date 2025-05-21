@@ -1,7 +1,7 @@
 import { useUser } from "@/app/AuthContext";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../config/mesa-config";
-import { useGPA } from "./layout";
+import { useGPA } from "./GPAProvider";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";

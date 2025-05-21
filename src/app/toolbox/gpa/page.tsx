@@ -1,19 +1,10 @@
 "use client";
-import { ClassType } from "@/app/(connect)/connect/builder/(buildercomponents)/ClassRelations";
-import React, { createContext, useContext, useEffect, useState } from "react";
 import GPAChart from "./GPAChart";
-import { Button } from "@/components/ui/button";
-import { supabase } from "../../../../config/mesa-config";
-import { useUser } from "@/app/AuthContext";
-import { useGPA } from "./layout";
 import GPAList from "./GPAList";
 import dynamic from "next/dynamic";
 import Saves from "./saves";
 import Statistics from "./Statistics";
 const GPACalculator = () => {
-  const { courses, setCourses, coursesBySemester, gpa } = useGPA();
-  const { user } = useUser();
-
   const AddClass = dynamic(() => import("./AddClass"), { ssr: false });
 
   return (

@@ -1,11 +1,10 @@
 "use client";
-import React, { Suspense, useState } from "react";
-import { useGPA } from "./layout";
+import React, { useState } from "react";
+import { useGPA } from "./GPAProvider";
 import { ClassType } from "@/app/(connect)/connect/builder/(buildercomponents)/ClassRelations";
 import { motion } from "framer-motion";
 import {
   DropdownMenu,
-  DropdownMenuItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
@@ -14,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { IoCalendar, IoFlower, IoLeaf, IoSnow, IoSunny } from "react-icons/io5";
+import { IoFlower, IoLeaf, IoSnow, IoSunny } from "react-icons/io5";
 const AddClass = () => {
   const { AddClassToSemester } = useGPA();
   const [classData, setClassData] = useState<ClassType>({

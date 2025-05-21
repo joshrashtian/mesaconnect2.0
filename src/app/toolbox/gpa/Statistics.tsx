@@ -1,11 +1,11 @@
 "use client";
 import React, { useMemo } from "react";
-import { useGPA } from "./layout";
-import { Card } from "@/components/ui/card";
+import { useGPA } from "./GPAProvider";
 import { ClassType } from "@/app/(connect)/connect/builder/(buildercomponents)/ClassRelations";
 import {
   IoChevronDown,
   IoChevronDownCircle,
+  IoChevronUp,
   IoChevronUpCircle,
 } from "react-icons/io5";
 import { motion } from "framer-motion";

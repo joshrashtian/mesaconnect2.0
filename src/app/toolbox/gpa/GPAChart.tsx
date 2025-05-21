@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/chart";
 import { Area, AreaChart, Bar, TooltipProps, XAxis, YAxis } from "recharts";
 import { BarChart, CartesianGrid } from "recharts";
-import { useGPA } from "./layout";
+import { useGPA } from "./GPAProvider";
 import { ClassType } from "@/app/(connect)/connect/builder/(buildercomponents)/ClassRelations";
 import { IoChevronUp, IoChevronDown } from "react-icons/io5";
 import { Button } from "@/components/ui/button";

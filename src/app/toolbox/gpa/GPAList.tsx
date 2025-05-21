@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useGPA } from "./layout";
+import { useGPA } from "./GPAProvider";
 import { ClassType } from "@/app/(connect)/connect/builder/(buildercomponents)/ClassRelations";
 import { Button } from "@/components/ui/button";
 const GPAList = () => {

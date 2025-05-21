@@ -1,7 +1,6 @@
 "use server"
 
 import { ClassType } from "@/app/(connect)/connect/builder/(buildercomponents)/ClassRelations";
-import { gradeToGPA } from "./layout";
 
 const times = ["Winter", "Spring", "Summer", "Fall"];
 
