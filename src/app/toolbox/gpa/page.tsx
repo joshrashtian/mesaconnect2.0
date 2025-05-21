@@ -6,33 +6,27 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "../../../../config/mesa-config";
 import { useUser } from "@/app/AuthContext";
 import { useGPA } from "./layout";
-
+import GPAList from "./GPAList";
+import dynamic from "next/dynamic";
+import Saves from "./saves";
+import Statistics from "./Statistics";
 const GPACalculator = () => {
   const { courses, setCourses, coursesBySemester, gpa } = useGPA();
   const { user } = useUser();
+
+  const AddClass = dynamic(() => import("./AddClass"), { ssr: false });
+
   return (
-    <div className="flex flex-col items-center justify-center font-eudoxus">
-      <h1 className="text-2xl font-bold">GPACalculator</h1>
+    <div className="flex flex-col p-7 font-eudoxus">
+      <h1 className="mb-5 text-2xl font-bold">GPACalculator</h1>
       <GPAChart />
-      <Button
-        onClick={async () => {
-          const { data, error } = await supabase
-            .from("transcripts")
-            .select("*")
-            .eq("userid", user?.id ?? "");
 
-          if (error) {
-            console.error(error);
-          } else {
-            //@ts-ignore
-            setCourses(data);
-          }
-        }}
-      >
-        Import Classes
-      </Button>
-
-      <pre>{JSON.stringify(coursesBySemester, null, 2)}</pre>
+      <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 2xl:grid-cols-3">
+        <AddClass />
+        <GPAList />
+        <Saves />
+        <Statistics />
+      </div>
     </div>
   );
 };

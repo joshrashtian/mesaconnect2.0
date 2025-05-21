@@ -8,7 +8,7 @@ export type ClassType = {
   name: string;
   units: number;
   semester: string;
-  influence?: number;
+  influence?: number | "N/A";
   grade: "A" | "B" | "C" | "D" | "F" | "P" | "NP" | "W" | "IP";
 };
 
