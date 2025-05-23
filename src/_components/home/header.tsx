@@ -72,7 +72,7 @@ const Header = () => {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 5, type: "spring" }}
-      className="fixed top-0 z-50 flex h-28 w-full flex-row items-center justify-center px-[5%]"
+      className="fixed top-0 z-50 flex h-28 w-full flex-row items-center justify-between px-[5%] lg:justify-center lg:px-10"
     >
       {/*
       <motion.ul
@@ -110,7 +110,7 @@ const Header = () => {
         </motion.div>
         <motion.h2
           initial="colorone"
-          className="font-eudoxus text-sm font-black text-red-600 shadow-black drop-shadow-2xl lg:text-xl"
+          className="hidden font-eudoxus text-sm font-black text-red-600 shadow-black drop-shadow-2xl lg:block lg:text-xl"
         >
           MESA
           <motion.span className="text-zinc-500">
@@ -118,13 +118,13 @@ const Header = () => {
           </motion.span>
           <motion.span className="ml-1 rounded-full text-xs">beta</motion.span>
         </motion.h2>
-        <ul className="mx-4 h-12 w-0.5 bg-zinc-200 dark:bg-white" />
+        <ul className="mx-4 hidden h-12 w-0.5 bg-zinc-200 dark:bg-white lg:block" />
         {headerComponents.map((e, index) => (
           <motion.ul
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 1 + 0.5 * index, duration: 2 }}
-            className="mx-3 flex h-full w-full items-center"
+            className="mx-3 hidden h-full w-full items-center lg:flex"
             key={index}
           >
             <Link

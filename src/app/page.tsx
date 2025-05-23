@@ -30,6 +30,9 @@ import JoinNow from "@/_components/home/JoinNow";
 import OpenSource from "@/_components/home/OpenSource";
 import OneTapComponent from "@/_components/home/OneTap";
 import { Outfit, Slabo_13px } from "next/font/google";
+import ClassShowcase from "@/_components/home/ClassShowcase";
+import MobilePreview from "@/_components/home/mobilepreview";
+import StudyRoomPreview from "@/_components/home/StudyRoomPreview";
 
 const font = Outfit({
   weight: "400",
@@ -41,7 +44,7 @@ export default function Home() {
   const mainRef = useRef(null);
   const openSourceRef = useRef(null);
   const joinNowRef = useRef(null);
-
+  const majorsRef = useRef(null);
   const { scrollYProgress: FirstScroll } = useScroll({
     target: mainRef,
     offset: ["start start", "end end"],
@@ -119,7 +122,7 @@ export default function Home() {
         animate={{ opacity: 1 }}
         className="flex h-[100vh] w-screen flex-col items-center justify-between bg-gradient-to-br from-slate-900 to-slate-700 text-sm shadow-2xl shadow-slate-500/30"
       >
-        <Canvas className="absolute z-40 min-h-[20vh] w-screen scale-75 md:min-h-[35vh] lg:min-h-[70vh] lg:scale-100">
+        <Canvas className="absolute z-40 min-h-[50vh] w-screen scale-75 md:min-h-[35vh] lg:min-h-[70vh] lg:scale-100">
           <PresentationControls
             config={{ mass: 2, tension: 100, friction: 10 }}
             snap={{ mass: 2, tension: 100, friction: 10 }}
@@ -136,15 +139,15 @@ export default function Home() {
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "just" }}
-            className={`cursor-default text-left font-nenue text-base text-white drop-shadow-lg duration-300 ease-in-out dark:text-white sm:text-xl md:text-3xl lg:text-5xl xl:text-5xl 2xl:text-5xl`}
+            className={`cursor-default text-left font-eudoxus font-black text-white drop-shadow-lg duration-300 ease-in-out dark:text-white sm:text-xl md:text-3xl lg:text-5xl xl:text-5xl 2xl:text-5xl`}
           >
             It&apos;s Time To Connect{" "}
             <span className="bg-gradient-to-br from-red-600 to-orange-400/30 bg-clip-text text-transparent duration-300 hover:text-black/20">
               STEM
             </span>{" "}
-            Together. Within A{" "}
-            <span className="bg-orange-600/60 bg-clip-text text-transparent duration-500 hover:text-black/20">
-              New Dimension.
+            Together In A{" "}
+            <span className="bg-gradient-to-br from-purple-600 to-blue-400 bg-clip-text text-transparent duration-500 hover:text-black/20">
+              New World.
             </span>{" "}
           </motion.h1>
           <motion.h2
@@ -153,8 +156,17 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.7, type: "just" }}
             className="font-eudoxus text-2xl text-white dark:text-slate-50"
           >
-            A community for the students, by the students.
+            A community and platform for the students, by the students.
           </motion.h2>
+          <button
+            onClick={() =>
+              // @ts-ignore
+              majorsRef.current?.scrollIntoView({ behavior: "smooth" })
+            }
+            className="rounded-3xl bg-gradient-to-r from-blue-600 to-blue-400 px-8 py-2 text-white shadow-lg ring-blue-400 ring-offset-transparent transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-blue-700/60 hover:ring-2"
+          >
+            Learn More
+          </button>
           <p className="text-sm text-white/60">
             models by goldenspino, sellpet. all rights belong to them.
           </p>
@@ -163,14 +175,14 @@ export default function Home() {
 
       <motion.section
         style={{ scale: scrollYProgress, opacity: scrollYProgress }}
-        className={`mt-16 flex h-screen w-full max-w-[90%] flex-col items-center justify-center gap-10 rounded-2xl border-slate-300 p-10 text-sm text-slate-400`}
+        className={`mt-16 flex h-screen w-full flex-col items-center justify-center gap-10 rounded-2xl border-slate-300 p-5 text-sm text-slate-400 lg:p-10`}
         ref={firstRef}
       >
-        <section className="flex w-full flex-col gap-12 rounded-3xl bg-zinc-50 p-10 shadow-md dark:bg-zinc-700/30">
+        <section className="flex w-full flex-col gap-12 rounded-3xl bg-white p-5 shadow-md dark:bg-zinc-700/30 lg:p-10">
           <MajorsText />
-          <section className="flex flex-row justify-between">
-            <ul className="flex w-3/5 flex-col gap-5 font-eudoxus font-light md:text-lg lg:text-2xl 2xl:text-3xl">
-              <h1 className=" ">
+          <section ref={majorsRef} className="flex flex-row justify-between">
+            <ul className="flex w-full flex-col gap-5 font-eudoxus font-light md:text-lg lg:w-3/5 lg:text-2xl 2xl:text-3xl">
+              <h1 className="text-center lg:text-left">
                 As a community, MESA is here to push and motivate our best
                 selves. Leveraging modern technologies, we can help you
                 exprience your major and see your ideas come to life.
@@ -184,7 +196,7 @@ export default function Home() {
           </section>
         </section>
         <section className="flex w-full flex-row gap-12 rounded-3xl">
-          <section className="flex w-full flex-col gap-12 rounded-3xl bg-zinc-50 p-10 shadow-md dark:bg-zinc-700/30">
+          <section className="flex w-full flex-col gap-12 rounded-3xl bg-zinc-50 p-5 shadow-md dark:bg-zinc-700/30 lg:p-10">
             <h2 className="font-eudoxus text-4xl font-semibold text-slate-500 dark:text-slate-100/80">
               A Million Reasons To Join.
             </h2>
@@ -193,7 +205,11 @@ export default function Home() {
         </section>
       </motion.section>
       <SocialPreview />
-      <OpenSource ref={openSourceRef} scrolledValue={openSourceScroll} />
+      <ClassShowcase />
+      <OpenSource />
+      <MobilePreview />
+      {/* TODO: Add the study room preview */}
+      {/* <StudyRoomPreview /> */}
       <JoinNow ref={joinNowRef} scrolledValue={JoinNowScroll} />
     </motion.main>
   );
