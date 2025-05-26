@@ -58,10 +58,10 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
     return <p>{error.message}</p>;
   }
 
-  const start = new Date(data.start);
+  const start = new Date(data.start.replace("+00:00", ""));
 
   let duration = data.duration.split(":").reverse();
-  let end = data.duration ? new Date(data.start) : null;
+  let end = data.duration ? new Date(data.start.toString()) : null;
 
   if (end) {
     end.setHours(start.getHours() + parseInt(duration[2]));
@@ -168,8 +168,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
                   `${duration[0]} second${duration[0] > 1 ? "s" : ""}`}
               </p>
               <p className="text-sm font-light text-slate-500">
-                {start.toLocaleString().split(",")[1]} -{" "}
-                {end?.toLocaleString().split(",")[1]}
+                {start.toLocaleTimeString()} - {end?.toLocaleTimeString()}
               </p>
               {data.repeat_type && (
                 <p className="text-sm font-light capitalize text-slate-500">

@@ -63,19 +63,25 @@ export type EventType = {
   created_at: any
   name: string
   desc: string
-  start: Date
-  endtime: Date
+  start: string 
   location: string
+  link?: string
   tags: string[]
-  type: string
+  type: EventTypes
   creator: string
   image?: {
     url: string
     creator: string
     type: string
   }
+  group_ids?: string[]
   duration: string
+  repeat_type?: "monthly" | "weekly" | "daily" | null
+  repeat_until?: string | null
+  is_active?: boolean
 }
+
+type EventTypes = "Official MESA" | "Workshop" | "User Created" | "Unofficial" | "Other" | "Zoom Meeting" | "Class" | "AEW Workshop"
 
 export type Lesson = {
   id: string

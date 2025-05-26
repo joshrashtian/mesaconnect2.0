@@ -36,7 +36,7 @@ const EventCreatorKiosk = () => {
       desc: event?.desc,
       location: event?.location,
       start: event?.start,
-      endtime: event?.endtime,
+
       type: "User Created",
       tags: ["kiosk"],
       creator: user?.id,
@@ -86,13 +86,6 @@ const EventCreatorKiosk = () => {
             name="start"
             type="datetime-local"
             placeholder="Start Date"
-            onChange={updateEvent}
-          />
-          <KioskInput
-            icon={<IoCalendar className="text-white" />}
-            name="endtime"
-            type="datetime-local"
-            placeholder="End Date"
             onChange={updateEvent}
           />
         </ol>

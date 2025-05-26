@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { getJSONRandom } from "./UnsplashServerSide";
+import { getJSONRandom, getJSONSearch } from "./UnsplashServerSide";
 import Image from "next/image";
 
 const UnsplashSearch = ({ updateImage }: { updateImage: (e: any) => void }) => {
@@ -11,11 +11,7 @@ const UnsplashSearch = ({ updateImage }: { updateImage: (e: any) => void }) => {
   const inputRef: any = useRef();
 
   const fetchImages = async () => {
-    console.log("Fetching images ", inputRef.current.value);
-    let data = await fetch(
-      `https://api.unsplash.com/search/photos?client_id=TrAEUL7ymv6F-R8MPkbo5aGj68vq5EmfCIvf81MokyY&per_page=4&query=${inputRef.current.value}`,
-    );
-    let json = await data.json();
+    let json = await getJSONSearch(inputRef.current.value);
     setImages(json.results);
   };
 
@@ -39,8 +35,9 @@ const UnsplashSearch = ({ updateImage }: { updateImage: (e: any) => void }) => {
         >
           Custom
         </button>
-        {!Array.isArray(images) &&
+        {images &&
           !images?.errors &&
+          Array.isArray(images) &&
           images?.map((e: any) => {
             return (
               <article key={e.id} className="group flex h-full w-full flex-col">

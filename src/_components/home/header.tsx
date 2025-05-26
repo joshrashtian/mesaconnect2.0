@@ -4,6 +4,7 @@ import {
   AnimatePresence,
   motion,
   useAnimation,
+  useMotionValue,
   useScroll,
   useSpring,
   useTransform,
@@ -67,6 +68,12 @@ const Header = () => {
     });
   };
 
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const rotateY = useTransform(x, [-200, 0, 200], [-15, 0, 15]);
+  const rotateX = useTransform(y, [-200, 0, 200], [15, 0, -15]);
+
   return (
     <motion.div
       initial={{ y: -30, opacity: 0 }}
@@ -85,18 +92,30 @@ const Header = () => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 5, type: "spring" }}
         className="flex flex-row items-center gap-3 rounded-3xl bg-white px-4 py-2 opacity-0 shadow-2xl shadow-black/50 xl:opacity-100"
+        style={{
+          perspective: 1000,
+        }}
       >
         <motion.div
           drag
           draggable
           whileHover={{
             borderColor: "#777",
+            cursor: "grab",
+            scale: 1.05,
           }}
           className={`relative h-12 w-12 min-w-12 overflow-hidden rounded-xl border ${
             pathname === "/"
               ? "bg-white"
               : "bg-gradient-to-r from-white to-orange-100"
           } shadow-lg`}
+          style={{
+            rotateY,
+            rotateX,
+            x,
+            y,
+          }}
+          whileTap={{ scale: 0.95, cursor: "grabbing" }}
           onDragEnd={handleDragEnd}
           animate={controls}
           transition={{ duration: 0.5 }}
