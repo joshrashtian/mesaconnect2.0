@@ -187,17 +187,7 @@ const KioskMenu = () => {
                     </h1>
                     <p className="p-2 text-sm opacity-0 duration-300 group-hover:opacity-100">
                       {new Date(event.start).toLocaleString()} /{" "}
-                      {event.start > new Date(Date.now())
-                        ? "Starting Soon"
-                        : event.start < new Date(Date.now()) || !event.duration
-                          ? "Has Ended"
-                          : "Ends in " +
-                            Math.floor(
-                              (new Date(event.start).getTime() +
-                                new Date().getTime()) /
-                                1000 /
-                                60,
-                            )}
+
                     </p>
                   </div>
                 </Link>
