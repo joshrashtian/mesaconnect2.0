@@ -8,11 +8,24 @@ import { useUser } from "@/app/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { IoIdCard, IoLogoApple, IoLogoGoogle, IoMail } from "react-icons/io5";
+import {
+  IoCheckmarkCircle,
+  IoCloseCircle,
+  IoIdCard,
+  IoLogoApple,
+  IoLogoGoogle,
+  IoMail,
+} from "react-icons/io5";
 import { supabase } from "../../../../config/mesa-config";
 import { EventType } from "@/_assets/types";
 
-const RegisterFor = ({ event }: { event: EventType }) => {
+const RegisterFor = ({
+  event,
+  active,
+}: {
+  event: EventType;
+  active: boolean;
+}) => {
   const mutlistep = useMultiStep();
   const { user, userData } = useUser();
   const [studentId, setStudentId] = React.useState<number>();
@@ -76,6 +89,32 @@ const RegisterFor = ({ event }: { event: EventType }) => {
       </ul>
     </div>,
   ];
+
+  if (active)
+    return (
+      <div className="m-3 flex w-full flex-row items-center gap-1.5 rounded-2xl bg-zinc-100 p-3 lg:px-6">
+        <IoCheckmarkCircle className="text-xl text-green-500" />
+        <p>Already Registered!</p>
+        <Button
+          onClick={async () => {
+            const { data, error } = await supabase
+              .from("eventinterest")
+              .delete()
+              .eq("event_id", event.id)
+              .eq("user_id", user?.id ?? "");
+
+            if (error) alert(error.message);
+            else {
+              alert("Unregistered from event!");
+            }
+          }}
+          className="ml-auto"
+        >
+          <IoCloseCircle className="text-xl text-red-500" />
+          <p>Unregister</p>
+        </Button>
+      </div>
+    );
 
   return (
     <Button

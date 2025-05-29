@@ -8,25 +8,56 @@ import { supabase } from "../../../../../../config/mesa-config";
 import { MenuContext } from "@/app/(connect)/InfoContext";
 import { useRouter } from "next/navigation";
 import UnsplashSearch from "./UnsplashSearch";
-import Input from "@/_components/Input";
-import { IoCalendar, IoPerson } from "react-icons/io5";
+import { Input } from "@/components/ui/input";
+import { IoCalendar, IoPerson, IoSchool, IoVideocam } from "react-icons/io5";
 import { AiFillTags } from "react-icons/ai";
 import { VscLoading } from "react-icons/vsc";
+import {
+  formatPostgresInterval,
+  parsePostgresInterval,
+} from "@/_functions/postgres_helpers";
+import Slider from "./EventBuilder/Slider";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
-const types = [
+const types: {
+  type: EventType["type"];
+  icon?: React.ReactNode;
+  permissions?: string[];
+}[] = [
   {
     type: "User Created",
     icon: <IoPerson />,
   },
   {
     type: "Workshop",
+    icon: <IoSchool />,
+  },
+  {
+    type: "AEW Workshop",
+    icon: <IoSchool />,
+    permissions: ["admin", "tutor", "moderator"],
   },
   {
     type: "Official MESA",
+    icon: <IoSchool />,
     permissions: ["admin"],
   },
   {
-    type: "Tutoring",
+    type: "Class",
+    icon: <IoSchool />,
+    permissions: ["admin", "tutor", "moderator"],
+  },
+  {
+    type: "Zoom Meeting",
+    icon: <IoVideocam />,
     permissions: ["admin", "tutor", "moderator"],
   },
 ];
@@ -37,10 +68,12 @@ const EventBuilder = () => {
   // @ts-ignore
   const [event, setEvent] = useState<EventType>({
     type: "User Created",
+    start: new Date().toISOString(),
+    duration: "1 hour",
   });
   const [timeType, setTimeType] = useState<string | undefined>();
   const [submitting, setSubmitting] = useState(false);
-  const [newImage, setImage] = useState();
+  const [newImage, setImage] = useState<any>();
   const user = useContext<any>(userContext);
   const toast = useContext<any>(MenuContext);
   const router = useRouter();
@@ -51,15 +84,9 @@ const EventBuilder = () => {
     //@ts-ignore
     const { error } = await supabase.from("events").insert({
       //@ts-ignore
-      name: event.name,
-      desc: event.desc,
-      type: event.type,
-      start: event.start,
-      endtime: event.endtime,
-      location: event.location,
-      tags: event.tags,
-      creator: user.user?.id,
+      ...event,
       image: newImage,
+      creator: user.user?.id,
     });
 
     if (error) {
@@ -72,254 +99,196 @@ const EventBuilder = () => {
     router.push("/connect/social/events");
   };
 
+  const updateEvent = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
+    setEvent({
+      ...event,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   if (!user.userData) return <h1>Loading...</h1>;
 
   return (
-    <motion.main className="flex flex-col gap-10 font-eudoxus pb-20">
-      <motion.header>
-        <ul className="flex flex-col gap-2">
-          <h1 className="font-bold text-2xl">
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
-            Let's start with some basics of{" "}
-            <span className=" text-indigo-800">your</span> event.
-          </h1>
-          <input
-            onChange={(e) => {
-              setEvent({ ...event, name: e.target.value });
-            }}
-            placeholder="Name Your New Event"
-            maxLength={65}
-            className="w-full text-2xl p-3 my-2 rounded-xl shadow-md focus:text-black focus:scale-[1.03] focus:shadow-lg focus:outline-zinc-200 focus:outline-dotted duration-300 text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-emerald-600 to-slate-700 inline-block "
-          />
-          <textarea
-            onChange={(e) => {
-              setEvent({ ...event, desc: e.target.value });
-            }}
-            placeholder="Give Your Event A Fitting Description"
-            maxLength={240}
-            className="w-full text-2xl resize-y overflow-hidden min-h-36 max-h-64 p-3 my-2 rounded-xl shadow-md focus:text-black focus:scale-[1.03] focus:shadow-lg focus:outline-zinc-200 focus:outline-dotted duration-300 text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-emerald-600 to-slate-700 inline-block "
-          />
-          <AnimatePresence>
-            {event.desc && (
-              <motion.h2
-                initial={{ opacity: 0, y: -40 }}
-                animate={{ opacity: 1, y: -50 }}
-                exit={{ opacity: 0, y: -40 }}
-                className=" text-slate-400 text-center "
-              >
-                {event.desc.length} Characters / {event.desc.split(" ").length}{" "}
-                Words
-              </motion.h2>
-            )}
-          </AnimatePresence>
-          <section className="flex flex-row gap-2 justify-center flex-wrap">
-            {types.map((e) => {
-              if (e.permissions && !e.permissions.includes(user.userData?.role))
-                return null;
+    <motion.main className="flex flex-col pb-20 font-eudoxus">
+      <div className="flex flex-col gap-2">
+        <h1 className="bg-gradient-to-r from-blue-500 to-orange-500 bg-clip-text text-4xl font-bold text-transparent">
+          General Information
+        </h1>
+        <h3 className="text-2xl font-bold">Event Name</h3>
+        <Input
+          type="text"
+          value={event.name}
+          name="name"
+          onChange={(e) => updateEvent(e)}
+          placeholder="Event Name"
+        />
+        <h3 className="text-2xl font-bold">Description</h3>
+        <Textarea
+          value={event.desc}
+          name="desc"
+          onChange={(e) => updateEvent(e)}
+          placeholder="Description"
+          className="h-20"
+        />
+
+        <h3 className="text-2xl font-bold">Type</h3>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button variant="outline">
+              {types.find((type) => type.type === event.type)?.type ||
+                "Select type.."}
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {types.map((type) => {
+              let userHasPermission = type.permissions?.includes(
+                user.userData?.role,
+              );
+
+              if (!userHasPermission && type.permissions) return null;
+
               return (
-                <button
-                  key={e.type}
-                  className={` ${
-                    event.type === e.type ? "bg-indigo-500" : "bg-slate-600"
-                  } hover:scale-105 duration-300 text-white p-2 w-[30%] rounded-full `}
+                <DropdownMenuItem
+                  key={type.type}
                   onClick={() => {
-                    setEvent({ ...event, type: e.type });
+                    setEvent({ ...event, type: type.type });
                   }}
                 >
-                  {e.type}
-                </button>
+                  {type.icon} {type.type}
+                </DropdownMenuItem>
               );
             })}
-          </section>
-        </ul>
-      </motion.header>
-      <AnimatePresence>
-        {event.type && event.name && event.name?.length > 5 && event.desc && (
-          <motion.main
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex flex-col gap-4"
+          </DropdownMenuContent>
+        </DropdownMenu>
+        {event.type !== "Zoom Meeting" && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <h1 className="font-bold text-2xl">
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
-              <span className="text-green-600">Perfect!</span> Let's learn a
-              little more about your new event... starting with timing.
-            </h1>
-
-            <section className="w-full flex gap-3">
-              {timeTypes.map((e) => (
-                <button
-                  key={e}
-                  onClick={() => {
-                    setTimeType(e);
-                  }}
-                  className={` ${
-                    timeType === e ? "bg-green-700" : "bg-slate-400"
-                  } w-full ease-in-out font-semibold hover:bg-slate-500 p-3 flex text-white justify-center rounded-full duration-300`}
-                >
-                  {e}
-                </button>
-              ))}
-            </section>
-
-            {timeType === "In-Person" ? (
-              <section className="flex flex-col gap-0">
-                <input
-                  onChange={(e) => {
-                    setEvent({ ...event, location: e.target.value });
-                  }}
-                  value={event.location ? event.location : ""}
-                  contentEditable
-                  placeholder="Location..."
-                  maxLength={65}
-                  className="w-full z-10 text-2xl p-3 my-2 rounded-xl shadow-md focus:text-black focus:scale-[1.03] focus:shadow-lg focus:outline-zinc-200 focus:outline-dotted duration-300 text-transparent bg-clip-text bg-gradient-to-tr from-blue-500 via-emerald-600 to-slate-700 inline-block "
-                />
-                <Recommendations
-                  input={event.location}
-                  onChange={(e: any) => {
-                    setEvent({ ...event, location: e });
-                  }}
-                />
-              </section>
-            ) : null}
-
-            <AnimatePresence>
-              {event?.location && (
-                <motion.section
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  className="flex flex-col gap-3 p-5 text-center"
-                >
-                  <h1 className="font-bold text-3xl">and it starts at</h1>
-                  <Input
-                    icon={<IoCalendar />}
-                    type="datetime-local"
-                    onChange={(e: any) => {
-                      setEvent({ ...event, start: new Date(e.target.value) });
-                    }}
-                  />
-                  {event.start?.getTime() < Date.now() && (
-                    <h1 className="bg-zinc-100 p-3 font-geist rounded-xl">
-                      <span className="text-orange-700 font-bold ">WARN</span>{" "}
-                      The time / date stated has already passed
-                    </h1>
-                  )}
-                  {event.start && (
-                    <>
-                      <motion.section
-                        initial={{ x: -20, opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        transition={{ type: "spring " }}
-                        className="gap-3 flex flex-col"
-                      >
-                        <ul className="flex flex-row justify-center items-center gap-5">
-                          <h1 className="font-bold text-2xl">
-                            ...and goes until (optional)
-                          </h1>
-
-                          <Input
-                            icon={<IoCalendar />}
-                            type="datetime-local"
-                            onChange={(e: any) => {
-                              setEvent({
-                                ...event,
-                                endtime: new Date(e.target.value),
-                              });
-                            }}
-                          />
-                        </ul>
-                        {event.endtime?.getTime() < event.start?.getTime() && (
-                          <h1 className="bg-zinc-100 p-3 font-geist rounded-xl">
-                            <span className="text-orange-700 font-bold ">
-                              WARN
-                            </span>{" "}
-                            The event starts after it ends
-                          </h1>
-                        )}
-                        <section>
-                          <Input
-                            icon={<AiFillTags />}
-                            onChange={(e: any) => {
-                              setEvent({
-                                ...event,
-                                tags: e?.target?.value
-                                  .split(",")
-
-                                  .map((e: any) => e.trim())
-                                  .filter((e: any) => e.length > 0),
-                              });
-                            }}
-                            placeholder="Each tag ends with a ','"
-                            maxLength={65}
-                          />
-                          <AnimatePresence>
-                            {event?.tags?.length !== 0 && (
-                              <motion.ul
-                                initial={{ y: 10, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                exit={{ y: -10, opacity: 0 }}
-                                transition={{ type: "spring " }}
-                                className="flex flex-row mt-3 items-center font-mono w-full gap-4"
-                              >
-                                <h1 className="text-slate-400">Applied Tags</h1>
-                                <li className="w-0.5 h-full bg-slate-400" />
-
-                                {event?.tags?.map((e) => {
-                                  return (
-                                    <ul
-                                      key={e}
-                                      className="bg-slate-200 p-2 px-4 rounded-full"
-                                    >
-                                      <h1>{e}</h1>
-                                    </ul>
-                                  );
-                                })}
-                              </motion.ul>
-                            )}
-                          </AnimatePresence>
-                          <UnsplashSearch
-                            updateImage={(e) => {
-                              setImage(e);
-                            }}
-                          />
-                        </section>
-                      </motion.section>
-                    </>
-                  )}
-                </motion.section>
-              )}
-            </AnimatePresence>
-          </motion.main>
+            <h3 className="text-2xl font-bold">Location</h3>
+            <Input
+              type="text"
+              value={event.location}
+              name="location"
+              onChange={(e) => updateEvent(e)}
+            />
+          </motion.div>
         )}
-      </AnimatePresence>
-      <AnimatePresence>
-        {event.name && event.tags && (
-          <motion.footer
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex flex-col gap-4 items-center absolute bottom-28 w-2/3"
+        {event.type === "Zoom Meeting" && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
           >
-            <button
+            <h3 className="text-2xl font-bold">Zoom Meeting Link</h3>
+            <Input
+              type="text"
+              value={event.link}
+              name="link"
+              onChange={(e) => updateEvent(e)}
+              placeholder="Zoom Meeting Link"
+            />
+          </motion.div>
+        )}
+      </div>
+      <h3 className="text-2xl font-bold">Start Time</h3>
+      <Input
+        type="datetime-local"
+        name="start"
+        value={event.start}
+        onChange={(e) => {
+          updateEvent(e);
+        }}
+      />
+      <Separator className="my-4" />
+      <h1 className="bg-gradient-to-r from-blue-500 to-orange-500 bg-clip-text text-2xl font-bold text-transparent">
+        <IoCalendar />
+        Replay and Time Information
+      </h1>
+      <div className="flex flex-row justify-between gap-2 text-2xl font-bold">
+        <h3>Duration</h3>
+        <p className="text-gray-500">{event.duration}</p>
+      </div>
+      <Slider
+        min={15}
+        max={420}
+        step={15}
+        value={parsePostgresInterval(event.duration) || 15}
+        onChange={(e: any) => {
+          let duration = formatPostgresInterval(parseInt(e.target.value));
+          setEvent({
+            ...event,
+            duration: duration,
+          });
+        }}
+      />
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <Button variant="outline" className="w-full capitalize">
+            {["weekly", "monthly", "daily"].find(
+              (type) => type === event.repeat_type,
+            ) || "Select time type.."}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          {["weekly", "monthly", "daily", null].map((type) => (
+            <DropdownMenuItem
+              key={type}
+              className="capitalize"
               onClick={() => {
-                if (!submitting) eventSubmit();
+                setEvent({ ...event, repeat_type: type as any });
               }}
-              className={`w-1/3 h-12 hover:scale-105 duration-500 justify-center flex items-center ${
-                submitting
-                  ? "bg-theme-blue-2"
-                  : "bg-orange-500 hover:bg-orange-400"
-              } shadow-lg z-40 text-white font-bold rounded-2xl`}
             >
-              {submitting ? (
-                <VscLoading className="animate-spin text-center" />
-              ) : (
-                "Submit"
-              )}
-            </button>
-          </motion.footer>
-        )}
-      </AnimatePresence>
+              {type || "Once"}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+      {event.repeat_type && (
+        <div className="mt-2 flex flex-row justify-between gap-2 text-xl font-bold">
+          <Input
+            type="datetime-local"
+            value={event.repeat_until || new Date().toISOString()}
+            name="repeat_until"
+            onChange={(e) => updateEvent(e)}
+            placeholder="Repeat until..."
+          />
+        </div>
+      )}
+      <Separator className="my-4" />
+      <UnsplashSearch updateImage={(e: any) => setImage(e)} />
+      <div className="flex flex-row justify-between gap-2 text-2xl font-bold">
+        <h3>Tags</h3>
+      </div>
+      <Input
+        type="text"
+        value={event.tags?.map((tag) => tag) || ""}
+        name="tags"
+        onChange={(e) => {
+          let tags = e.target.value.split(",");
+          setEvent({
+            ...event,
+            tags: tags,
+          });
+        }}
+        placeholder="Tags"
+      />
+      <p className="text-gray-500">
+        {event.tags?.map((tag: any) => (
+          <span
+            key={tag}
+            className="mx-1 rounded-full bg-zinc-400 p-2 px-3 text-white"
+          >
+            {tag}
+          </span>
+        )) || "No tags"}
+      </p>
+      <Button onClick={eventSubmit}>Submit</Button>
     </motion.main>
   );
 };

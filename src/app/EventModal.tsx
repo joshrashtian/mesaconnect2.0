@@ -122,9 +122,8 @@ const Modal = ({ event }: { event: EventType }) => {
 
   const dates = {
     startDate: new Date(event.start),
-    endDate: event.endtime ? new Date(event.endtime) : undefined,
   };
-  dates.endDate && new calendar(dates.startDate, dates.endDate);
+
   const onInterest = async () => {
     setState(1);
     toast.toast("Added to your List!", "success");
@@ -173,14 +172,14 @@ const Modal = ({ event }: { event: EventType }) => {
   useEffect(() => {
     const now = Date.now();
 
-    if (dates.endDate && now > dates.endDate.getTime()) {
+    if (dates.startDate && now > dates.startDate.getTime()) {
       setDateMessage("Event has ended");
     } else if (now < dates.startDate.getTime()) {
       setDateMessage("Upcoming Event");
     } else {
       setDateMessage("Currently Ongoing");
     }
-  }, [dates.endDate, dates.startDate]);
+  }, [dates.startDate]);
 
   const [creator, setCreator] = useState();
 
@@ -280,19 +279,8 @@ const Modal = ({ event }: { event: EventType }) => {
                     dates.startDate.getMinutes() < 10
                       ? `0${dates.startDate.getMinutes()}`
                       : dates.startDate.getMinutes()
-                  } ${
-                    dates.endDate
-                      ? ` - ${
-                          dates.endDate.getHours() > 12
-                            ? dates.endDate.getHours() - 12
-                            : dates.endDate.getHours()
-                        }:${
-                          dates.endDate.getMinutes() < 10
-                            ? `0${dates.endDate.getMinutes()}`
-                            : dates.endDate.getMinutes()
-                        }`
-                      : ""
-                  } ${dates.startDate.getHours() > 12 ? "PM" : "AM"}`}
+                  } 
+                   ${dates.startDate.getHours() > 12 ? "PM" : "AM"}`}
                 </span>
               </h2>
               <ul className="mt-2 flex w-full flex-row items-center gap-1">

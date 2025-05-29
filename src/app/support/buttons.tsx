@@ -23,8 +23,14 @@ const Buttons = () => {
         color: "bg-gradient-to-tr from-purple-500 to-red-500",
         onClick: () => router.push("/support/terms"),
       },
+      {
+        title: "Privacy Policy",
+        icon: <IoDocument />,
+        color: "bg-gradient-to-tr from-purple-500 to-red-500",
+        onClick: () => router.push("/support/privacy"),
+      },
     ],
-    []
+    [],
   );
 
   return (

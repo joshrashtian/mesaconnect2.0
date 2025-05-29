@@ -10,8 +10,11 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		backgroundColor: {
+				"text-gradient-to-r": "bg-gradient-to-r text-transparent bg-clip-text",
+		},
   		animation: {
-  			'loop-scroll': 'loop-scroll 50s linear infinite'
+  			'loop-scroll': 'loop-scroll 100s linear infinite'
   		},
   		keyframes: {
   			'loop-scroll': {

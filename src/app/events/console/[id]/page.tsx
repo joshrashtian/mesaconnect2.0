@@ -59,11 +59,6 @@ const EventMenu = () => {
         <p className="flex w-fit flex-row items-center gap-2 rounded-2xl bg-white p-1 px-3">
           <IoTime /> Starts {new Date(edits.start).toLocaleString()}
         </p>
-        {edits.endtime && (
-          <p className="flex w-fit flex-row items-center gap-2 rounded-2xl bg-white p-1 px-3">
-            <IoTime /> Ends {new Date(edits.endtime).toLocaleString()}
-          </p>
-        )}
       </ul>
       <form className="mt-5 flex flex-col gap-3">
         <Input
@@ -100,14 +95,7 @@ const EventMenu = () => {
           contentEditable
           onChange={(e) => editEvent({ start: e.target.value })}
         />
-        <Input
-          icon={<IoCalendar />}
-          placeholder="End Date"
-          type="datetime-local"
-          value={new Date(edits.endtime).toISOString().slice(0, 16)}
-          contentEditable
-          onChange={(e) => editEvent({ endtime: e.target.value })}
-        />
+
         <MenuButton
           title="Submit"
           icon={<IoCloud />}

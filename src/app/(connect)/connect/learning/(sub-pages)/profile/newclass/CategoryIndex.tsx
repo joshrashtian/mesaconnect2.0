@@ -15,12 +15,16 @@ export function IconGet(category: string): ReactNode {
       return <BiMath />;
     case "cmpsci":
       return <IoDesktop />;
+    case "physics":
+      return <IoFlask />;
     case "physic":
       return <IoFlask />;
     case "engr":
       return <IoHammer />;
     case "biosci":
       return <DnaIcon />;
+    case "chem":
+      return <IoFlask />;
     default:
       return <IoBook />;
   }

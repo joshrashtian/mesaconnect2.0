@@ -49,6 +49,7 @@ const KioskMenu = () => {
 
   const fetchEvents = async () => {
     setLoading(true);
+
     const { data, error } = await supabase
       .from("events")
       .select("*")
@@ -60,6 +61,7 @@ const KioskMenu = () => {
       .eq("creator", user?.id ?? "")
       .gte("expiration_date", new Date(Date.now()).toISOString());
 
+    console.log(data);
     if (roomError) {
       toast.CreateErrorToast(roomError.message);
     } else {
@@ -185,17 +187,7 @@ const KioskMenu = () => {
                     </h1>
                     <p className="p-2 text-sm opacity-0 duration-300 group-hover:opacity-100">
                       {new Date(event.start).toLocaleString()} /{" "}
-                      {event.start < new Date(Date.now())
-                        ? "Started"
-                        : event.endtime < new Date(Date.now()) || !event.endtime
-                          ? "Has Ended"
-                          : "Ends in " +
-                            Math.floor(
-                              (new Date(event.endtime).getTime() -
-                                new Date().getTime()) /
-                                1000 /
-                                60,
-                            )}
+
                     </p>
                   </div>
                 </Link>
