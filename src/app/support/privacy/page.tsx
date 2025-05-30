@@ -1,111 +1,147 @@
+"use server";
 import React from "react";
-import "./privacy.css";
-const PrivacyPage = () => {
+
+const PrivacyPolicy = () => {
   return (
-    <div className="privacy-page font-eudoxus">
-      <h1>Privacy Policy for MESA Connect</h1>
-      <p>
-        <strong>Effective Date:</strong> 30th April 2025
-      </p>
+    <div className="mx-auto max-w-4xl px-6 py-12 text-gray-800">
+      <h1 className="mb-6 text-3xl font-bold">Privacy Policy</h1>
+      <p className="mb-8 text-sm text-gray-500">Effective Date: May 27, 2025</p>
 
-      <p>
-        MESA Connect (&quot;we&quot;, &quot;our&quot;, or &quot;us&quot;) values
-        your privacy. This Privacy Policy explains how we collect, use, and
-        protect your personal information when you use our website and services.
-      </p>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">1. Scope</h2>
+        <p>
+          This Privacy Policy applies to both the{" "}
+          <strong>MESA Connect Website</strong> and the{" "}
+          <strong>MESAMobile App</strong>. Both platforms use the same backend
+          systems and follow the same data handling practices.
+        </p>
+      </section>
 
-      <h2>1. Information We Collect</h2>
-      <ul>
-        <li>
-          <strong>Personal Information:</strong> Name, email, phone number, and
-          school-related information that you choose to submit.
-        </li>
-        <li>
-          <strong>Device & Usage Data:</strong> IP address, browser type, device
-          details, and usage patterns collected via Vercel Analytics.
-        </li>
-        <li>
-          <strong>Authentication Data:</strong> Information from third-party
-          login providers like Apple and Google.
-        </li>
-      </ul>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">
+          2. Information We Collect
+        </h2>
+        <ul className="list-disc space-y-2 pl-6">
+          <li>
+            <strong>Personal Information:</strong> Name, email, phone number,
+            school-related data.
+          </li>
+          <li>
+            <strong>Authentication Information:</strong> Google or Apple login
+            credentials (via OAuth).
+          </li>
+          <li>
+            <strong>Device & Technical Info:</strong> Device type, OS, IP
+            address, usage data.
+          </li>
+          <li>
+            <strong>Communication Data:</strong> Messages, feedback, and support
+            communications.
+          </li>
+        </ul>
+      </section>
 
-      <h2>2. How We Use Your Information</h2>
-      <ul>
-        <li>To provide and maintain our services</li>
-        <li>To authenticate users and manage accounts</li>
-        <li>To analyze user behavior for improvements</li>
-        <li>To send communications via email (Resend)</li>
-        <li>To respond to support inquiries</li>
-      </ul>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">
+          3. How We Use Your Information
+        </h2>
+        <ul className="list-disc space-y-2 pl-6">
+          <li>To provide and improve services</li>
+          <li>To authenticate and manage user sessions</li>
+          <li>To personalize the user experience</li>
+          <li>To analyze usage and performance with Vercel Analytics</li>
+          <li>To communicate via email using Resend</li>
+          <li>To support safety and verify academic affiliations</li>
+        </ul>
+      </section>
 
-      <h2>3. Third-Party Services</h2>
-      <p>
-        We use the following third-party services, which may process your data
-        under their own privacy terms:
-      </p>
-      <ul>
-        <li>Supabase (backend and authentication)</li>
-        <li>Notion API (content management)</li>
-        <li>Resend (email delivery)</li>
-        <li>Vercel Analytics (site usage tracking)</li>
-        <li>Apple and Google login services (authentication)</li>
-      </ul>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">4. Information Sharing</h2>
+        <ul className="list-disc space-y-2 pl-6">
+          <li>
+            <strong>Service Providers:</strong> We use Supabase, Notion API,
+            Vercel Analytics, and Resend.
+          </li>
+          <li>
+            <strong>Partnered Colleges:</strong> We may share data with
+            registered institutions upon verified request for safety and
+            verification purposes.
+          </li>
+          <li>
+            <strong>Legal Requirements:</strong> We may share data if required
+            by law or for security.
+          </li>
+        </ul>
+      </section>
 
-      <h2>4. Sharing of Information</h2>
-      <p>
-        We do not sell or rent your personal information. We may share your data
-        with service providers or if required by law.
-      </p>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">5. Data Security</h2>
+        <p>
+          We implement industry-standard measures to protect your information.
+          However, no method of transmission over the internet is completely
+          secure.
+        </p>
+      </section>
 
-      <h2>5. Cookies and Tracking</h2>
-      <p>
-        We use cookies and similar technologies for performance and analytics.
-        You may manage cookie preferences through your browser settings.
-      </p>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">6. Your Rights</h2>
+        <p>
+          You may have rights to access, update, delete, or restrict use of your
+          personal data. Please contact us at{" "}
+          <a
+            href="mailto:joshrashtian1@gmail.com"
+            className="text-blue-600 underline"
+          >
+            joshrashtian1@gmail.com
+          </a>
+          .
+        </p>
+      </section>
 
-      <h2>6. Data Security</h2>
-      <p>
-        We implement reasonable safeguards to protect your data, but no method
-        of transmission over the internet is entirely secure.
-      </p>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">7. Cookies and Tracking</h2>
+        <p>
+          We use cookies and similar technologies for session management,
+          analytics, and improving your experience. You can modify settings in
+          your browser or device.
+        </p>
+      </section>
 
-      <h2>7. Data Retention</h2>
-      <p>
-        We retain personal data as long as necessary to fulfill the purposes
-        outlined or comply with legal obligations.
-      </p>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">8. Children’s Privacy</h2>
+        <p>
+          MESA is not intended for children under 13. We do not knowingly
+          collect information from children without parental consent.
+        </p>
+      </section>
 
-      <h2>8. Children’s Privacy</h2>
-      <p>
-        MESA Connect is not intended for children under 13. We do not knowingly
-        collect data from children without parental consent.
-      </p>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">
+          9. Changes to This Policy
+        </h2>
+        <p>
+          We may update this Privacy Policy from time to time. Changes will be
+          reflected by the &quot;Effective Date&quot; and may be communicated
+          via the app or website.
+        </p>
+      </section>
 
-      <h2>9. Your Rights</h2>
-      <p>
-        You may have the right to access, correct, delete, or restrict the use
-        of your data. To exercise these rights, contact us at{" "}
-        <a href="mailto:joshrashtian1@gmail.com">joshrashtian1@gmail.com</a>.
-      </p>
-
-      <h2>10. Changes to This Policy</h2>
-      <p>
-        We may update this Privacy Policy periodically. The latest version will
-        always be available on this page.
-      </p>
-
-      <h2>11. Contact Us</h2>
-      <p>
-        If you have questions or concerns about this Privacy Policy, please
-        contact us:
-      </p>
-      <p>
-        Email:{" "}
-        <a href="mailto:joshrashtian1@gmail.com">joshrashtian1@gmail.com</a>
-      </p>
+      <section className="mb-8">
+        <h2 className="mb-2 text-2xl font-semibold">10. Contact Us</h2>
+        <p>
+          If you have any questions or concerns, please contact: <br />
+          <strong>Josh Rashtian</strong> <br />
+          📧{" "}
+          <a
+            href="mailto:joshrashtian1@gmail.com"
+            className="text-blue-600 underline"
+          >
+            joshrashtian1@gmail.com
+          </a>
+        </p>
+      </section>
     </div>
   );
 };
 
-export default PrivacyPage;
+export default PrivacyPolicy;
