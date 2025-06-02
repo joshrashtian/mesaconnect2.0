@@ -33,6 +33,7 @@ import { Outfit, Slabo_13px } from "next/font/google";
 import ClassShowcase from "@/_components/home/ClassShowcase";
 import MobilePreview from "@/_components/home/mobilepreview";
 import StudyRoomPreview from "@/_components/home/StudyRoomPreview";
+import Unify from "@/_components/home/Unify";
 
 const font = Outfit({
   weight: "400",
@@ -210,6 +211,7 @@ export default function Home() {
       <MobilePreview />
       {/* TODO: Add the study room preview */}
       {/* <StudyRoomPreview /> */}
+      <Unify />
       <JoinNow ref={joinNowRef} scrolledValue={JoinNowScroll} />
     </motion.main>
   );

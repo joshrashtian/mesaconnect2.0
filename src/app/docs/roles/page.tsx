@@ -2,6 +2,8 @@
 import React from "react";
 import { IoAdd } from "react-icons/io5";
 import Border from "../_components/border";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Page = () => {
   return (
@@ -49,7 +51,9 @@ const Page = () => {
         is running the event and you will be granted verification.
       </p>
       <h3 className="text-lg font-semibold">Option 3: Verification Form</h3>
-      <p>Currently our verification form is a Work In Progress.</p>
+      <Link href="/verify">
+        <Button>Verification Form</Button>
+      </Link>
 
       <Border />
       <p>

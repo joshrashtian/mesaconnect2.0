@@ -4,6 +4,7 @@ import GPAList from "./GPAList";
 import dynamic from "next/dynamic";
 import Saves from "./saves";
 import Statistics from "./Statistics";
+import ImportTranscript from "./ImportTranscript";
 const GPACalculator = () => {
   const AddClass = dynamic(() => import("./AddClass"), { ssr: false });
 
@@ -17,6 +18,7 @@ const GPACalculator = () => {
         <GPAList />
         <Saves />
         <Statistics />
+        <ImportTranscript />
       </div>
     </div>
   );

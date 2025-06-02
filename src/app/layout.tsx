@@ -5,6 +5,7 @@ import AuthContext from "./AuthContext";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import OneTapComponent from "@/_components/home/OneTap";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -34,13 +35,20 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <AuthContext>
-      <html>
+    <html>
+      <head>
+        {/* Load the local copy of pdf.min.js from public/pdfjs */}
+        <Script src="/pdfjs/pdf.min.js" strategy="beforeInteractive" />
+
+        {/* Load the local copy of pdf.worker.min.js from public/pdfjs */}
+        <Script src="/pdfjs/pdf.worker.min.js" strategy="beforeInteractive" />
+      </head>
+      <AuthContext>
         <body className={`${inter.className} bg-zinc-100 dark:bg-zinc-800`}>
           {children}
           <Analytics />
         </body>
-      </html>
-    </AuthContext>
+      </AuthContext>
+    </html>
   );
 }

@@ -42,6 +42,7 @@ type GPAContextType = {
   RemoveClassFromSemester: (course: ClassType) => void;
   omitClass: (course: ClassType) => void;
   unOmitClass: (course: ClassType) => void;
+  AddClassesToSemester: (courses: ClassType[]) => void;
 };
 
 const GPAContext = createContext<GPAContextType>({
@@ -73,6 +74,7 @@ const GPAContext = createContext<GPAContextType>({
   RemoveClassFromSemester: (course: ClassType) => {},
   omitClass: (course: ClassType) => {},
   unOmitClass: (course: ClassType) => {},
+  AddClassesToSemester: (courses: ClassType[]) => {},
 });
 
 export const useGPA = () => {
@@ -195,6 +197,10 @@ const GPAProvider = ({ children }: { children: React.ReactNode }) => {
     setCourses((prev) => [...prev, course]);
   }
 
+  function AddClassesToSemester(courses: ClassType[]) {
+    setCourses((prev) => [...prev, ...courses]);
+  }
+
   function unOmitClass(course: ClassType) {
     setOmittedCourses(omittedCourses.filter((c) => c.id !== course.id));
   }
@@ -235,6 +241,7 @@ const GPAProvider = ({ children }: { children: React.ReactNode }) => {
           RemoveClassFromSemester,
           omitClass,
           unOmitClass,
+          AddClassesToSemester,
         }}
       >
         {children}

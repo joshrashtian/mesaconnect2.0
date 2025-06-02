@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(connect)/connect/(profiles)/profile/(boxTypes)/index.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/types/**/*.d.ts", ".next/types/**/*.ts", "src/app/(connect)/connect/(profiles)/profile/(boxTypes)/index.js"],
   "exclude": ["node_modules"]
 }
