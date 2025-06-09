@@ -1,6 +1,10 @@
 "use client";
 import React from "react";
-import { IoPersonRemoveOutline, IoSettingsOutline } from "react-icons/io5";
+import {
+  IoLockOpenOutline,
+  IoPersonRemoveOutline,
+  IoSettingsOutline,
+} from "react-icons/io5";
 import { useUser } from "@/app/AuthContext";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -56,16 +60,27 @@ const SettingsPage = () => {
         <ul className="flex flex-row items-center rounded-3xl bg-zinc-200/30 p-3 duration-200 hover:bg-zinc-200/70 dark:bg-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-600/70">
           <p className="font-light">Current Version: {config.versionNumber}</p>
         </ul>
-        <button
-          onClick={() => {
-            user.signOut();
-            router.push("/");
-          }}
-          className="flex w-48 flex-row items-center justify-center gap-1.5 rounded-full bg-gradient-to-tr from-orange-600 to-red-600 p-3 font-eudoxus text-white duration-300 hover:scale-105"
-        >
-          <IoPersonRemoveOutline size={20} />
-          <h1>Sign Out</h1>
-        </button>
+        <div className="flex flex-row items-center gap-3">
+          <button
+            onClick={() => {
+              user.signOut();
+              router.push("/");
+            }}
+            className="flex w-48 flex-row items-center justify-center gap-1.5 rounded-full bg-gradient-to-tr from-orange-600 to-red-600 p-3 font-eudoxus text-white duration-300 hover:scale-105"
+          >
+            <IoPersonRemoveOutline size={20} />
+            <h1>Sign Out</h1>
+          </button>
+          <button
+            onClick={() => {
+              router.push("/update-password");
+            }}
+            className="flex w-48 flex-row items-center justify-center gap-1.5 rounded-full bg-gradient-to-tr from-orange-600 to-yellow-600 p-3 font-eudoxus text-white duration-300 hover:scale-105"
+          >
+            <IoLockOpenOutline size={20} />
+            <h1>Change Password</h1>
+          </button>
+        </div>
       </section>
     </main>
   );
