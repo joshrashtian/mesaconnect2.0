@@ -61,7 +61,7 @@ const Page = () => {
 
         <input
           placeholder="username"
-          className="xl:1/2 rounded-full bg-gradient-to-br from-zinc-50 to-slate-100 p-3 px-5 text-xl duration-300 hover:scale-[1.02] hover:shadow-sm focus:outline-none md:w-3/4 2xl:w-2/5 dark:from-zinc-800 dark:via-slate-700 dark:to-slate-900 dark:text-white"
+          className="xl:1/2 rounded-full bg-gradient-to-br from-zinc-50 to-slate-100 p-3 px-5 text-xl duration-300 hover:scale-[1.02] hover:shadow-sm focus:outline-none dark:from-zinc-800 dark:via-slate-700 dark:to-slate-900 dark:text-white md:w-3/4 2xl:w-2/5"
           type="email"
           onChange={(e) => {
             setEmail(e.target.value);
@@ -70,15 +70,18 @@ const Page = () => {
         <input
           placeholder="password"
           type="password"
-          className="xl:1/2 rounded-full bg-gradient-to-tr from-zinc-50 to-slate-100 p-3 px-5 text-xl duration-300 hover:scale-[1.02] hover:shadow-sm focus:outline-none md:w-3/4 2xl:w-2/5 dark:from-zinc-800 dark:via-slate-700 dark:to-slate-900 dark:text-white"
+          className="xl:1/2 rounded-full bg-gradient-to-tr from-zinc-50 to-slate-100 p-3 px-5 text-xl duration-300 hover:scale-[1.02] hover:shadow-sm focus:outline-none dark:from-zinc-800 dark:via-slate-700 dark:to-slate-900 dark:text-white md:w-3/4 2xl:w-2/5"
           onChange={(e) => {
             setPassword(e.target.value);
           }}
         />
-
+        <Link
+          href="/forgot-password"
+          className="text-slate-500 duration-500 hover:text-emerald-600"
+        >
+          <p>Forgot Password? Click over here.</p>
+        </Link>
         <ul className="font-eudoxus">
-          <p className="mb-2 text-2xl text-slate-700">Alternative Logins</p>
-
           <ul className="flex flex-row gap-3">
             <button
               onClick={() => loginUser("google")}
@@ -91,12 +94,6 @@ const Page = () => {
               className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-600 to-zinc-600 text-2xl text-white duration-500 hover:scale-110"
             >
               <IoLogoApple className="text-2xl" />
-            </button>
-            <button
-              onClick={() => loginUser("linkedin_oidc")}
-              className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-teal-600 text-2xl text-white duration-500 hover:scale-110"
-            >
-              <IoLogoLinkedin className="text-2xl" />
             </button>
           </ul>
         </ul>
