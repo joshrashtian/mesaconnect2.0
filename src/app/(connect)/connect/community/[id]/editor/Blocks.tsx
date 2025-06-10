@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { InfoBlockType } from "../../../(profiles)/profile/[id]/infoblocks";
+
 import BlockCommunityItemProvider, {
   CommunityBlockIndex,
 } from "../../BlockIndex";

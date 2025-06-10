@@ -3,7 +3,27 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import React from "react";
 import { CircularProgressBar } from "@/(mesaui)/CircularProgressBar";
+import {
+  IoArrowDown,
+  IoArrowUp,
+  IoCheckmark,
+  IoClose,
+  IoWarning,
+} from "react-icons/io5";
+import ReviewComponent from "./ReviewComponent";
 
+export type Review = {
+  id: string;
+  teacher_id: string;
+  user_id: string;
+  rating: number;
+  review: string;
+  difficulty: string;
+  created_at: string;
+  took_for: string;
+  pros?: string[];
+  cons?: string[];
+};
 const page = async ({ params }: { params: { id: string } }) => {
   const supabase = createServerComponentClient({ cookies });
 
@@ -24,6 +44,16 @@ const page = async ({ params }: { params: { id: string } }) => {
     .from("classes")
     .select("name, category, num, id")
     .in("id", [teacher?.teaches]);
+
+  const { data: reviews, error: reviewsError } = await supabase
+    .from("teacher_reviews")
+    .select("*")
+    .eq("teacher_id", teacher?.id);
+
+  const { data: review_votes, error: reviewVotesError } = await supabase
+    .from("review_votes")
+    .select("*")
+    .in("review_id", reviews?.map((review) => review.id) ?? []);
 
   if (error) {
     console.error(error);
@@ -64,6 +94,18 @@ const page = async ({ params }: { params: { id: string } }) => {
           </div>
         ))}
       </div>
+      <div>
+        <h1>Reviews</h1>
+      </div>
+      {reviews
+        ?.sort((a, b) => b.created_at.localeCompare(a.created_at))
+        .map((review: Review) => (
+          <ReviewComponent
+            key={review.id}
+            review={review}
+            classesTaught={classesTaught ?? []}
+          />
+        ))}
     </div>
   );
 };

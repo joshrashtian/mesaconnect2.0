@@ -14,15 +14,13 @@ const TeachersPage = async ({
   const { data: teachers, error } = await supabase.from("teachers").select("*");
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-bold">Teachers</h1>
       {teachers?.map((teacher) => (
-        <Link
-          className="rounded-md bg-zinc-200 p-10 hover:bg-zinc-300"
-          key={teacher.id}
-          href={`/connect/teachers/${teacher.id}`}
-        >
-          <h1>{teacher.name}</h1>
+        <Link href={`/teacher/${teacher.id}`} key={teacher.id}>
+          <div className="rounded-md bg-white p-4 hover:bg-zinc-100">
+            <h1>{teacher.name}</h1>
+          </div>
         </Link>
       ))}
     </div>
