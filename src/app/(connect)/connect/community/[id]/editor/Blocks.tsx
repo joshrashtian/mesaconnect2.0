@@ -6,7 +6,7 @@ import BlockCommunityItemProvider, {
 } from "../../BlockIndex";
 import { IoAdd, IoClose, IoDocument, IoRemove } from "react-icons/io5";
 import { useModal } from "../../../Modal";
-import CommunityBlock from "../../../(profiles)/profile/boxTypes/CommunityBlock";
+import CommunityBlock from "../../../(profiles)/profile/(boxTypes)/CommunityBlock";
 import MenuButton from "@/(mesaui)/MenuButton";
 import { updateCommunity } from "../functions";
 import { useParams } from "next/navigation";

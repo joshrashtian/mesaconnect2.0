@@ -5,8 +5,8 @@ import { supabase } from "../../../../../../../../config/mesa-config";
 import { useUser } from "@/app/AuthContext";
 import { useToast } from "@/app/(connect)/InfoContext";
 import DeleteButton from "@/(mesaui)/DeleteButton";
-import { useInfo } from "./InfoBlockDashboard";
-import { deleteBlock } from "../../boxTypes/EditBox";
+import { useInfo } from "./InfoContext";
+import { deleteBlock } from "../../(boxTypes)/EditBox";
 import Input from "@/_components/Input";
 import { IoCalendarNumber } from "react-icons/io5";
 
@@ -61,7 +61,7 @@ const InProgClassBlock = () => {
       <Switch click={changeVisibiity} toggled={visible} />
       <DeleteButton
         function={async () => {
-          let { error } = await deleteBlock(data.id);
+          let { error } = await deleteBlock(data?.id || "");
           if (error) CreateErrorToast(error.message);
           else window.location.reload();
         }}

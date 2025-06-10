@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { ProjectLinks } from "../../../builder/(profbuildercomponents)/Projects";
 import Link from "next/link";
@@ -7,6 +8,7 @@ const ProjectBox = (e: any) => {
   // @ts-ignore
   return (
     <main className="flex flex-row flex-wrap gap-2">
+      {data.contents.length === 0 && <p>No links found.</p>}
       {data.contents.map((item: ProjectLinks) => (
         <Link
           key={item.name}

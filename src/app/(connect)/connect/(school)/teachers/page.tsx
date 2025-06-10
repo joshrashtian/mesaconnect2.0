@@ -1,7 +1,9 @@
 "use server";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import Link from "next/link";
 import React from "react";
+import { IoPerson } from "react-icons/io5";
 
 const TeachersPage = async ({
   searchParams,
@@ -11,15 +13,17 @@ const TeachersPage = async ({
   const supabase = createServerComponentClient({ cookies });
   const { data: teachers, error } = await supabase.from("teachers").select("*");
 
-  if (error) {
-    console.error(error);
-  }
   return (
     <div>
+      <h1 className="text-2xl font-bold">Teachers</h1>
       {teachers?.map((teacher) => (
-        <div key={teacher.id}>
+        <Link
+          className="rounded-md bg-zinc-200 p-10 hover:bg-zinc-300"
+          key={teacher.id}
+          href={`/connect/teachers/${teacher.id}`}
+        >
           <h1>{teacher.name}</h1>
-        </div>
+        </Link>
       ))}
     </div>
   );
