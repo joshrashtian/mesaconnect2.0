@@ -54,6 +54,7 @@ export default function Infoblocks() {
           return (
             <Card className="p-4" key={block.id}>
               <h3>{def.title}</h3>
+
               {def.View ? (
                 // @ts-ignore
                 <def.View data={block.data} />

@@ -11,6 +11,7 @@ import {
   IoWarning,
 } from "react-icons/io5";
 import ReviewComponent from "./ReviewComponent";
+import HomePageHeader from "@/app/news/(homepage)/header";
 
 export type Review = {
   id: string;
@@ -68,7 +69,8 @@ const page = async ({ params }: { params: { id: string } }) => {
   }
 
   return (
-    <div className="flex flex-col items-center gap-4 p-4 pt-12 font-eudoxus">
+    <div className="flex flex-col items-center gap-4 p-4 font-eudoxus">
+      <HomePageHeader title={teacher?.name} />
       <CircularProgressBar
         percentage={(ratingSummary?.average_rating / 5) * 100}
         size={150}
@@ -82,17 +84,39 @@ const page = async ({ params }: { params: { id: string } }) => {
       <h1 className="text-5xl font-bold">{teacher?.name}</h1>
       <p>This teacher teaches:</p>
       <div className="flex w-full flex-col gap-4 lg:w-4/5 lg:flex-row">
-        {classesTaught?.map((classItem) => (
-          <div
-            key={classItem.id}
-            className="flex w-full flex-col rounded-lg bg-white p-4 shadow-md lg:w-1/2"
-          >
-            <h1 className="text-xl font-bold">{classItem.name}</h1>
-            <p className="text-xl text-gray-500">
-              {classItem.category} {classItem.num}
-            </p>
-          </div>
-        ))}
+        {classesTaught?.map((classItem) => {
+          const averageRating =
+            reviews
+              ?.filter((r) => r.took_for === classItem.id)
+              .reduce((acc, curr) => acc + curr.rating, 0) /
+            (reviews?.filter((r) => r.took_for === classItem.id)?.length ?? 0);
+          return (
+            <div
+              key={classItem.id}
+              className="flex w-full flex-row items-center justify-between gap-4 rounded-lg bg-white p-4 shadow-md lg:w-1/2"
+            >
+              <div className="flex flex-col gap-2">
+                <h1 className="text-xl font-bold">{classItem.name}</h1>
+                <p className="text-xl text-gray-500">
+                  {classItem.category} {classItem.num}
+                </p>
+              </div>
+              {!Number.isNaN(averageRating) && (
+                <CircularProgressBar
+                  percentage={averageRating * 20}
+                  size={64}
+                  strokeWidth={5}
+                  className="rounded-full bg-white"
+                  color={"#0CCA4A"}
+                  showText={false}
+                  customText={`${averageRating}`}
+                  textClassName="text-2xl font-bold text-[#0CCA4A]"
+                  animationDuration={0.5}
+                />
+              )}
+            </div>
+          );
+        })}
       </div>
       <div>
         <h1>Reviews</h1>

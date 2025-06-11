@@ -10,6 +10,7 @@ import {
 } from "react-icons/io5";
 import { supabase } from "../../../../config/mesa-config";
 import { useUser } from "@/app/AuthContext";
+import { CircularProgressBar } from "@/(mesaui)/CircularProgressBar";
 
 const ReviewComponent = ({
   review,
@@ -101,7 +102,7 @@ const ReviewComponent = ({
       </header>
       <div className="flex flex-row gap-2 pt-3">
         <div className="flex flex-col gap-3 rounded-xl bg-zinc-100 p-4">
-          <ol
+          {/*<ol
             className={`flex font-mono ${
               review.rating === 1
                 ? "bg-red-500"
@@ -112,6 +113,18 @@ const ReviewComponent = ({
           >
             <h1>{review.rating}</h1>
           </ol>
+          */}
+          <CircularProgressBar
+            percentage={review.rating * 20}
+            size={64}
+            strokeWidth={5}
+            className="rounded-full bg-white"
+            color={"#E4572E"}
+            showText={false}
+            animationDuration={0.5}
+            customText={`${review.rating}`}
+            textClassName="text-2xl font-bold font-mono text-[#E4572E]"
+          />
           <ol className="flex h-16 w-16 flex-col items-start justify-center bg-slate-500 px-3 font-mono text-white">
             <IoWarning /> <h1>{review.difficulty}</h1>
           </ol>
