@@ -35,8 +35,8 @@ const TeachersPage = async () => {
         </p>
       </Card>
       <div className="mt-4 flex flex-col items-start justify-start">
-        <h1 className="text-2xl font-bold">Most Popular Teachers</h1>
-        <div className="flex flex-row gap-4">
+        <h1 className="text-2xl font-bold">All Teachers</h1>
+        <div className="flex flex-row flex-wrap gap-4">
           {teachers?.map((teacher) => (
             <TeacherCard key={teacher.id} teacher={teacher} />
           ))}

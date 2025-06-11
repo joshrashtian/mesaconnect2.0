@@ -25,9 +25,7 @@ const TeacherCard = ({ teacher }: { teacher: Teacher }) => {
         className="flex h-full w-full flex-col items-start justify-end"
       >
         <h1 className="text-2xl font-bold">{teacher.name}</h1>
-        <p className="text-sm text-gray-500">
-          {teacher?.category} Professor at {teacher?.college}
-        </p>
+        <p className="text-sm text-gray-500">{teacher?.category} Professor</p>
       </Link>
     </Tilt>
   );
