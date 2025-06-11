@@ -6,9 +6,13 @@ import { cookies } from "next/headers";
 import TeacherCard from "./(components)/TeacherCard";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { IoAdd } from "react-icons/io5";
 
 const TeachersPage = async () => {
   const supabase = createServerComponentClient({ cookies: () => cookies() });
+
   const { data: teachers } = await supabase.from("teachers").select("*");
 
   return (
@@ -42,6 +46,12 @@ const TeachersPage = async () => {
           ))}
         </div>
       </div>
+      <Link
+        href="/teacher/create"
+        className="fixed bottom-4 right-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-white"
+      >
+        <IoAdd className="text-2xl" />
+      </Link>
     </div>
   );
 };

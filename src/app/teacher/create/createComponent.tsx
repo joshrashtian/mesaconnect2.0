@@ -6,15 +6,45 @@ import { Button } from "@/components/ui/button";
 import { IoAdd } from "react-icons/io5";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
 
 const CreateComponent = ({ classes }: { classes: any[] }) => {
+  const [filteredClasses, setFilteredClasses] = useState<any[]>(classes);
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [teacherName, setTeacherName] = useState<string>("");
   const [teacherCategory, setTeacherCategory] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
   const router = useRouter();
 
+  async function getClasses() {
+    const supabase = createClientComponentClient();
+    if (!search || search === "") {
+      setFilteredClasses(classes);
+      return;
+    }
+    const { data, error } = await supabase
+      .schema("information")
+      .from("classes")
+      .select("*")
+      .textSearch("search_class", search);
+
+    if (error) {
+      console.error(error);
+    }
+    setFilteredClasses(data ?? []);
+  }
   const handleAddTeacher = async () => {
     const supabase = createClientComponentClient();
+
+    if (
+      teacherName === "" ||
+      teacherCategory === "" ||
+      selectedClasses.length === 0
+    ) {
+      alert("Please fill in all fields");
+      return;
+    }
+
     const { data, error } = await supabase.from("teachers").insert({
       id: crypto.randomUUID(),
       name: teacherName,
@@ -31,7 +61,7 @@ const CreateComponent = ({ classes }: { classes: any[] }) => {
   };
 
   return (
-    <div className="flex h-full flex-col items-center justify-center gap-4">
+    <div className="flex h-full w-full flex-col items-center justify-center gap-4">
       <Input
         placeholder="Teacher Name"
         value={teacherName}
@@ -42,8 +72,24 @@ const CreateComponent = ({ classes }: { classes: any[] }) => {
         value={teacherCategory}
         onChange={(e) => setTeacherCategory(e.target.value)}
       />
-      <div className="grid grid-cols-4 items-center justify-center gap-4">
-        {classes.map((classItem) => (
+      <Separator className="my-4" />
+      <div className="flex w-full flex-row items-center justify-between gap-4">
+        <Input
+          placeholder="Search for Classes..."
+          value={search}
+          className="w-full"
+          onChange={(e) => setSearch(e.target.value)}
+        />
+        <Button
+          onClick={getClasses}
+          className="w-64 bg-blue-500 text-white hover:bg-blue-600"
+        >
+          Search
+        </Button>
+      </div>
+      <Separator className="my-4" />
+      <div className="grid w-full grid-cols-4 items-center justify-center gap-4">
+        {filteredClasses.map((classItem) => (
           <div
             key={classItem.id}
             className="flex h-24 w-full flex-col items-start justify-start rounded-lg bg-white p-4 shadow-md"
