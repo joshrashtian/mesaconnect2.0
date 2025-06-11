@@ -40,6 +40,7 @@ export interface ContextProps {
           },
         ];
         xp: number;
+        verified: boolean;
       }
     | undefined;
   signOut: () => void;

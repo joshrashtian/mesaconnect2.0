@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import ModalProvider from "./connect/Modal";
 import { UserCheck } from "./UserCheck";
 import { serverside } from "../../../config/serverside";
-import { InfoProvide } from "./connect/(profiles)/profile/[id]/(infoblockscreator)/InfoBlockDashboard";
+import { InfoProvider } from "./connect/(profiles)/profile/[id]/(infoblockscreator)/InfoContext";
 import { MultiStepProvider } from "./connect/MutliStepContext";
 import { createClient } from "../../../config/server";
 
@@ -21,7 +21,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <InfoContextContainer>
-      <InfoProvide>
+      <InfoProvider>
         <UserCheck>
           <ModalProvider>
             <MultiStepProvider>
@@ -38,7 +38,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
             </MultiStepProvider>
           </ModalProvider>
         </UserCheck>
-      </InfoProvide>
+      </InfoProvider>
     </InfoContextContainer>
   );
 };

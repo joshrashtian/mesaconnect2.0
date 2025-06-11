@@ -5,7 +5,6 @@ import { UserData } from "@/_assets/types";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { supabase } from "../../../../../../../config/mesa-config";
 import Image from "next/image";
-import { Index } from "../boxTypes";
 import UserPosts from "./UserPosts";
 import { userContext, useUser } from "@/app/AuthContext";
 import ChangePfP from "./ChangePfP";
@@ -278,34 +277,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
       <section className="border-b-2" />
       {isActiveUser && <YourProfile />}
 
-      {user.boxlist && (
-        <section ref={InfoBoxRef} className="flex flex-col gap-3">
-          <ul className="grid h-full w-full grid-cols-2 gap-1 font-eudoxus">
-            {user.boxlist.map((e: any) => {
-              return (
-                <section
-                  key={e.contents}
-                  className="min-h-full w-full rounded-md bg-white p-5 dark:bg-zinc-700"
-                >
-                  {Index.map((d: any, i: number) => {
-                    if (d.title.toLowerCase() === e.type.toLowerCase()) {
-                      return (
-                        <div key={i}>
-                          <h1 className="font-bold dark:text-slate-200">
-                            {d.title}
-                          </h1>
-                          <d.component data={e} />
-                        </div>
-                      );
-                    }
-                  })}
-                </section>
-              );
-            })}
-          </ul>
-          <Infoblocks user={user} />
-        </section>
-      )}
+      <Infoblocks />
 
       <section
         className="z-10 flex w-full flex-col gap-4 lg:flex-row"

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../../../../config/mesa-config";
@@ -16,14 +15,11 @@ import { deleteBlock } from "./EditBox";
 import DeleteButton from "@/(mesaui)/DeleteButton";
 import { useToast } from "@/app/(connect)/InfoContext";
 import { useUser } from "@/app/AuthContext";
-import { useInfo } from "../[id]/(infoblockscreator)/InfoBlockDashboard";
+import { useInfo } from "../[id]/(infoblockscreator)/InfoContext";
 import Switch from "../[id]/(infoblockscreator)/Switch";
+import { CommunityData } from "./types";
 
-const CommunityBlock = ({
-  data,
-}: {
-  data: { data: { communityid: string } };
-}) => {
+const CommunityBlock = ({ data }: { data: CommunityData }) => {
   const [community, setCommunity] = useState<{
     id: string;
     name: string;
@@ -36,12 +32,12 @@ const CommunityBlock = ({
     let { data: newcommunity, error } = await supabase
       .from("communities")
       .select("id, name, primary_campus, members, description")
-      .eq("id", data.data.communityid)
+      .eq("id", data.communityid)
       .single();
 
     let { data: CoverImage, error: error2 } = await supabase.storage
       .from("communities")
-      .download(`${data.data.communityid}/cover.png`);
+      .download(`${data.communityid}/cover.png`);
 
     if (error) {
       console.error(error, error2);
@@ -128,7 +124,7 @@ export const CommunityEdit = () => {
       <Switch click={changeVisibiity} toggled={visible} />
       <DeleteButton
         function={async () => {
-          let { error } = await deleteBlock(data.id);
+          let { error } = await deleteBlock(data?.id || "");
           if (error) CreateErrorToast(error.message);
           else window.location.reload();
         }}

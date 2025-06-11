@@ -5,22 +5,27 @@ import {
   Interest,
 } from "@/app/(connect)/connect/(tabs)/social/community/InterestButtons";
 import { supabase } from "../../../../../../../config/mesa-config";
+import { useInfo } from "../[id]/(infoblockscreator)/InfoContext";
 
 const Interestsblock = ({ data }: { data: any }) => {
   const [interests, setInterests] = useState<Interest[]>();
+  const info = useInfo();
   useEffect(() => {
     async function getInterests() {
       const { data: NewData, error } = await supabase
         .from("interests")
         .select()
-        .eq("userid", data?.userid);
+        .eq("userid", info.userid);
       if (error) {
         console.error(error);
         return;
-      } else setInterests(NewData?.splice(0, data.data.length) as Interest[]);
+      } else
+        setInterests(
+          NewData?.splice(0, data?.data?.length ?? 10) as Interest[],
+        );
     }
     getInterests();
-  }, []);
+  }, [info.userid]);
 
   return (
     <section className="p flex flex-wrap gap-2">

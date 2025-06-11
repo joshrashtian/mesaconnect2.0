@@ -11,7 +11,7 @@ const DeleteButton = (props: DeleteButtonProps) => {
   const [running, setRunning] = useState(false);
   return (
     <button
-      className={`flex h-10 w-20 flex-col items-center justify-center rounded-md ${state ? "bg-red-400" : "bg-red-500"} p-5 text-white duration-300 hover:scale-105 hover:bg-red-400/70 focus:scale-90 focus:bg-red-400/50 ${props.className}`}
+      className={`flex h-12 w-64 flex-col items-center justify-center rounded-md ${state ? "bg-red-400" : "bg-red-500"} p-5 text-white duration-300 hover:scale-105 hover:bg-red-400/70 focus:scale-90 focus:bg-red-400/50 ${props.className}`}
       onClick={() => {
         if (state) {
           setRunning(true);

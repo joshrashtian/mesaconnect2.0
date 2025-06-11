@@ -5,6 +5,7 @@ import Link from "next/link";
 import { IoIosBook } from "react-icons/io";
 import { IoList, IoPerson } from "react-icons/io5";
 import { supabase } from "../../../../../config/mesa-config";
+import CollegeTop from "./_components/CollegeTop";
 
 const Learning = () => {
   const [classes, setClasses] = useState([]);
@@ -35,7 +36,7 @@ const Learning = () => {
       const { data, error } = await supabase
         //@ts-ignore
         .schema("information")
-          //@ts-ignore
+        //@ts-ignore
         .from("classes")
         .select("*")
         .order("popularity", { ascending: false })
@@ -58,6 +59,7 @@ const Learning = () => {
             Learning Lab
           </h1>
         </header>
+        <CollegeTop />
         <section className="flex gap-2 rounded-3xl bg-zinc-200/40 p-5">
           {categories.map((e) => (
             <Link

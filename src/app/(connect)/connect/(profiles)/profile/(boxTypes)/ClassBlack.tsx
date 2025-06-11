@@ -1,19 +1,22 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../../../../config/mesa-config";
 import Image from "next/image";
 import Link from "next/link";
+
 import { IoLink } from "react-icons/io5";
 import { IconGet } from "../../../learning/(sub-pages)/profile/newclass/CategoryIndex";
+import { InProgressClassesData } from "./types";
+import { useInfo } from "../[id]/(infoblockscreator)/InfoContext";
 
-const ClassBox = ({ data }: { data: { data: { userid: string } } }) => {
+const ClassBox = ({ data }: { data: InProgressClassesData }) => {
   const [c, setC] = useState<any>();
+  const info = useInfo();
   async function get() {
     let { data: transcriData, error } = await supabase
       .from("transcripts")
       .select("*")
-      .match({ userid: data.data.userid, grade: "IP" });
+      .match({ userid: info.userid, grade: "IP" });
 
     if (error) {
       console.error(error);
@@ -23,7 +26,7 @@ const ClassBox = ({ data }: { data: { data: { userid: string } } }) => {
   }
   useEffect(() => {
     get();
-  }, []);
+  }, [info.userid]);
 
   if (!c) return null;
   return (

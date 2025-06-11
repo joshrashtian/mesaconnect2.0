@@ -1,5 +1,6 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import { useInfo } from "../[id]/(infoblockscreator)/InfoBlockDashboard";
+import { useInfo } from "../[id]/(infoblockscreator)/InfoContext";
 import SubmitButton from "@/_components/SubmitButton";
 import { deleteBlock, editBlock } from "./EditBox";
 import { off } from "process";
@@ -9,11 +10,12 @@ import Switch from "../[id]/(infoblockscreator)/Switch";
 import DeleteButton from "@/(mesaui)/DeleteButton";
 import { supabase } from "../../../../../../../config/mesa-config";
 import { IoCalendar } from "react-icons/io5";
+import { TutorsData } from "./types";
 
-const TutorBlock = ({ data }: { data: any }) => {
+const TutorBlock = ({ data }: { data: TutorsData }) => {
   return (
     <div className="flex flex-row flex-wrap gap-2">
-      {data.data.dates.map((date: any) => {
+      {data.dates.map((date: any) => {
         return (
           <div
             className="w-[49%] rounded-xl bg-zinc-100 p-2 px-5 dark:bg-zinc-600"
@@ -33,11 +35,13 @@ const TutorBlock = ({ data }: { data: any }) => {
 };
 
 const TutorBlockSettings = () => {
-  const { data, visible } = useInfo();
-  const [times, setTimes] = React.useState<any[]>([...data.data.dates]);
+  const { data } = useInfo();
+  const [times, setTimes] = React.useState<any[]>([
+    ...((data?.data as TutorsData).dates || []),
+  ]);
   const [submitting, setSubmitting] = React.useState(false);
   const [isVisible, setVisible] = React.useState(
-    data.visible === "public" ? true : false,
+    data?.visible === "public" ? true : false,
   );
 
   return (
@@ -143,7 +147,7 @@ const TutorBlockSettings = () => {
             setSubmitting={setSubmitting}
             onClick={async () => {
               let { data: result, error } = await editBlock({
-                id: data.id,
+                id: data?.id || "",
                 data: { dates: times },
                 visible: isVisible ? "public" : "private",
               });
@@ -154,7 +158,7 @@ const TutorBlockSettings = () => {
           <DeleteButton
             className="h-12 w-1/3"
             function={async () => {
-              let { error } = await deleteBlock(data.id);
+              let { error } = await deleteBlock(data?.id || "");
               if (error) console.error(error);
               else window.location.reload();
             }}
