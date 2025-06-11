@@ -26,7 +26,7 @@ const CreateComponent = ({ classes }: { classes: any[] }) => {
       console.error(error);
     } else {
       //@ts-ignore
-      router.push(`/teacher/${data?.id}`);
+      router.push(`/teacher`);
     }
   };
 
