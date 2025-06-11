@@ -34,7 +34,13 @@ const CreateInProg = dynamic(
     ),
   { ssr: false },
 );
-
+const InProgClassesEdit = dynamic(
+  () =>
+    import("../[id]/(infoblockscreator)/InProgClassesEdit").then(
+      (m) => m.default,
+    ),
+  { ssr: false },
+);
 const CreateTutor = dynamic(
   () => import("./TutorBlock").then((m) => m.CreateTutorBlock),
   { ssr: false },
@@ -87,6 +93,7 @@ export const blockDefinitions: BlockRegistry = {
     style: { theme: "default" },
     View: ClassBox, // now correctly typed
     CreateForm: CreateInProg,
+    EditForm: InProgClassesEdit as React.ComponentType<unknown>,
     editable: true,
   },
   tutors: {

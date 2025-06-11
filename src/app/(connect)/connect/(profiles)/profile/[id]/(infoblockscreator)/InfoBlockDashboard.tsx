@@ -71,16 +71,11 @@ const DashboardInner: React.FC<{ blocks: BlockType[] }> = ({ blocks }) => {
         <section className="flex-1 p-4">
           {activeDef ? (
             <div>
-              {/**
-               * def.create might be:
-               *  - a React component (fn)
-               *  - a JSX element
-               */}
-              {activeDef.CreateForm ? (
+              {activeDef.EditForm ? (
                 // @ts-ignore
-                <activeDef.CreateForm data={data!} />
+                <activeDef.EditForm data={data!} />
               ) : (
-                <em>Missing CreateForm for {activeDef.title}</em>
+                <em>Missing EditForm for {activeDef.title}</em>
               )}
             </div>
           ) : (

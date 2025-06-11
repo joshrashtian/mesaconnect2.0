@@ -81,6 +81,8 @@ export interface InfoBlockDef<K extends BlockKey> {
   View: ComponentType<{ data: BlockDataMap[K] }>;
   /** (optional) the creator form/component */
   CreateForm?: ComponentType<unknown> | undefined;
+  /** (optional) the editor form/component */
+  EditForm?: ComponentType<unknown> | undefined;
   /** show “add” / “edit” controls? */
   editable?: boolean;
 }

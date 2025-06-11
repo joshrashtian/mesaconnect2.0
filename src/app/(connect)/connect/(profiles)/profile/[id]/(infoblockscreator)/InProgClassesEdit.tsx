@@ -10,7 +10,7 @@ import { deleteBlock } from "../../(boxTypes)/EditBox";
 import Input from "@/_components/Input";
 import { IoCalendarNumber } from "react-icons/io5";
 
-const InProgClassBlock = () => {
+const InProgClassesEdit = () => {
   const [visible, setVisible] = React.useState(false);
   const [exists, setExists] = React.useState(false);
   const { user } = useUser();
@@ -96,4 +96,4 @@ export function CreateInProg() {
   );
 }
 
-export default InProgClassBlock;
+export default InProgClassesEdit;

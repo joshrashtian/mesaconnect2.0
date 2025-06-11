@@ -34,7 +34,7 @@ const TeachersPage = async () => {
           reported to the admins of your Community College.
         </p>
       </Card>
-      <div className="flex flex-col items-start justify-start">
+      <div className="mt-4 flex flex-col items-start justify-start">
         <h1 className="text-2xl font-bold">Most Popular Teachers</h1>
         <div className="flex flex-row gap-4">
           {teachers?.map((teacher) => (

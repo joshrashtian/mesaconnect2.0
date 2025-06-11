@@ -14,7 +14,7 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import Link from "next/link";
-import { IoAdd, IoPersonAdd } from "react-icons/io5";
+import { IoAdd, IoPeople, IoPersonAdd } from "react-icons/io5";
 import { useUser } from "@/app/AuthContext";
 import { Review } from "./page";
 import { Button } from "@/components/ui/button";
@@ -143,7 +143,17 @@ export default function TeacherSearch() {
         {!loading && query && results.length === 0 && (
           <CommandEmpty>No teachers found.</CommandEmpty>
         )}
-
+        <CommandGroup heading="General">
+          <CommandItem
+            onSelect={() => {
+              setOpen(false);
+              router.push("/teacher");
+            }}
+          >
+            <IoPeople />
+            <p>Go to Home</p>
+          </CommandItem>
+        </CommandGroup>
         <CommandGroup heading="Your Reviews">
           {yourReviews.map((r) => (
             //@ts-ignore
