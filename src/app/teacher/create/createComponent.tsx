@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 const CreateComponent = ({ classes }: { classes: any[] }) => {
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [teacherName, setTeacherName] = useState<string>("");
+  const [teacherCategory, setTeacherCategory] = useState<string>("");
   const router = useRouter();
 
   const handleAddTeacher = async () => {
@@ -18,6 +19,7 @@ const CreateComponent = ({ classes }: { classes: any[] }) => {
       id: crypto.randomUUID(),
       name: teacherName,
       teaches: selectedClasses,
+      category: teacherCategory,
     });
 
     if (error) {
@@ -34,6 +36,11 @@ const CreateComponent = ({ classes }: { classes: any[] }) => {
         placeholder="Teacher Name"
         value={teacherName}
         onChange={(e) => setTeacherName(e.target.value)}
+      />
+      <Input
+        placeholder="Teacher Category"
+        value={teacherCategory}
+        onChange={(e) => setTeacherCategory(e.target.value)}
       />
       <div className="grid grid-cols-4 items-center justify-center gap-4">
         {classes.map((classItem) => (

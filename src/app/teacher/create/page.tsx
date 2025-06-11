@@ -29,7 +29,7 @@ const CreateTeacher = async () => {
 
   return (
     <div className="flex flex-col items-center justify-center p-10 font-eudoxus">
-      <h1 className="text-4xl font-black">Add Teacher</h1>
+      <h1 className="mb-2 text-4xl font-black">Add Teacher</h1>
       <CreateComponent classes={classes ?? []} />
     </div>
   );

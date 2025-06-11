@@ -16,6 +16,8 @@ import {
 import Link from "next/link";
 import { IoAdd, IoPersonAdd } from "react-icons/io5";
 import { useUser } from "@/app/AuthContext";
+import { Review } from "./page";
+import { Button } from "@/components/ui/button";
 
 interface Teacher {
   id: string;
@@ -30,7 +32,9 @@ export default function TeacherSearch() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const [yourReviews, setYourReviews] = useState<
+    { id: string; teacher_id: string; rating: number; teacher: Teacher }[]
+  >([]);
   // 1. Keyboard shortcut to open/close (⌘+K / Ctrl+K)
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -69,10 +73,43 @@ export default function TeacherSearch() {
     [supabase, query],
   );
 
+  async function fetchYourReviews() {
+    const { data, error } = await supabase
+      .from("teacher_reviews")
+      .select("teacher_id, rating")
+      .eq("user_id", userData?.id);
+
+    if (error) {
+      console.error("Error fetching your reviews:", error);
+    } else {
+      const { data: teachers, error: teachersError } = await supabase
+        .from("teachers")
+        .select("id, name")
+        .in("id", data?.map((r) => r.teacher_id) ?? []);
+
+      if (teachersError) {
+        console.error("Error fetching teachers:", teachersError);
+      }
+
+      const reviews = data?.map((r) => ({
+        ...r,
+        teacher: teachers?.find((t) => t.id === r.teacher_id),
+      }));
+      //@ts-ignore
+      setYourReviews(reviews ?? []);
+    }
+  }
+
   // 3. Kick off search whenever the input changes
   useEffect(() => {
     fetchTeachers(query);
   }, [query, fetchTeachers]);
+
+  useEffect(() => {
+    if (userData?.id) {
+      fetchYourReviews();
+    }
+  }, [userData?.id]);
 
   return (
     <CommandDialog open={open} onOpenChange={setOpen}>
@@ -83,16 +120,45 @@ export default function TeacherSearch() {
         onValueChange={(val) => setQuery(val)}
         autoFocus
       />
+      {!userData?.id && (
+        <div className="m-3 flex flex-col items-start justify-start rounded-lg bg-gradient-to-br from-blue-400/80 to-blue-500/60 p-3">
+          <div className="text-white">
+            Create an account to rate reviews, add teachers, and create your
+            own.
+          </div>
+          <Button
+            variant="outline"
+            className="mt-2 w-full"
+            onClick={() => {
+              setOpen(false);
+              router.push("/sign-in");
+            }}
+          >
+            Sign Up
+          </Button>
+        </div>
+      )}
       <CommandList>
         {loading && <CommandEmpty>Searching…</CommandEmpty>}
         {!loading && query && results.length === 0 && (
           <CommandEmpty>No teachers found.</CommandEmpty>
         )}
-        <CommandGroup heading="Basic Commands">
-          <CommandItem>Account Information</CommandItem>
-        </CommandGroup>
+
         <CommandGroup heading="Your Reviews">
-          <CommandItem>Your Reviews</CommandItem>
+          {yourReviews.map((r) => (
+            //@ts-ignore
+            <CommandItem
+              key={r.id}
+              onSelect={() => {
+                setOpen(false);
+                router.push(`/teacher/${r.teacher_id}`);
+              }}
+              className="flex flex-row items-start justify-between p-0"
+            >
+              <p className="text-md font-bold">{r.teacher?.name}</p>
+              <p className="text-sm text-gray-500">{r.rating}</p>
+            </CommandItem>
+          ))}
         </CommandGroup>
         {!loading && results.length > 0 && (
           <CommandGroup heading="Teachers">

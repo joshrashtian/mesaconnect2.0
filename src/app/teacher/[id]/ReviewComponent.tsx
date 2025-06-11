@@ -6,11 +6,20 @@ import {
   IoArrowUp,
   IoCheckmark,
   IoClose,
+  IoEllipsisVertical,
+  IoFlag,
+  IoTrash,
   IoWarning,
 } from "react-icons/io5";
 import { supabase } from "../../../../config/mesa-config";
 import { useUser } from "@/app/AuthContext";
 import { CircularProgressBar } from "@/(mesaui)/CircularProgressBar";
+import {
+  DropdownMenu,
+  DropdownMenuItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const ReviewComponent = ({
   review,
@@ -85,6 +94,25 @@ const ReviewComponent = ({
     // 4️⃣ Re-fetch to get fresh totals & button state
     fetchVotes();
   };
+
+  const reportReview = async () => {
+    if (!user) {
+      alert("Please sign in to report a review.");
+      return;
+    }
+
+    const { data, error } = await supabase
+      //@ts-ignore
+      .from("review_reports")
+      //@ts-ignore
+      .insert({ review_id: review.id, user_id: user?.id });
+
+    if (error) {
+      console.error("reportReview error:", error);
+      return;
+    }
+  };
+
   return (
     <div className="flex w-full flex-col items-start rounded-md bg-white bg-white/40 bg-clip-padding px-3 pb-4 text-xl shadow-md backdrop-blur-sm backdrop-filter transition-all duration-300 hover:shadow-lg">
       <header className="flex w-full flex-row items-center justify-between border-b border-gray-200 p-5 pb-2">
@@ -99,6 +127,31 @@ const ReviewComponent = ({
           {review.took_for &&
             ` for ${classesTaught?.find((classItem) => classItem.id === review.took_for)?.name}.`}
         </h1>
+        <p className="font-mono text-gray-500">
+          {new Date(review.created_at).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </p>
+        <DropdownMenu>
+          <DropdownMenuTrigger className="text-gray-500">
+            <IoEllipsisVertical />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem
+              onClick={() => {
+                reportReview();
+              }}
+              className="flex flex-row items-center gap-2 text-red-500"
+            >
+              <IoFlag />
+              <p>Report Review</p>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </header>
       <div className="flex flex-row gap-2 pt-3">
         <div className="flex flex-col gap-3 rounded-xl bg-zinc-100 p-4">

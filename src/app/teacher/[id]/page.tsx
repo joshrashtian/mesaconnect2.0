@@ -157,11 +157,19 @@ const page = async ({ params }: { params: { id: string } }) => {
         })}
       </div>
 
-      {user?.user?.id && !usermadeReview ? (
-        <CreateReview
-          teacherId={teacher?.id}
-          classesTaught={classesTaught ?? []}
-        />
+      {!usermadeReview ? (
+        user?.user?.id ? (
+          <CreateReview
+            teacherId={teacher?.id}
+            classesTaught={classesTaught ?? []}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center">
+            <h1 className="text-2xl font-bold">
+              Sign up to rate reviews, add teachers, and create your own.
+            </h1>
+          </div>
+        )
       ) : (
         <EditReview review={usermadeReview} />
       )}
