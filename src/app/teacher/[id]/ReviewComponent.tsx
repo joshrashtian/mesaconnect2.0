@@ -86,7 +86,7 @@ const ReviewComponent = ({
     fetchVotes();
   };
   return (
-    <div className="flex w-full flex-col items-start rounded-md bg-white px-3 pb-4 text-xl">
+    <div className="flex w-full flex-col items-start rounded-md bg-white bg-white/40 bg-clip-padding px-3 pb-4 text-xl shadow-md backdrop-blur-sm backdrop-filter transition-all duration-300 hover:shadow-lg">
       <header className="flex w-full flex-row items-center justify-between border-b border-gray-200 p-5 pb-2">
         <h1 className="font-mono text-xl">
           {review.rating > 4
@@ -118,7 +118,7 @@ const ReviewComponent = ({
             percentage={review.rating * 20}
             size={64}
             strokeWidth={5}
-            className="rounded-full bg-white"
+            className="rounded-full border border-black bg-white"
             color={"#E4572E"}
             showText={false}
             animationDuration={0.5}
@@ -128,6 +128,11 @@ const ReviewComponent = ({
           <ol className="flex h-16 w-16 flex-col items-start justify-center bg-slate-500 px-3 font-mono text-white">
             <IoWarning /> <h1>{review.difficulty}</h1>
           </ol>
+          {review?.grade && (
+            <ol className="flex h-16 w-16 flex-col items-start justify-center rounded-xl bg-blue-400 px-3 font-mono text-white">
+              <h1 className="text-3xl text-white">{review?.grade}</h1>
+            </ol>
+          )}
         </div>
         <div className="flex w-full flex-col gap-3 border-l border-gray-200 px-4">
           <h1>{review.review}</h1>
@@ -137,7 +142,7 @@ const ReviewComponent = ({
                 key={pro}
                 className="flex flex-row items-center gap-2 text-green-500"
               >
-                <IoCheckmark />+ {pro}
+                <IoCheckmark /> {pro}
               </p>
             ))}
           </ol>
@@ -147,16 +152,16 @@ const ReviewComponent = ({
                 key={con}
                 className="flex flex-row items-center gap-2 text-red-500"
               >
-                <IoClose />- {con}
+                <IoClose /> {con}
               </p>
             ))}
           </ol>
         </div>
       </div>
-      <div className="flex w-full flex-col items-center justify-center gap-4 lg:w-4/5 lg:flex-row">
+      <div className="flex w-full flex-col items-center justify-center gap-4 lg:flex-row">
         <ol className="flex flex-row items-center gap-2">
           <button
-            className={`${vote === 1 ? "text-green-500" : "text-gray-500"}`}
+            className={`${vote === 1 ? "text-orange-500" : "text-gray-500"}`}
             onClick={() => {
               toggleVote(1);
             }}
@@ -165,7 +170,7 @@ const ReviewComponent = ({
           </button>
           <h1>{total}</h1>
           <button
-            className={`${vote === -1 ? "text-red-500" : ""}`}
+            className={`${vote === -1 ? "text-orange-500" : ""}`}
             onClick={() => {
               toggleVote(-1);
             }}
