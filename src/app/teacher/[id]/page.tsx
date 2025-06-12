@@ -74,7 +74,7 @@ const page = async ({ params }: { params: { id: string } }) => {
     reviews?.reduce((acc, curr) => acc + curr.difficulty, 0) /
     (reviews?.length ?? 0);
   return (
-    <div className="flex flex-col items-center gap-4 p-4 font-eudoxus">
+    <div className="flex flex-col items-center gap-4 pt-24 font-eudoxus lg:p-4">
       <HeadingComponent
         teacher={teacher}
         averageRating={ratingSummary?.average_rating}
@@ -82,22 +82,31 @@ const page = async ({ params }: { params: { id: string } }) => {
       <div className="flex flex-row items-center gap-4">
         <CircularProgressBar
           percentage={(ratingSummary?.average_rating / 5) * 100}
-          size={150}
+          size={200}
           showText={false}
-          color={ratingSummary?.average_rating >= 4.5 ? "#0CCA4A" : "#FFA500"}
+          color={
+            ratingSummary?.average_rating >= 3.5
+              ? "#0CCA4A"
+              : ratingSummary?.average_rating > 2.5
+                ? "#FFA500"
+                : "#FF0000"
+          }
           strokeWidth={10}
-          customText={
-            ratingSummary?.average_rating
-              ? `${ratingSummary?.average_rating}`
-              : "TBA"
+          customComponent={
+            <div className="flex flex-row items-start justify-center font-nenue">
+              <h1 className="text-7xl font-black">
+                {ratingSummary?.average_rating}
+              </h1>
+              <h2 className="text-2xl font-black">/5</h2>
+            </div>
           }
           textClassName="text-5xl font-bold"
         />
       </div>
-      <h1 className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-5xl font-black text-transparent">
+      <h1 className="bg-gradient-to-r from-orange-600 to-red-600 bg-clip-text text-center text-5xl font-black text-transparent">
         {teacher?.name}
       </h1>
-      <h3 className="text-2xl font-bold">
+      <h3 className="text-center text-2xl font-bold">
         Students feel{" "}
         {ratingSummary?.average_rating >= 4.5
           ? "Overwhelmingly Positive"
@@ -112,7 +121,7 @@ const page = async ({ params }: { params: { id: string } }) => {
       </h3>
 
       <p>This teacher teaches:</p>
-      <div className="grid w-4/5 grid-cols-1 gap-4 lg:grid-cols-3">
+      <div className="grid w-full grid-cols-1 gap-4 p-3 lg:w-4/5 lg:grid-cols-3 lg:p-0">
         <div className="flex flex-col rounded-lg bg-white p-4 shadow-md">
           <h4>Average Difficulty</h4>
           <p className="text-2xl font-bold">
@@ -128,7 +137,7 @@ const page = async ({ params }: { params: { id: string } }) => {
           return (
             <div
               key={classItem.id}
-              className="flex min-w-full flex-row items-center justify-between gap-4 rounded-lg bg-white p-4 shadow-md lg:w-1/2"
+              className="flex min-w-full flex-row items-center justify-between gap-4 rounded-lg bg-white p-4 pt-12 shadow-md lg:w-1/2"
             >
               <Link
                 href={`/connect/class/${classItem.id}`}
@@ -174,8 +183,10 @@ const page = async ({ params }: { params: { id: string } }) => {
         <EditReview review={usermadeReview} />
       )}
 
-      <section className="flex w-4/5 flex-col gap-4">
-        <h1 className="text-2xl font-bold">Reviews ({reviews?.length})</h1>
+      <section className="flex w-full flex-col gap-4 lg:w-4/5">
+        <h1 className="text-center text-xl font-bold lg:text-left lg:text-2xl">
+          Reviews ({reviews?.length})
+        </h1>
 
         {reviews
           ?.sort((a, b) => b.created_at.localeCompare(a.created_at))

@@ -2,6 +2,22 @@
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
+type CircularProgressBarProps = {
+  percentage: number;
+  size?: number;
+  strokeWidth?: number;
+  color?: string;
+  backgroundColor?: string;
+  showText?: boolean;
+  textColor?: string;
+  animationDuration?: number;
+  delay?: number;
+  className?: string;
+  easing?: string;
+  customText?: string;
+  customComponent?: React.ReactNode;
+  textClassName?: string;
+};
 const CircularProgressBar = ({
   percentage = 0,
   size = 120,
@@ -15,8 +31,9 @@ const CircularProgressBar = ({
   className = "",
   easing = "easeInOut",
   customText = "",
+  customComponent = null,
   textClassName = "",
-}) => {
+}: CircularProgressBarProps) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const radius = (size - strokeWidth) / 2;
@@ -129,6 +146,16 @@ const CircularProgressBar = ({
           >
             {Math.round(percentage)}%
           </motion.span>
+        </motion.div>
+      )}
+      {customComponent && (
+        <motion.div
+          className="absolute inset-0 flex items-center justify-center font-semibold"
+          variants={textVariants}
+          initial="hidden"
+          animate={isVisible ? "visible" : "hidden"}
+        >
+          {customComponent}
         </motion.div>
       )}
       {customText && (

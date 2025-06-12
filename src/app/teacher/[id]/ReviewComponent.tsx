@@ -114,8 +114,8 @@ const ReviewComponent = ({
   };
 
   return (
-    <div className="flex w-full flex-col items-start rounded-md bg-white bg-white/40 bg-clip-padding px-3 pb-4 text-xl shadow-md backdrop-blur-sm backdrop-filter transition-all duration-300 hover:shadow-lg">
-      <header className="flex w-full flex-row items-center justify-between border-b border-gray-200 p-5 pb-2">
+    <div className="relative flex w-full flex-col items-start rounded-md bg-white bg-white/40 bg-clip-padding px-3 pb-4 text-xl shadow-md backdrop-blur-sm backdrop-filter transition-all duration-300 hover:shadow-lg">
+      <header className="flex w-full flex-col items-start justify-between border-b border-gray-200 p-5 pb-2 lg:flex-row lg:items-center">
         <h1 className="font-mono text-xl">
           {review.rating > 4
             ? "Highly Recommends"
@@ -137,7 +137,7 @@ const ReviewComponent = ({
           })}
         </p>
         <DropdownMenu>
-          <DropdownMenuTrigger className="text-gray-500">
+          <DropdownMenuTrigger className="absolute right-2 top-2 text-gray-500">
             <IoEllipsisVertical />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
@@ -153,8 +153,8 @@ const ReviewComponent = ({
           </DropdownMenuContent>
         </DropdownMenu>
       </header>
-      <div className="flex flex-row gap-2 pt-3">
-        <div className="flex flex-col gap-3 rounded-xl bg-zinc-100 p-4">
+      <div className="flex flex-col gap-2 pt-3 lg:flex-row">
+        <div className="flex flex-row items-center gap-3 rounded-xl bg-zinc-100 p-4 lg:flex-col">
           {/*<ol
             className={`flex font-mono ${
               review.rating === 1
@@ -187,7 +187,7 @@ const ReviewComponent = ({
             </ol>
           )}
         </div>
-        <div className="flex w-full flex-col gap-3 border-l border-gray-200 px-4">
+        <div className="flex w-full flex-col gap-3 border-t border-gray-200 px-4 lg:border-l lg:border-gray-200">
           <h1>{review.review}</h1>
           <ol className="flex flex-col gap-2">
             {review.pros?.map((pro) => (

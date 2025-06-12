@@ -80,6 +80,15 @@ const SettingsPage = () => {
             <IoLockOpenOutline size={20} />
             <h1>Change Password</h1>
           </button>
+          <button
+            onClick={() => {
+              router.push("/delete-account");
+            }}
+            className="flex w-48 flex-row items-center justify-center gap-1.5 rounded-full bg-gradient-to-tr from-orange-600 to-yellow-600 p-3 font-eudoxus text-white duration-300 hover:scale-105"
+          >
+            <IoLockOpenOutline size={20} />
+            <h1>Delete Account</h1>
+          </button>
         </div>
       </section>
     </main>
