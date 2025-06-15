@@ -9,30 +9,14 @@ import Link from "next/link";
 import { useContext, useRef } from "react";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
-import {
-  IoArrowForward,
-  IoChevronForward,
-  IoNewspaper,
-  IoPerson,
-  IoPhonePortrait,
-} from "react-icons/io5";
-import { BiSupport } from "react-icons/bi";
+import { IoArrowForward, IoGlobe, IoPerson } from "react-icons/io5";
 import { Canvas } from "@react-three/fiber";
-import {
-  Center,
-  MapControls,
-  OrbitControls,
-  PresentationControls,
-  Stage,
-  useGLTF,
-} from "@react-three/drei";
+import { Center, PresentationControls, useGLTF } from "@react-three/drei";
 import JoinNow from "@/_components/home/JoinNow";
 import OpenSource from "@/_components/home/OpenSource";
-import OneTapComponent from "@/_components/home/OneTap";
-import { Outfit, Slabo_13px } from "next/font/google";
+import { Outfit } from "next/font/google";
 import ClassShowcase from "@/_components/home/ClassShowcase";
 import MobilePreview from "@/_components/home/mobilepreview";
-import StudyRoomPreview from "@/_components/home/StudyRoomPreview";
 import Unify from "@/_components/home/Unify";
 
 const font = Outfit({
@@ -108,9 +92,9 @@ export default function Home() {
           ) : (
             <Link
               href="/connect"
-              className="text-md ring-offset-3 group flex h-12 w-64 cursor-pointer items-center justify-between gap-3 rounded-3xl bg-gradient-to-r from-orange-600 to-orange-400 px-8 text-white shadow-lg ring-orange-400 ring-offset-transparent transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-orange-700/60 hover:ring-2 lg:h-16 lg:w-full lg:text-lg 2xl:text-xl"
+              className="text-md ring-offset-3 group flex h-10 w-32 cursor-pointer items-center justify-between gap-3 rounded-3xl bg-[#297373] px-8 text-white shadow-lg ring-orange-400 ring-offset-transparent transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-[#2D9191] lg:h-12 lg:w-52"
             >
-              <h2 className="text-xl duration-300">Enter Connect</h2>
+              <h2 className="text-md duration-300">Enter Connect</h2>
 
               <IoArrowForward className="duration-300 ease-in-out group-hover:translate-x-4" />
             </Link>
@@ -121,7 +105,7 @@ export default function Home() {
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="flex h-[100vh] w-screen flex-col items-center justify-between bg-gradient-to-br from-slate-900 to-slate-700 text-sm shadow-2xl shadow-slate-500/30"
+        className="flex h-[100vh] w-screen flex-col items-center justify-between bg-[#39393A] text-sm shadow-2xl shadow-slate-500/30"
       >
         <Canvas className="absolute z-40 min-h-[50vh] w-screen scale-75 md:min-h-[35vh] lg:min-h-[70vh] lg:scale-100">
           <PresentationControls
@@ -140,13 +124,9 @@ export default function Home() {
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, type: "just" }}
-            className={`cursor-default text-left font-eudoxus font-black text-white drop-shadow-lg duration-300 ease-in-out dark:text-white sm:text-xl md:text-3xl lg:text-5xl xl:text-5xl 2xl:text-5xl`}
+            className={`cursor-default text-left font-nenue font-medium text-[#E6E6E6] drop-shadow-lg duration-300 ease-in-out dark:text-white sm:text-xl md:text-3xl lg:text-5xl xl:text-5xl 2xl:text-5xl`}
           >
-            It&apos;s Time To Connect{" "}
-            <span className="bg-gradient-to-br from-red-600 to-orange-400/30 bg-clip-text text-transparent duration-300 hover:text-black/20">
-              STEM
-            </span>{" "}
-            Together In A{" "}
+            It&apos;s Time To Connect Together In A{" "}
             <span className="bg-gradient-to-br from-purple-600 to-blue-400 bg-clip-text text-transparent duration-500 hover:text-black/20">
               New World.
             </span>{" "}
@@ -155,10 +135,12 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.7, type: "just" }}
-            className="font-eudoxus text-2xl text-white dark:text-slate-50"
+            className="flex flex-row items-center justify-center gap-2 font-nenue text-2xl text-[#E6E6E6] dark:text-slate-50"
           >
-            A community and platform for the students, by the students.
+            <IoGlobe className="text-2xl" />A community and platform for the
+            students, by the students.
           </motion.h2>
+          {/*
           <button
             onClick={() =>
               // @ts-ignore
@@ -168,6 +150,7 @@ export default function Home() {
           >
             Learn More
           </button>
+          */}
           <p className="text-sm text-white/60">
             models by goldenspino, sellpet. all rights belong to them.
           </p>

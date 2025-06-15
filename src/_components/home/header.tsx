@@ -19,14 +19,24 @@ import {
   IoHelpCircle,
   IoNewspaper,
   IoPhonePortrait,
+  IoEllipsisVertical,
+  IoEllipsisHorizontal,
+  IoCalculator,
+  IoPeople,
 } from "react-icons/io5";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 const Header = () => {
   const user = useUser();
   const pathname = usePathname();
   const [menu, setMenu] = useState(false);
-
+  const router = useRouter();
   const isDark = useDarkMode();
 
   const headerComponents = [
@@ -46,11 +56,7 @@ const Header = () => {
       href: "/events",
       icon: <IoCalendar />,
     },
-    {
-      name: "Docs",
-      href: "/docs",
-      icon: <IoDocument />,
-    },
+
     {
       name: "MESAMobile",
       href: "/mobile",
@@ -157,6 +163,26 @@ const Header = () => {
             )*/}
           </motion.ul>
         ))}
+        <DropdownMenu>
+          <DropdownMenuTrigger className="rounded-full px-4 duration-300 hover:cursor-pointer hover:bg-zinc-100">
+            <IoEllipsisVertical className="h-4 w-4 text-2xl text-slate-400" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56 rounded-xl bg-white font-mono shadow-2xl shadow-black/50">
+            <DropdownMenuItem className="cursor-pointer justify-between p-4 hover:bg-zinc-100">
+              <IoCalculator className="h-4 w-4" />
+              <p>GPA Calculator</p>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                router.push("/teacher");
+              }}
+              className="cursor-pointer justify-between p-4 hover:bg-zinc-100"
+            >
+              <IoPeople className="h-4 w-4" />
+              <p>MESATeachers</p>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </motion.div>
       <motion.section className="absolute right-[5%] flex flex-row items-center gap-5 text-nowrap text-white">
         <button
