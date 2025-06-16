@@ -29,7 +29,10 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 const Header = () => {
@@ -56,12 +59,6 @@ const Header = () => {
       href: "/events",
       icon: <IoCalendar />,
     },
-
-    {
-      name: "MESAMobile",
-      href: "/mobile",
-      icon: <IoPhonePortrait />,
-    },
   ];
   const controls = useAnimation();
 
@@ -85,7 +82,7 @@ const Header = () => {
       initial={{ y: -30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 5, type: "spring" }}
-      className="fixed top-0 z-50 flex h-28 w-full flex-row items-center justify-between px-[5%] lg:justify-center lg:px-10"
+      className="fixed top-0 z-50 flex h-28 w-full flex-row items-center justify-between px-[5%] lg:px-10"
     >
       {/*
       <motion.ul
@@ -97,7 +94,7 @@ const Header = () => {
         initial={{ y: -30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 5, type: "spring" }}
-        className="flex flex-row items-center gap-3 rounded-3xl bg-white px-4 py-2 opacity-0 shadow-2xl shadow-black/50 xl:opacity-100"
+        className="flex flex-row items-center gap-3 rounded-3xl bg-white/70 px-4 py-2 opacity-0 shadow-2xl shadow-black/50 backdrop-blur-lg xl:opacity-100"
         style={{
           perspective: 1000,
         }}
@@ -133,23 +130,14 @@ const Header = () => {
             className="pointer-events-none object-contain"
           />
         </motion.div>
-        <motion.h2
-          initial="colorone"
-          className="hidden font-eudoxus text-sm font-black text-red-600 shadow-black drop-shadow-2xl lg:block lg:text-xl"
-        >
-          MESA
-          <motion.span className="text-zinc-500">
-            {pathname.includes("mobile") ? "mobile" : "connect"}
-          </motion.span>
-          <motion.span className="ml-1 rounded-full text-xs">beta</motion.span>
-        </motion.h2>
-        <ul className="mx-4 hidden h-12 w-0.5 bg-zinc-200 dark:bg-white lg:block" />
+
+        <ul className="mx-4 hidden h-12 w-0.5 bg-black lg:block" />
         {headerComponents.map((e, index) => (
           <motion.ul
             initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 1 + 0.5 * index, duration: 2 }}
-            className="mx-3 hidden h-full w-full items-center lg:flex"
+            className="mx-3 hidden h-full w-full items-center font-eudoxus text-lg lg:flex"
             key={index}
           >
             <Link
@@ -164,23 +152,60 @@ const Header = () => {
           </motion.ul>
         ))}
         <DropdownMenu>
-          <DropdownMenuTrigger className="rounded-full px-4 duration-300 hover:cursor-pointer hover:bg-zinc-100">
-            <IoEllipsisVertical className="h-4 w-4 text-2xl text-slate-400" />
+          <DropdownMenuTrigger className="rounded-full px-4 duration-300 hover:cursor-pointer hover:bg-zinc-100/60 lg:hover:bg-zinc-100/40">
+            <IoEllipsisVertical className="h-12 w-4 text-2xl text-black duration-300 hover:rotate-90 lg:rotate-90" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56 rounded-xl bg-white font-mono shadow-2xl shadow-black/50">
-            <DropdownMenuItem className="cursor-pointer justify-between p-4 hover:bg-zinc-100">
-              <IoCalculator className="h-4 w-4" />
-              <p>GPA Calculator</p>
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                router.push("/teacher");
-              }}
-              className="cursor-pointer justify-between p-4 hover:bg-zinc-100"
-            >
-              <IoPeople className="h-4 w-4" />
-              <p>MESATeachers</p>
-            </DropdownMenuItem>
+          <DropdownMenuContent className="w-48 rounded-xl bg-white/70 font-eudoxus text-lg shadow-2xl shadow-black/50 backdrop-blur-lg">
+            <DropdownMenuGroup title="Connect" className="flex flex-col gap-2">
+              <DropdownMenuLabel>Connect</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => {
+                  router.push("/connect");
+                }}
+                className="hover:bg-zinc-30s0/60 cursor-pointer justify-between rounded-xl font-eudoxus"
+              >
+                <IoPeople className="h-4 w-4" />
+                <p>Connect</p>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  router.push("/news");
+                }}
+                className="hover:bg-zinc-30s0/60 cursor-pointer justify-between rounded-xl font-eudoxus"
+              >
+                <IoNewspaper className="h-4 w-4" />
+                <p>News</p>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuGroup title="Tools" className="flex flex-col gap-2">
+              <DropdownMenuLabel>Tools</DropdownMenuLabel>
+              <DropdownMenuItem className="hover:bg-zinc-30s0/60 cursor-pointer justify-between rounded-xl font-eudoxus">
+                <IoCalculator className="h-4 w-4" />
+                <p>GPA Calculator</p>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator className="bg-zinc-900/10" />
+            <DropdownMenuGroup className="flex flex-col gap-2">
+              <DropdownMenuLabel>Community</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => {
+                  router.push("/teacher");
+                }}
+                className="cursor-pointer justify-between rounded-xl hover:bg-zinc-300/60"
+              >
+                <IoPeople className="h-4 w-4" />
+                <p>MESATeachers</p>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => {
+                  router.push("/mobile");
+                }}
+                className="cursor-pointer justify-between rounded-xl hover:bg-zinc-300/60"
+              >
+                <IoPhonePortrait className="h-4 w-4" />
+                <p>Mobile App</p>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       </motion.div>
@@ -190,11 +215,11 @@ const Header = () => {
           className="flex cursor-pointer flex-row items-center gap-1 rounded-full drop-shadow-2xl duration-300 hover:scale-105"
         >
           <motion.h1 className="text-sm drop-shadow-xl lg:text-xl">
-            {user.user
-              ? user.user.user_metadata.full_name
-                ? user.user.user_metadata.full_name
-                : user.user.user_metadata.username
-              : "Sign In"}
+            {user.userData?.real_name ??
+              user.user?.user_metadata.full_name ??
+              user.user?.user_metadata.username ??
+              user.user?.email ??
+              "Sign In"}
           </motion.h1>
           <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-slate-300">
             {/* eslint-disable-next-line @next/next/no-img-element,jsx-a11y/alt-text */}
@@ -203,7 +228,13 @@ const Header = () => {
                 src={user.userData?.avatar_url}
                 className="h-8 w-8 rounded-full"
                 fill
-                alt={user.userData?.username}
+                alt={
+                  user.userData?.real_name ??
+                  user.user?.user_metadata.full_name ??
+                  user.userData?.username ??
+                  user.user?.user_metadata.username ??
+                  user.user?.email
+                }
               />
             ) : (
               <IoPerson className="h-4 w-4 text-slate-400" />

@@ -117,42 +117,46 @@ export const HeaderContext = ({
       //animate={{ scale: 1 }}
       //exit={{ scale: 0 }}
       //transition={{ duration: 0.4, type: "spring" }}
-      className="absolute rounded-md px-5 p-3.5 bg-white dark:bg-zinc-600/50 shadow-lg origin-top-right top-20 right-20 z-auto"
+      className="absolute right-20 top-20 z-auto origin-top-right rounded-md bg-white/70 p-3.5 px-5 shadow-lg backdrop-blur-lg dark:bg-zinc-600/50"
     >
       {user.userData ? (
-        <ul className="flex flex-row items-center justify-center dark:text-slate-200 gap-1.5">
+        <ul className="flex flex-row items-center justify-center gap-1.5 dark:text-slate-200">
           <Image
             // @ts-ignore
             src={user.userData?.avatar_url}
-            className="rounded-full w-6 h-6"
+            className="h-6 w-6 rounded-full"
             objectFit="contain"
             alt="Profile Picture"
             width={16}
             height={16}
             sizes="16px"
           />
-          <h1 className="">{user.user?.user_metadata.full_name}</h1>
+          <h1 className="">
+            {user.userData.real_name ??
+              user.user?.user_metadata.full_name ??
+              user.user?.email}
+          </h1>
         </ul>
       ) : (
         <ul>
           <h1 className="">Sign In or Create An Account</h1>
         </ul>
       )}
-      <h1 className=" text-center border-b-2 pb-3 flex flex-row gap-1 items-center text-sm font-eudoxus dark:text-slate-200">
-        <IoMail className="p-0.5 rounded-full dark:bg-slate-200 dark:text-zinc-600/50" />{" "}
+      <h1 className="flex flex-row items-center gap-1 border-b-2 pb-3 text-center font-eudoxus text-sm dark:text-slate-200">
+        <IoMail className="rounded-full p-0.5 dark:bg-slate-200 dark:text-zinc-600/50" />{" "}
         {user.user?.email}
       </h1>
-      <section className="flex flex-col mt-2 font-eudoxus">
+      <section className="mt-2 flex flex-col font-eudoxus">
         {options
           .filter(
             (e) =>
               (e.signedIn === !!user.userData || e.signedIn === null) &&
-              (e.permission || e.permission === undefined)
+              (e.permission || e.permission === undefined),
           )
           .map((option) => (
             <motion.ul
               key={option.label}
-              className="p-2 text-center flex justify-between items-center gap-2 hover:bg-gray-100 dark:hover:bg-zinc-400/30 dark:text-slate-200 duration-300 rounded-xl cursor-pointer"
+              className="flex cursor-pointer items-center justify-between gap-2 rounded-xl p-2 text-center duration-300 hover:bg-gray-100 dark:text-slate-200 dark:hover:bg-zinc-400/30"
               onClick={option.function}
             >
               {option.label}

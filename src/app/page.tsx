@@ -92,7 +92,7 @@ export default function Home() {
           ) : (
             <Link
               href="/connect"
-              className="text-md ring-offset-3 group flex h-10 w-32 cursor-pointer items-center justify-between gap-3 rounded-3xl bg-[#297373] px-8 text-white shadow-lg ring-orange-400 ring-offset-transparent transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-[#2D9191] lg:h-12 lg:w-52"
+              className="text-md ring-offset-3 group flex h-10 w-32 cursor-pointer items-center justify-between gap-3 rounded-3xl bg-[#297373] px-8 text-white shadow-2xl ring-orange-400 ring-offset-transparent drop-shadow-lg transition-all duration-500 ease-in-out hover:rounded-2xl hover:bg-[#2D9191] lg:h-12 lg:w-52"
             >
               <h2 className="text-md duration-300">Enter Connect</h2>
 
@@ -107,19 +107,7 @@ export default function Home() {
         animate={{ opacity: 1 }}
         className="flex h-[100vh] w-screen flex-col items-center justify-between bg-[#39393A] text-sm shadow-2xl shadow-slate-500/30"
       >
-        <Canvas className="absolute z-40 min-h-[50vh] w-screen scale-75 md:min-h-[35vh] lg:min-h-[70vh] lg:scale-100">
-          <PresentationControls
-            config={{ mass: 2, tension: 100, friction: 10 }}
-            snap={{ mass: 2, tension: 100, friction: 10 }}
-          >
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[0, 5, 10]} intensity={0.8} />
-            <Center position={[0, 0.3, -6]} rotation={[0, 0.4, 0]}>
-              <Room />
-            </Center>
-          </PresentationControls>
-        </Canvas>
-        <ul className="flex h-full w-full flex-col items-start justify-start gap-1 px-4 text-center sm:gap-6 sm:px-10 md:gap-2 md:px-16">
+        <ul className="flex h-full w-full flex-col items-center justify-center gap-1 px-4 text-center sm:gap-6 sm:px-10 md:gap-2 md:px-16">
           <motion.h1
             initial={{ y: 30, opacity: 0 }}
             animate={{ opacity: 1, y: 0 }}
@@ -140,6 +128,18 @@ export default function Home() {
             <IoGlobe className="text-2xl" />A community and platform for the
             students, by the students.
           </motion.h2>
+          {/*<Canvas className="absolute z-40 min-h-[50vh] w-screen scale-75 md:min-h-[35vh] lg:min-h-[70vh] lg:scale-100">
+            <PresentationControls
+              config={{ mass: 2, tension: 100, friction: 10 }}
+              snap={{ mass: 2, tension: 100, friction: 10 }}
+            >
+              <ambientLight intensity={0.5} />
+              <directionalLight position={[0, 5, 10]} intensity={0.8} />
+              <Center position={[0, 0.3, -6]} rotation={[0, 0.4, 0]}>
+                <Room />
+              </Center>
+            </PresentationControls>
+          </Canvas>*/}
           {/*
           <button
             onClick={() =>
