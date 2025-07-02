@@ -4,6 +4,17 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { CircularProgressBar } from "@/(mesaui)/CircularProgressBar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUser } from "@/app/AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import AccountModal, {
+  AccountModalTrigger,
+  useAccountModal,
+} from "./AccountModal";
+import { IoPerson } from "react-icons/io5";
 
 interface Teacher {
   id: string;
@@ -21,7 +32,7 @@ const HeadingComponent = ({
   const { scrollY } = useScroll();
   const { userData } = useUser();
   const opacity = useTransform(scrollY, [100, 300], [0, 1]);
-
+  const { setIsOpen } = useAccountModal();
   const y = useTransform(scrollY, [0, 300], [-200, 0]);
 
   return (
@@ -43,13 +54,20 @@ const HeadingComponent = ({
         <h1 className="text-2xl font-black">{teacher.name}</h1>
       </div>
       <div className="flex flex-row items-center gap-4">
-        <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
-          Search <span className="text-xs">⌘</span>K
-        </kbd>
-        <Avatar>
-          <AvatarImage src={userData?.avatar_url} />
-          <AvatarFallback>{userData?.real_name?.charAt(0)}</AvatarFallback>
-        </Avatar>
+        <button
+          type="button"
+          onClick={() => setIsOpen(true)}
+          className="cursor-pointer rounded-full p-2 hover:bg-gray-100"
+        >
+          <Avatar>
+            <AvatarImage src={userData?.avatar_url} />
+            <AvatarFallback>
+              {userData?.real_name?.charAt(0) || (
+                <IoPerson className="text-2xl" />
+              )}
+            </AvatarFallback>
+          </Avatar>
+        </button>
       </div>
     </motion.div>
   );

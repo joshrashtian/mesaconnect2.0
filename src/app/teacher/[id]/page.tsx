@@ -16,6 +16,7 @@ import CreateReview from "./CreateReview";
 import EditReview from "./EditReview";
 import Link from "next/link";
 import HeadingComponent from "./HeadingComponent";
+import Menu from "./Menu";
 
 export type Review = {
   id: string;
@@ -79,7 +80,7 @@ const page = async ({ params }: { params: { id: string } }) => {
         teacher={teacher}
         averageRating={ratingSummary?.average_rating}
       />
-      <div className="flex flex-row items-center gap-4">
+      <div className="flex flex-row items-center gap-4 pt-24">
         <CircularProgressBar
           percentage={(ratingSummary?.average_rating / 5) * 100}
           size={200}
@@ -166,22 +167,12 @@ const page = async ({ params }: { params: { id: string } }) => {
         })}
       </div>
 
-      {!usermadeReview ? (
-        user?.user?.id ? (
-          <CreateReview
-            teacherId={teacher?.id}
-            classesTaught={classesTaught ?? []}
-          />
-        ) : (
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="text-2xl font-bold">
-              Sign up to rate reviews, add teachers, and create your own.
-            </h1>
-          </div>
-        )
-      ) : (
-        <EditReview review={usermadeReview} />
-      )}
+      <Menu
+        userMadeReview={usermadeReview}
+        teacher={teacher}
+        classesTaught={classesTaught ?? []}
+        reviews={reviews ?? []}
+      />
 
       <section className="flex w-full flex-col gap-4 lg:w-4/5">
         <h1 className="text-center text-xl font-bold lg:text-left lg:text-2xl">

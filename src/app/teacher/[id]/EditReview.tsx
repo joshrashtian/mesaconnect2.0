@@ -29,7 +29,7 @@ const EditReview = ({ review }: { review: Review }) => {
   };
 
   return (
-    <div className="h-fit w-3/4 rounded-3xl bg-slate-200 p-5">
+    <div className="h-fit w-full rounded-3xl bg-slate-200 p-5">
       <h1 className="text-2xl font-bold">Your Review</h1>
       <p className="text-sm text-gray-500">
         {review.difficulty} / 10 Difficulty

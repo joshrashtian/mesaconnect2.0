@@ -8,13 +8,21 @@ import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoLink } from "react-icons/io5";
+import RecentReviewsCarousel from "./(components)/RecentReviewsCarousel";
 
 const TeachersPage = async () => {
   const supabase = createServerComponentClient({ cookies: () => cookies() });
 
   const { data: teachers } = await supabase.from("teachers").select("*");
 
+  const { data: recentReviews, error: recentReviewsError } = await supabase
+    .from("teacher_reviews")
+    .select("rating, teacher:teacher_id(*)")
+    .order("created_at", { ascending: false })
+    .limit(10);
+
+  console.log(recentReviewsError);
   return (
     <div className="flex flex-col p-4 px-12 font-eudoxus">
       <HomePageHeader title="Teachers" />
@@ -38,6 +46,7 @@ const TeachersPage = async () => {
           reported to the admins of your Community College.
         </p>
       </Card>
+
       <div className="mt-4 flex flex-col items-start justify-start">
         <h1 className="text-2xl font-bold">All Teachers</h1>
         <div className="flex flex-row flex-wrap gap-4">
@@ -45,6 +54,13 @@ const TeachersPage = async () => {
             <TeacherCard key={teacher.id} teacher={teacher} />
           ))}
         </div>
+      </div>
+      <div className="mt-4 flex max-w-full flex-col items-start justify-start">
+        <h1 className="my-4 text-left text-2xl font-bold">Recent Reviews</h1>
+
+        {recentReviews && (
+          <RecentReviewsCarousel reviews={recentReviews as any[]} />
+        )}
       </div>
       <Link
         href="/teacher/create"

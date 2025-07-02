@@ -141,7 +141,7 @@ export default function CreateReview({
   };
 
   return (
-    <Card className="w-3/4 space-y-6 p-6">
+    <Card className="w-full space-y-6 p-6">
       <h2 className="text-2xl font-bold">Write a Review</h2>
       {error && <p className="text-red-600">{error}</p>}
 
