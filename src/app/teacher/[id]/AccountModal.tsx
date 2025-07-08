@@ -15,6 +15,7 @@ import Link from "next/link";
 import { IoLogoApple, IoLogoGoogle } from "react-icons/io5";
 import { Loader2 } from "lucide-react";
 import { supabase } from "../../../../config/mesa-config";
+import { useParams, usePathname } from "next/navigation";
 
 export const AccountContext = createContext<{
   isOpen: boolean;
@@ -24,19 +25,18 @@ export const AccountContext = createContext<{
   setIsOpen: () => {},
 });
 
-const AccountModal = ({
-  children,
-  id,
-}: {
-  children: React.ReactNode;
-  id: string;
-}) => {
+const AccountModal = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const { userData } = useUser();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const pathname = usePathname();
+
+  const id = pathname.split("/")[2];
+
   const signInUser = async (email: string, password: string) => {
     setIsLoading(true);
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -47,13 +47,11 @@ const AccountModal = ({
     else window.location.reload();
     setIsLoading(false);
   };
+
   const loginUser = async (service: any) => {
     setIsLoading(true);
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: service,
-      options: {
-        redirectTo: `${window.location.origin}/teacher/${id}`,
-      },
     });
 
     if (error) setErrorMsg(error.message);
@@ -67,6 +65,9 @@ const AccountModal = ({
             <>
               <DialogHeader>
                 <DialogTitle>Account</DialogTitle>
+                <Button onClick={() => supabase.auth.signOut()}>
+                  Sign Out
+                </Button>
               </DialogHeader>
             </>
           ) : (
@@ -91,6 +92,7 @@ const AccountModal = ({
                 />
                 <Input
                   placeholder="Password"
+                  type="password"
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <Button onClick={() => signInUser(email, password)}>
@@ -107,7 +109,7 @@ const AccountModal = ({
                 </div>
                 <p>
                   Don&apos;t have an account?{" "}
-                  <Link href="/signup">Sign Up</Link>
+                  <Link href="/sign-up">Sign Up</Link>
                 </p>
               </DialogHeader>
             </>

@@ -20,6 +20,6 @@ export async function searchTeachers(
     console.error("search_teachers_single error:", error);
     throw error;
   }
-  console.log(data);
+  
   return data;
 }
