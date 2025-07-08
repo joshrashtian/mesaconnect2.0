@@ -7,17 +7,7 @@ import EditReview from "./EditReview";
 import { Review } from "./page";
 import { Card } from "@/components/ui/card";
 import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import {
-  BarChart,
-  Bar,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  PieChart,
-  Legend,
-  Tooltip,
-  Pie,
-} from "recharts";
+import { PieChart, Pie } from "recharts";
 import { ChartContainer } from "@/components/ui/chart";
 import { StarIcon } from "lucide-react";
 

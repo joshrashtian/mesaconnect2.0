@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { IoAdd, IoLink } from "react-icons/io5";
 import RecentReviewsCarousel from "./(components)/RecentReviewsCarousel";
+import FrontHeader from "./(components)/FrontHeader";
 
 const TeachersPage = async () => {
   const supabase = createServerComponentClient({ cookies: () => cookies() });
@@ -25,8 +26,8 @@ const TeachersPage = async () => {
   console.log(recentReviewsError);
   return (
     <div className="flex flex-col p-4 px-12 font-eudoxus">
-      <HomePageHeader title="Teachers" />
-      <Card className="flex flex-col items-center justify-center rounded-lg bg-white p-3">
+      <FrontHeader />
+      <Card className="mt-24 flex flex-col items-center justify-center rounded-lg bg-white p-3">
         <p className="text-sm text-gray-500">
           Press{" "}
           <kbd className="pointer-events-none mx-2 inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
