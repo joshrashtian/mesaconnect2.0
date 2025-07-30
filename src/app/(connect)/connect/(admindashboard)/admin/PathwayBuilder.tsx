@@ -47,7 +47,7 @@ const PathwayBuilder = () => {
     fetchPathways();
   }, []);
   return (
-    <div>
+    <div className="pb-32">
       <h1 className="text-2xl font-bold">Pathway Builder</h1>
       <Separator />
       <ol className="flex flex-row gap-2">

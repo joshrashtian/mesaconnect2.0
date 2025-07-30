@@ -5,18 +5,24 @@ import Image from "next/image";
 const PanelFive = ({ posY }: { posY: MotionValue }) => {
   const opacity = useTransform(posY, [2500, 3000], [0, 1]);
   return (
-    <motion.section className="mt-24 flex h-screen w-full items-center justify-center">
-      <motion.ul style={{ opacity }} className="flex flex-col items-center">
-        <h1 className="text-center font-eudoxus text-xl font-black text-white xl:text-4xl">
-          Track your progress on the go.
+    <motion.section className="flex h-[900px] w-full items-center justify-center">
+      <motion.ul
+        style={{ opacity }}
+        className="flex flex-row items-start px-10"
+      >
+        <h1 className="absolute left-7 w-2/3 text-left font-eudoxus text-xl font-black text-white xl:text-4xl">
+          With bucket loads of features at your fingertips, immerse yourself
+          with college like you never have before.
         </h1>
-        <ol className="mt-5 flex w-full flex-row justify-center overflow-x-hidden">
+        <ol className="mt-20 flex flex-row justify-center">
           <Image
-            src={require("@/_assets/photos/Onboarding2.png")}
+            src={require("@/_assets/photos/Onboarding3.png")}
             alt="Mobile App Mockup"
-            width={700}
+            width={900}
             height={500}
-            className="rotate-30"
+            style={{
+              rotate: "15deg",
+            }}
           />
         </ol>
       </motion.ul>

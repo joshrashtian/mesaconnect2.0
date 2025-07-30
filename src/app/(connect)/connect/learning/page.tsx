@@ -6,9 +6,11 @@ import { IoIosBook } from "react-icons/io";
 import { IoList, IoPerson } from "react-icons/io5";
 import { supabase } from "../../../../../config/mesa-config";
 import CollegeTop from "./_components/CollegeTop";
+import UniSVG, { SVGMaps } from "@/(mesaui)/UniSVG";
 
 const Learning = () => {
   const [classes, setClasses] = useState([]);
+  const [pathways, setPathways] = useState([]);
   const categories = [
     {
       color: "bg-gradient-to-br from-orange-500 to-red-800 hover:bg-indigo-300",
@@ -48,7 +50,24 @@ const Learning = () => {
         setClasses(data);
       }
     };
+
+    const fetchPathways = async () => {
+      const { data, error } = await supabase
+        //@ts-ignore
+        .from("pathway")
+        .select("*")
+
+        .limit(10);
+      if (error) {
+        console.error(error);
+      } else {
+        //@ts-ignore
+        setPathways(data);
+      }
+    };
+
     fetchClasses();
+    fetchPathways();
   }, []);
 
   return (
@@ -76,9 +95,9 @@ const Learning = () => {
           {/*<FeaturedLessons />*/}
           <FeaturedPolls />
         </section>
-        <section className="w-full gap-16 rounded-3xl bg-zinc-200/40 p-5">
-          <h2 className="text-2xl font-bold">Popular Classes</h2>
-          <div className="flex flex-row gap-4 overflow-y-visible overflow-x-scroll p-3">
+        <section className="w-full gap-16 rounded-3xl">
+          <h2 className="text-2xl font-black">Popular Classes</h2>
+          <div className="no-scrollbar flex flex-row gap-4 overflow-y-visible overflow-x-scroll p-3">
             {classes.map((e: any) => (
               <Link
                 href={`/connect/class/${e.id}`}
@@ -88,6 +107,38 @@ const Learning = () => {
                 <h3 className="text-xl font-bold">{e.name}</h3>
               </Link>
             ))}
+          </div>
+        </section>
+        <section className="w-full gap-16 rounded-3xl">
+          <h2 className="text-2xl font-black">Popular Pathways</h2>
+          <div className="no-scrollbar flex snap-x flex-row gap-4 overflow-y-visible overflow-x-scroll p-3">
+            {pathways.map((e: any) => {
+              const SVG = SVGMaps[e.university as keyof typeof SVGMaps];
+              return (
+                <Link
+                  href={`/connect/pathway/${e.id}`}
+                  style={{
+                    backgroundImage: `linear-gradient(to right, ${e.colors[0]}, ${e.colors[1]})`,
+                  }}
+                  className={`flex h-24 w-[350px] flex-shrink-0 snap-center flex-col items-end justify-end rounded-2xl p-3 shadow-lg duration-300 hover:scale-105 hover:opacity-80 active:scale-95`}
+                  key={e.id}
+                >
+                  {SVG ? (
+                    //@ts-ignore
+                    <SVG className="h-14 w-16 fill-white" />
+                  ) : (
+                    <h3 className="text-xl font-black text-white">
+                      {e.university}
+                    </h3>
+                  )}
+                  <h3
+                    className={`text-lg text-white ${e.major.length > 30 ? "text-sm" : ""}`}
+                  >
+                    {e.major}
+                  </h3>
+                </Link>
+              );
+            })}
           </div>
         </section>
         <footer></footer>
