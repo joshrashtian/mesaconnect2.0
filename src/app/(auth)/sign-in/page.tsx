@@ -72,25 +72,15 @@ const Page = () => {
     setIsLoading(true);
     setErrorMsg(undefined);
 
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "apple",
-        options: {
-          redirectTo: `${window.location.origin}${callbackUrl}`,
-        },
-      });
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "apple",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(callbackUrl)}`,
+      },
+    });
 
-      if (error) {
-        setErrorMsg(error.message);
-        console.error("Apple OAuth error:", error);
-      } else {
-        console.log("Apple OAuth initiated successfully");
-      }
-    } catch (err) {
-      console.error("Apple OAuth exception:", err);
-      setErrorMsg(
-        err instanceof Error ? err.message : "Unknown error occurred",
-      );
+    if (error) {
+      setErrorMsg(error.message);
     }
 
     setIsLoading(false);
