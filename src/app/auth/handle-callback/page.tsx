@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { supabase } from "../../../../config/mesa-config";
 
-export default function HandleCallback() {
+function HandleCallbackContent() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
@@ -84,4 +84,25 @@ export default function HandleCallback() {
   }
 
   return null;
+}
+
+function LoadingFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-tr from-purple-400 to-teal-500">
+      <div className="flex w-full flex-col gap-4 rounded-3xl bg-white p-10 shadow-md dark:bg-zinc-600 lg:w-2/3">
+        <h1 className="text-2xl font-bold">Loading...</h1>
+        <div className="flex items-center justify-center">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function HandleCallback() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <HandleCallbackContent />
+    </Suspense>
+  );
 }
