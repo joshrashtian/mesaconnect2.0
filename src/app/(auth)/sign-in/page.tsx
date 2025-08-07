@@ -44,15 +44,25 @@ const Page = () => {
     setIsLoading(true);
     setErrorMsg(undefined);
 
-    const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: service,
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: service,
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
 
-    if (error) {
-      setErrorMsg(error.message);
+      if (error) {
+        setErrorMsg(error.message);
+        console.error("OAuth error:", error);
+      } else {
+        console.log("OAuth initiated successfully");
+      }
+    } catch (err) {
+      console.error("OAuth exception:", err);
+      setErrorMsg(
+        err instanceof Error ? err.message : "Unknown error occurred",
+      );
     }
 
     setIsLoading(false);

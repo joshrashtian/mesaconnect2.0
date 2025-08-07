@@ -8,11 +8,16 @@ export async function GET(request: Request) {
   // if "next" is in param, use it as the redirect URL
   const next = searchParams.get('next') ?? '/'
 
+  console.log('Auth callback - code present:', !!code)
+  console.log('Auth callback - origin:', origin)
+
   if (code) {
     const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
     const { error } = await supabase.auth.exchangeCodeForSession(code)
+    console.log('Auth callback - exchange error:', error)
+    
     if (!error) {
-      // Try to get the callback URL from the referer header or default to /connect
+      // Try to get the callback URL from the referer header
       const referer = request.headers.get('referer')
       let redirectPath = '/connect'
       
@@ -36,9 +41,15 @@ export async function GET(request: Request) {
           ? `https://${forwardedHost}${redirectPath}`
           : `${origin}${redirectPath}`
       
+      console.log('Auth callback - redirecting to:', redirectUrl)
       return NextResponse.redirect(redirectUrl)
+    } else {
+      console.log('Auth callback - exchange failed, redirecting to error page')
     }
+  } else {
+    console.log('Auth callback - no code present, redirecting to error page')
   }
+  
   // return the user to an error page with instructions
   return NextResponse.redirect(`${origin}/auth/auth-code-error`)
 }
