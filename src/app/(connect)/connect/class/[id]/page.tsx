@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import { IconGet } from "../../learning/(sub-pages)/profile/newclass/CategoryIndex";
 import { IoBook, IoSchool } from "react-icons/io5";
 import RateMyProfessors from "./RateMyProfessors";
+import Users from "./Users";
 const ClassPage = async ({ params }: { params: { id: string } }) => {
   const supabase = createServerComponentClient({ cookies });
   const { data: classInfo, error } = await supabase
@@ -68,8 +69,8 @@ const ClassPage = async ({ params }: { params: { id: string } }) => {
           </div>
         </div>
       </div>
+      <Users id={params.id} />
       <RateMyProfessors classInfo={classInfo} />
-      
     </main>
   );
 };

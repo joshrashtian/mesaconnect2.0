@@ -21,7 +21,11 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
     redirect("/connect");
   }
 
-  return <main className="h-screen bg-orange-600">{children}</main>;
+  return (
+    <main className="flex h-screen items-center justify-center bg-orange-600">
+      {children}
+    </main>
+  );
 };
 
 export default Layout;
