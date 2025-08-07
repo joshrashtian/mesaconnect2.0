@@ -37,6 +37,13 @@ const LoginKiosk = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <Button
+        onClick={() => {
+          window.location.href = "/sign-in?callbackUrl=/kioskhandler";
+        }}
+      >
+        If You Use Google or Apple for Sign In, Use This
+      </Button>
+      <Button
         onClick={handleLogin}
         className="flex w-full flex-row items-center justify-start gap-2 p-5 text-left"
       >

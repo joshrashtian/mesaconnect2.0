@@ -52,6 +52,9 @@ const AccountModal = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(true);
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: service,
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(window.location.pathname)}`,
+      },
     });
 
     if (error) setErrorMsg(error.message);

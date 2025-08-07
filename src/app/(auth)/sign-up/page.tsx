@@ -19,6 +19,7 @@ import React from "react";
 import { SignUpUser } from "./functions";
 import { redirect } from "next/navigation";
 import StandardButton from "@/(mesaui)/StandardButton";
+import { useSearchParams } from "next/navigation";
 
 const SignUp = () => {
   const [email, setEmail] = useState<string>("");
@@ -31,6 +32,8 @@ const SignUp = () => {
   const [validKey, setValidKey] = useState<Key>();
   const [verify, setVerify] = useState<boolean>(false);
   const dark = useDarkMode();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/connect";
 
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
 
@@ -55,12 +58,6 @@ const SignUp = () => {
     } else setVerify(true);
   };
 
-  const withGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-    });
-    if (error) setErrorMsg(error.message);
-  };
   return (
     <>
       <motion.section
