@@ -12,19 +12,33 @@ export async function GET(request: Request) {
     const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     if (!error) {
+      // Try to get the callback URL from the referer header or default to /connect
+      const referer = request.headers.get('referer')
+      let redirectPath = '/connect'
+      
+      if (referer) {
+        try {
+          const refererUrl = new URL(referer)
+          const callbackUrl = refererUrl.searchParams.get('callbackUrl')
+          if (callbackUrl) {
+            redirectPath = callbackUrl
+          }
+        } catch (e) {
+          // Silently handle parsing errors
+        }
+      }
+      
       const forwardedHost = request.headers.get('x-forwarded-host') // original origin before load balancer
       const isLocalEnv = process.env.NODE_ENV === 'development'
-      if (isLocalEnv) {
-        // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
-        return NextResponse.redirect(`${origin}${next}`)
-      } else if (forwardedHost) {
-        return NextResponse.redirect(`https://${forwardedHost}${next}`)
-      } else {
-        return NextResponse.redirect(`${origin}${next}`)
-      }
+      const redirectUrl = isLocalEnv 
+        ? `${origin}${redirectPath}`
+        : forwardedHost 
+          ? `https://${forwardedHost}${redirectPath}`
+          : `${origin}${redirectPath}`
+      
+      return NextResponse.redirect(redirectUrl)
     }
   }
-
   // return the user to an error page with instructions
   return NextResponse.redirect(`${origin}/auth/auth-code-error`)
 }

@@ -87,7 +87,7 @@ const SignUp = () => {
           <button
             onClick={() =>
               validKey
-                ? withGoogle()
+                ? setErrorMsg("Google sign-in temporarily disabled.")
                 : setErrorMsg("Requries Invite Key To Join.")
             }
             className="flex h-16 w-16 items-center justify-center rounded-xl bg-blue-400 text-2xl text-white"
