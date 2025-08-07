@@ -53,7 +53,7 @@ const AccountModal = ({ children }: { children: React.ReactNode }) => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: service,
       options: {
-        redirectTo: `https://mesaconnect.io/auth/callback?next=${encodeURIComponent(window.location.pathname)}`,
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(window.location.pathname)}`,
       },
     });
 
