@@ -48,12 +48,25 @@ const AccountModal = ({ children }: { children: React.ReactNode }) => {
     setIsLoading(false);
   };
 
-  const loginUser = async (service: any) => {
+  const loginWithGoogle = async () => {
     setIsLoading(true);
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: service,
+      provider: "google",
       options: {
         redirectTo: `${window.location.origin}${window.location.pathname}`,
+      },
+    });
+
+    if (error) setErrorMsg(error.message);
+    setIsLoading(false);
+  };
+
+  const loginWithApple = async () => {
+    setIsLoading(true);
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "apple",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(window.location.pathname)}`,
       },
     });
 
@@ -103,10 +116,10 @@ const AccountModal = ({ children }: { children: React.ReactNode }) => {
                 </Button>
                 {errorMsg && <p className="text-red-500">{errorMsg}</p>}
                 <div className="grid grid-cols-2 gap-2">
-                  <Button variant="outline" onClick={() => loginUser("google")}>
+                  <Button variant="outline" onClick={loginWithGoogle}>
                     <IoLogoGoogle />
                   </Button>
-                  <Button variant="outline" onClick={() => loginUser("apple")}>
+                  <Button variant="outline" onClick={loginWithApple}>
                     <IoLogoApple />
                   </Button>
                 </div>

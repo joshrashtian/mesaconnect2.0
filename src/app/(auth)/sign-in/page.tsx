@@ -40,13 +40,13 @@ const Page = () => {
     setIsLoading(false);
   };
 
-  const loginUser = async (service: "google" | "apple") => {
+  const loginWithGoogle = async () => {
     setIsLoading(true);
     setErrorMsg(undefined);
 
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: service,
+        provider: "google",
         options: {
           redirectTo: `${window.location.origin}${callbackUrl}`,
         },
@@ -54,12 +54,40 @@ const Page = () => {
 
       if (error) {
         setErrorMsg(error.message);
-        console.error("OAuth error:", error);
+        console.error("Google OAuth error:", error);
       } else {
-        console.log("OAuth initiated successfully");
+        console.log("Google OAuth initiated successfully");
       }
     } catch (err) {
-      console.error("OAuth exception:", err);
+      console.error("Google OAuth exception:", err);
+      setErrorMsg(
+        err instanceof Error ? err.message : "Unknown error occurred",
+      );
+    }
+
+    setIsLoading(false);
+  };
+
+  const loginWithApple = async () => {
+    setIsLoading(true);
+    setErrorMsg(undefined);
+
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "apple",
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(callbackUrl)}`,
+        },
+      });
+
+      if (error) {
+        setErrorMsg(error.message);
+        console.error("Apple OAuth error:", error);
+      } else {
+        console.log("Apple OAuth initiated successfully");
+      }
+    } catch (err) {
+      console.error("Apple OAuth exception:", err);
       setErrorMsg(
         err instanceof Error ? err.message : "Unknown error occurred",
       );
@@ -164,7 +192,7 @@ const Page = () => {
             <div className="flex flex-row gap-3">
               <button
                 type="button"
-                onClick={() => loginUser("google")}
+                onClick={() => loginWithGoogle()}
                 className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#174EA6] to-[#4285F4] text-2xl text-white duration-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 disabled={isLoading}
                 aria-label="Sign in with Google"
@@ -173,7 +201,7 @@ const Page = () => {
               </button>
               <button
                 type="button"
-                onClick={() => loginUser("apple")}
+                onClick={() => loginWithApple()}
                 className="z-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-slate-600 to-zinc-600 text-2xl text-white duration-500 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
                 disabled={isLoading}
                 aria-label="Sign in with Apple"
