@@ -116,7 +116,7 @@ const Learning = () => {
               const SVG = SVGMaps[e.university as keyof typeof SVGMaps];
               return (
                 <Link
-                  href={`/connect/pathway/${e.id}`}
+                  href={`/pathway/${e.id}`}
                   style={{
                     backgroundImage: `linear-gradient(to right, ${e.colors[0]}, ${e.colors[1]})`,
                   }}

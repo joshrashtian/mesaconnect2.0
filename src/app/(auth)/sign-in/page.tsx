@@ -75,7 +75,7 @@ const Page = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "apple",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(callbackUrl)}`,
+        redirectTo: "https://gnmpzioggytlqzekuyuo.supabase.co/auth/v1/callback",
       },
     });
 

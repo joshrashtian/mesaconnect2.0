@@ -26,7 +26,7 @@
 @font-face {
   font-family: "Eudoxus";
   font-style: normal;
-  font-weight: 800;
+  font-weight: 700;
   font-display: swap;
   src: url("../_assets/EudoxusSans-Bold-BF659b6cb1408e5.ttf");
 }
@@ -34,7 +34,7 @@
 @font-face {
   font-family: "Eudoxus";
   font-style: normal;
-  font-weight: 900;
+  font-weight: 800;
   font-display: swap;
   src: url("../_assets/EudoxusSans-ExtraBold-BF659b6cb1b96c9.ttf");
 }
