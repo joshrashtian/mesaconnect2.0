@@ -115,7 +115,7 @@ const PathwayPage = async ({ params }: { params: { id: string } }) => {
       <div>
         {SVG ? (
           <SVG //@ts-ignore
-            className="h-32 w-64"
+            className="h-32 w-64 drop-shadow-md"
             fill={`url(#pathwayGradient-${pathway.id})`}
           />
         ) : (
@@ -134,8 +134,20 @@ const PathwayPage = async ({ params }: { params: { id: string } }) => {
           </h3>
         )}
         <h1 className="flex flex-row items-center gap-2 text-base font-bold md:text-2xl">
-          {pathway.college} <IoChevronForward /> {pathway.university}
-          <IoChevronForward /> {pathway.major}
+          {pathway.college} <IoChevronForward />{" "}
+          <Link
+            href={`/pathway?university=${pathway.university}`}
+            className="duration-300 hover:text-blue-600"
+          >
+            {pathway.university}
+          </Link>
+          <IoChevronForward />{" "}
+          <Link
+            href={`/pathway?major=${pathway.major}`}
+            className="duration-300 hover:text-blue-600"
+          >
+            {pathway.major}
+          </Link>
         </h1>
       </div>
       <section className="grid gap-4 p-5 lg:grid-cols-2">
