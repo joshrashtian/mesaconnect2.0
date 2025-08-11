@@ -23,7 +23,7 @@ export async function getPathwaysByFilter(filter: {
   const { data: pathwaysData, error } = await serverside
     //@ts-ignore
     .from("pathway")
-    .select("university, major, college, id, colors, tag")
+    .select("university, major, college, id, colors, tag, pathway")
     .match(filterQuery);
 
   if (error) {
