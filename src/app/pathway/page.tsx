@@ -132,7 +132,7 @@ const PathwaySelectorPage = () => {
       <div className="flex flex-col gap-4">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">
+            <Button variant="outline" className="font-bold">
               {university && university !== "any"
                 ? university
                 : "Select University"}
