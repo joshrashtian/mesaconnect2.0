@@ -155,6 +155,9 @@ export const KioskModeProvider = ({
 
   // Handle auto-refresh
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === "undefined") return;
+
     let refreshInterval: NodeJS.Timeout;
 
     if (kioskSettings.autoRefresh && isKioskMode) {
