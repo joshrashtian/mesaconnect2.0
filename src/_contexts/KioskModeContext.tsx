@@ -110,6 +110,9 @@ export const KioskModeProvider = ({
 
   // Load kiosk settings from localStorage
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === "undefined") return;
+
     const savedSettings = localStorage.getItem("kioskSettings");
     if (savedSettings) {
       try {
@@ -133,6 +136,9 @@ export const KioskModeProvider = ({
 
   // Handle fullscreen mode
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === "undefined") return;
+
     if (kioskSettings.fullscreen && isKioskMode) {
       const enterFullscreen = async () => {
         try {
