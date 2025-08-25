@@ -27,6 +27,9 @@ const OneTapComponent = () => {
   };
 
   useEffect(() => {
+    // Only run on client side
+    if (typeof window === "undefined") return;
+
     const initializeGoogleOneTap = () => {
       console.log("Initializing Google One Tap");
       window.addEventListener("load", async () => {
@@ -73,7 +76,11 @@ const OneTapComponent = () => {
       });
     };
     initializeGoogleOneTap();
-    return () => window.removeEventListener("load", initializeGoogleOneTap);
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("load", initializeGoogleOneTap);
+      }
+    };
   }, []);
 
   return (

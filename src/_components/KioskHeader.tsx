@@ -57,13 +57,20 @@ const KioskHeader: React.FC<KioskHeaderProps> = ({
   } = useTabSwitcher();
   const router = useRouter();
   const [currentTime, setCurrentTime] = React.useState(new Date());
-  const [url, setURL] = useState(window.location.href);
+  const [url, setURL] = useState("");
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
   React.useEffect(() => {
     const timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  React.useEffect(() => {
+    // Set URL on client side only
+    if (typeof window !== "undefined") {
+      setURL(window.location.href);
+    }
   }, []);
 
   React.useEffect(() => {
@@ -144,7 +151,7 @@ const KioskHeader: React.FC<KioskHeaderProps> = ({
         <Input
           className="w-96 rounded-3xl bg-white text-black transition-all duration-500 focus:w-[80%] focus:outline-none focus:ring-0"
           onKeyDown={(e) => {
-            if (e.key === "Enter") {
+            if (e.key === "Enter" && typeof window !== "undefined") {
               window.location.href = url;
             }
           }}

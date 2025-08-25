@@ -111,7 +111,14 @@ const PostsPageHome = () => {
 
   const menu = useContextMenu();
 
-  const windowDimesions = window.screen.availHeight - 200;
+  const [windowDimensions, setWindowDimensions] = useState(0);
+
+  useEffect(() => {
+    // Only run on client side
+    if (typeof window !== "undefined") {
+      setWindowDimensions(window.screen.availHeight - 200);
+    }
+  }, []);
 
   return (
     <motion.section className=" ">
@@ -155,11 +162,11 @@ const PostsPageHome = () => {
           ]);
         }}
         //whileDrag={{ backgroundColor: "#eee" }}
-        dragConstraints={{ top: 0, bottom: windowDimesions - 80 }}
-        className="sticky top-20 z-30 mb-5 flex items-center justify-center gap-0.5 rounded-2xl bg-white p-2 shadow-inner drop-shadow-2xl md:gap-1 md:p-4 dark:bg-zinc-600/50"
+        dragConstraints={{ top: 0, bottom: windowDimensions - 80 }}
+        className="sticky top-20 z-30 mb-5 flex items-center justify-center gap-0.5 rounded-2xl bg-white p-2 shadow-inner drop-shadow-2xl dark:bg-zinc-600/50 md:gap-1 md:p-4"
       >
         <button
-          className="flex flex-col items-center gap-2 rounded-xl p-0.5 px-0.5 font-eudoxus text-xs text-slate-800 duration-300 hover:bg-slate-200 hover:text-black active:scale-95 active:bg-slate-300 md:p-2 md:px-3 md:text-sm lg:flex-row lg:px-6 xl:text-base dark:text-slate-200"
+          className="flex flex-col items-center gap-2 rounded-xl p-0.5 px-0.5 font-eudoxus text-xs text-slate-800 duration-300 hover:bg-slate-200 hover:text-black active:scale-95 active:bg-slate-300 dark:text-slate-200 md:p-2 md:px-3 md:text-sm lg:flex-row lg:px-6 xl:text-base"
           onClick={() => {
             setRange(0);
             handleParams();
@@ -183,7 +190,7 @@ const PostsPageHome = () => {
         </button>
 */}
         <button
-          className="flex flex-col items-center gap-2 rounded-xl p-0.5 px-0.5 font-eudoxus text-xs text-slate-800 duration-300 hover:bg-slate-200 hover:text-black active:scale-95 active:bg-slate-300 md:p-2 md:px-3 md:text-sm lg:flex-row lg:px-6 xl:text-base dark:text-slate-200"
+          className="flex flex-col items-center gap-2 rounded-xl p-0.5 px-0.5 font-eudoxus text-xs text-slate-800 duration-300 hover:bg-slate-200 hover:text-black active:scale-95 active:bg-slate-300 dark:text-slate-200 md:p-2 md:px-3 md:text-sm lg:flex-row lg:px-6 xl:text-base"
           onClick={async () => {
             handleParams("following");
             setRange(0);

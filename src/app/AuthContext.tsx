@@ -53,6 +53,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
   const [settings, setSettings] = useState();
   const [dark, setDark] = useState(false);
   function isDarkModeEnabled() {
+    if (typeof window === "undefined") return false;
     return (
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches

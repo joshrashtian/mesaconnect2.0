@@ -57,7 +57,9 @@ export class TabSwitcher {
         await this.executeXdotoolCommand(tab.name);
       } else {
         // Fallback for web: open in new tab
-        window.open(tab.url, '_blank');
+        if (typeof window !== "undefined") {
+          window.open(tab.url, '_blank');
+        }
       }
 
       return true;
@@ -136,24 +138,32 @@ export class TabSwitcher {
 // Web-based tab switching (fallback for non-Pi environments)
 export class WebTabSwitcher {
   static switchToSpotify(): void {
-    window.open('https://open.spotify.com', '_blank');
+    if (typeof window !== "undefined") {
+      window.open('https://open.spotify.com', '_blank');
+    }
   }
 
   static switchToZoom(): void {
-    window.open('https://zoom.us', '_blank');
+    if (typeof window !== "undefined") {
+      window.open('https://zoom.us', '_blank');
+    }
   }
 
   static switchToMesa(): void {
-    window.open('https://mesaconnect.io/kiosk?kiosk=true&kioskType=spotify', '_blank');
+    if (typeof window !== "undefined") {
+      window.open('https://mesaconnect.io/kiosk?kiosk=true&kioskType=spotify', '_blank');
+    }
   }
 
   // Focus existing window if it exists, otherwise open new
   static focusOrOpen(url: string, windowName: string): void {
-    const existingWindow = window.open('', windowName);
-    if (existingWindow && !existingWindow.closed) {
-      existingWindow.focus();
-    } else {
-      window.open(url, windowName);
+    if (typeof window !== "undefined") {
+      const existingWindow = window.open('', windowName);
+      if (existingWindow && !existingWindow.closed) {
+        existingWindow.focus();
+      } else {
+        window.open(url, windowName);
+      }
     }
   }
 }
