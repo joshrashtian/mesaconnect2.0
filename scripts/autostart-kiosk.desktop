@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=MESA Connect Kiosk
+Comment=MESA Connect Kiosk Application
+Exec=/home/pi/mesaconnect2.0/scripts/start-kiosk.sh
+Terminal=false
+X-GNOME-Autostart-enabled=true

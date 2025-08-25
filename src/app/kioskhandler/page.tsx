@@ -9,11 +9,12 @@ import { useUser } from "../AuthContext";
 import LoadingObject from "@/(mesaui)/LoadingObject";
 import KioskMenu from "./kioskmenu";
 import { useModal } from "../(connect)/connect/Modal";
+
 const font = Golos_Text({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
 });
-const KioskHandler = () => {
+const KioskHandlerContent = () => {
   const { user, signOut } = useUser();
 
   const modal = useModal();
@@ -39,6 +40,10 @@ const KioskHandler = () => {
       )}
     </div>
   );
+};
+
+const KioskHandler = () => {
+  return <KioskHandlerContent />;
 };
 
 export default KioskHandler;

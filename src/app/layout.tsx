@@ -5,6 +5,7 @@ import AuthContext from "./AuthContext";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
 import OneTapComponent from "@/_components/home/OneTap";
+import KioskWrapper from "@/_components/KioskWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,10 +37,12 @@ export default async function RootLayout({
   return (
     <html>
       <AuthContext>
-        <body className={`${inter.className} bg-zinc-100 dark:bg-zinc-800`}>
-          {children}
-          <Analytics />
-        </body>
+        <KioskWrapper>
+          <body className={`${inter.className} bg-zinc-100 dark:bg-zinc-800`}>
+            {children}
+            <Analytics />
+          </body>
+        </KioskWrapper>
       </AuthContext>
     </html>
   );
