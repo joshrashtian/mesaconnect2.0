@@ -179,30 +179,39 @@ export const KioskModeProvider = ({
     setIsKioskMode(true);
     setKioskType(type);
 
-    // Update URL without triggering navigation
-    const url = new URL(window.location.href);
-    url.searchParams.set("kiosk", "true");
-    url.searchParams.set("kioskType", type);
-    window.history.replaceState({}, "", url.toString());
+    // Only update URL on client side
+    if (typeof window !== "undefined") {
+      // Update URL without triggering navigation
+      const url = new URL(window.location.href);
+      url.searchParams.set("kiosk", "true");
+      url.searchParams.set("kioskType", type);
+      window.history.replaceState({}, "", url.toString());
+    }
   };
 
   const deactivateKioskMode = () => {
     setIsKioskMode(false);
     setKioskType("default");
 
-    // Update URL without triggering navigation
-    const url = new URL(window.location.href);
-    url.searchParams.delete("kiosk");
-    url.searchParams.delete("kioskType");
-    window.history.replaceState({}, "", url.toString());
+    // Only update URL and exit fullscreen on client side
+    if (typeof window !== "undefined") {
+      // Update URL without triggering navigation
+      const url = new URL(window.location.href);
+      url.searchParams.delete("kiosk");
+      url.searchParams.delete("kioskType");
+      window.history.replaceState({}, "", url.toString());
 
-    // Exit fullscreen if active
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
+      // Exit fullscreen if active
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
     }
   };
 
   const openExternalApp = (app: "spotify" | "zoom") => {
+    // Only run on client side
+    if (typeof window === "undefined") return;
+
     const appConfig = externalApps[app];
     if (appConfig.enabled) {
       window.open(appConfig.url, "_blank", "noopener,noreferrer");
@@ -212,15 +221,29 @@ export const KioskModeProvider = ({
   const updateKioskSettings = (
     settings: Partial<KioskModeContextType["kioskSettings"]>,
   ) => {
+    // Only run on client side
+    if (typeof window === "undefined") return;
+
     const newSettings = { ...kioskSettings, ...settings };
     setKioskSettings(newSettings);
-    localStorage.setItem("kioskSettings", JSON.stringify(newSettings));
+
+    // Only save to localStorage on client side
+    if (typeof window !== "undefined") {
+      localStorage.setItem("kioskSettings", JSON.stringify(newSettings));
+    }
   };
 
   const updateExternalApps = (apps: Partial<typeof externalApps>) => {
+    // Only run on client side
+    if (typeof window === "undefined") return;
+
     const newApps = { ...externalApps, ...apps };
     setExternalApps(newApps);
-    localStorage.setItem("kioskExternalApps", JSON.stringify(newApps));
+
+    // Only save to localStorage on client side
+    if (typeof window !== "undefined") {
+      localStorage.setItem("kioskExternalApps", JSON.stringify(newApps));
+    }
   };
 
   return (
