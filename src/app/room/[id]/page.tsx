@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 import Room from "./Room";
 import { IoWarningOutline } from "react-icons/io5";
 import { useSearchParams } from "next/navigation";
-import HeaderMenu from "../../kioskhandler/header";
+import HeaderMenu from "../../kiosk/header";
 const RoomPage = ({ params }: { params: { id: string } }) => {
   const { data } = useRoomContext();
   const searchParams = useSearchParams();

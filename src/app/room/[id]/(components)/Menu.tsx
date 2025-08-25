@@ -28,6 +28,8 @@ import RoomMenu from "./RoomMenu";
 import { FileUp } from "lucide-react";
 import { QRCodeCanvas, QRCodeSVG } from "qrcode.react";
 import EnvironmentSettings from "./EnvironmentSettings";
+import { BiLogoSpotify } from "react-icons/bi";
+import Spotify from "./Spotify";
 
 const font = Golos_Text({
   subsets: ["latin"],
@@ -39,6 +41,47 @@ const Menu = () => {
   const [message, setMessage] = useState("");
   const user = useUser();
   const [category, setCategory] = useState("message");
+  const [currentPage, setCurrentPage] = useState(0);
+
+  // Define menu items with pagination
+  const menuItems = [
+    {
+      id: "room",
+      icon: IoCardOutline,
+      label: "ROOM",
+    },
+    {
+      id: "message",
+      icon: IoCloudUploadOutline,
+      label: "BROADCAST",
+    },
+    {
+      id: "environment",
+      icon: IoEarthOutline,
+      label: "ENVIRONMENTS",
+    },
+    {
+      id: "files",
+      icon: IoInformationOutline,
+      label: "FILES",
+    },
+    {
+      id: "settings",
+      icon: IoSettingsOutline,
+      label: "SETTINGS",
+    },
+    {
+      id: "spotify",
+      icon: BiLogoSpotify,
+      label: "SPOTIFY",
+    },
+  ];
+
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(menuItems.length / itemsPerPage);
+  const startIndex = currentPage * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentItems = menuItems.slice(startIndex, endIndex);
 
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const PDFUploadRef = useRef<HTMLInputElement>(null);
@@ -49,68 +92,89 @@ const Menu = () => {
     setCategory(category);
   }
 
+  function handlePageChange(direction: "prev" | "next") {
+    const audio = new Audio("/ui_button.mp3");
+    audio.play();
+    audio.volume = 0.5;
+
+    if (direction === "prev" && currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    } else if (direction === "next" && currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  }
+
   return (
     <>
-      <ol
-        className={`${font.className} grid h-24 w-4/5 grid-cols-5 gap-2 self-center`}
-      >
-        <button
-          onClick={() => handleCategory("room")}
-          className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
-            category === "room" ? color[1] : "text-zinc-500"
-          }`}
-        >
-          <IoCardOutline
-            className={`${category === "room" ? color[0] : "text-zinc-500"} text-4xl duration-500`}
-          />
-          ROOM
-        </button>
-        <button
-          onClick={() => handleCategory("message")}
-          className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
-            category === "message" ? color[1] : "text-zinc-500"
-          } }`}
-        >
-          <IoCloudUploadOutline
-            className={`${category === "message" ? color[0] : "text-zinc-500"} text-4xl duration-500`}
-          />
-          BROADCAST
-        </button>
+      <div className="flex w-4/5 flex-col items-center gap-2 self-center">
+        <ol className={`${font.className} grid h-24 w-full grid-cols-5 gap-2`}>
+          {currentItems.map((item) => {
+            const IconComponent = item.icon;
+            return (
+              <button
+                key={item.id}
+                onClick={() => handleCategory(item.id)}
+                className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
+                  category === item.id ? color[1] : "text-zinc-500"
+                }`}
+              >
+                <IconComponent
+                  className={`${category === item.id ? color[0] : "text-zinc-500"} text-4xl duration-500`}
+                />
+                {item.label}
+              </button>
+            );
+          })}
+        </ol>
 
-        <button
-          onClick={() => handleCategory("environment")}
-          className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
-            category === "environment" ? color[1] : "text-zinc-500"
-          }`}
-        >
-          <IoEarthOutline
-            className={`${category === "environment" ? color[0] : "text-zinc-500"} text-4xl duration-500`}
-          />
-          ENVIRONMENTS
-        </button>
-        <button
-          onClick={() => handleCategory("files")}
-          className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
-            category === "files" ? color[1] : "text-zinc-500"
-          }`}
-        >
-          <IoInformationOutline
-            className={`${category === "files" ? color[0] : "text-zinc-500"} text-4xl duration-500`}
-          />
-          FILES
-        </button>
-        <button
-          onClick={() => handleCategory("settings")}
-          className={`flex flex-col items-center justify-center rounded-md p-2 duration-500 ${
-            category === "settings" ? color[1] : "text-zinc-500"
-          }`}
-        >
-          <IoSettingsOutline
-            className={`${category === "settings" ? color[0] : "text-zinc-500"} text-4xl duration-500`}
-          />
-          SETTINGS
-        </button>
-      </ol>
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => handlePageChange("prev")}
+              disabled={currentPage === 0}
+              className={`flex items-center justify-center rounded-md p-2 duration-300 ${
+                currentPage === 0
+                  ? "cursor-not-allowed text-zinc-400"
+                  : "text-zinc-300 hover:bg-zinc-700 hover:text-white"
+              }`}
+            >
+              <IoChevronDown className="rotate-90 text-2xl" />
+            </button>
+
+            <div className="flex gap-1">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    const audio = new Audio("/ui_button.mp3");
+                    audio.play();
+                    audio.volume = 0.5;
+                    setCurrentPage(index);
+                  }}
+                  className={`h-2 w-2 rounded-full duration-300 ${
+                    index === currentPage
+                      ? "bg-zinc-600"
+                      : "bg-zinc-400 hover:bg-zinc-500"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={() => handlePageChange("next")}
+              disabled={currentPage === totalPages - 1}
+              className={`flex items-center justify-center rounded-md p-2 duration-300 ${
+                currentPage === totalPages - 1
+                  ? "cursor-not-allowed text-zinc-400"
+                  : "text-zinc-300 hover:bg-zinc-700 hover:text-white"
+              }`}
+            >
+              <IoChevronDown className="-rotate-90 text-2xl" />
+            </button>
+          </div>
+        )}
+      </div>
       {category === "message" && (
         <>
           <form className="group flex w-full flex-row gap-2 rounded-md bg-zinc-300 p-2">
@@ -255,6 +319,7 @@ const Menu = () => {
       {category === "settings" && <RoomSettings />}
       {category === "files" && <Files />}
       {category === "room" && <RoomMenu />}
+      {category === "spotify" && <Spotify />}
     </>
   );
 };

@@ -83,7 +83,7 @@ const KioskMenu = () => {
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="flex h-full min-w-full max-w-full flex-col items-center justify-center gap-4"
+      className="relative z-10 flex h-full min-w-full max-w-full flex-col items-center justify-center gap-4 overflow-hidden"
     >
       <ol className="flex w-full flex-row gap-2 text-2xl font-bold">
         <button
@@ -156,7 +156,7 @@ const KioskMenu = () => {
                 }}
               >
                 <Link
-                  href={`/kioskhandler/event?eventId=${event.id}`}
+                  href={`/kiosk/event?eventId=${event.id}`}
                   onMouseEnter={() => {
                     const audio = new Audio("/ui_button.mp3");
                     audio.play();
@@ -186,8 +186,13 @@ const KioskMenu = () => {
                       {event.name}
                     </h1>
                     <p className="p-2 text-sm opacity-0 duration-300 group-hover:opacity-100">
-                      {new Date(event.start).toLocaleString()} /{" "}
-
+                      {new Date(event.start).toLocaleString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </p>
                   </div>
                 </Link>
@@ -195,7 +200,7 @@ const KioskMenu = () => {
             ))}
 
             <Link
-              href="/kioskhandler/event_create"
+              href="/kiosk/event_create"
               className="flex h-full gap-2"
               onMouseEnter={() => {
                 const audio = new Audio("/ui_button.mp3");
@@ -210,7 +215,7 @@ const KioskMenu = () => {
             </Link>
             <div className="flex h-full w-full flex-col gap-2">
               <Link
-                href="/kioskhandler/settings"
+                href="/kiosk/settings"
                 className="flex w-full gap-2"
                 onMouseEnter={() => {
                   const audio = new Audio("/ui_button.mp3");
@@ -260,7 +265,7 @@ const KioskMenu = () => {
                 }}
               >
                 <Link
-                  href={`/kioskhandler/room?roomId=${room?.id}`}
+                  href={`/kiosk/room?roomId=${room?.id}`}
                   onMouseEnter={() => {
                     const audio = new Audio("/ui_button.mp3");
                     audio.play();
@@ -316,7 +321,7 @@ const KioskMenu = () => {
             </button>
             <div className="flex h-full w-full flex-col gap-2">
               <Link
-                href="/kioskhandler/settings"
+                href="/kiosk/settings"
                 className="flex w-full gap-2"
                 onMouseEnter={() => {
                   const audio = new Audio("/ui_button.mp3");
@@ -377,7 +382,7 @@ const KioskMenu = () => {
             </div>
             <JoinMeeting />
             <Link
-              href="/kioskhandler/settings"
+              href="/kiosk/settings"
               className="flex h-60 w-[200px] snap-start flex-col items-start justify-between rounded-md bg-white p-3 shadow-sm transition-all duration-300 hover:bg-gray-100 hover:shadow-white/40"
               onMouseEnter={() => {
                 const audio = new Audio("/ui_button.mp3");

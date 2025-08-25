@@ -1,13 +1,13 @@
-import { KioskModeProvider } from "@/_contexts/KioskModeContext";
+import KioskModeProviderWithSuspense from "./KioskModeProvider";
 import React from "react";
 import KioskHeader from "./KioskHeader";
 
 const KioskWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
-    <KioskModeProvider>
+    <KioskModeProviderWithSuspense>
       <KioskHeader />
       {children}
-    </KioskModeProvider>
+    </KioskModeProviderWithSuspense>
   );
 };
 

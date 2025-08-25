@@ -1,38 +1,72 @@
 "use client";
+import React, { useEffect, useState } from "react";
+import { Golos_Text } from "next/font/google";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import LoginKiosk from "./login";
+import { useUser } from "../AuthContext";
+import LoadingObject from "@/(mesaui)/LoadingObject";
+import KioskMenu from "./kioskmenu";
+import { useModal } from "../(connect)/connect/Modal";
 
-import React, { useEffect } from "react";
-import { useKioskMode } from "@/_contexts/KioskModeContext";
-import { isKioskApp } from "@/lib/kiosk-config";
+// Add CSS to prevent scrolling
+const kioskStyles = `
+  body {
+    overflow: hidden !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  html {
+    overflow: hidden !important;
+    height: 100vh !important;
+  }
+`;
 
-const KioskApp = () => {
-  const { activateKioskMode, isKioskMode } = useKioskMode();
+const font = Golos_Text({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+const KioskHandlerContent = () => {
+  const { user, signOut } = useUser();
 
-  // Auto-activate kiosk mode when this is the kiosk app
+  const modal = useModal();
+
+  // Apply kiosk styles to prevent scrolling
   useEffect(() => {
-    if (isKioskApp() && !isKioskMode) {
-      activateKioskMode("default");
-    }
-  }, [activateKioskMode, isKioskMode]);
+    const style = document.createElement("style");
+    style.textContent = kioskStyles;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center bg-gradient-to-br from-blue-900 to-purple-900 text-white">
-      <div className="text-center">
-        <h1 className="mb-4 text-6xl font-bold">MESA Kiosk</h1>
-        <p className="text-xl text-gray-300">
-          Welcome to the MESA Connect Kiosk System
-        </p>
+    <div
+      className={`flex h-screen w-screen flex-col items-center justify-center overflow-hidden p-12 font-eudoxus`}
+      style={{ paddingTop: "calc(4rem + 1rem)" }} // Account for header height (64px) + extra padding
+    >
+      {user ? (
+        <div className="flex w-full flex-col items-start justify-center">
+          <h1 className="text-4xl font-bold text-white">
+            Welcome,{" "}
+            {user.user_metadata.real_name || user.user_metadata.full_name}
+          </h1>
 
-        {isKioskMode && (
-          <div className="mt-8">
-            <div className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2">
-              <div className="h-2 w-2 animate-pulse rounded-full bg-green-300" />
-              <span className="font-medium">Kiosk Mode Active</span>
-            </div>
-          </div>
-        )}
-      </div>
+          <KioskMenu />
+        </div>
+      ) : (
+        <LoginKiosk />
+      )}
     </div>
   );
 };
 
-export default KioskApp;
+const KioskHandler = () => {
+  return <KioskHandlerContent />;
+};
+
+export default KioskHandler;

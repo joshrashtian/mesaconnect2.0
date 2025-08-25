@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface KioskModeContextType {
   isKioskMode: boolean;
@@ -64,7 +64,7 @@ export const KioskModeProvider = ({
   const [kioskType, setKioskType] = useState<
     "default" | "spotify" | "zoom" | "custom"
   >("default");
-  const searchParams = useSearchParams();
+
   const router = useRouter();
 
   const [externalApps, setExternalApps] = useState({
@@ -87,20 +87,26 @@ export const KioskModeProvider = ({
 
   // Check URL parameters for kiosk mode activation
   useEffect(() => {
-    const kioskParam = searchParams.get("kiosk");
-    const kioskTypeParam = searchParams.get("kioskType") as
-      | "default"
-      | "spotify"
-      | "zoom"
-      | "custom"
-      | null;
+    // Only run on client side
+    if (typeof window === "undefined") return;
 
-    if (kioskParam === "true" || kioskParam === "1") {
-      activateKioskMode(kioskTypeParam || "default");
-    } else if (kioskParam === "false" || kioskParam === "0") {
-      deactivateKioskMode();
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const kioskParam = urlParams.get("kiosk");
+      const kioskTypeParam = urlParams.get("kioskType");
+
+      if (kioskParam === "true" || kioskParam === "1") {
+        activateKioskMode(
+          (kioskTypeParam as "default" | "spotify" | "zoom" | "custom") ||
+            "default",
+        );
+      } else if (kioskParam === "false" || kioskParam === "0") {
+        deactivateKioskMode();
+      }
+    } catch (error) {
+      console.warn("Failed to parse URL parameters:", error);
     }
-  }, [searchParams]);
+  }, []);
 
   // Load kiosk settings from localStorage
   useEffect(() => {

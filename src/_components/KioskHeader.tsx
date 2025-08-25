@@ -1,9 +1,16 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useKioskMode } from "@/_contexts/KioskModeContext";
 import { Button } from "@/components/ui/button";
-import { Power, Music, Video, Monitor } from "lucide-react";
+import {
+  Power,
+  Music,
+  Video,
+  Monitor,
+  ArrowLeft,
+  ArrowRight,
+} from "lucide-react";
 import {
   shouldShowExitButton,
   shouldShowExternalApps,
@@ -18,12 +25,20 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Noto_Sans } from "next/font/google";
+import { useRouter } from "next/navigation";
 
 interface KioskHeaderProps {
   className?: string;
   showExitButton?: boolean;
   showExternalApps?: boolean;
 }
+
+const font = Noto_Sans({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 const KioskHeader: React.FC<KioskHeaderProps> = ({
   className = "",
@@ -40,9 +55,9 @@ const KioskHeader: React.FC<KioskHeaderProps> = ({
     switchToZoom,
     switchToMesa,
   } = useTabSwitcher();
-
+  const router = useRouter();
   const [currentTime, setCurrentTime] = React.useState(new Date());
-
+  const [url, setURL] = useState(window.location.href);
   const [isSettingsOpen, setIsSettingsOpen] = React.useState(false);
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -98,13 +113,49 @@ const KioskHeader: React.FC<KioskHeaderProps> = ({
 
   return (
     <header
-      className={`fixed left-0 right-0 top-0 z-[9999] flex h-16 items-center justify-between bg-gradient-to-r from-gray-500 to-gray-600 px-6 font-eudoxus text-white shadow-lg ${className}`}
+      className={`pointer-events-auto fixed left-0 right-0 top-0 z-[9999] flex h-16 items-center justify-between bg-gradient-to-r from-gray-500 to-gray-600 px-6 font-eudoxus text-white shadow-lg ${className}`}
     >
-      <div className="flex items-center gap-3">
-        {getKioskTypeIcon()}
-        <h1 className="text-xl font-bold">MESA Kiosk</h1>
-      </div>
+      <div className="flex w-[80%] items-center gap-2">
+        <Button
+          variant="outline"
+          className="h-8 w-8 rounded-full text-black hover:bg-gray-300"
+          onClick={() => {
+            router.back();
+            const audio = new Audio("/ui_button.mp3");
+            audio.volume = 1;
+            audio.play();
+          }}
+        >
+          <ArrowLeft className="h-4 w-4" />
+        </Button>
+        <Button
+          variant="outline"
+          className="h-8 w-8 rounded-full text-black hover:bg-gray-300"
+          onClick={() => {
+            router.forward();
+            const audio = new Audio("/ui_button.mp3");
+            audio.volume = 1;
+            audio.play();
+          }}
+        >
+          <ArrowRight className="h-4 w-4" />
+        </Button>
 
+        <Input
+          className="w-96 rounded-3xl bg-white text-black transition-all duration-500 focus:w-[80%] focus:outline-none focus:ring-0"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              window.location.href = url;
+            }
+          }}
+          value={url}
+          placeholder="URL..."
+          onChange={(e) => {
+            const url = e.target.value;
+            setURL(url);
+          }}
+        />
+      </div>
       <div className="flex items-center gap-5">
         <span className="text-lg">
           {currentTime.toLocaleTimeString([], {
