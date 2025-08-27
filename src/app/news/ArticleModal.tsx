@@ -174,6 +174,20 @@ export const ExpandedArticle = ({
                           return (
                             <ParagraphBlock component={component} key={i} />
                           );
+                        case "image":
+                          return (
+                            <ul
+                              key={i}
+                              className="relative my-2 h-[400px] w-full"
+                            >
+                              <Image
+                                src={component.attrs?.src}
+                                alt={component.attrs?.alt || "Image"}
+                                fill
+                                className="rounded-xl object-contain"
+                              />
+                            </ul>
+                          );
                       }
                     })}
                   </h1>
@@ -204,6 +218,17 @@ export const ExpandedArticle = ({
                       </ul>
                     ))}
                   </div>
+                );
+              case "image":
+                return (
+                  <ul key={i} className="relative my-2 h-[400px] w-full">
+                    <Image
+                      src={block.attrs?.src}
+                      alt={block.attrs?.alt || "Image"}
+                      fill
+                      className="rounded-xl object-contain"
+                    />
+                  </ul>
                 );
             }
           })}

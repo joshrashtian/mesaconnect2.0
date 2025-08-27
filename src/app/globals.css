@@ -179,3 +179,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* TipTap editor list styles */
+@layer components {
+  .ProseMirror ul,
+  .ProseMirror ol {
+    padding-left: 1.5rem !important;
+    margin-left: 0 !important;
+    list-style-position: outside !important;
+  }
+  .ProseMirror ul {
+    list-style-type: disc !important;
+  }
+  .ProseMirror ol {
+    list-style-type: decimal !important;
+  }
+  .ProseMirror li {
+    display: list-item !important;
+    margin: 0.25rem 0 !important;
+  }
+  .ProseMirror li::marker {
+    color: currentColor;
+    font-size: 0.9em;
+  }
+}

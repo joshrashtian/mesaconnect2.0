@@ -92,7 +92,7 @@ const KioskMenu = () => {
             audio.play();
             setIndex(0);
           }}
-          className={`${index === 0 ? "bg-zinc-700 text-white" : "text-zinc-700"} rounded-md px-4 py-1`}
+          className={`${index === 0 ? "bg-zinc-700 text-white" : "text-white"} rounded-md px-4 py-1`}
         >
           Events
         </button>
@@ -102,7 +102,7 @@ const KioskMenu = () => {
             audio.play();
             setIndex(1);
           }}
-          className={`${index === 1 ? "bg-zinc-700 text-white" : "text-zinc-700"} rounded-md px-4 py-1`}
+          className={`${index === 1 ? "bg-zinc-700 text-white" : "text-white"} rounded-md px-4 py-1`}
         >
           Rooms
         </button>
@@ -112,7 +112,7 @@ const KioskMenu = () => {
             audio.play();
             setIndex(2);
           }}
-          className={`${index === 2 ? "bg-zinc-700 fill-white" : "fill-zinc-700"} rounded-md px-4 py-1`}
+          className={`${index === 2 ? "bg-zinc-700 fill-white" : "fill-white"} rounded-md px-4 py-1`}
         >
           <svg
             id="svg835"
