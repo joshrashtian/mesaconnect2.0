@@ -3,6 +3,7 @@
 import React, { createContext } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import ImageExtension from "@tiptap/extension-image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -12,14 +13,60 @@ type TipTapDoc = {
 };
 
 const TipTapReadonly = ({ doc }: { doc: TipTapDoc }) => {
+  // Create a preview version of the document with limited content
+  const createPreviewDoc = (originalDoc: TipTapDoc): TipTapDoc => {
+    if (!originalDoc.content || originalDoc.content.length === 0) {
+      return originalDoc;
+    }
+
+    const previewContent = originalDoc.content.slice(0, 2); // Only show first 2 blocks
+
+    // For text blocks, truncate the content
+    const truncatedContent = previewContent.map((block: any) => {
+      if (block.type === "paragraph" && block.content) {
+        // Limit paragraph content to first 150 characters
+        const truncatedParagraph = {
+          ...block,
+          content: block.content.map((node: any) => {
+            if (node.type === "text" && node.text) {
+              return {
+                ...node,
+                text:
+                  node.text.length > 150
+                    ? node.text.substring(0, 150) + "..."
+                    : node.text,
+              };
+            }
+            return node;
+          }),
+        };
+        return truncatedParagraph;
+      }
+      return block;
+    });
+
+    return {
+      ...originalDoc,
+      content: truncatedContent,
+    };
+  };
+
+  const previewDoc = createPreviewDoc(doc);
+
   const editor = useEditor({
-    extensions: [StarterKit],
-    content: doc,
+    extensions: [StarterKit, ImageExtension.configure({ allowBase64: true })],
+    content: previewDoc,
     editable: false,
+    immediatelyRender: false,
   });
 
   if (!editor) return null;
-  return <EditorContent editor={editor} />;
+  return (
+    <div className="max-h-32 overflow-hidden">
+      <EditorContent editor={editor} />
+      <p>...</p>
+    </div>
+  );
 };
 
 const LegacyViewer = ({

@@ -19,12 +19,14 @@ import Image from "next/image";
 import { TipTapDoc } from "@/lib/posts";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import ImageExtension from "@tiptap/extension-image";
 
 const TipTapReadonly = ({ doc }: { doc: TipTapDoc }) => {
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit, ImageExtension.configure({ allowBase64: true })],
     content: doc,
     editable: false,
+    immediatelyRender: false,
   });
 
   if (!editor) return null;
@@ -89,7 +91,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
 
   return (
     <motion.main
-      className="flex flex-col gap-5 p-10 font-eudoxus"
+      className="flex flex-col gap-5 p-2 font-eudoxus"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5, ease: "circInOut" }}

@@ -11,6 +11,7 @@ import { serverside } from "../../../config/serverside";
 import { InfoProvider } from "./connect/(profiles)/profile/[id]/(infoblockscreator)/InfoContext";
 import { MultiStepProvider } from "./connect/MutliStepContext";
 import { createClient } from "../../../config/server";
+import UpdateDialog from "@/_components/UpdateDialog";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const serverside = await createClient();
@@ -21,6 +22,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
 
   return (
     <InfoContextContainer>
+      <UpdateDialog />
       <InfoProvider>
         <UserCheck>
           <ModalProvider>

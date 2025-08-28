@@ -4,7 +4,6 @@ import { config } from "../../config/mesa-config";
 import AuthContext from "./AuthContext";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
-import OneTapComponent from "@/_components/home/OneTap";
 import KioskWrapper from "@/_components/KioskWrapper";
 
 const inter = Inter({
@@ -40,6 +39,7 @@ export default async function RootLayout({
         <KioskWrapper>
           <body className={`${inter.className} bg-zinc-100 dark:bg-zinc-800`}>
             {children}
+
             <Analytics />
           </body>
         </KioskWrapper>
