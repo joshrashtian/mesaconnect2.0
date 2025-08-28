@@ -83,7 +83,7 @@ const KioskMenu = () => {
       initial={{ opacity: 0, y: 100 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="relative z-10 flex h-full min-w-full max-w-full flex-col items-center justify-center gap-4 overflow-hidden"
+      className="relative z-10 flex w-full flex-col items-center justify-start gap-6 overflow-hidden"
     >
       <ol className="flex w-full flex-row gap-2 text-2xl font-bold">
         <button
@@ -143,60 +143,62 @@ const KioskMenu = () => {
             className="snap-point no-scrollbar relative flex w-full snap-x snap-always flex-row space-x-3 overflow-y-visible overflow-x-scroll scroll-smooth whitespace-nowrap px-3 py-3"
           >
             {events?.map((event, index) => (
-              <motion.div
-                className="group flex h-60 min-w-[400px] snap-start rounded-md bg-white shadow-sm ring-2 ring-transparent transition-all duration-300 hover:bg-gray-100 hover:ring-white/40"
-                key={event.id}
-                initial={{ opacity: 0, y: -200, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -200, scale: 0.9 }}
-                transition={{
-                  duration: 1,
-                  type: "spring",
-                  delay: index * 0.1 + 0.4,
-                }}
-              >
-                <Link
-                  href={`/kiosk/event?eventId=${event.id}`}
-                  onMouseEnter={() => {
-                    const audio = new Audio("/ui_button.mp3");
-                    audio.play();
-                    audio.volume = 1;
+              <Tilt key={event.id}>
+                <motion.div
+                  className="group flex h-60 min-w-[400px] snap-start rounded-md bg-white shadow-sm ring-2 ring-transparent transition-all duration-300 hover:bg-gray-100 hover:ring-white/40"
+                  key={event.id}
+                  initial={{ opacity: 0, y: -200, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -200, scale: 0.9 }}
+                  transition={{
+                    duration: 1,
+                    type: "spring",
+                    delay: index * 0.1 + 0.4,
                   }}
-                  onClick={() => {
-                    const audio = new Audio("/click2.mp3");
-                    audio.play();
-                    audio.volume = 1;
-                  }}
-                  className="flex h-full w-full flex-col items-start justify-between gap-2"
                 >
-                  <div
-                    className={`relative h-96 w-full rounded-t-md duration-500 group-hover:h-64 ${!event.image && "backdrop-blur-md"} ${sampleColors[Math.floor(Math.random() * sampleColors.length)]}`}
+                  <Link
+                    className="flex h-full w-full flex-col items-start justify-between gap-2"
+                    href={`/kiosk/event?eventId=${event.id}`}
+                    onMouseEnter={() => {
+                      const audio = new Audio("/ui_button.mp3");
+                      audio.play();
+                      audio.volume = 1;
+                    }}
+                    onClick={() => {
+                      const audio = new Audio("/click2.mp3");
+                      audio.play();
+                      audio.volume = 1;
+                    }}
                   >
-                    {event.image && (
-                      <Image
-                        src={event.image.url}
-                        alt={event.name}
-                        fill
-                        className={`rounded-t-md object-cover`}
-                      />
-                    )}
-                  </div>
-                  <div className="flex h-10 w-full flex-col items-start justify-center duration-500 ease-in-out group-hover:h-32">
-                    <h1 className="translate-y-4 p-2 text-lg font-bold duration-300 group-hover:translate-y-4">
-                      {event.name}
-                    </h1>
-                    <p className="p-2 text-sm opacity-0 duration-300 group-hover:opacity-100">
-                      {new Date(event.start).toLocaleString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </p>
-                  </div>
-                </Link>
-              </motion.div>
+                    <div
+                      className={`relative h-96 w-full rounded-t-md duration-500 group-hover:h-64 ${!event.image && "backdrop-blur-md"} ${sampleColors[Math.floor(Math.random() * sampleColors.length)]}`}
+                    >
+                      {event.image && (
+                        <Image
+                          src={event.image.url}
+                          alt={event.name}
+                          fill
+                          className={`rounded-t-md object-cover`}
+                        />
+                      )}
+                    </div>
+                    <div className="flex h-10 w-full flex-col items-start justify-center duration-500 ease-in-out group-hover:h-32">
+                      <h1 className="translate-y-4 p-2 text-lg font-bold duration-300 group-hover:translate-y-4">
+                        {event.name}
+                      </h1>
+                      <p className="p-2 text-sm opacity-0 duration-300 group-hover:opacity-100">
+                        {new Date(event.start).toLocaleString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </p>
+                    </div>
+                  </Link>
+                </motion.div>
+              </Tilt>
             ))}
 
             <Link

@@ -39,10 +39,12 @@ const LayoutKioskHandler = async ({
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: animatedGradientStyles }} />
-      <div className="animated-gradient flex h-screen w-screen flex-col">
+      <div className="animated-gradient kiosk-mode flex flex-col">
         <ModalProvider>
           <DeviceContextProvider>
-            <InfoContextContainer>{children}</InfoContextContainer>
+            <div className="kiosk-content">
+              <InfoContextContainer>{children}</InfoContextContainer>
+            </div>
           </DeviceContextProvider>
         </ModalProvider>
       </div>

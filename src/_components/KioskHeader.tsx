@@ -76,8 +76,8 @@ const KioskHeader: React.FC<KioskHeaderProps> = ({
   React.useEffect(() => {
     // Add padding to body when kiosk mode is active
     if (isKioskMode) {
-      document.body.style.paddingTop = "64px"; // 16 * 4 = 64px for h-16
-      document.body.style.paddingBottom = "48px"; // 12 * 4 = 48px for h-12
+      document.body.style.paddingTop = "0px"; // 16 * 4 = 64px for h-16
+      document.body.style.paddingBottom = "0px"; // Remove bottom padding
     } else {
       document.body.style.paddingTop = "";
       document.body.style.paddingBottom = "";
@@ -120,7 +120,7 @@ const KioskHeader: React.FC<KioskHeaderProps> = ({
 
   return (
     <header
-      className={`pointer-events-auto fixed left-0 right-0 top-0 z-[9999] flex h-16 items-center justify-between bg-gradient-to-r from-gray-500 to-gray-600 px-6 font-eudoxus text-white shadow-lg ${className}`}
+      className={`pointer-events-auto fixed left-0 top-0 z-[9999] flex h-16 w-full items-center justify-between bg-zinc-700/20 px-6 font-eudoxus text-white shadow-lg backdrop-blur-sm ${className}`}
     >
       <div className="flex w-[80%] items-center gap-2">
         <Button

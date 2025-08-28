@@ -178,6 +178,35 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Kiosk-specific styles to ensure full screen coverage */
+  .kiosk-mode {
+    height: 100vh !important;
+    width: 100vw !important;
+    overflow: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  .kiosk-mode * {
+    box-sizing: border-box;
+  }
+  
+  /* Ensure kiosk content uses full available space */
+  .kiosk-content {
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Remove any potential bottom spacing in kiosk mode */
+  .kiosk-mode body,
+  .kiosk-mode html {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+  }
 }
 
 /* TipTap editor list styles */
@@ -201,5 +230,56 @@
   .ProseMirror li::marker {
     color: currentColor;
     font-size: 0.9em;
+  }
+  /* Heading styles */
+  .ProseMirror h1 {
+    font-family: "Eudoxus", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    font-weight: 800;
+    font-size: 2rem; /* ~text-3xl */
+    line-height: 2.5rem;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .dark .ProseMirror h1 {
+    color: theme('colors.white');
+  }
+  /* Code styling */
+  .ProseMirror pre {
+    background: theme('colors.zinc.100');
+    color: theme('colors.zinc.800');
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    overflow: auto;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    counter-reset: line;
+  }
+  .ProseMirror pre code.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+  .ProseMirror pre code .hljs-meta { color: theme('colors.purple.600'); }
+  .ProseMirror pre code .hljs-comment { color: theme('colors.zinc.500'); }
+  .ProseMirror pre code .hljs-keyword, .hljs-selector-tag { color: theme('colors.orange.600'); }
+  .ProseMirror pre code .hljs-string, .hljs-title, .hljs-name { color: theme('colors.green.600'); }
+  .ProseMirror pre code .hljs-number, .hljs-literal { color: theme('colors.blue.600'); }
+  .dark .ProseMirror pre {
+    background: theme('colors.slate.800');
+    color: theme('colors.slate.100');
+  }
+  .ProseMirror code {
+    background: theme('colors.zinc.100');
+    color: theme('colors.zinc.900');
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.375rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.9em;
+  }
+  .dark .ProseMirror code {
+    background: theme('colors.slate.800');
+    color: theme('colors.slate.100');
   }
 }

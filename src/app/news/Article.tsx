@@ -13,6 +13,10 @@ export const classNames = [
     type: "italic",
     returns: "italic",
   },
+  {
+    type: "code",
+    returns: "bg-zinc-100 dark:bg-slate-800 rounded px-1 font-mono text-sm",
+  },
 ];
 
 export type ArticleType = {
@@ -124,6 +128,15 @@ const Article = ({
       <div className="flex flex-col gap-3 font-eudoxus dark:text-white">
         {article.details.content.map((block, i) => {
           switch (block.type) {
+            case "heading":
+              if ((block as any).attrs?.level === 1) {
+                return (
+                  <h1 key={i} className="font-eudoxus text-3xl font-extrabold">
+                    {block.content?.map((t: any) => t.text).join(" ")}
+                  </h1>
+                );
+              }
+              return null;
             case "paragraph":
               return (
                 <h1 className="flex-nowrap" key={i}>
@@ -148,6 +161,17 @@ const Article = ({
                     }
                   })}
                 </h1>
+              );
+            case "codeBlock":
+              return (
+                <pre
+                  key={i}
+                  className="overflow-auto rounded-lg bg-zinc-100 p-4 font-mono text-sm text-zinc-900 dark:bg-slate-800 dark:text-slate-100"
+                >
+                  <code>
+                    {block.content?.map((c: any) => c.text).join("\n")}
+                  </code>
+                </pre>
               );
             case "bulletList":
               return (

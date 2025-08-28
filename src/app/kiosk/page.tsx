@@ -45,12 +45,9 @@ const KioskHandlerContent = () => {
   }, []);
 
   return (
-    <div
-      className={`flex h-screen w-screen flex-col items-center justify-center overflow-hidden p-12 font-eudoxus`}
-      style={{ paddingTop: "calc(4rem + 1rem)" }} // Account for header height (64px) + extra padding
-    >
+    <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden pt-16">
       {user ? (
-        <div className="flex w-full flex-col items-start justify-center">
+        <div className="mt-8 flex w-full flex-col items-start justify-start px-4">
           <h1 className="text-4xl font-bold text-white">
             Welcome,{" "}
             {user.user_metadata.real_name || user.user_metadata.full_name}

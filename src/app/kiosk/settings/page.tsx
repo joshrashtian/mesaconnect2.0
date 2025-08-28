@@ -5,7 +5,7 @@ import { useDeviceContext } from "../DeviceContext";
 const KioskSettings = () => {
   const { device, setDevice } = useDeviceContext();
   return (
-    <div className="flex flex-col gap-2 p-12 pt-20 text-white">
+    <div className="flex flex-col gap-2 p-6 pt-20 text-white">
       <h1 className="text-2xl font-bold">Settings</h1>
       <KioskInput
         name="name"

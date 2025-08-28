@@ -18,7 +18,7 @@ const HeaderMenu = () => {
 
   const pathnameIds = pathname.split("/").filter((item) => item !== "");
   return (
-    <div className="absolute left-0 top-0 flex w-full flex-row items-center justify-between bg-zinc-700/20 p-2.5">
+    <div className="fixed left-0 top-0 z-50 flex w-full flex-row items-center justify-between bg-zinc-700/20 p-2.5 backdrop-blur-sm">
       <h1 className="font-geist text-lg text-white">
         {pathnameIds.map((e) => `/${e}`)}
       </h1>

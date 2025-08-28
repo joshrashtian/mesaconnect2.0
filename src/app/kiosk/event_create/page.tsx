@@ -50,7 +50,7 @@ const EventCreatorKiosk = () => {
 
   return (
     <div
-      className={`flex h-full w-full flex-col items-start justify-start p-12 pt-20 font-nenue`}
+      className={`flex h-full w-full flex-col items-start justify-center p-6 pt-20 font-nenue`}
     >
       <h1 className="text-7xl font-bold text-white">
         <IoHammer />

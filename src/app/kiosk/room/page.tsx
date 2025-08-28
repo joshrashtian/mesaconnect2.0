@@ -88,7 +88,7 @@ const RoomKioskPage = () => {
 
   if (!room && !loading) {
     return (
-      <div className="flex h-screen w-screen flex-col items-start justify-end p-12 font-nenue">
+      <div className="flex h-full w-full flex-col items-start justify-center p-6 pt-20">
         <motion.h1
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
@@ -103,7 +103,7 @@ const RoomKioskPage = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col items-start justify-end p-12 font-nenue">
+    <div className="flex h-full w-full flex-col items-start justify-center p-6 pt-20">
       <motion.h1
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}

@@ -40,7 +40,7 @@ const EventKioskPage = () => {
   }, [eventId]);
 
   return (
-    <div className="flex h-full w-full flex-col items-end justify-end gap-5 p-10">
+    <div className="flex h-full w-full flex-col items-center justify-start overflow-hidden pt-16">
       <h1 className="text-4xl font-bold text-white">{event?.name}</h1>
       <p className="text-white">{event?.desc}</p>
       <p className="text-white">{new Date(event?.start!).toLocaleString()}</p>
