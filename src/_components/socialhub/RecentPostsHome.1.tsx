@@ -14,6 +14,7 @@ import { IoChatboxEllipsesOutline, IoPeople } from "react-icons/io5";
 import { useModal } from "@/app/(connect)/connect/Modal";
 import PostListItem from "./PostListItem";
 import WimListItem from "./WimListItem";
+import NewPost from "./NewPost";
 
 export const RecentPostsHome = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -56,7 +57,7 @@ export const RecentPostsHome = () => {
           if (payload.eventType === "INSERT") {
             setPosts((posts: any) => [payload.new, ...posts]);
           }
-        }
+        },
       )
       .subscribe();
 
@@ -70,7 +71,7 @@ export const RecentPostsHome = () => {
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ ease: "backInOut" }}
-      className="w-full h-full flex-col items-center flex gap-1"
+      className="flex h-full w-full flex-col items-center gap-1"
     >
       <h1 className="text-lg font-bold dark:text-white">
         Recent In The Community
@@ -78,15 +79,15 @@ export const RecentPostsHome = () => {
 
       <Link
         href={`/connect/social/community`}
-        className="flex flex-col hover:ring-2 hover:ring-offset-1 hover:ring-opacity-70 ring-0 ring-offset-0 ring-purple-700/45 justify-end text-white text-xl w-full h-24 p-5 bg-gradient-to-tr from-red-600 to-indigo-600 rounded-2xl hover:scale-[1.03] duration-500 drop-shadow-xl hover:shadow-2xl "
+        className="flex h-24 w-full flex-col justify-end rounded-2xl bg-gradient-to-tr from-red-600 to-indigo-600 p-5 text-xl text-white ring-0 ring-purple-700/45 ring-offset-0 drop-shadow-xl duration-500 hover:scale-[1.03] hover:shadow-2xl hover:ring-2 hover:ring-opacity-70 hover:ring-offset-1"
       >
         <IoPeople className="text-3xl" />
         <h1 className="">Community Home</h1>
       </Link>
-      <section className="flex flex-row w-4/5  justify-start items-center">
+      <section className="flex w-4/5 flex-row items-center justify-start">
         <Link
           href="/connect/builder"
-          className="h-12 p-5  hover:ring-2 hover:ring-offset-1 hover:ring-opacity-70 ring-0 ring-offset-0 ring-orange-400/45 gap-2 shadow-md text-white cursor-pointer hover:scale-[1.02] flex flex-row justify-center items-center duration-500 rounded-bl-xl hover:rounded-md w-full bg-gradient-to-br from-red-600 to-amber-600"
+          className="flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-bl-xl bg-gradient-to-br from-red-600 to-amber-600 p-5 text-white shadow-md ring-0 ring-orange-400/45 ring-offset-0 duration-500 hover:scale-[1.02] hover:rounded-md hover:ring-2 hover:ring-opacity-70 hover:ring-offset-1"
         >
           <BsPostcard size={22} />
           <h1>Post Builder</h1>
@@ -95,7 +96,7 @@ export const RecentPostsHome = () => {
           onClick={() => {
             setModal(true);
           }}
-          className="h-12 p-5 hover:ring-2 hover:ring-offset-1 hover:ring-opacity-70 ring-0 ring-offset-0 ring-blue-700/45 shadow-md text-white gap-2 cursor-pointer hover:scale-[1.02] flex flex-row justify-center items-center duration-500 rounded-br-xl hover:rounded-md w-full bg-gradient-to-br from-indigo-600 to-blue-400"
+          className="flex h-12 w-full cursor-pointer flex-row items-center justify-center gap-2 rounded-br-xl bg-gradient-to-br from-indigo-600 to-blue-400 p-5 text-white shadow-md ring-0 ring-blue-700/45 ring-offset-0 duration-500 hover:scale-[1.02] hover:rounded-md hover:ring-2 hover:ring-opacity-70 hover:ring-offset-1"
         >
           <IoChatboxEllipsesOutline size={22} />
           <h1>Create Wim</h1>
@@ -107,10 +108,10 @@ export const RecentPostsHome = () => {
           switch (post.type) {
             case "wim":
               return <WimListItem key={index} post={post} />;
-            case null:
+            case "post":
               return <PostListItem key={index} post={post} index={index} />;
             default:
-              return <PostListItem key={index} post={post} index={index} />;
+              return <NewPost key={index} post={post} />;
           }
         })}
       </AnimatePresence>

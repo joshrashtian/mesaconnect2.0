@@ -63,12 +63,12 @@ const BuildPost = () => {
           }),
         };
 
-    // @ts-ignore - typed via config/supabasetypes
     const { error } = await supabase.from("posts").insert({
+      // @ts-ignore - typed via config/supabasetypes
       userid: userInfo.id,
       title: title ?? null,
       data: contentPayload,
-      type: "post",
+      type: editorType === "tiptap" ? "post-tiptap" : "post",
       creator: {
         id: userInfo.id,
         realname: userInfo.real_name,

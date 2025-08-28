@@ -16,6 +16,7 @@ import WimListItem from "@/_components/socialhub/WimListItem";
 import AddPost from "./addPost";
 import QuickWimModal from "@/_components/socialhub/QuickWimModal";
 import Link from "next/link";
+import NewPost from "@/_components/socialhub/NewPost";
 
 const PostsPageHome = () => {
   const [range, setRange] = useState(0);
@@ -238,7 +239,7 @@ const PostsPageHome = () => {
                     <PostListItem key={post.id} index={index} post={post} />
                   );
                 default:
-                  return <Post key={post.id} post={post} />;
+                  return <NewPost key={post.id} post={post} />;
               }
             })
           )}
