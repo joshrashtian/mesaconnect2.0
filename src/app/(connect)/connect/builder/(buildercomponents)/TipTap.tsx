@@ -21,7 +21,7 @@ import c from "highlight.js/lib/languages/c";
 import cpp from "highlight.js/lib/languages/cpp";
 import csharp from "highlight.js/lib/languages/csharp";
 import css from "highlight.js/lib/languages/css";
-import Mathematics, { migrateMathStrings } from "@tiptap/extension-mathematics";
+import Mathematics from "@tiptap/extension-mathematics";
 import StarterKit from "@tiptap/starter-kit";
 import { BiBold, BiCodeBlock, BiHeading, BiItalic } from "react-icons/bi";
 import { BiListOl } from "react-icons/bi";
@@ -113,11 +113,9 @@ const Tiptap = ({
       },
     },
     onCreate: ({ editor }) => {
-      migrateMathStrings(editor);
       json(editor?.getJSON());
     },
     onUpdate: ({ editor }) => {
-      migrateMathStrings(editor);
       json(editor?.getJSON());
     },
   });
@@ -147,32 +145,52 @@ const Tiptap = ({
     const hasSelection = !editor?.state.selection.empty;
 
     if (hasSelection) {
-      return editor?.chain().insertBlockMath({ latex: "" }).focus().run();
+      return editor
+        ?.chain()
+        .insertContent({
+          type: "blockMath",
+          content: [{ type: "text", text: "" }],
+        })
+        .focus()
+        .run();
     }
 
     const latex = prompt("Enter block math expression:", "");
     return editor
       ?.chain()
-      .insertBlockMath({ latex: latex || "" })
+      .insertContent({
+        type: "blockMath",
+        content: [{ type: "text", text: latex || "" }],
+      })
       .focus()
       .run();
   }, [editor]);
 
   const onRemoveBlockMath = useCallback(() => {
-    editor?.chain().deleteBlockMath().focus().run();
+    editor?.chain().deleteNode("blockMath").focus().run();
   }, [editor]);
 
   const onInsertInlineMath = useCallback(() => {
     const hasSelection = !editor?.state.selection.empty;
 
     if (hasSelection) {
-      return editor?.chain().insertInlineMath({ latex: "" }).focus().run();
+      return editor
+        ?.chain()
+        .insertContent({
+          type: "inlineMath",
+          content: [{ type: "text", text: "" }],
+        })
+        .focus()
+        .run();
     }
 
     const latex = prompt("Enter inline math expression:", "");
     return editor
       ?.chain()
-      .insertInlineMath({ latex: latex || "" })
+      .insertContent({
+        type: "inlineMath",
+        content: [{ type: "text", text: latex || "" }],
+      })
       .focus()
       .run();
   }, [editor]);
