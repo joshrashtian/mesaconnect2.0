@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server'
-// The client you created from the Server-Side Auth instructions
-import { createClient } from '@supabase/supabase-js'
+import { NextRequest, NextResponse } from 'next/server'
+import { createServerClient } from '@supabase/ssr'
+import { type CookieOptions } from '@supabase/ssr'
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
   const next = searchParams.get('next') ?? '/'
@@ -11,21 +11,50 @@ export async function GET(request: Request) {
   console.log('Auth callback - origin:', origin)
 
   if (code) {
-    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+    let intermediateResponse = NextResponse.next({
+      request: {
+        headers: request.headers,
+      },
+    })
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return request.cookies.get(name)?.value
+          },
+          set(name: string, value: string, options: CookieOptions) {
+            intermediateResponse.cookies.set({ name, value, ...options })
+          },
+          remove(name: string, options: CookieOptions) {
+            intermediateResponse.cookies.set({ name, value: '', ...options })
+          },
+        },
+      }
+    )
+
     const { error } = await supabase.auth.exchangeCodeForSession(code)
     console.log('Auth callback - exchange error:', error)
-    
+
     if (!error) {
-      const forwardedHost = request.headers.get('x-forwarded-host') // original origin before load balancer
+      const forwardedHost = request.headers.get('x-forwarded-host')
       const isLocalEnv = process.env.NODE_ENV === 'development'
-      const redirectUrl = isLocalEnv 
+      const redirectUrl = isLocalEnv
         ? `${origin}${next}`
-        : forwardedHost 
+        : forwardedHost
           ? `https://${forwardedHost}${next}`
           : `${origin}${next}`
-      
+
       console.log('Auth callback - redirecting to:', redirectUrl)
-      return NextResponse.redirect(redirectUrl)
+
+      const redirectResponse = NextResponse.redirect(redirectUrl)
+      // propagate cookies set during exchange onto the redirect response
+      for (const cookie of intermediateResponse.cookies.getAll()) {
+        redirectResponse.cookies.set(cookie)
+      }
+      return redirectResponse
     } else {
       console.log('Auth callback - exchange failed, redirecting to error page')
     }

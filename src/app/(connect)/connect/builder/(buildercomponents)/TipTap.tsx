@@ -4,8 +4,8 @@
    * customizablity worries) this package called TipTap will do the work for us.
    * */
 }
-
-import React from "react";
+import "katex/dist/katex.min.css";
+import React, { useCallback } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import { Extension } from "@tiptap/core";
 import CodeBlock from "@tiptap/extension-code-block";
@@ -21,6 +21,7 @@ import c from "highlight.js/lib/languages/c";
 import cpp from "highlight.js/lib/languages/cpp";
 import csharp from "highlight.js/lib/languages/csharp";
 import css from "highlight.js/lib/languages/css";
+import Mathematics, { migrateMathStrings } from "@tiptap/extension-mathematics";
 import StarterKit from "@tiptap/starter-kit";
 import { BiBold, BiCodeBlock, BiHeading, BiItalic } from "react-icons/bi";
 import { BiListOl } from "react-icons/bi";
@@ -56,6 +57,16 @@ const extensions = [
   StarterKit,
   ImageExtension.configure({ allowBase64: true }),
   EnterKeyFix,
+  Mathematics.configure({
+    katexOptions: {
+      throwOnError: false,
+      strict: "ignore",
+      macros: {
+        "\\RR": "\\mathbb{R}",
+        "\\ZZ": "\\mathbb{Z}",
+      },
+    },
+  }),
   CodeBlockLowlight.configure({
     lowlight: (() => {
       const ll = createLowlight(common);
@@ -94,6 +105,7 @@ const Tiptap = ({
   const editor = useEditor({
     extensions,
     content,
+
     editorProps: {
       attributes: {
         class:
@@ -101,9 +113,11 @@ const Tiptap = ({
       },
     },
     onCreate: ({ editor }) => {
+      migrateMathStrings(editor);
       json(editor?.getJSON());
     },
     onUpdate: ({ editor }) => {
+      migrateMathStrings(editor);
       json(editor?.getJSON());
     },
   });
@@ -128,6 +142,40 @@ const Tiptap = ({
       className: "rounded-md px-5 py-3 font-eudoxus text-sm shadow",
     },
   ];
+
+  const onInsertBlockMath = useCallback(() => {
+    const hasSelection = !editor?.state.selection.empty;
+
+    if (hasSelection) {
+      return editor?.chain().insertBlockMath({ latex: "" }).focus().run();
+    }
+
+    const latex = prompt("Enter block math expression:", "");
+    return editor
+      ?.chain()
+      .insertBlockMath({ latex: latex || "" })
+      .focus()
+      .run();
+  }, [editor]);
+
+  const onRemoveBlockMath = useCallback(() => {
+    editor?.chain().deleteBlockMath().focus().run();
+  }, [editor]);
+
+  const onInsertInlineMath = useCallback(() => {
+    const hasSelection = !editor?.state.selection.empty;
+
+    if (hasSelection) {
+      return editor?.chain().insertInlineMath({ latex: "" }).focus().run();
+    }
+
+    const latex = prompt("Enter inline math expression:", "");
+    return editor
+      ?.chain()
+      .insertInlineMath({ latex: latex || "" })
+      .focus()
+      .run();
+  }, [editor]);
 
   return (
     <React.Fragment>
@@ -200,6 +248,20 @@ const Tiptap = ({
           className="h-10 rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow disabled:opacity-50"
         >
           Upload Image
+        </button>
+        <button
+          type="button"
+          onClick={() => onInsertBlockMath()}
+          className="h-10 rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow disabled:opacity-50"
+        >
+          Insert Block Math
+        </button>
+        <button
+          type="button"
+          onClick={() => onInsertInlineMath()}
+          className="h-10 rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow disabled:opacity-50"
+        >
+          Insert Inline Math
         </button>
         <button
           type="button"
