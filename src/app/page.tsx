@@ -6,7 +6,8 @@ import MajorsText from "@/_components/home/majorsText";
 
 import { motion, useScroll, useSpring } from "framer-motion";
 import Link from "next/link";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { userContext } from "./AuthContext";
 import SocialPreview from "@/_components/home/SocialPreview";
 import { IoArrowForward, IoGlobe, IoPerson } from "react-icons/io5";
@@ -25,6 +26,26 @@ const font = Outfit({
 });
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // Handle OAuth errors redirected to homepage
+  useEffect(() => {
+    const error = searchParams.get("error");
+    const errorCode = searchParams.get("error_code");
+    const errorDescription = searchParams.get("error_description");
+
+    if (error && errorCode === "unexpected_failure") {
+      console.log("OAuth error detected on homepage:", {
+        error,
+        errorCode,
+        errorDescription,
+      });
+      // Redirect to the proper error page
+      router.push("/auth/auth-code-error");
+    }
+  }, [searchParams, router]);
+
   const firstRef = useRef(null);
   const mainRef = useRef(null);
   const openSourceRef = useRef(null);

@@ -74,11 +74,8 @@ const Page = () => {
 
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "apple",
-      options: {
-        // Apple/Supabase require exact redirect URI match; avoid query params
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
     });
+
     if (error) {
       setErrorMsg(error.message);
     }
