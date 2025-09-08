@@ -20,7 +20,7 @@ const LoginKiosk = () => {
     }
   };
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className="flex w-full flex-col gap-2 p-10">
       <h5 className="text-2xl font-bold text-white">Login</h5>
       <input
         type="text"
@@ -38,7 +38,7 @@ const LoginKiosk = () => {
       />
       <Button
         onClick={() => {
-          window.location.href = "/sign-in?callbackUrl=/kioskhandler";
+          window.location.href = "/sign-in?callbackUrl=/kiosk";
         }}
       >
         If You Use Google or Apple for Sign In, Use This

@@ -106,6 +106,9 @@ const KioskMenu = () => {
         >
           Rooms
         </button>
+        {/*
+
+        //DEFUNCT: Zoom Integration for Website ; Using Other Kiosk Project 
         <button
           onClick={() => {
             const audio = new Audio("/click2.mp3");
@@ -130,6 +133,7 @@ const KioskMenu = () => {
             />
           </svg>
         </button>
+        */}
       </ol>
       <AnimatePresence>
         {loading ? (

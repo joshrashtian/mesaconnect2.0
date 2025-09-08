@@ -10,10 +10,9 @@ import HeaderMenu from "../../kiosk/header";
 const RoomPage = ({ params }: { params: { id: string } }) => {
   const { data } = useRoomContext();
   const searchParams = useSearchParams();
-  const kiosk = searchParams.get("kiosk");
+
   return (
     <div className="flex h-screen w-screen flex-col items-start justify-end bg-zinc-700 p-24 font-eudoxus">
-      {kiosk === "true" ? <HeaderMenu /> : null}
       <AnimatePresence>
         {!data.room ? (
           data.error ? (

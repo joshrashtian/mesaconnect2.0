@@ -45,7 +45,7 @@ const KioskHandlerContent = () => {
   }, []);
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden pt-16">
+    <div className="flex h-full w-full flex-col items-center justify-center overflow-hidden pt-16 font-eudoxus">
       {user ? (
         <div className="mt-8 flex w-full flex-col items-start justify-start px-4">
           <h1 className="text-4xl font-bold text-white">

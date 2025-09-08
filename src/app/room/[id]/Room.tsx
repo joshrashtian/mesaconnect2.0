@@ -7,16 +7,7 @@ import { useUser } from "../../AuthContext";
 
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  IoChevronUp,
-  IoChevronDown,
-  IoArrowUp,
-  IoMoon,
-  IoPencilOutline,
-  IoCloseOutline,
-  IoArrowDown,
-  IoExpand,
-} from "react-icons/io5";
+import { IoChevronUp, IoChevronDown, IoExpand } from "react-icons/io5";
 import Menu from "./(components)/Menu";
 import Image from "next/image";
 const Room = () => {
@@ -33,7 +24,7 @@ const Room = () => {
       exit={{ opacity: 0, y: 10 }}
       transition={{ duration: 0.3 }}
     >
-      <div className="absolute left-0 top-0 flex h-full w-full flex-row justify-between gap-2 font-nenue">
+      <div className="absolute left-0 top-0 flex h-full w-full flex-row justify-between gap-2">
         <h1 className="left-0 top-0 text-4xl font-bold text-white">
           {data?.room?.name}
           <h2 className="text-5xl text-zinc-300/80">{data?.id}</h2>
