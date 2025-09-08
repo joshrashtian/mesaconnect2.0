@@ -80,9 +80,16 @@ export async function POST(request: NextRequest) {
   const formData = await request.formData()
   const code = formData.get('code') as string | null
   const next = (formData.get('next') as string | null) ?? '/'
+  const id_token = formData.get('id_token') as string | null
+  const state = formData.get('state') as string | null
 
   console.log('Auth callback (POST) - code present:', !!code)
   console.log('Auth callback (POST) - origin:', origin)
+  console.log('Auth callback (POST) - received fields:', {
+    hasCode: !!code,
+    hasIdToken: !!id_token,
+    hasState: !!state,
+  })
 
   if (code) {
     let intermediateResponse = NextResponse.next({
