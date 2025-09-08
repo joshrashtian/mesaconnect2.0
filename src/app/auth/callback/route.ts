@@ -65,3 +65,68 @@ export async function GET(request: NextRequest) {
   // return the user to an error page with instructions
   return NextResponse.redirect(`${origin}/auth/auth-code-error`)
 }
+
+export async function POST(request: NextRequest) {
+  const { origin } = new URL(request.url)
+
+  // Apple may send code via form_post
+  const formData = await request.formData()
+  const code = formData.get('code') as string | null
+  const next = (formData.get('next') as string | null) ?? '/'
+
+  console.log('Auth callback (POST) - code present:', !!code)
+  console.log('Auth callback (POST) - origin:', origin)
+
+  if (code) {
+    let intermediateResponse = NextResponse.next({
+      request: {
+        headers: request.headers,
+      },
+    })
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return request.cookies.get(name)?.value
+          },
+          set(name: string, value: string, options: CookieOptions) {
+            intermediateResponse.cookies.set({ name, value, ...options })
+          },
+          remove(name: string, options: CookieOptions) {
+            intermediateResponse.cookies.set({ name, value: '', ...options })
+          },
+        },
+      }
+    )
+
+    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    console.log('Auth callback (POST) - exchange error:', error)
+
+    if (!error) {
+      const forwardedHost = request.headers.get('x-forwarded-host')
+      const isLocalEnv = process.env.NODE_ENV === 'development'
+      const redirectUrl = isLocalEnv
+        ? `${origin}${next}`
+        : forwardedHost
+          ? `https://${forwardedHost}${next}`
+          : `${origin}${next}`
+
+      console.log('Auth callback (POST) - redirecting to:', redirectUrl)
+
+      const redirectResponse = NextResponse.redirect(redirectUrl)
+      for (const cookie of intermediateResponse.cookies.getAll()) {
+        redirectResponse.cookies.set(cookie)
+      }
+      return redirectResponse
+    } else {
+      console.log('Auth callback (POST) - exchange failed, redirecting to error page')
+    }
+  } else {
+    console.log('Auth callback (POST) - no code present, redirecting to error page')
+  }
+
+  return NextResponse.redirect(`${origin}/auth/auth-code-error`)
+}
