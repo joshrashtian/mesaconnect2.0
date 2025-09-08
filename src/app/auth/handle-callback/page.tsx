@@ -13,8 +13,20 @@ function HandleCallbackContent() {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        const code = searchParams.get("code");
-        const next = searchParams.get("next") || "/connect";
+        // Try to get code from URL params first (for GET requests)
+        let code = searchParams.get("code");
+        let next = searchParams.get("next") || "/connect";
+
+        // If no code in URL params, check if this is a POST request with form data
+        if (!code && typeof window !== "undefined") {
+          // Check if there's form data in the current page (Apple form_post)
+          const urlHash = window.location.hash;
+          if (urlHash.includes("code=")) {
+            const hashParams = new URLSearchParams(urlHash.substring(1));
+            code = hashParams.get("code");
+            next = hashParams.get("next") || next;
+          }
+        }
 
         if (!code) {
           setError("No authorization code provided");
