@@ -7,6 +7,8 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get('code')
   const next = searchParams.get('next') ?? '/'
   const errorParam = searchParams.get('error')
+  const errorCode = searchParams.get('error_code')
+  const errorDescription = searchParams.get('error_description')
 
   console.log('Auth callback - code present:', !!code)
   console.log('Auth callback - origin:', origin)
@@ -63,7 +65,7 @@ export async function GET(request: NextRequest) {
     // For providers like Apple using response_mode=form_post, GET may arrive without a code.
     // Only redirect to error if an explicit error is present; otherwise, no-op so POST can follow.
     if (errorParam) {
-      console.log('Auth callback - error param present, redirecting to error page')
+      console.log('Auth callback - error param present, redirecting to error page', { errorParam, errorCode, errorDescription })
       return NextResponse.redirect(`${origin}/auth/auth-code-error`)
     }
     console.log('Auth callback - no code present on GET; awaiting potential POST from provider')
