@@ -10,7 +10,9 @@ import { IoLogoApple, IoLogoGoogle, IoLogoLinkedin } from "react-icons/io5";
 const Page = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMsg] = useState<string | undefined>();
+  const [errorMessage, setErrorMsg] = useState<string | undefined>(
+    "Currently, Apple Sign In is broken on the Web Version. Sign in with Google with your apple ID email instead.",
+  );
   const [isLoading, setIsLoading] = useState(false);
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/connect";
@@ -75,7 +77,7 @@ const Page = () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "apple",
       options: {
-        redirectTo: `${window.location.origin}/auth/callback?next=${encodeURIComponent(callbackUrl)}`,
+        redirectTo: "https://mesaconnect.io/auth/callback",
       },
     });
 
