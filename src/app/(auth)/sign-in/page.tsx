@@ -77,8 +77,6 @@ const Page = () => {
       options: {
         // Apple/Supabase require exact redirect URI match; avoid query params
         redirectTo: `${window.location.origin}/auth/callback`,
-        // Ensure Apple uses POST back to our callback
-        queryParams: { response_mode: "form_post" },
       },
     });
     if (error) {

@@ -10,9 +10,10 @@ export async function GET(request: NextRequest) {
   const errorCode = searchParams.get('error_code')
   const errorDescription = searchParams.get('error_description')
 
+  console.log(searchParams, code, next, errorParam, errorCode, errorDescription)
   console.log('Auth callback - code present:', !!code)
   console.log('Auth callback - origin:', origin)
-
+  
   if (code) {
     let intermediateResponse = NextResponse.next({
       request: {
