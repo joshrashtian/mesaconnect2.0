@@ -2,7 +2,13 @@
 import React, { useState, useMemo } from "react";
 import { EventOccurrence } from "../page";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoChevronBack, IoChevronForward, IoToday, IoTime, IoLocation } from "react-icons/io5";
+import {
+  IoChevronBack,
+  IoChevronForward,
+  IoToday,
+  IoTime,
+  IoLocation,
+} from "react-icons/io5";
 import Link from "next/link";
 
 const backdropColors = [
@@ -28,8 +34,18 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const monthNames = [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December"
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -42,10 +58,10 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
     return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
   };
 
-  const navigateMonth = (direction: 'prev' | 'next') => {
-    setCurrentDate(prev => {
+  const navigateMonth = (direction: "prev" | "next") => {
+    setCurrentDate((prev) => {
       const newDate = new Date(prev);
-      if (direction === 'prev') {
+      if (direction === "prev") {
         newDate.setMonth(prev.getMonth() - 1);
       } else {
         newDate.setMonth(prev.getMonth() + 1);
@@ -58,12 +74,14 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
     setCurrentDate(new Date());
   };
 
-  const getEventsForDate = (date: Date) => {
-    return events.filter(event => {
-      const eventDate = new Date(event.occurrence_time);
-      return eventDate.toDateString() === date.toDateString();
-    });
-  };
+  const getEventsForDate = useMemo(() => {
+    return (date: Date) => {
+      return events.filter((event) => {
+        const eventDate = new Date(event.occurrence_time);
+        return eventDate.toDateString() === date.toDateString();
+      });
+    };
+  }, [events]);
 
   const calendarDays = useMemo(() => {
     const daysInMonth = getDaysInMonth(currentDate);
@@ -71,40 +89,56 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
     const days = [];
 
     // Previous month's trailing days
-    const prevMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 0);
+    const prevMonth = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      0,
+    );
     const prevMonthDays = prevMonth.getDate();
     for (let i = firstDay - 1; i >= 0; i--) {
-      const date = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, prevMonthDays - i);
+      const date = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() - 1,
+        prevMonthDays - i,
+      );
       days.push({
         date,
         isCurrentMonth: false,
-        events: getEventsForDate(date)
+        events: getEventsForDate(date),
       });
     }
 
     // Current month days
     for (let day = 1; day <= daysInMonth; day++) {
-      const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+      const date = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        day,
+      );
       days.push({
         date,
         isCurrentMonth: true,
-        events: getEventsForDate(date)
+        events: getEventsForDate(date),
       });
     }
 
     // Next month's leading days
     const remainingDays = 42 - days.length; // 6 rows × 7 days
     for (let day = 1; day <= remainingDays; day++) {
-      const date = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, day);
+      const date = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth() + 1,
+        day,
+      );
       days.push({
         date,
         isCurrentMonth: false,
-        events: getEventsForDate(date)
+        events: getEventsForDate(date),
       });
     }
 
     return days;
-  }, [currentDate, events]);
+  }, [currentDate, getEventsForDate]);
 
   const isToday = (date: Date) => {
     const today = new Date();
@@ -116,7 +150,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
       {/* Calendar Header */}
       <div className="mb-8 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <motion.h2 
+          <motion.h2
             key={currentDate.getMonth()}
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -125,7 +159,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
             {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
           </motion.h2>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <button
             onClick={goToToday}
@@ -134,16 +168,16 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
             <IoToday />
             Today
           </button>
-          
+
           <div className="flex items-center gap-1">
             <button
-              onClick={() => navigateMonth('prev')}
+              onClick={() => navigateMonth("prev")}
               className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-300 hover:bg-slate-200 hover:text-slate-800"
             >
               <IoChevronBack />
             </button>
             <button
-              onClick={() => navigateMonth('next')}
+              onClick={() => navigateMonth("next")}
               className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-600 transition-all duration-300 hover:bg-slate-200 hover:text-slate-800"
             >
               <IoChevronForward />
@@ -153,12 +187,17 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
       </div>
 
       {/* Calendar Grid */}
-      <div className="overflow-hidden rounded-2xl bg-white/80 backdrop-blur-sm shadow-xl border border-white/20">
+      <div className="overflow-hidden rounded-2xl border border-white/20 bg-white/80 shadow-xl backdrop-blur-sm">
         {/* Day Headers */}
         <div className="grid grid-cols-7 border-b border-slate-200/50">
           {dayNames.map((day) => (
-            <div key={day} className="bg-gradient-to-r from-slate-50 to-slate-100 p-4 text-center">
-              <span className="text-sm font-semibold text-slate-600">{day}</span>
+            <div
+              key={day}
+              className="bg-gradient-to-r from-slate-50 to-slate-100 p-4 text-center"
+            >
+              <span className="text-sm font-semibold text-slate-600">
+                {day}
+              </span>
             </div>
           ))}
         </div>
@@ -173,20 +212,22 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.01 }}
                 className={`min-h-[120px] border-b border-r border-slate-200/50 p-2 transition-all duration-300 hover:bg-slate-50/80 ${
-                  !day.isCurrentMonth ? 'bg-slate-50/30' : 'bg-white/50'
-                } ${isToday(day.date) ? 'bg-gradient-to-br from-blue-50/80 to-purple-50/80' : ''}`}
+                  !day.isCurrentMonth ? "bg-slate-50/30" : "bg-white/50"
+                } ${isToday(day.date) ? "bg-gradient-to-br from-blue-50/80 to-purple-50/80" : ""}`}
               >
-                <div className="flex flex-col h-full">
-                  <div className={`mb-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
-                    isToday(day.date)
-                      ? 'bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg'
-                      : day.isCurrentMonth
-                      ? 'text-slate-800'
-                      : 'text-slate-400'
-                  }`}>
+                <div className="flex h-full flex-col">
+                  <div
+                    className={`mb-2 flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold ${
+                      isToday(day.date)
+                        ? "bg-gradient-to-r from-violet-600 to-purple-600 text-white shadow-lg"
+                        : day.isCurrentMonth
+                          ? "text-slate-800"
+                          : "text-slate-400"
+                    }`}
+                  >
                     {day.date.getDate()}
                   </div>
-                  
+
                   <div className="flex-1 space-y-1">
                     {day.events.slice(0, 3).map((event, eventIndex) => (
                       <Link key={event.id} href={`/events/${event.event.id}`}>
@@ -198,23 +239,27 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
                             backdropColors[eventIndex % backdropColors.length]
                           } text-white shadow-sm`}
                         >
-                          <div className="truncate font-semibold">{event.event.name}</div>
-                          <div className="flex items-center gap-1 mt-1 opacity-90">
+                          <div className="truncate font-semibold">
+                            {event.event.name}
+                          </div>
+                          <div className="mt-1 flex items-center gap-1 opacity-90">
                             <IoTime size={10} />
                             <span className="text-xs">
-                              {new Date(event.occurrence_time).toLocaleTimeString('en-US', {
-                                hour: 'numeric',
-                                minute: '2-digit',
-                                hour12: true
+                              {new Date(
+                                event.occurrence_time,
+                              ).toLocaleTimeString("en-US", {
+                                hour: "numeric",
+                                minute: "2-digit",
+                                hour12: true,
                               })}
                             </span>
                           </div>
                         </motion.div>
                       </Link>
                     ))}
-                    
+
                     {day.events.length > 3 && (
-                      <div className="text-xs text-slate-500 font-medium px-2">
+                      <div className="px-2 text-xs font-medium text-slate-500">
                         +{day.events.length - 3} more
                       </div>
                     )}
