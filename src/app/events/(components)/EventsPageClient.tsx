@@ -6,6 +6,7 @@ import CalendarView from "./CalendarView";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoGrid, IoCalendar, IoAdd } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface EventsPageClientProps {
   events: EventOccurrence[];
@@ -19,13 +20,15 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ events }) => {
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 font-eudoxus">
       <header className="relative flex h-32 w-full items-center justify-between border-b border-white/20 bg-gradient-to-r from-violet-600/10 via-blue-600/10 to-purple-600/10 p-6 backdrop-blur-sm lg:p-8">
-        <div className="flex flex-col gap-2">
-          <h1 className="bg-gradient-to-r from-violet-600 via-blue-600 to-purple-600 bg-clip-text text-6xl font-extrabold tracking-tight text-transparent">
-            MESA
-          </h1>
-          <span className="-mt-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 bg-clip-text text-3xl font-bold text-transparent">
-            Events
-          </span>
+        <div className="flex items-center">
+          <Image
+            src={require("../../../_assets/MESAEvents.png")}
+            alt="MESA Events Logo"
+            width={200}
+            height={80}
+            className="h-auto max-h-16 w-auto object-contain transition-all duration-300 hover:scale-105 lg:max-h-20"
+            priority
+          />
         </div>
       </header>
 
