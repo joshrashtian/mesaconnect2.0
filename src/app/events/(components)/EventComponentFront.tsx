@@ -34,10 +34,19 @@ const EventComponentFront = ({
   );
 
   let end = useMemo(() => {
-    const end = new Date(event.occurrence_time);
-    end.setMinutes(end.getMinutes() + duration[1]);
-    end.setHours(end.getHours() + duration[0]);
-    return end;
+    // Parse the timestamp and create a proper local date
+    const timestamp = event.occurrence_time.replace("T", " ").replace("Z", "");
+    const [datePart, timePart] = timestamp.split(" ");
+    const [year, month, day] = datePart.split("-").map(Number);
+    const [hour, minute, second] = timePart.split(":").map(Number);
+
+    // Create date in local timezone and add 7 hours to compensate for UTC interpretation
+    const startDate = new Date(year, month - 1, day, hour, minute, second || 0);
+    startDate.setHours(startDate.getHours() + 7); // Add 7 hours for LA timezone
+    const endDate = new Date(startDate);
+    endDate.setMinutes(endDate.getMinutes() + duration[1]);
+    endDate.setHours(endDate.getHours() + duration[0]);
+    return endDate;
   }, [event.occurrence_time, duration]);
 
   return (
@@ -82,22 +91,57 @@ const EventComponentFront = ({
           <div className="flex flex-row items-center gap-2 rounded-lg bg-slate-100/60 px-3 py-2 text-sm text-slate-600 transition-colors duration-300 group-hover:bg-slate-100/80">
             <IoCalendar className="text-blue-600" />
             <span className="font-medium">
-              {new Date(event.occurrence_time).toLocaleString().split(",")[0]}
+              {(() => {
+                const timestamp = event.occurrence_time
+                  .replace("T", " ")
+                  .replace("Z", "");
+                const [datePart, timePart] = timestamp.split(" ");
+                const [year, month, day] = datePart.split("-").map(Number);
+                const [hour, minute, second] = timePart.split(":").map(Number);
+                const localDate = new Date(
+                  year,
+                  month - 1,
+                  day,
+                  hour,
+                  minute,
+                  second || 0,
+                );
+                localDate.setHours(localDate.getHours() + 7); // Add 7 hours for LA timezone
+                return localDate.toLocaleDateString("en-US");
+              })()}
             </span>
           </div>
           <div className="flex flex-row items-center gap-2 rounded-lg bg-slate-100/60 px-3 py-2 text-sm text-slate-600 transition-colors duration-300 group-hover:bg-slate-100/80">
             <IoTime className="text-emerald-600" />
             <span className="font-medium">
-              {new Date(event.occurrence_time)
-                .toLocaleString()
-                .split(",")[1]
-                .split(":")
-                .slice(0, 2)
-                .join(":")}{" "}
-              {new Date(event.occurrence_time).getHours() < 12 ? "AM" : "PM"} -{" "}
-              {end.toLocaleString().split(",")[1].split(":")[0]}:
-              {end.toLocaleString().split(",")[1].split(":")[1]}{" "}
-              {end.getHours() < 12 ? "AM" : "PM"}
+              {(() => {
+                const timestamp = event.occurrence_time
+                  .replace("T", " ")
+                  .replace("Z", "");
+                const [datePart, timePart] = timestamp.split(" ");
+                const [year, month, day] = datePart.split("-").map(Number);
+                const [hour, minute, second] = timePart.split(":").map(Number);
+                const localDate = new Date(
+                  year,
+                  month - 1,
+                  day,
+                  hour,
+                  minute,
+                  second || 0,
+                );
+                localDate.setHours(localDate.getHours() + 7); // Add 7 hours for LA timezone
+                return localDate.toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                });
+              })()}{" "}
+              -{" "}
+              {end.toLocaleTimeString("en-US", {
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+              })}
             </span>
           </div>
         </motion.div>

@@ -40,39 +40,102 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
     .order("occurrence_time", { ascending: true });
 
   const user = await supabase.auth.getUser();
+  console.log("user", user);
 
-  const { data: user_data } = await supabase
-    .from("profiles")
-    .select()
-    .eq("id", user.data.user?.id)
-    .single();
+  // Only query user data if user is authenticated
+  const { data: user_data } = user.data.user?.id
+    ? await supabase
+        .from("profiles")
+        .select()
+        .eq("id", user.data.user.id)
+        .single()
+    : { data: null };
 
-  const { data: CurrentInterest, error: UserError } = await supabase
-    .from("eventinterest")
-    .select()
-    .eq("user_id", user.data.user?.id)
-    .eq("event_id", params.id)
-    .single();
+  const { data: CurrentInterest, error: UserError } = user.data.user?.id
+    ? await supabase
+        .from("eventinterest")
+        .select()
+        .eq("user_id", user.data.user.id)
+        .eq("event_id", params.id)
+        .single()
+    : { data: null, error: null };
 
+  if (UserError) {
+    console.error("UserError", UserError);
+  }
+  if (occurencesError) {
+    console.error("occurencesError", occurencesError);
+  }
   if (error) {
+    console.error("error", error);
     return <p>{error.message}</p>;
   }
 
-  const start = new Date(data.start.replace("+00:00", ""));
+  // Parse start time with proper timezone handling
+  const parseLocalTime = (timeString: string) => {
+    console.log("TimeString", timeString);
+    if (!timeString) return new Date();
 
-  let duration = data.duration.split(":").reverse();
-  let end = data.duration ? new Date(data.start.toString()) : null;
+    // Handle time-only strings (like "14:00:00")
+    if (timeString.match(/^\d{2}:\d{2}:\d{2}$/)) {
+      const [hour, minute, second] = timeString.split(":").map(Number);
+      const today = new Date();
+      const localDate = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate(),
+        hour,
+        minute,
+        second,
+      );
+      localDate.setHours(localDate.getHours()); // Add 7 hours for LA timezone
+      return localDate;
+    }
+
+    const timestamp = timeString
+      .replace("T", " ")
+      .replace("Z", "")
+      .replace("+00:00", "");
+    const parts = timestamp.split(" ");
+
+    // Handle case where there's no time part (date only)
+    const datePart = parts[0];
+    const timePart = parts[1] || "00:00:00";
+
+    if (!datePart || !timePart) {
+      console.warn("Invalid timestamp format:", timeString);
+      return new Date();
+    }
+
+    const [year, month, day] = datePart.split("-").map(Number);
+    const [hour, minute, second] = timePart.split(":").map(Number);
+
+    const localDate = new Date(
+      year,
+      month - 1,
+      day,
+      hour || 0,
+      minute || 0,
+      second || 0,
+    );
+
+    localDate.setHours(localDate.getHours() + 7); // Add 7 hours for LA timezone
+    return localDate;
+  };
+
+  const start = parseLocalTime(data.start);
+
+  let duration = data.duration.split(":").map((item: string) => parseInt(item));
+  let end = data.duration ? new Date(start) : null;
 
   if (end) {
-    end.setHours(start.getHours() + parseInt(duration[2]));
-    end.setMinutes(start.getMinutes() + parseInt(duration[1]));
-    end.setSeconds(start.getSeconds() + parseInt(duration[0]));
+    end.setHours(end.getHours() + duration[0]);
+    end.setMinutes(end.getMinutes() + duration[1]);
+    end.setSeconds(end.getSeconds() + duration[2]);
   }
 
-  duration = duration.map((item: string) => parseInt(item));
-
   let nextOccurence = occurences?.[0]?.occurrence_time
-    ? new Date(occurences?.[0]?.occurrence_time)
+    ? parseLocalTime(occurences?.[0]?.occurrence_time)
     : null;
 
   let state =
@@ -119,7 +182,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
             />
             <p>
               {state === "ended"
-                ? `Ended on ${new Date(data.end ?? data.start).toLocaleDateString()}`
+                ? `Ended on ${parseLocalTime(data.end ?? data.start).toLocaleDateString()}`
                 : state === "ongoing"
                   ? "Ongoing Event"
                   : "Upcoming Event"}
@@ -133,7 +196,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
           </h4>
 
           <Separator className="my-4" />
-          {["admin", "tutor"].includes(user_data?.role) && (
+          {user_data?.role && ["admin", "tutor"].includes(user_data.role) && (
             <>
               <Button className="my-3">
                 <Link
@@ -147,10 +210,14 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
             </>
           )}
           <div className="flex w-full flex-row gap-2">
-            {data.creator !== user.data.user?.id ? (
-              <RegisterFor event={data} active={CurrentInterest} />
+            {user.data.user?.id ? (
+              data.creator !== user.data.user.id ? (
+                <RegisterFor event={data} active={CurrentInterest} />
+              ) : (
+                <p>You are the owner of this event.</p>
+              )
             ) : (
-              <p>You are the owner of this event.</p>
+              <p>Please sign in to register for this event.</p>
             )}
           </div>
           <Separator className="my-4" />
@@ -160,12 +227,12 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
                 <IoIosClock className="text-xl" /> Time
               </h4>
               <p>
-                {duration[2] !== 0 &&
-                  `${duration[2]} hour${duration[2] > 1 ? "s" : ""} `}
+                {duration[0] !== 0 &&
+                  `${duration[0]} hour${duration[0] > 1 ? "s" : ""} `}
                 {duration[1] !== 0 &&
                   `${duration[1]} minute${duration[1] > 1 ? "s" : ""} `}
-                {duration[0] !== 0 &&
-                  `${duration[0]} second${duration[0] > 1 ? "s" : ""}`}
+                {duration[2] !== 0 &&
+                  `${duration[2]} second${duration[2] > 1 ? "s" : ""}`}
               </p>
               <p className="text-sm font-light text-slate-500">
                 {start.toLocaleTimeString()} - {end?.toLocaleTimeString()}
@@ -184,7 +251,8 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
               >
                 <p
                   className={` ${
-                    new Date(occurence.occurrence_time) < new Date(Date.now())
+                    parseLocalTime(occurence.occurrence_time) <
+                    new Date(Date.now())
                       ? "text-red-500"
                       : "text-slate-500"
                   } ${index === 0 ? "text-xl" : "text-base"}`}
@@ -192,7 +260,9 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
                   {index === 0 ? "Next Occurence" : `Occurence ${index + 1}`}
                 </p>
                 <p className="font-mono text-xl font-bold">
-                  {new Date(occurence.occurrence_time).toLocaleDateString()}
+                  {parseLocalTime(
+                    occurence.occurrence_time,
+                  ).toLocaleDateString()}
                 </p>
               </div>
             ))}
@@ -200,7 +270,7 @@ async function DecidatedEventPage({ params }: { params: { id: string } }) {
               <p className="text-xl text-slate-500">Event Expires</p>
               <p className="font-mono text-xl font-bold">
                 {data.repeat_until
-                  ? new Date(data.repeat_until).toLocaleDateString()
+                  ? parseLocalTime(data.repeat_until).toLocaleDateString()
                   : "Does Not Repeat"}
               </p>
             </div>

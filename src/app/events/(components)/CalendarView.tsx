@@ -77,7 +77,22 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
   const getEventsForDate = useMemo(() => {
     return (date: Date) => {
       return events.filter((event) => {
-        const eventDate = new Date(event.occurrence_time);
+        // Parse as local time by creating Date from components
+        const timestamp = event.occurrence_time
+          .replace("T", " ")
+          .replace("Z", "");
+        const [datePart, timePart] = timestamp.split(" ");
+        const [year, month, day] = datePart.split("-").map(Number);
+        const [hour, minute, second] = timePart.split(":").map(Number);
+        const eventDate = new Date(
+          year,
+          month - 1,
+          day,
+          hour,
+          minute,
+          second || 0,
+        );
+        eventDate.setHours(eventDate.getHours() + 7); // Add 7 hours for LA timezone
         return eventDate.toDateString() === date.toDateString();
       });
     };
@@ -245,13 +260,33 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
                           <div className="mt-1 flex items-center gap-1 opacity-90">
                             <IoTime size={10} />
                             <span className="text-xs">
-                              {new Date(
-                                event.occurrence_time,
-                              ).toLocaleTimeString("en-US", {
-                                hour: "numeric",
-                                minute: "2-digit",
-                                hour12: true,
-                              })}
+                              {(() => {
+                                const timestamp = event.occurrence_time
+                                  .replace("T", " ")
+                                  .replace("Z", "");
+                                const [datePart, timePart] =
+                                  timestamp.split(" ");
+                                const [year, month, day] = datePart
+                                  .split("-")
+                                  .map(Number);
+                                const [hour, minute, second] = timePart
+                                  .split(":")
+                                  .map(Number);
+                                const localDate = new Date(
+                                  year,
+                                  month - 1,
+                                  day,
+                                  hour,
+                                  minute,
+                                  second || 0,
+                                );
+                                localDate.setHours(localDate.getHours() + 7); // Add 7 hours for LA timezone
+                                return localDate.toLocaleTimeString("en-US", {
+                                  hour: "numeric",
+                                  minute: "2-digit",
+                                  hour12: true,
+                                });
+                              })()}
                             </span>
                           </div>
                         </motion.div>
