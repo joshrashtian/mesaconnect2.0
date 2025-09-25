@@ -1,12 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { EventOccurrence } from "../page";
 import EventComponentFront from "./EventComponentFront";
 import CalendarView from "./CalendarView";
 import { motion, AnimatePresence } from "framer-motion";
-import { IoGrid, IoCalendar, IoAdd } from "react-icons/io5";
+import { IoGrid, IoCalendar, IoAdd, IoPerson } from "react-icons/io5";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useUser } from "../../AuthContext";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { EventType } from "@/_assets/types";
 
 interface EventsPageClientProps {
   events: EventOccurrence[];
@@ -16,7 +25,15 @@ type ViewMode = "grid" | "calendar";
 
 const EventsPageClient: React.FC<EventsPageClientProps> = ({ events }) => {
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
+  const [filteredEvents, setFilteredEvents] =
+    useState<EventOccurrence[]>(events);
+  const [isMounted, setIsMounted] = useState(false);
 
+  const { user } = useUser();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-purple-50/30 font-eudoxus">
       <header className="relative flex h-32 w-full items-center justify-between border-b border-white/20 bg-gradient-to-r from-violet-600/10 via-blue-600/10 to-purple-600/10 p-6 backdrop-blur-sm lg:p-8">
@@ -30,6 +47,24 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ events }) => {
             priority
           />
         </div>
+        {isMounted && (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <Avatar className="h-12 w-12">
+                <AvatarImage src={user?.user_metadata?.avatar_url} />
+                <AvatarFallback>
+                  {user?.user_metadata?.real_name?.at(0) || "U"}
+                </AvatarFallback>
+              </Avatar>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem>
+                <IoPerson />
+                {user?.user_metadata?.real_name || "User"}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </header>
 
       <div className="flex flex-col gap-8 p-6 pt-8 lg:p-12">
@@ -42,8 +77,42 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ events }) => {
             <div className="h-1 flex-1 rounded-full bg-gradient-to-r from-violet-600/20 via-blue-600/20 to-purple-600/20"></div>
           </div>
 
-          {/* View Toggle Buttons */}
+          {/* View Toggle Buttons / View Event Types */}
           <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/80 p-2 shadow-lg backdrop-blur-sm">
+            {isMounted && (
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Button variant="outline">Filter Events</Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => setFilteredEvents(events)}>
+                    All Events
+                  </DropdownMenuItem>
+                  {Array.from(
+                    new Set(
+                      events.map((event: EventOccurrence) => event.event.type),
+                    ),
+                  )
+                    .filter(Boolean)
+                    .map((type: string) => (
+                      <DropdownMenuItem
+                        onClick={() =>
+                          setFilteredEvents(
+                            events.filter(
+                              (event: EventOccurrence) =>
+                                event.event.type === type,
+                            ),
+                          )
+                        }
+                        key={type}
+                      >
+                        {type}
+                      </DropdownMenuItem>
+                    ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+
             <button
               onClick={() => setViewMode("grid")}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition-all duration-300 ${
@@ -80,7 +149,7 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ events }) => {
               transition={{ duration: 0.3 }}
               className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
             >
-              {events?.map((event: EventOccurrence, index: number) => (
+              {filteredEvents?.map((event: EventOccurrence, index: number) => (
                 <EventComponentFront
                   event={event}
                   key={event.id}
@@ -96,7 +165,7 @@ const EventsPageClient: React.FC<EventsPageClientProps> = ({ events }) => {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <CalendarView events={events || []} />
+              <CalendarView events={filteredEvents || []} />
             </motion.div>
           )}
         </AnimatePresence>

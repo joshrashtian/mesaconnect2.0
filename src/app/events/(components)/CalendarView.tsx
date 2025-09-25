@@ -10,6 +10,7 @@ import {
   IoLocation,
 } from "react-icons/io5";
 import Link from "next/link";
+import DayBottomSheet from "./DayBottomSheet";
 
 const backdropColors = [
   "bg-gradient-to-tr from-violet-600 via-purple-600 to-blue-600",
@@ -32,6 +33,8 @@ interface CalendarViewProps {
 
 const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState(false);
 
   const monthNames = [
     "January",
@@ -160,6 +163,16 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
     return date.toDateString() === today.toDateString();
   };
 
+  const handleDayClick = (date: Date, dayEvents: EventOccurrence[]) => {
+    setSelectedDate(date);
+    setIsBottomSheetOpen(true);
+  };
+
+  const getSelectedDateEvents = () => {
+    if (!selectedDate) return [];
+    return getEventsForDate(selectedDate);
+  };
+
   return (
     <div className="w-full">
       {/* Calendar Header */}
@@ -226,7 +239,8 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.3, delay: index * 0.01 }}
-                className={`min-h-[120px] border-b border-r border-slate-200/50 p-2 transition-all duration-300 hover:bg-slate-50/80 ${
+                onClick={() => handleDayClick(day.date, day.events)}
+                className={`min-h-[120px] cursor-pointer border-b border-r border-slate-200/50 p-2 transition-all duration-300 hover:bg-slate-50/80 hover:shadow-md ${
                   !day.isCurrentMonth ? "bg-slate-50/30" : "bg-white/50"
                 } ${isToday(day.date) ? "bg-gradient-to-br from-blue-50/80 to-purple-50/80" : ""}`}
               >
@@ -305,6 +319,14 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events }) => {
           </AnimatePresence>
         </div>
       </div>
+
+      {/* Bottom Sheet */}
+      <DayBottomSheet
+        isOpen={isBottomSheetOpen}
+        onClose={() => setIsBottomSheetOpen(false)}
+        selectedDate={selectedDate}
+        events={getSelectedDateEvents()}
+      />
     </div>
   );
 };

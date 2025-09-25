@@ -23,6 +23,8 @@ const EventsPageStandard = async () => {
     .gte("occurrence_time", new Date().toISOString())
     .order("occurrence_time", { ascending: true });
 
+  const user = await supabase.auth.getUser();
+
   if (eventsError) {
     console.error(eventsError);
   }

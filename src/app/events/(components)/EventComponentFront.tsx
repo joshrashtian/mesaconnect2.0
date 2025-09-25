@@ -63,7 +63,7 @@ const EventComponentFront = ({
           transition={{ duration: 0.5, delay: 0.1 * index + 0.5 }}
           className={`relative mb-4 h-36 w-full overflow-hidden rounded-xl shadow-lg transition-all duration-500 group-hover:shadow-xl ${
             backdropColors[index % backdropColors.length]
-          } before:absolute before:inset-0 before:z-10 before:bg-gradient-to-t before:from-black/20 before:via-transparent before:to-transparent`}
+          } group before:absolute before:inset-0 before:z-10 before:bg-gradient-to-t before:from-black/20 before:via-transparent before:to-transparent`}
         >
           {event.event.image?.url && (
             <Image
@@ -73,6 +73,9 @@ const EventComponentFront = ({
               className="z-0 object-cover transition-all duration-500 group-hover:scale-110"
             />
           )}
+          <p className="absolute bottom-3 right-3 z-10 rounded-lg bg-black/20 bg-gradient-to-t from-black/20 via-transparent to-transparent px-3 py-1 opacity-0 duration-500 group-hover:text-white group-hover:opacity-100">
+            {event.event.type}
+          </p>
         </motion.div>
         <motion.h2
           initial={{ opacity: 0, y: -10 }}
