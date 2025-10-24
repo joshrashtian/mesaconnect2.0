@@ -52,6 +52,7 @@ const AuthContext = ({ children }: { children: React.ReactNode }) => {
   const [userdata, setData] = useState();
   const [settings, setSettings] = useState();
   const [dark, setDark] = useState(false);
+
   function isDarkModeEnabled() {
     if (typeof window === "undefined") return false;
     return (

@@ -3,9 +3,16 @@ import React, { useMemo } from "react";
 import { EventOccurrence } from "../page";
 import Image from "next/image";
 import Tilt from "react-parallax-tilt";
-import { IoCalendar, IoTime, IoLocation, IoEarth } from "react-icons/io5";
+import {
+  IoCalendar,
+  IoTime,
+  IoLocation,
+  IoEarth,
+  IoLink,
+} from "react-icons/io5";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { BiLogoZoom } from "react-icons/bi";
 const backdropColors = [
   "bg-gradient-to-tr from-violet-600 via-purple-600 to-blue-600",
   "bg-gradient-to-br from-emerald-500 via-teal-600 to-cyan-600",
@@ -73,8 +80,9 @@ const EventComponentFront = ({
               className="z-0 object-cover transition-all duration-500 group-hover:scale-110"
             />
           )}
-          <p className="absolute bottom-3 right-3 z-10 rounded-lg bg-black/20 bg-gradient-to-t from-black/20 via-transparent to-transparent px-3 py-1 opacity-0 duration-500 group-hover:text-white group-hover:opacity-100">
-            {event.event.type}
+          <p className="absolute bottom-3 right-3 z-10 flex flex-row items-center gap-2 rounded-lg bg-black/20 bg-gradient-to-t from-black/20 via-transparent to-transparent px-3 py-1 font-black opacity-0 duration-500 group-hover:text-white group-hover:opacity-100">
+            {event.event.type}{" "}
+            {event.event.link && <BiLogoZoom className="text-white" />}
           </p>
         </motion.div>
         <motion.h2

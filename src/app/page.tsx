@@ -31,6 +31,7 @@ export default function Home() {
   const openSourceRef = useRef(null);
   const joinNowRef = useRef(null);
   const majorsRef = useRef(null);
+
   const { scrollYProgress: FirstScroll } = useScroll({
     target: mainRef,
     offset: ["start start", "end end"],
