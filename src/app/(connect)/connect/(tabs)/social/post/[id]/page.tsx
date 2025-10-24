@@ -175,7 +175,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         </section>
       ) : (
         <section className="flex flex-col gap-4">
-          {post.data.map((item: PostItem, index: number) => {
+          {post?.data?.data?.map((item: PostItem, index: number) => {
             switch (item.type) {
               case "text":
                 return (

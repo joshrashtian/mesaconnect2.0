@@ -22,6 +22,7 @@ import LoadingPage from "@/_components/LoadingPage";
 import FollowButton from "./FollowButton";
 import { useContextMenu, useToast } from "@/app/(connect)/InfoContext";
 import {
+  IoAdd,
   IoCheckbox,
   IoCheckmark,
   IoCheckmarkCircle,
@@ -40,10 +41,18 @@ import Achievements from "./Achievements";
 import { useProfile } from "./ProfileContext";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Transcript from "./(tabs)/transcript";
 // Lazy load heavy components
 const UserPosts = lazy(() => import("./UserPosts"));
 const Infoblocks = lazy(() => import("./infoblocks"));
 const UserEvents = lazy(() => import("./UserEvents"));
+const AddTabModal = lazy(() => import("./AddTabModal"));
 
 const ProfilePage = ({ params }: { params: { id: string } }) => {
   const [tab, setTab] = useState<string>("infoblocks");
@@ -112,6 +121,11 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
   const ConnectionsMod = useCallback(
     () => <ConnectionsModal connections={profile?.connections} />,
     [profile?.connections],
+  );
+
+  const AddTabMod = useCallback(
+    ({ tab }: { tab: string }) => <AddTabModal tab={tab} />,
+    [],
   );
 
   if (!user) {
@@ -330,7 +344,7 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
 
       <section className="border-b-2" />
       {isActiveUser && <YourProfile />}
-      <ul className="flex flex-row gap-6 text-2xl font-bold">
+      <ul className="no-scrollbar flex flex-row items-center gap-6 overflow-x-scroll text-2xl font-bold">
         <motion.li
           onClick={() => setTab("infoblocks")}
           className={`duration-300 hover:text-orange-500 ${tab === "infoblocks" ? "text-orange-500" : "text-gray-500"} relative cursor-pointer`}
@@ -379,6 +393,49 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
             />
           )}
         </motion.li>
+        {user.visibility?.tabs?.map((a) => (
+          <motion.li
+            key={a.name}
+            onClick={() => setTab(a.name)}
+            className={`capitalize duration-300 hover:text-orange-500 ${tab === a.name ? "text-orange-500" : "text-gray-500"} relative cursor-pointer`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {a.name}
+            {tab === a.name && (
+              <motion.div
+                className="absolute -bottom-1 left-0 right-0 h-0.5 bg-orange-500"
+                layoutId="activeTab"
+                initial={false}
+                transition={{ type: "spring", stiffness: 500, damping: 30 }}
+              />
+            )}
+          </motion.li>
+        ))}
+
+        {isActiveUser && (
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <motion.li
+                className={`relative cursor-pointer duration-300 hover:text-orange-500`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <IoAdd className="text-2xl" />
+              </motion.li>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-48">
+              <DropdownMenuItem
+                onClick={() =>
+                  modal.CreateModal(AddTabMod({ tab: "transcript" }))
+                }
+                className="cursor-pointer duration-300 hover:text-orange-500"
+              >
+                Transcript
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
       </ul>
       <AnimatePresence mode="wait">
         <Suspense fallback={<LoadingPage />}>
@@ -413,6 +470,17 @@ const ProfilePage = ({ params }: { params: { id: string } }) => {
               transition={{ duration: 0.3 }}
             >
               <UserEvents id={user.id} />
+            </motion.div>
+          )}
+          {tab === "transcript" && (
+            <motion.div
+              key="transcript"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Transcript />
             </motion.div>
           )}
         </Suspense>

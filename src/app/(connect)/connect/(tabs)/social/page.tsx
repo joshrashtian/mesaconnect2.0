@@ -73,7 +73,6 @@ const Social = () => {
       </section>
       <section className="flex h-full w-full flex-col justify-normal gap-10 lg:justify-between xl:flex-row">
         <RecentPostsHome />
-        <UpcomingEvents />
       </section>
       <MeetUsers />
     </main>

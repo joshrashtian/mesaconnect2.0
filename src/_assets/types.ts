@@ -27,6 +27,15 @@ export type UserData = {
     name: string
   }
   college?: string
+  year?: string
+  visibility?: {
+    public: boolean
+    tabs: {
+      name: string
+      status: "current" | "past"
+      visibility: "public" | "private" | "mutual"
+    }[]
+  }
 }
 
 export type SearchParamProps = {
@@ -49,6 +58,7 @@ export type PostType = {
     realname: string
   }
   relations: string[]
+  likes?: number
 }
 
 export type PostItem = {

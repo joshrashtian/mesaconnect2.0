@@ -41,6 +41,14 @@ export interface ContextProps {
         ];
         xp: number;
         verified: boolean;
+        visibility?: {
+          public: boolean;
+          tabs: {
+            name: string;
+            status: "current" | "past";
+            visibility: "public" | "private" | "mutual";
+          }[];
+        };
       }
     | undefined;
   signOut: () => void;

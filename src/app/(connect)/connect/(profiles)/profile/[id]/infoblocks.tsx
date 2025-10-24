@@ -15,9 +15,11 @@ import type {
 import { useUser } from "@/app/AuthContext";
 import { blockDefinitions } from "../(boxTypes)/blockRegistry";
 import { Card } from "@/components/ui/card";
+import { useProfile } from "./ProfileContext";
 
 export default function Infoblocks() {
-  const { user } = useUser();
+  const profile = useProfile();
+  const user = profile?.data;
   const [blocks, setBlocks] = useState<BlockType[]>([]);
   const Modal = useModal();
 
@@ -37,14 +39,20 @@ export default function Infoblocks() {
   }, [user?.id]);
 
   return (
-    <section>
-      {/* … your heading and + button … */}
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
+      key="infoblocks"
+    >
       <button
         onClick={() =>
           Modal.CreateModal(<InfoBlockDashboard Blocks={blocks} />)
         }
+        className="mb-4 flex flex-row items-center justify-center gap-2 rounded-full bg-blue-500 p-2 px-5 text-white shadow-lg"
       >
-        <IoAdd />
+        Add Block
+        <IoAdd size={32} />
       </button>
 
       <div className="grid grid-cols-2 gap-4">
@@ -65,6 +73,6 @@ export default function Infoblocks() {
           );
         })}
       </div>
-    </section>
+    </motion.section>
   );
 }

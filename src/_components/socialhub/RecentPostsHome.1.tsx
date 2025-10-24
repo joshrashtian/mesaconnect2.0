@@ -20,6 +20,7 @@ export const RecentPostsHome = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [modal, setModal] = useState(false);
   const user = useContext(userContext);
+  const [likedPosts, setLikedPosts] = useState<Map<string, boolean>>(new Map());
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,6 +35,19 @@ export const RecentPostsHome = () => {
         return;
       }
       setPosts(data);
+
+      const { data: counts } = await supabase
+        //@ts-ignore
+        .from("post_likes")
+        .select("*")
+        .in(
+          "post_id",
+          data.map((post: any) => post.id),
+        );
+      if (error) console.error(error);
+      setLikedPosts(
+        new Map(counts?.map((count: any) => [count.post_id, count.likes])),
+      );
     };
     fetchData();
   }, []);
@@ -109,6 +123,8 @@ export const RecentPostsHome = () => {
             case "wim":
               return <WimListItem key={index} post={post} />;
             case "post":
+              return <PostListItem key={index} post={post} index={index} />;
+            case "post-tiptap":
               return <PostListItem key={index} post={post} index={index} />;
             default:
               return <NewPost key={index} post={post} />;
