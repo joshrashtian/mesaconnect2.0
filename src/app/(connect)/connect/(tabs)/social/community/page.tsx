@@ -17,6 +17,7 @@ import AddPost from "./addPost";
 import QuickWimModal from "@/_components/socialhub/QuickWimModal";
 import Link from "next/link";
 import NewPost from "@/_components/socialhub/NewPost";
+import AdmissionListItem from "@/_components/socialhub/AdmissionListItem";
 
 const PostsPageHome = () => {
   const [range, setRange] = useState(0);
@@ -237,6 +238,18 @@ const PostsPageHome = () => {
                 case "post":
                   return (
                     <PostListItem key={post.id} index={index} post={post} />
+                  );
+                case "post-tiptap":
+                  return (
+                    <PostListItem key={post.id} index={index} post={post} />
+                  );
+                case "admission":
+                  return (
+                    <AdmissionListItem
+                      key={post.id}
+                      post={post}
+                      index={index}
+                    />
                   );
                 default:
                   return <NewPost key={post.id} post={post} />;

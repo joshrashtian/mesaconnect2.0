@@ -23,6 +23,7 @@ export default function Infoblocks() {
   const [blocks, setBlocks] = useState<BlockType[]>([]);
   const Modal = useModal();
 
+  const ActiveUser = useUser();
   useEffect(() => {
     let mounted = true;
     supabase
@@ -45,16 +46,17 @@ export default function Infoblocks() {
       transition={{ duration: 0.3 }}
       key="infoblocks"
     >
-      <button
-        onClick={() =>
-          Modal.CreateModal(<InfoBlockDashboard Blocks={blocks} />)
-        }
-        className="mb-4 flex flex-row items-center justify-center gap-2 rounded-full bg-blue-500 p-2 px-5 text-white shadow-lg"
-      >
-        Add Block
-        <IoAdd size={32} />
-      </button>
-
+      {user?.id === ActiveUser.user?.id && (
+        <button
+          onClick={() =>
+            Modal.CreateModal(<InfoBlockDashboard Blocks={blocks} />)
+          }
+          className="mb-4 flex flex-row items-center justify-center gap-2 rounded-full bg-blue-500 p-2 px-5 text-white shadow-lg"
+        >
+          Add Block
+          <IoAdd size={32} />
+        </button>
+      )}
       <div className="grid grid-cols-2 gap-4">
         {blocks.map((block) => {
           const def = blockDefinitions[block.type as BlockKey];

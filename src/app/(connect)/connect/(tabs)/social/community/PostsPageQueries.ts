@@ -11,7 +11,7 @@ export async function intfetch(range: number, globalCount: number) {
   
       const { data, count, error } = await serverside
         .from("posts")
-        .select("*", { count: "exact" })
+        .select("*, user:profiles!userid(id, real_name, username)", { count: "exact" })
         .range(range, range + number)
         .order("created_at", { ascending: false });
       if (error) {

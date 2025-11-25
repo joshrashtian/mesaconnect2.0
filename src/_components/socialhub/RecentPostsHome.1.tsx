@@ -15,6 +15,7 @@ import { useModal } from "@/app/(connect)/connect/Modal";
 import PostListItem from "./PostListItem";
 import WimListItem from "./WimListItem";
 import NewPost from "./NewPost";
+import AdmissionListItem from "./AdmissionListItem";
 
 export const RecentPostsHome = () => {
   const [posts, setPosts] = useState<any[]>([]);
@@ -126,6 +127,10 @@ export const RecentPostsHome = () => {
               return <PostListItem key={index} post={post} index={index} />;
             case "post-tiptap":
               return <PostListItem key={index} post={post} index={index} />;
+            case "admission":
+              return (
+                <AdmissionListItem key={index} post={post} index={index} />
+              );
             default:
               return <NewPost key={index} post={post} />;
           }

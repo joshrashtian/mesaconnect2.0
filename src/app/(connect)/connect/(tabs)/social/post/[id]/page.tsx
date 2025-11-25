@@ -59,7 +59,7 @@ const PostPage = ({ params }: { params: { id: string } }) => {
     const fetchData = async () => {
       const { data, error } = await supabase
         .from("posts")
-        .select()
+        .select("*, user:profiles!userid(id, real_name, username)")
         .eq("id", params.id)
         .single();
 
@@ -115,12 +115,12 @@ const PostPage = ({ params }: { params: { id: string } }) => {
             onClick={() => {}}
             className="group inline-block cursor-pointer text-blue-500 duration-300 hover:scale-110 hover:px-2 hover:text-blue-600"
           >
-            {post?.creator?.username}
+            {post?.user?.real_name}
             <motion.div
               onClick={(e) => e.preventDefault()}
               className="absolute h-28 w-64 origin-top scale-0 cursor-default rounded-xl bg-white p-3 text-lg text-black drop-shadow-none duration-500 group-hover:scale-100 group-hover:drop-shadow-lg dark:bg-zinc-600"
             >
-              <h1 className="dark:text-white">{post.creator.realname}</h1>
+              <h1 className="dark:text-white">{post.user.real_name}</h1>
               <div className="flex h-full flex-row gap-1 text-sm">
                 <Link
                   href={`/connect/profile/${post.userid}`}
@@ -175,20 +175,23 @@ const PostPage = ({ params }: { params: { id: string } }) => {
         </section>
       ) : (
         <section className="flex flex-col gap-4">
-          {post?.data?.data?.map((item: PostItem, index: number) => {
-            switch (item.type) {
-              case "text":
-                return (
-                  <pre className="font-eudoxus text-slate-500" key={index}>
-                    {item.text}
-                  </pre>
-                );
-              case "code":
-                return <CodeBlock text={item.text} />;
-              default:
-                return null;
-            }
-          })}
+          {post.type === "post" ||
+            (post.type === "post-tiptap" &&
+              post?.data?.data?.map((item: PostItem, index: number) => {
+                switch (item.type) {
+                  case "text":
+                    return (
+                      <pre className="font-eudoxus text-slate-500" key={index}>
+                        {item.text}
+                      </pre>
+                    );
+                  case "code":
+                    return <CodeBlock text={item.text} />;
+                  default:
+                    return null;
+                }
+              }))}
+          {post.type === "admission" && <h1>{post.title}</h1>}
         </section>
       )}
       <section className="flex flex-col gap-3">

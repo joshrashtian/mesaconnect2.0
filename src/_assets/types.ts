@@ -46,6 +46,11 @@ export type SearchParamProps = {
 export type PostType = {
   id: string
   userid: string
+  user: {
+    id: string
+    real_name: string
+    username: string
+  }
   created_at: Date
   title: string
   data: any
