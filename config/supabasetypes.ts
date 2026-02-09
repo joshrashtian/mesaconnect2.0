@@ -1028,7 +1028,7 @@ export type Database = {
         | "Video Games"
         | "School"
         | "Food"
-      postType: "post" | "wim" | "commit" | "project"
+      postType: "post" | "post-tiptap" | "announcement" | "wim" | "commit" | "project"
       roleType:
         | "guest"
         | "admin"

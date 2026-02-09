@@ -169,8 +169,13 @@ const PostPage = ({ params }: { params: { id: string } }) => {
           })}{" "}
         </div>
       )}
-      {post.type === "post-tiptap" ? (
+      {post.type === "post-tiptap" || post.type === "announcement" ? (
         <section className="flex flex-col gap-4 rounded-xl bg-white p-4">
+          {post.type === "announcement" && (
+            <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-200">
+              Announcement
+            </span>
+          )}
           <TipTapReadonly doc={post.data.tiptap as unknown as TipTapDoc} />
         </section>
       ) : (

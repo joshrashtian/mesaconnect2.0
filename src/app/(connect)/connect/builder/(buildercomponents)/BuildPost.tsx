@@ -9,11 +9,6 @@ import ClassRelations from "./ClassRelations";
 import { useToast } from "@/app/(connect)/InfoContext";
 import Tiptap from "./TipTap";
 
-interface Section {
-  type: string;
-  text?: string;
-}
-
 const BuildPost = () => {
   useSearchParams();
   const user = useContext(userContext);
@@ -21,10 +16,12 @@ const BuildPost = () => {
 
   const [title, setTitle] = useState<string>();
   const [tiptapDoc, setTiptapDoc] = useState<any>();
-  const [sections, setSelections] = useState<Section[]>([{ type: "initial" }]);
-  const [tags, setTags] = useState<string[]>();
-  const [classConnections, setClassConnections] = useState<string[]>();
-  const [editorType, setEditorType] = useState<"legacy" | "tiptap">("legacy");
+  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
+  const [classConnections, setClassConnections] = useState<string[]>([]);
+  const [editorType, setEditorType] = useState<"tiptap" | "announcement">("tiptap");
+  const role = user?.userData?.role?.toLowerCase();
+  const canPostAnnouncement = role === "tutor" || role === "admin";
 
   const [errorMessage, setErrorMessage] = useState<string>();
 
@@ -38,44 +35,25 @@ const BuildPost = () => {
       return;
     }
 
-    const isRich = editorType === "tiptap";
-    const contentPayload = isRich
-      ? { tiptap: tiptapDoc }
-      : {
-          data: sections.map((e) => {
-            switch (e.type) {
-              case "initial":
-                return {
-                  type: "text",
-                  text: e.text,
-                };
-              case "text":
-                return {
-                  type: "text",
-                  text: e.text,
-                };
-              case "code":
-                return {
-                  type: "code",
-                  text: e.text,
-                };
-            }
-          }),
-        };
+    const isAnnouncement = editorType === "announcement";
+    if (isAnnouncement && !canPostAnnouncement) {
+      setErrorMessage("Only tutors and admins can post announcements.");
+      return;
+    }
 
     const { error } = await supabase.from("posts").insert({
       // @ts-ignore - typed via config/supabasetypes
       userid: userInfo.id,
       title: title ?? null,
-      data: contentPayload,
-      type: editorType === "tiptap" ? "post-tiptap" : "post",
+      data: { tiptap: tiptapDoc },
+      type: isAnnouncement ? "announcement" : "post-tiptap",
       creator: {
         id: userInfo.id,
         realname: userInfo.real_name,
         username: userInfo.username,
       },
-      tags: tags ?? null,
-      relations: classConnections ?? null,
+      tags: tags.length > 0 ? tags : null,
+      relations: classConnections.length > 0 ? classConnections : null,
     });
 
     if (error) {
@@ -91,212 +69,186 @@ const BuildPost = () => {
       initial={{ y: 10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       exit={{ y: -20, opacity: 0 }}
-      className="mb-16 flex h-full flex-col overflow-y-scroll"
+      className="mb-24 flex min-h-full flex-col overflow-y-auto pb-8"
     >
-      <section className="flex h-full flex-col gap-5">
-        <h1 className="text-3xl font-bold">Create Post</h1>
+      <div className="mx-auto w-full max-w-2xl space-y-8">
+        {/* Header */}
+        <header>
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">
+            Create Post
+          </h1>
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            Share an update, question, or announcement with the community.
+          </p>
+        </header>
 
-        <section className="flex flex-row items-center justify-center gap-3 text-2xl">
+        {/* Title */}
+        <section className="space-y-2">
+          <label htmlFor="post-title" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+            Title
+          </label>
           <input
-            placeholder="Give your post a wonderful title..."
-            className="w-full rounded-full p-1 px-5 duration-500 focus:p-3 focus:shadow-md focus:outline-none"
+            id="post-title"
+            placeholder="Give your post a clear title..."
+            className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-base text-zinc-900 placeholder-zinc-400 transition-colors focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500"
             type="text"
+            value={title ?? ""}
             onChange={(e) => setTitle(e.target.value)}
           />
         </section>
 
-        {/* Editor type toggle */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-slate-600">Editor:</span>
-          <div className="inline-flex overflow-hidden rounded-full border">
+        {/* Post type / Editor */}
+        <section className="space-y-3">
+          <span className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+            Post type
+          </span>
+          <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              onClick={() => setEditorType("legacy")}
-              aria-pressed={editorType === "legacy"}
-              className={`px-4 py-1 text-sm ${
-                editorType === "legacy" ? "bg-slate-900 text-white" : "bg-white"
-              }`}
-            >
-              Simple
-            </button>
-            <button
-              type="button"
-              onClick={() => setEditorType("tiptap")}
+              onClick={() => {
+                setEditorType("tiptap");
+                setErrorMessage(undefined);
+              }}
               aria-pressed={editorType === "tiptap"}
-              className={`px-4 py-1 text-sm ${
-                editorType === "tiptap" ? "bg-slate-900 text-white" : "bg-white"
+              className={`rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors ${
+                editorType === "tiptap"
+                  ? "border-orange-500 bg-orange-500 text-white shadow-sm"
+                  : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               }`}
             >
-              New Editor (Beta)
+              Post
             </button>
-          </div>
-        </div>
-
-        {editorType === "legacy" ? (
-          <article className="flex flex-col gap-3">
-            {sections.map((e, i) => {
-              switch (e.type) {
-                case "initial":
-                  return (
-                    <section key={i} className="h-1/4 resize-y">
-                      <textarea
-                        maxLength={100}
-                        onChange={(e) => {
-                          setSelections(
-                            sections.map((d, index) => {
-                              if (index === i) {
-                                return {
-                                  ...d,
-                                  text: e.target.value,
-                                };
-                              }
-                              return d;
-                            }),
-                          );
-                        }}
-                        placeholder="'wonderful post idea about the sky being blue'"
-                        className="h-48 w-full resize-none rounded-3xl p-5 duration-300 hover:scale-[1.01] hover:shadow-md focus:shadow-md focus:outline-none"
-                      />
-                      <AnimatePresence>
-                        {sections[0].text && (
-                          <motion.h2
-                            initial={{ opacity: 0, y: -40 }}
-                            animate={{ opacity: 1, y: -50 }}
-                            exit={{ opacity: 0, y: -40 }}
-                            className="text-center text-slate-400"
-                          >
-                            {sections[0].text.length} Characters /{" "}
-                            {sections[0].text.split(" ").length} Words
-                          </motion.h2>
-                        )}
-                      </AnimatePresence>
-                    </section>
-                  );
-                case "text":
-                  return (
-                    <section key={i} className="h-1/4">
-                      <button
-                        onClick={() => {
-                          setSelections(
-                            sections.filter((_, index) => index !== i),
-                          );
-                        }}
-                        className="z-50 translate-y-10 p-2"
-                      >
-                        x
-                      </button>
-                      <textarea
-                        onChange={(a) => {
-                          e.text = a.target.value;
-                        }}
-                        placeholder="'wonderful post idea about the sky being blue'"
-                        className="z-0 h-48 w-full resize-none rounded-3xl p-8 duration-300 hover:shadow-md focus:shadow-md focus:outline-none"
-                      />
-                    </section>
-                  );
-                case "code":
-                  return (
-                    <section
-                      key={i}
-                      className="no-scrollbar h-48 overflow-y-scroll rounded-xl border-4 bg-slate-700 px-4"
-                    >
-                      <ul className="z-50 w-full py-4">
-                        <button
-                          onClick={() => {
-                            setSelections(
-                              sections.filter((_, index) => index !== i),
-                            );
-                          }}
-                          className="bg-white p-0.5 px-2 font-mono"
-                        >
-                          Del Code Block
-                        </button>
-                      </ul>
-                      <textarea
-                        onChange={(a) => {
-                          e.text = a.target.value;
-                        }}
-                        autoCorrect="false"
-                        placeholder="Paste code / System.out.println('Hello World'); "
-                        className="z-0 h-48 w-full resize-y border-slate-200 bg-slate-700 font-mono text-white duration-300 hover:shadow-md focus:shadow-md focus:outline-none"
-                      />
-                    </section>
-                  );
-                default:
-                  null;
-              }
-            })}
-            <section className="z-50 mt-24 flex h-12 w-full flex-row justify-center rounded-2xl bg-slate-50 font-geist">
+            {canPostAnnouncement && (
               <button
+                type="button"
                 onClick={() => {
-                  setSelections([...sections, { type: "text" }]);
+                  setEditorType("announcement");
+                  setErrorMessage(undefined);
                 }}
-                className="w-full duration-300 hover:scale-105"
+                aria-pressed={editorType === "announcement"}
+                className={`rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors ${
+                  editorType === "announcement"
+                    ? "border-orange-500 bg-orange-500 text-white shadow-sm"
+                    : "border-zinc-200 bg-white text-zinc-600 hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+                }`}
               >
-                + Text Component
+                Announcement
               </button>
-              <button
-                onClick={() => {
-                  setSelections([...sections, { type: "code" }]);
-                }}
-                className="w-full duration-300 hover:scale-105"
-              >
-                + Code Component
-              </button>
-            </section>
-          </article>
-        ) : (
-          <div className="flex flex-col gap-3">
-            <Tiptap json={(j: any) => setTiptapDoc(j)} components={null} />
-          </div>
-        )}
-        <pre>{JSON.stringify(tiptapDoc, null, 2)}</pre>
-        <section className="flex flex-col justify-center gap-3 text-2xl">
-          <h2 className="font-eudoxus font-bold text-slate-600">Tags:</h2>
-          <input
-            placeholder="Tags are split up by commas. Input all tags with a comma after each."
-            className="w-full rounded-full p-1 px-5 duration-500 focus:p-3 focus:shadow-md focus:outline-none"
-            type="text"
-            onChange={(e) => setTags(e.target.value.split(","))}
-          />
-          <AnimatePresence>
-            {tags && tags[0].length > 0 && (
-              <motion.ul
-                initial={{ y: 10, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -10, opacity: 0 }}
-                transition={{ type: "spring " }}
-                className="flex flex-row items-center gap-4 font-mono"
-              >
-                <h1 className="text-slate-400">Applied Tags</h1>
-                <li className="h-full w-0.5 bg-slate-400" />
-                {tags.map((e) => {
-                  return (
-                    <ul key={e} className="rounded-full bg-slate-200 p-2 px-4">
-                      <h1>{e}</h1>
-                    </ul>
-                  );
-                })}
-              </motion.ul>
             )}
-          </AnimatePresence>
-          <h2 className="font-eudoxus font-bold text-slate-600">Relations:</h2>
-          <ClassRelations
-            exist={true}
-            onChange={(e) => {
-              setClassConnections(e);
-            }}
-          />
+          </div>
+          {errorMessage && (
+            <p className="text-sm text-red-600 dark:text-red-400" role="alert">
+              {errorMessage}
+            </p>
+          )}
         </section>
-      </section>
+
+        {/* Content */}
+        <section className="space-y-3">
+          <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+            Content
+          </label>
+          {editorType === "announcement" && (
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Post as an announcement (visible to all). Only tutors and admins can create announcements.
+            </p>
+          )}
+          <Tiptap json={(j: any) => setTiptapDoc(j)} components={null} />
+        </section>
+
+{/* Optional: Tags & Relations */}
+        <section className="space-y-6 rounded-xl border border-zinc-200 bg-zinc-50/50 p-5 dark:border-zinc-600 dark:bg-zinc-800/30">
+          <p className="text-xs font-medium uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
+            Optional
+          </p>
+
+          <div className="space-y-2">
+            <label htmlFor="post-tags" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Tags
+            </label>
+            <input
+              id="post-tags"
+              placeholder="Add tags (e.g. homework, exam, chapter 3)"
+              className="w-full rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 transition-colors focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500"
+              type="text"
+              value={tagInput}
+              onChange={(e) => setTagInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  const value = tagInput.trim();
+                  if (value && !tags.includes(value)) {
+                    setTags([...tags, value]);
+                    setTagInput("");
+                  }
+                }
+                if (e.key === ",") {
+                  e.preventDefault();
+                  const value = tagInput.split(",")[0].trim();
+                  if (value && !tags.includes(value)) {
+                    setTags([...tags, value]);
+                    setTagInput(tagInput.slice(tagInput.indexOf(",") + 1).trimStart());
+                  }
+                }
+              }}
+            />
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              Press Enter or comma to add a tag.
+            </p>
+            <AnimatePresence>
+              {tags.length > 0 && (
+                <motion.ul
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex flex-wrap gap-2"
+                >
+                  {tags.map((t) => (
+                    <motion.li
+                      key={t}
+                      layout
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-zinc-200 px-3 py-1 text-sm text-zinc-700 dark:bg-zinc-600 dark:text-zinc-200"
+                    >
+                      <span>{t}</span>
+                      <button
+                        type="button"
+                        onClick={() => setTags(tags.filter((x) => x !== t))}
+                        className="rounded-full p-0.5 hover:bg-zinc-300 dark:hover:bg-zinc-500"
+                        aria-label={`Remove tag ${t}`}
+                      >
+                        <span className="sr-only">Remove</span>
+                        <span aria-hidden>×</span>
+                      </button>
+                    </motion.li>
+                  ))}
+                </motion.ul>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-zinc-700 dark:text-zinc-300">
+              Relations
+            </label>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              Link this post to courses (e.g. for homework or exam prep).
+            </p>
+            <ClassRelations
+              exist={true}
+              onChange={(e) => {
+                setClassConnections(e);
+              }}
+            />
+          </div>
+        </section>
+      </div>
       <AnimatePresence>
         {title &&
-          ((editorType === "legacy" &&
-            sections[0].text &&
-            sections[0].text?.length > 5) ||
-            (editorType === "tiptap" &&
-              tiptapDoc &&
-              (tiptapDoc?.content?.length ?? 0) > 0)) && (
+          tiptapDoc &&
+          (tiptapDoc?.content?.length ?? 0) > 0 && (
             <motion.section
               initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}

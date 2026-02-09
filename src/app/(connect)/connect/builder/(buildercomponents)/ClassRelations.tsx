@@ -82,45 +82,56 @@ const ClassRelations = ({
   }, []);
 
   return (
-    <main className="flex flex-col rounded-2xl bg-slate-50">
-      <ul className="flex w-full flex-row">
+    <div className="flex flex-col gap-3">
+      <div className="flex gap-2">
         <input
-          className="w-full rounded-2xl bg-zinc-50 p-3 font-eudoxus last:rounded-b-2xl last:border-b-0 even:border-y-2"
-          onChange={(e) => {
-            setSearch(e.target.value);
-          }}
+          className="min-w-0 flex-1 rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder-zinc-400 transition-colors focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500"
+          placeholder="Search classes..."
+          value={newSearch ?? ""}
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), search(newSearch))}
           type="search"
         />
         <button
-          onClick={() => {
-            search(newSearch);
-          }}
-          className="rounded-tr-2xl bg-red-400 p-2 font-mono duration-300 hover:scale-105 hover:bg-red-300"
+          type="button"
+          onClick={() => search(newSearch)}
+          className="shrink-0 rounded-xl bg-orange-500 px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 dark:ring-offset-zinc-900"
         >
-          <h2 className="text-white">Search</h2>
+          Search
         </button>
-      </ul>
-      {classes?.map((e, i) => (
-        <ul
-          key={i}
-          className={`p-3 last:border-b-0 ${
-            selectedClasses.includes(e) && "bg-orange-300 hover:bg-orange-200"
-          } font-eudoxus duration-300 last:rounded-b-2xl even:border-y-2 hover:bg-slate-100`}
-          onClick={() => {
-            selectedClasses.includes(e)
-              ? setSelectedClasses(
-                  selectedClasses.filter((id) => id.id !== e.id),
-                )
-              : setSelectedClasses([...selectedClasses, e]);
-            if (getClass) getClass(e);
-          }}
-        >
-          <h1>
+      </div>
+      <ul className="max-h-48 overflow-y-auto rounded-xl border border-zinc-200 dark:border-zinc-600">
+        {classes?.map((e, i) => (
+          <li
+            key={e.id ?? i}
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              selectedClasses.includes(e)
+                ? setSelectedClasses(selectedClasses.filter((c) => c.id !== e.id))
+                : setSelectedClasses([...selectedClasses, e]);
+              if (getClass) getClass(e);
+            }}
+            onKeyDown={(ev) => {
+              if (ev.key === "Enter" || ev.key === " ") {
+                ev.preventDefault();
+                selectedClasses.includes(e)
+                  ? setSelectedClasses(selectedClasses.filter((c) => c.id !== e.id))
+                  : setSelectedClasses([...selectedClasses, e]);
+                if (getClass) getClass(e);
+              }
+            }}
+            className={`border-b border-zinc-100 px-4 py-3 text-sm last:border-b-0 dark:border-zinc-600 ${
+              selectedClasses.includes(e)
+                ? "bg-orange-50 font-medium text-orange-800 dark:bg-orange-900/30 dark:text-orange-200"
+                : "text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-700/50"
+            } cursor-pointer transition-colors`}
+          >
             {e.category} {e.num}: {e.name}
-          </h1>
-        </ul>
-      ))}
-    </main>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

@@ -95,7 +95,7 @@ const CreateModalPost = ({ post }: { post: PostType }) => {
             <pre>{JSON.stringify(post.tags)}</pre>
             <ul className="h-full">
               <h1 className="font-semibold">Preview</h1>
-              {post.type === "post" ? (
+              {post.type === "post" || post.type === "post-tiptap" || post.type === "announcement" ? (
                 <Post post={post} />
               ) : (
                 post.type === "wim" && <Wim post={post} />

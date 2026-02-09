@@ -240,6 +240,7 @@ const PostsPageHome = () => {
                     <PostListItem key={post.id} index={index} post={post} />
                   );
                 case "post-tiptap":
+                case "announcement":
                   return (
                     <PostListItem key={post.id} index={index} post={post} />
                   );

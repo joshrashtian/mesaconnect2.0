@@ -14,7 +14,9 @@ import {
 } from "react-icons/io5";
 
 const Post = ({ post }: { post: PostType }) => {
-  const data = JSON.parse(JSON.stringify(post.data)).data;
+  const parsed = JSON.parse(JSON.stringify(post.data));
+  const data = parsed?.data;
+  const isRich = post.type === "post-tiptap" || post.type === "announcement" || !!parsed?.tiptap;
   const router = useRouter();
   const { createContext } = useContextMenu();
 
@@ -80,7 +82,7 @@ const Post = ({ post }: { post: PostType }) => {
           </h1>
         </section>
         <h2 className="text-slate-500 dark:text-slate-100/80">
-          {data[0].text}
+          {isRich ? (post.type === "announcement" ? "Announcement — " : "") + "Rich content" : data?.[0]?.text}
         </h2>
       </Link>
     </motion.ul>

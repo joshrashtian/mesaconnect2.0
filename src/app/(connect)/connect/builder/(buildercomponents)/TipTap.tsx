@@ -85,14 +85,6 @@ const extensions = [
 
 const content = ``;
 
-type Components = {
-  name: string;
-  icon: React.ReactNode;
-  onClick: () => void;
-  disabled: boolean;
-  className: string;
-};
-
 const Tiptap = ({
   json,
   components,
@@ -109,7 +101,7 @@ const Tiptap = ({
     editorProps: {
       attributes: {
         class:
-          "ProseMirror p-4 shadow-md bg-white min-h-96 font-eudoxus focus:outline-none hover:scale-[1.01] focus:scale-[1.01] duration-300 w-full rounded-2xl px-6 ",
+          "ProseMirror min-h-[280px] w-full resize-y rounded-b-xl border-0 border-t border-zinc-200 bg-white px-5 py-4 text-base text-zinc-800 outline-none transition-colors placeholder:text-zinc-400 focus:ring-0 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100 dark:placeholder-zinc-500 [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-zinc-900 [&_h1]:dark:text-zinc-50 [&_h2]:text-xl [&_h2]:font-semibold [&_h3]:text-lg [&_ul]:list-disc [&_ul]:pl-6 [&_ol]:list-decimal [&_ol]:pl-6 [&_pre]:rounded-lg [&_pre]:bg-zinc-100 [&_pre]:p-4 [&_pre]:dark:bg-zinc-700 [&_code]:rounded [&_code]:bg-zinc-100 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-sm [&_pre_code]:bg-transparent [&_pre_code]:p-0",
       },
     },
     onCreate: ({ editor }) => {
@@ -120,26 +112,10 @@ const Tiptap = ({
     },
   });
 
-  const editorComponents: Components[] = [
-    {
-      name: "Code",
-      icon: <BiCode />,
-      onClick: () => {
-        editor?.chain().focus().toggleCode().run();
-      },
-      disabled: false,
-      className: "rounded-md px-5 py-3 font-eudoxus text-sm shadow",
-    },
-    {
-      name: "Code Block",
-      icon: <BiCodeBlock />,
-      onClick: () => {
-        editor?.chain().focus().toggleCodeBlock().run();
-      },
-      disabled: false,
-      className: "rounded-md px-5 py-3 font-eudoxus text-sm shadow",
-    },
-  ];
+  const btn =
+    "flex h-9 w-9 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-600 transition-colors hover:bg-zinc-50 hover:text-zinc-900 disabled:opacity-40 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700 dark:hover:text-zinc-100";
+  const btnActive =
+    "border-orange-500 bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400";
 
   const onInsertBlockMath = useCallback(() => {
     const hasSelection = !editor?.state.selection.empty;
@@ -196,188 +172,243 @@ const Tiptap = ({
   }, [editor]);
 
   return (
-    <React.Fragment>
-      <div className="mb-2 flex flex-wrap items-center justify-center gap-2 rounded-2xl bg-zinc-200 p-2">
-        <button
-          type="button"
-          onClick={() =>
-            editor && editor.chain().focus().toggleHeading({ level: 1 }).run()
-          }
-          disabled={
-            !editor ||
-            !editor.can().chain().focus().toggleHeading({ level: 1 }).run()
-          }
-          className={`rounded-md px-5 py-3 font-eudoxus text-sm shadow ${editor?.isActive("heading", { level: 1 }) ? "bg-slate-800 text-white" : "bg-white/80"} disabled:opacity-50`}
-        >
-          <BiHeading />
-        </button>
+    <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm dark:border-zinc-600 dark:bg-zinc-800">
+      {/* Toolbar */}
+      <div className="flex flex-wrap items-center gap-1 border-b border-zinc-200 bg-zinc-50/80 p-2 dark:border-zinc-600 dark:bg-zinc-800/50">
+        {/* Formatting */}
+        <div className="flex items-center gap-0.5">
+          <button
+            type="button"
+            title="Heading 1"
+            onClick={() =>
+              editor?.chain().focus().toggleHeading({ level: 1 }).run()
+            }
+            disabled={
+              !editor ||
+              !editor.can().chain().focus().toggleHeading({ level: 1 }).run()
+            }
+            className={`${btn} ${editor?.isActive("heading", { level: 1 }) ? btnActive : ""}`}
+          >
+            <BiHeading className="text-lg" />
+          </button>
+          <button
+            type="button"
+            title="Bold"
+            onClick={() => editor?.chain().focus().toggleBold().run()}
+            disabled={
+              !editor || !editor.can().chain().focus().toggleBold().run()
+            }
+            className={`${btn} ${editor?.isActive("bold") ? btnActive : ""}`}
+          >
+            <BiBold className="text-lg" />
+          </button>
+          <button
+            type="button"
+            title="Italic"
+            onClick={() => editor?.chain().focus().toggleItalic().run()}
+            disabled={
+              !editor || !editor.can().chain().focus().toggleItalic().run()
+            }
+            className={`${btn} ${editor?.isActive("italic") ? btnActive : ""}`}
+          >
+            <BiItalic className="text-lg" />
+          </button>
+          <button
+            type="button"
+            title="Inline code"
+            onClick={() => editor?.chain().focus().toggleCode().run()}
+            disabled={
+              !editor || !editor.can().chain().focus().toggleCode().run()
+            }
+            className={`${btn} ${editor?.isActive("code") ? btnActive : ""}`}
+          >
+            <BiCode className="text-sm" />
+          </button>
+        </div>
 
-        <button
-          type="button"
-          onClick={() => editor && editor.chain().focus().toggleBold().run()}
-          disabled={!editor || !editor.can().chain().focus().toggleBold().run()}
-          className={`rounded-md px-5 py-3 font-eudoxus text-sm shadow ${editor?.isActive("bold") ? "bg-slate-800 text-white" : "bg-white/80"} disabled:opacity-50`}
-        >
-          <BiBold />
-        </button>
-        <button
-          type="button"
-          onClick={() => editor && editor.chain().focus().toggleItalic().run()}
-          disabled={
-            !editor || !editor.can().chain().focus().toggleItalic().run()
-          }
-          className={`rounded-md px-5 py-3 font-eudoxus text-sm shadow ${editor?.isActive("italic") ? "bg-slate-800 text-white" : "bg-white/80"} disabled:opacity-50`}
-        >
-          <BiItalic />
-        </button>
-        <button
-          type="button"
-          onClick={() =>
-            editor && editor.chain().focus().toggleBulletList().run()
-          }
-          className={`rounded-md px-5 py-3 font-eudoxus text-sm shadow ${editor?.isActive("bulletList") ? "bg-slate-800 text-white" : "bg-white/80"}`}
-        >
-          <BiListOl />
-        </button>
-        <button
-          type="button"
-          onClick={() =>
-            editor && editor.chain().focus().toggleOrderedList().run()
-          }
-          className={`rounded-md px-5 py-3 font-eudoxus text-sm shadow ${editor?.isActive("orderedList") ? "bg-slate-800 text-white" : "bg-white/80"}`}
-        >
-          <BiListUl />
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            const url =
-              typeof window !== "undefined" ? window.prompt("Image URL") : null;
-            if (!url) return;
-            editor && editor.chain().focus().setImage({ src: url }).run();
-          }}
-          className="rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow"
-        >
-          <BiImage />
-        </button>
-        <button
-          type="button"
-          onClick={() => fileInputRef.current?.click()}
-          className="h-10 rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow disabled:opacity-50"
-        >
-          Upload Image
-        </button>
-        <button
-          type="button"
-          onClick={() => onInsertBlockMath()}
-          className="h-10 rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow disabled:opacity-50"
-        >
-          Insert Block Math
-        </button>
-        <button
-          type="button"
-          onClick={() => onInsertInlineMath()}
-          className="h-10 rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow disabled:opacity-50"
-        >
-          Insert Inline Math
-        </button>
-        <button
-          type="button"
-          onClick={() =>
-            editor && editor.chain().focus().toggleCodeBlock().run()
-          }
-          disabled={
-            !editor || !editor.can().chain().focus().toggleCodeBlock().run()
-          }
-          className="h-10 rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow disabled:opacity-50"
-        >
-          <BiCode />
-        </button>
-        <select
-          value={editor?.getAttributes("codeBlock")?.language as string}
-          onChange={(e) =>
-            editor &&
-            editor
-              .chain()
-              .focus()
-              .updateAttributes("codeBlock", { language: e.target.value })
-              .run()
-          }
-          className="h-10 rounded-md bg-white/80 px-3 py-2 font-eudoxus text-sm shadow disabled:opacity-50"
-        >
-          <option value="javascript">JavaScript</option>
-          <option value="java">Java</option>
-          <option value="python">Python</option>
-          <option value="c">C</option>
-          <option value="cpp">C++</option>
-          <option value="csharp">C#</option>
-          <option value="css">CSS</option>
-          <option value="html">HTML</option>
-        </select>
-        <button
-          type="button"
-          onClick={() => editor && editor.chain().focus().undo().run()}
-          disabled={!editor || !editor.can().chain().focus().undo().run()}
-          className="rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow disabled:opacity-50"
-        >
-          <BiUndo />
-        </button>
-        <button
-          type="button"
-          onClick={() => editor && editor.chain().focus().redo().run()}
-          disabled={!editor || !editor.can().chain().focus().redo().run()}
-          className="rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow disabled:opacity-50"
-        >
-          <BiRedo />
-        </button>
+        <span
+          className="mx-1 h-5 w-px bg-zinc-200 dark:bg-zinc-600"
+          aria-hidden
+        />
+
+        {/* Lists */}
+        <div className="flex items-center gap-0.5">
+          <button
+            type="button"
+            title="Bullet list"
+            onClick={() => editor?.chain().focus().toggleBulletList().run()}
+            className={`${btn} ${editor?.isActive("bulletList") ? btnActive : ""}`}
+          >
+            <BiListUl className="text-lg" />
+          </button>
+          <button
+            type="button"
+            title="Numbered list"
+            onClick={() => editor?.chain().focus().toggleOrderedList().run()}
+            className={`${btn} ${editor?.isActive("orderedList") ? btnActive : ""}`}
+          >
+            <BiListOl className="text-lg" />
+          </button>
+        </div>
+
+        <span
+          className="mx-1 h-5 w-px bg-zinc-200 dark:bg-zinc-600"
+          aria-hidden
+        />
+
+        {/* Insert */}
+        <div className="flex items-center gap-0.5">
+          <button
+            type="button"
+            title="Image from URL"
+            onClick={() => {
+              const url =
+                typeof window !== "undefined"
+                  ? window.prompt("Image URL")
+                  : null;
+              if (url) editor?.chain().focus().setImage({ src: url }).run();
+            }}
+            className={btn}
+          >
+            <BiImage className="text-lg" />
+          </button>
+          <button
+            type="button"
+            title="Upload image"
+            onClick={() => fileInputRef.current?.click()}
+            className="rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+          >
+            Upload
+          </button>
+          <button
+            type="button"
+            title="Code block"
+            onClick={() => editor?.chain().focus().toggleCodeBlock().run()}
+            disabled={
+              !editor || !editor.can().chain().focus().toggleCodeBlock().run()
+            }
+            className={`${btn} ${editor?.isActive("codeBlock") ? btnActive : ""}`}
+          >
+            <BiCodeBlock className="text-lg" />
+          </button>
+          <select
+            title="Code language"
+            value={
+              (editor?.getAttributes("codeBlock")?.language as string) ??
+              "javascript"
+            }
+            onChange={(e) =>
+              editor
+                ?.chain()
+                .focus()
+                .updateAttributes("codeBlock", { language: e.target.value })
+                .run()
+            }
+            className="h-9 rounded-lg border border-zinc-200 bg-white px-2 text-xs text-zinc-600 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300"
+          >
+            <option value="javascript">JS</option>
+            <option value="java">Java</option>
+            <option value="python">Python</option>
+            <option value="c">C</option>
+            <option value="cpp">C++</option>
+            <option value="csharp">C#</option>
+            <option value="css">CSS</option>
+            <option value="html">HTML</option>
+          </select>
+          <button
+            type="button"
+            title="Block math"
+            onClick={() => onInsertBlockMath()}
+            className="rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+          >
+            Block math
+          </button>
+          <button
+            type="button"
+            title="Inline math"
+            onClick={() => onInsertInlineMath()}
+            className="rounded-lg border border-zinc-200 bg-white px-2.5 py-1.5 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
+          >
+            Inline math
+          </button>
+        </div>
+
+        <span
+          className="mx-1 h-5 w-px bg-zinc-200 dark:bg-zinc-600"
+          aria-hidden
+        />
+
+        {/* History */}
+        <div className="flex items-center gap-0.5">
+          <button
+            type="button"
+            title="Undo"
+            onClick={() => editor?.chain().focus().undo().run()}
+            disabled={!editor?.can().chain().focus().undo().run()}
+            className={btn}
+          >
+            <BiUndo className="text-lg" />
+          </button>
+          <button
+            type="button"
+            title="Redo"
+            onClick={() => editor?.chain().focus().redo().run()}
+            disabled={!editor?.can().chain().focus().redo().run()}
+            className={btn}
+          >
+            <BiRedo className="text-lg" />
+          </button>
+        </div>
       </div>
+
+      {/* Image alignment (when image selected) */}
       {editor?.isActive("image") && (
-        <div className="mb-2 flex flex-wrap items-center justify-center gap-2 rounded-2xl bg-zinc-100 p-2">
+        <div className="flex flex-wrap items-center gap-2 border-b border-zinc-200 bg-zinc-100/50 px-2 py-1.5 dark:border-zinc-600 dark:bg-zinc-700/30">
+          <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            Image
+          </span>
           <button
             type="button"
             onClick={() =>
-              editor &&
               editor
-                .chain()
+                ?.chain()
                 .focus()
                 .updateAttributes("image", {
                   style: "float:left; margin-right: 12px; max-width: 50%;",
                 })
                 .run()
             }
-            className="rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow"
+            className="rounded px-2 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-200 dark:text-zinc-300 dark:hover:bg-zinc-600"
           >
-            Align Left
+            Left
           </button>
           <button
             type="button"
             onClick={() =>
-              editor &&
               editor
-                .chain()
+                ?.chain()
                 .focus()
                 .updateAttributes("image", {
                   style: "float:right; margin-left: 12px; max-width: 50%;",
                 })
                 .run()
             }
-            className="rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow"
+            className="rounded px-2 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-200 dark:text-zinc-300 dark:hover:bg-zinc-600"
           >
-            Align Right
+            Right
           </button>
           <button
             type="button"
             onClick={() =>
-              editor &&
               editor
-                .chain()
+                ?.chain()
                 .focus()
                 .updateAttributes("image", {
                   style: "display:block; margin: 8px auto; max-width: 100%;",
                 })
                 .run()
             }
-            className="rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow"
+            className="rounded px-2 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-200 dark:text-zinc-300 dark:hover:bg-zinc-600"
           >
             Center
           </button>
@@ -388,22 +419,22 @@ const Tiptap = ({
                 typeof window !== "undefined"
                   ? window.prompt("Image width (e.g. 400px or 50%)")
                   : null;
-              if (!width) return;
-              editor &&
+              if (width)
                 editor
-                  .chain()
+                  ?.chain()
                   .focus()
                   .updateAttributes("image", {
                     style: `display:block; margin: 8px auto; max-width: 100%; width:${width};`,
                   })
                   .run();
             }}
-            className="rounded-md bg-white/80 px-5 py-3 font-eudoxus text-sm shadow"
+            className="rounded px-2 py-1 text-xs font-medium text-zinc-600 hover:bg-zinc-200 dark:text-zinc-300 dark:hover:bg-zinc-600"
           >
             Resize
           </button>
         </div>
       )}
+
       <input
         ref={fileInputRef}
         type="file"
@@ -443,7 +474,7 @@ const Tiptap = ({
         }}
       />
       <EditorContent editor={editor} />
-    </React.Fragment>
+    </div>
   );
 };
 

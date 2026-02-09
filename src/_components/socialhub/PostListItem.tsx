@@ -122,7 +122,10 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
   const postData = useMemo(() => {
     try {
       const data = post.data || {};
-      const isTipTap = post.type === "post-tiptap" || !!data.tiptap;
+      const isTipTap =
+        post.type === "post-tiptap" ||
+        post.type === "announcement" ||
+        !!data.tiptap;
       return {
         isTipTap,
         tiptap: data.tiptap as TipTapDoc | undefined,
@@ -304,6 +307,14 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
       <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:border-slate-300 hover:shadow-xl dark:border-slate-700 dark:bg-slate-800/50 dark:hover:border-slate-600 dark:hover:bg-slate-800">
         <Link href={`/connect/social/post/${post.id}`} className="block">
           {/* Header Section */}
+          {post.type === "announcement" && (
+            <div className="mb-4 flex items-start justify-between gap-4">
+              <h2 className="text-xl font-bold leading-tight text-slate-900 dark:text-slate-50">
+                Announcement
+              </h2>
+            </div>
+          )}
+
           <div className="mb-4 flex items-start justify-between gap-4">
             <div className="flex min-w-0 flex-1 items-center gap-3">
               <Avatar>
