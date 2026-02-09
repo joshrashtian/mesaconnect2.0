@@ -309,8 +309,8 @@ const PostListItem = ({ post, index }: { post: PostType; index: number }) => {
           {/* Header Section */}
           {post.type === "announcement" && (
             <div className="mb-4 flex items-start justify-between gap-4">
-              <h2 className="text-xl font-bold leading-tight text-slate-900 dark:text-slate-50">
-                Announcement
+              <h2 className="text-lg font-bold leading-tight text-yellow-600 dark:text-slate-50">
+                ANNOUNCEMENT
               </h2>
             </div>
           )}
